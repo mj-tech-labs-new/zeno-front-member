@@ -1,10 +1,10 @@
 import eslintJs from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import tseslint from 'typescript-eslint'
-import eslintPluginReact from 'eslint-plugin-react'
-import sortImports from 'eslint-plugin-simple-import-sort'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import eslintPluginReact from 'eslint-plugin-react'
+import reactHooks from 'eslint-plugin-react-hooks'
+import sortImports from 'eslint-plugin-simple-import-sort'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
 
 export default [
   {
@@ -14,8 +14,8 @@ export default [
       'packages/mobile/babel.config.js',
       'packages/mobile/metro.config.js',
       'commands',
-      '**/dist/'
-    ]
+      '**/dist/',
+    ],
   },
   ...tseslint.config(
     {
@@ -26,16 +26,16 @@ export default [
         parserOptions: {
           ecmaVersion: 'latest',
           ecmaFeatures: {
-            jsx: true
+            jsx: true,
           },
-          sourceType: 'module'
-        }
-      }
+          sourceType: 'module',
+        },
+      },
     },
     {
       plugins: {
-        'simple-import-sort': sortImports
-      }
+        'simple-import-sort': sortImports,
+      },
     },
     reactHooks.configs['recommended-latest'],
     eslintJs.configs.recommended,
@@ -53,13 +53,28 @@ export default [
             caughtErrorsIgnorePattern: '^_',
             destructuredArrayIgnorePattern: '^_',
             varsIgnorePattern: '^_',
-            ignoreRestSiblings: true
-          }
+            ignoreRestSiblings: true,
+          },
         ],
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'error',
         'react/jsx-uses-react': 'error',
         'react/jsx-uses-vars': 'error',
+        'react/self-closing-comp': 'error',
+        'jsx-quotes': [2, 'prefer-double'],
+        'prefer-arrow-callback': ['error'],
+        'prefer-template': ['error'],
+        'no-unreachable': ['error'],
+        'react/jsx-curly-brace-presence': [
+          'error',
+          {props: 'never', children: 'never'},
+        ],
+        'react/jsx-first-prop-new-line': [2, 'multiline'],
+        '@typescript-eslint/no-explicit-any': 'off',
+        'react/jsx-max-props-per-line': [2, {maximum: 2}],
+        'simple-import-sort/imports': 'error',
+        'simple-import-sort/exports': 'error',
+        'react/display-name': 'off',
         eqeqeq: 'error',
         'no-console': 'error',
         semi: [2, 'never'],
@@ -67,17 +82,17 @@ export default [
           'error',
           {
             max: 2,
-            maxEOF: 1
-          }
+            maxEOF: 1,
+          },
         ],
-        'react/react-in-jsx-scope': 'off'
+        'react/react-in-jsx-scope': 'off',
       },
 
       settings: {
         react: {
-          version: '18.3.1'
-        }
-      }
+          version: '18.3.1',
+        },
+      },
     }
-  )
+  ),
 ]

@@ -12,9 +12,18 @@
     "fixcode": "npx prettier --write . && npx eslint . --fix"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.13",
+    "dayjs": "^1.11.18",
     "husky": "^9.1.7",
+    "path": "^0.12.7",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-circular-progressbar": "^2.2.0",
+    "react-datepicker": "^8.7.0",
+    "react-dom": "^19.1.1",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.9.1",
+    "react-tooltip": "^5.29.1",
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
