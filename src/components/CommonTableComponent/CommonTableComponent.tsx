@@ -1,6 +1,6 @@
 import {memo} from 'react'
 
-import {English, Images} from '@/helpers'
+import {Images} from '@/helpers'
 import {CommonTableComponentProps} from '@/types/ComponentTypes'
 
 import CommonCloseActionButton from '../CommonButton/CommonCloseActionButton'
@@ -17,7 +17,6 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
     ChangeOrder,
     extraProp,
     onPerformAction,
-    type = '',
   } = props
 
   return (
@@ -61,11 +60,8 @@ scope="col">
             ))}
           </tr>
         </thead>
-        {type === English.E81 ? (
-          <span>No Orders</span>
-        ) : (
-          <tbody className="w-full">{children}</tbody>
-        )}
+
+        <tbody className="w-full">{children}</tbody>
       </table>
     </div>
   )

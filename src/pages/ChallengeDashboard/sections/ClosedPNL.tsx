@@ -9,7 +9,7 @@ import {
   DatePickerComponent,
   Loader,
 } from '@/components'
-import {Constants, English, Images} from '@/helpers'
+import {Constants, Images} from '@/helpers'
 import {ClosedPnlDataResponsePayload} from '@/types/ChallengeTypes'
 import {PaginationType} from '@/types/CommonTypes'
 
@@ -71,7 +71,7 @@ const ClosedPNL = () => {
   }, [])
 
   return (
-    <div className="space-y-7 border border-white">
+    <div className="space-y-7 w-full">
       <Loader
         ref={(ref) => {
           ref?.showLoader(showLoader)
@@ -128,7 +128,6 @@ const ClosedPNL = () => {
         className="!bg-ingfo-bg-color !text-white !whitespace-nowrap !font-medium !text-[12px] !leading-[18px]"
         imageUrl={Images.backArrow}
         tableHeading={Constants.ClosedPNLTableHeading}
-        type={English.E81}
         ChangeOrder={(value) => {
           setPriceType(value)
           getClosedPnlData(
@@ -145,62 +144,73 @@ const ClosedPNL = () => {
         headingClassName={`!font-medium !font-helvetica !text-[12px]  !leading-[18px]   [&>div>div]:transition-transform [&>div>div]:duration-300 
           ${orderType === 'ASC' ? '[&>div>div]:!rotate-90' : '[&>div>div]:!rotate-270'} `}
       >
-        {closedPNL?.map((tableBody) => {
-          const entryValue =
-            tableBody?.quantity && tableBody?.open_price
-              ? tableBody.quantity * tableBody.open_price
-              : '---'
-          const exitValue =
-            tableBody?.quantity && tableBody?.close_price
-              ? tableBody.quantity * tableBody.close_price
-              : '---'
-          const closedType = tableBody?.last_close_type
-
-          return (
-            <tr
-              key={`content-${tableBody?.id}`}
-              className="font-normal bg-info-bg-color border-b border-landing-page-trading-rules-para-text  text-sm/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:p-6 *:text-secondary-light-color border border-white"
+        {closedPNL === undefined || closedPNL?.length === 0 ? (
+          <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
+            <td
+              className="py-8"
+              colSpan={Constants.ClosedPNLTableHeading?.length || 1}
             >
-              <td className="px-7 py-4 text-left !text-primary-color !whitespace-nowrap !font-inter">
-                {tableBody?.symbol}
-              </td>
-              <td className="px-7 py-4 flex gap-1 text-left !whitespace-nowrap !font-inter">
-                <span
-                  className={
-                    tableBody?.order_side === 'buy'
-                      ? '!text-light-success-color'
-                      : '!text-light-danger-color'
-                  }
-                >
-                  {tableBody?.order_side}
-                </span>
-                &minus;&gt;
-                <span>closed</span>
-              </td>
-              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                {tableBody?.quantity?.toFixed(6)}
-              </td>
-              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                {Number(entryValue).toFixed(6)}
-              </td>
-              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                {Number(exitValue).toFixed(6)}
-              </td>
-              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                {tableBody?.open_price?.toFixed(6)}
-              </td>
-              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                {tableBody?.close_price?.toFixed(6)}
-              </td>
-              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                {closedType}
-              </td>
-              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter capitalize">
-                {tableBody?.order_type}
-              </td>
-            </tr>
-          )
-        })}
+              No Orders
+            </td>
+          </tr>
+        ) : (
+          closedPNL?.map((tableBody) => {
+            const entryValue =
+              tableBody?.quantity && tableBody?.open_price
+                ? tableBody.quantity * tableBody.open_price
+                : '---'
+            const exitValue =
+              tableBody?.quantity && tableBody?.close_price
+                ? tableBody.quantity * tableBody.close_price
+                : '---'
+            const closedType = tableBody?.last_close_type
+
+            return (
+              <tr
+                key={`content-${tableBody?.id}`}
+                className="font-normal bg-info-bg-color border-b border-landing-page-trading-rules-para-text  text-sm/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:p-6 *:text-secondary-light-color"
+              >
+                <td className="px-7 py-4 text-left !text-primary-color !whitespace-nowrap !font-inter">
+                  {tableBody?.symbol}
+                </td>
+                <td className="px-7 py-4 flex gap-1 text-left !whitespace-nowrap !font-inter">
+                  <span
+                    className={
+                      tableBody?.order_side === 'buy'
+                        ? '!text-light-success-color'
+                        : '!text-light-danger-color'
+                    }
+                  >
+                    {tableBody?.order_side}
+                  </span>
+                  &minus;&gt;
+                  <span>closed</span>
+                </td>
+                <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                  {tableBody?.quantity?.toFixed(6)}
+                </td>
+                <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                  {Number(entryValue).toFixed(6)}
+                </td>
+                <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                  {Number(exitValue).toFixed(6)}
+                </td>
+                <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                  {tableBody?.open_price?.toFixed(6)}
+                </td>
+                <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                  {tableBody?.close_price?.toFixed(6)}
+                </td>
+                <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                  {closedType}
+                </td>
+                <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter capitalize">
+                  {tableBody?.order_type}
+                </td>
+              </tr>
+            )
+          })
+        )}
       </CommonTableComponent>
       {paginationData?.totalPages !== 0 && paginationData?.totalPages && (
         <BasicPagination

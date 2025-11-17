@@ -84,7 +84,7 @@ const RangeSelector = forwardRef<HTMLDivElement, RangeSelectorProps>(
                 className="block flex-col h-full items-center gap-7 justify-center"
               >
                 <div className="w-1   h-full bg-neutral-primary-color" />
-                <p className="text-white text-xs -ml-1.5 mt-1.5">
+                <p className="text-white text-xs absolute mt-1.5">
                   {index * 25}
                 </p>
               </div>

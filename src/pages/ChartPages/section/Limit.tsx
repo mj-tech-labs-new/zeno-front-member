@@ -189,6 +189,7 @@ const Limit = (props: Pick<CommonBuyAndSellProp, 'activeIndex'>) => {
           order_type="limit"
           price={Number(inputValues?.entryprice)}
           quantity={Number(inputValues?.quantity)}
+          setInputValuesLimit={setInputValues}
         />
       </div>
     </div>

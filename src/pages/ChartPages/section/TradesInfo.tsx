@@ -2,6 +2,7 @@ import React, {memo, useEffect, useMemo, useState} from 'react'
 
 import {TabComponent} from '@/components'
 import {Constants, SocketEmitter} from '@/helpers'
+import ClosedPNL from '@/pages/ChallengeDashboard/sections/ClosedPNL'
 import {OpenPosition, PendingOrder} from '@/types/ChartTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
@@ -50,6 +51,7 @@ const TradesInfo = (props: {challengeId: string}) => {
     <div className="!w-full py-5 px-4 !bg-chart-layout-bg rounded !whitespace-nowrap">
       <TabComponent
         activeIndex={activeIndex}
+        className="!w-full"
         headingData={Constants.tradesHeadingTypes}
         isDividerType={false}
         type="buttonType"
@@ -73,12 +75,14 @@ const TradesInfo = (props: {challengeId: string}) => {
                 openPosition={openPosition}
                 setPosition={setOpenPosition}
               />
-            ) : (
+            ) : activeIndex === 1 ? (
               <PendingOrderTable
                 key="pending_order"
                 challenge_id={challengeId}
                 pendingOrder={pendingOrder}
               />
+            ) : (
+              <ClosedPNL />
             )}
           </React.Fragment>
         )}

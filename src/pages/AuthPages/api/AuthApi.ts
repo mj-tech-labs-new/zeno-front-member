@@ -14,7 +14,6 @@ const registerApi = async (props: RegisterApiProps) => {
   return new Promise<boolean>((resolve) => {
     APICall('post', Endpoints.registerUser, payload)
       .then((res: any) => {
-        // console.log('res?.data', res?.data)
         if (res?.status === 200 && res?.statusCode === 201) {
           resolve(true)
 

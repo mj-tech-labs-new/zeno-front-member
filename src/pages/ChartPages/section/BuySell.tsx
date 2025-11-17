@@ -146,9 +146,8 @@ const BuySell = (props: BuyOrSelProps) => {
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
         const {name, placeHolder, textContent} = item
-        // console.log(inputValues)
         return (
-          <div key={`name_${name}`}>
+          <div key={`name_${name}`} className="!mb-3">
             <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
               <div className="flex justify-between gap-2">
                 <span className="shrink-0 text-light-neutral-color text-sm !leading-6 font-medium capitalize">
@@ -214,6 +213,7 @@ const BuySell = (props: BuyOrSelProps) => {
           order_type="market"
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}
+          setInputValuesMarket={setInputValues}
           total={Number(inputValues?.total)}
         />
       </div>

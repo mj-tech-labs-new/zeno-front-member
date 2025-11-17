@@ -93,7 +93,6 @@ export interface CommonTableComponentProps
   headingClassName?: string
   ChangeOrder?: (arg: string) => void
   extraProp?: Record<string, string>
-  type?: string
 }
 
 export interface CommonTabComponentProps

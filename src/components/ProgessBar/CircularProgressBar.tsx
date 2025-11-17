@@ -21,7 +21,7 @@ const CircularProgressBarComponent = (props: CircularProgressBarType) => {
           Capital Used
         </span>
         <p className="text-lg/6 font-normal text-tertiary-color">
-          {((totalAmount ?? 60000) - (usedBalance ?? 3340.31)).toFixed(2)}{' '}
+          {((totalAmount ?? 60000) - (usedBalance ?? 1340.31)).toFixed(2)}{' '}
           {English.E60}
         </p>
       </div>
