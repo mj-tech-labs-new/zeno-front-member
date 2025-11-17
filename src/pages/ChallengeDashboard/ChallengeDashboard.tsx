@@ -1,32 +1,42 @@
-import {ChallengeCompletionCard, ChallengeStatusCard} from '@/components'
-import {Constants, English} from '@/helpers'
+import {
+  ChallengeCompletionCard,
+  ChallengeStatusCard,
+  Loader,
+} from '@/components'
+import {English} from '@/helpers'
 import ChallengeDashboardLayout from '@/layouts/ChallengeDashboardLayout'
 
-// import ClosedPNL from './sections/ClosedPNL'
+import {useChallengeProvider} from './context/ChallengeDashboardProvider'
+import ClosedPNL from './sections/ClosedPNL'
 import TradingDescriptionSection from './sections/TradingDescriptionSection'
 
 const ChallengeDashboard = () => {
+  const {getChallengeByIdArray, showLoader} = useChallengeProvider()
+
   return (
     <ChallengeDashboardLayout>
+      <Loader ref={(ref) => ref?.showLoader(showLoader)} />
       <div className="space-y-12 mb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-4">
-          <ChallengeStatusCard content={Constants.StatsData} />
-          <ChallengeCompletionCard totalAmount={10000.0} />
-          <TradingDescriptionSection type="Trading_Stats" />
+          <ChallengeStatusCard />
+          <ChallengeCompletionCard
+            totalAmount={
+              getChallengeByIdArray?.[0]?.ChallengePlan[0].capital_fund
+            }
+          />
+          <TradingDescriptionSection type={English.E257} />
         </div>
         <TradingDescriptionSection
-          type={English.E64}
-          isHeadingType
-          singleLineContent={English.E64}
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          layoutClassName="[&>h2]:!tracking-[0px]"
+          type={English.E64}
         />
         <TradingDescriptionSection
-          type={English.E65}
-          isHeadingType
-          singleLineContent={English.E65}
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          layoutClassName="[&>h2]:!tracking-[0px]"
+          type={English.E65}
         />
-        {/* <ClosedPNL /> */}
+        <ClosedPNL />
       </div>
     </ChallengeDashboardLayout>
   )

@@ -7,11 +7,12 @@ const CommonButton = (props: CommonButtonProps) => {
 
   return (
     <button
-      className={`flex items-center justify-center gap-3 p-4 rounded-lg w-full text-center cursor-pointer disabled:opacity-60 disabled:pointer-events-none leading-6 ${className}`}
+      className={`flex items-center justify-center gap-3 p-4 rounded-lg w-full text-center cursor-pointer disabled:opacity-60 disabled:pointer-events-none !leading-6 ${className}`}
+      type="button"
       {...rest}
     >
       {imageUrl !== '' && (
-        <ImageComponent imageUrl={imageUrl} className="w-6 h-6" />
+        <ImageComponent className="w-6 h-6" imageUrl={imageUrl} />
       )}
       {singleLineContent}
     </button>

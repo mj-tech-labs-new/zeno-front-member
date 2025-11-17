@@ -9,29 +9,33 @@ const Payout = (
   props: ChallengePayoutObject & Required<Pick<GeneralProps, 'onPressItem'>>
 ) => {
   const {amount, capital, name, type, onPressItem} = props
-  const payoutDetails = useMemo(() => {
-    return {
+  const payoutDetails = useMemo(
+    () => ({
       [English.E27]: type,
       [English.E36]: name,
-      [English.E39]: capital,
-    }
-  }, [capital, name, type])
+      [English.E39]: amount,
+    }),
+    [amount, name, type]
+  )
 
-  const challengesArray = useMemo(() => {
-    return [English.E43, English.E44, English.E45, English.E46]
-  }, [])
+  const challengesArray = useMemo(
+    () => [English.E43, English.E44, English.E45, English.E46],
+    []
+  )
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-4">
         <HeadingComponent
-          singleLineContent={English.E41}
           className="text-base/6 font-medium text-secondary-dark-color"
+          singleLineContent={English.E41}
         />
-        <h2
-          className={`font-medium text-info-bg-color ${amount === '---' ? 'text-sm/5' : 'text-[32px] leading-6'}`}
-        >
-          {amount === '---' ? English.E48 : amount}
-        </h2>
+
+        <HeadingComponent
+          className={`!font-medium !text-info-bg-color !tracking-[-0.14px] ${amount === '---' ? '!text-sm/5' : '!text-[32px] !leading-6'}`}
+          singleLineContent={amount === '---' ? English.E48 : `$${capital}`}
+          type="h2"
+        />
       </div>
       <Divider />
       <div className="flex flex-col gap-2">
@@ -39,18 +43,18 @@ const Payout = (
           .filter(([_, value]) => !(amount !== '---' && value === '---'))
           .map(([key, value]) => (
             <div
-              className="flex w-full items-center justify-between text-sm/6 font-medium gap-2"
               key={key}
+              className="flex w-full items-center justify-between text-sm/6 font-medium gap-2"
             >
               <span className="text-text-info-color capitalize">{key}</span>
               <span
-                className={`${
+                className={
                   key === 'Trading Capital'
                     ? 'text-extra-dark-danger-color'
                     : 'text-text-info-dark-color'
-                }`}
+                }
               >
-                {value}
+                {key === 'Trading Capital' ? `$${value} USDT` : value}
               </span>
             </div>
           ))}
@@ -63,22 +67,20 @@ const Payout = (
             singleLineContent={English.E42}
           />
           <div className="flex flex-col gap-1">
-            {challengesArray?.map((text) => {
-              return (
-                <p
-                  key={text}
-                  className="font-medium text-sm/6 text-dropdown-bg-color"
-                >
-                  {text}
-                </p>
-              )
-            })}
+            {challengesArray?.map((text) => (
+              <p
+                key={text}
+                className="font-medium text-sm/6 text-landing-page-trading-rules-para-text"
+              >
+                {text}
+              </p>
+            ))}
           </div>
         </div>
       )}
       <CommonButton
-        singleLineContent={English.E47}
         className={`${amount === '---' ? 'grey-disabled-btn-type pointer-events-none' : 'dark-danger-btn-type'} font-medium`}
+        singleLineContent={English.E47}
         onClick={() => {
           onPressItem()
         }}

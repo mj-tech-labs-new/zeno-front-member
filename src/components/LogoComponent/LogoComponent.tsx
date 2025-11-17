@@ -19,12 +19,13 @@ const LogoComponent = (
         <HeadingComponent
           className="font-inter font-semibold"
           singleLineContent={singleLineContent}
+          type="h1"
           variant="x-small"
         />
       )}
       <ImageComponent
-        imageUrl={Images.platformLogo}
         className={`w-6 aspect-square ${className}`}
+        imageUrl={Images.platformLogo}
       />
     </div>
   )

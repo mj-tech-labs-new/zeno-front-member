@@ -1,14 +1,32 @@
 import {Route} from 'react-router-dom'
 
+import LazyLoader from '@/LazyLoader'
 import {Login, SignUp} from '@/pages'
+import {AuthWrapper} from '@/wrappers'
 
 const AuthRoutes = [
   <Route
-path="/" element={<Login />}
-key="login" />,
+    key="login"
+    path="/login"
+    element={
+      <AuthWrapper>
+        <LazyLoader>
+          <Login />
+        </LazyLoader>
+      </AuthWrapper>
+    }
+  />,
   <Route
-path="/sign-up" element={<SignUp />}
-key="sign-up" />,
+    key="sign-up"
+    path="/sign-up"
+    element={
+      <AuthWrapper>
+        <LazyLoader>
+          <SignUp />
+        </LazyLoader>
+      </AuthWrapper>
+    }
+  />,
 ]
 
 export default AuthRoutes

@@ -1,34 +1,222 @@
-// import { useState } from "react"
+import dayjs from 'dayjs'
+import {useCallback, useEffect, useState} from 'react'
+import {useLocation} from 'react-router-dom'
 
-import {HeadingComponent} from '@/components'
-import {English} from '@/helpers'
+import {
+  BasicPagination,
+  CommonButton,
+  CommonTableComponent,
+  DatePickerComponent,
+  Loader,
+} from '@/components'
+import {Constants, English, Images} from '@/helpers'
+import {ClosedPnlDataResponsePayload} from '@/types/ChallengeTypes'
+import {PaginationType} from '@/types/CommonTypes'
+
+import {getClosedPnlDetails} from '../api/ChallengeDashboardApi'
+
+interface DateObject {
+  date1: Date | null
+  date2: Date | null
+}
 
 const ClosedPNL = () => {
-  // const [selectedDate, setSelectedDate] = useState({
-  //     date1: '', date2: ''
-  // })
+  const locationState = useLocation()
+  const challengeId = locationState.state
+  const [selectedDate, setSelectedDate] = useState<DateObject>({
+    date1: null,
+    date2: null,
+  })
+  const [showLoader, setShowLoader] = useState(true)
+  const [paginationData, setPaginationData] = useState<PaginationType | null>(
+    null
+  )
+  const [orderType, setOrderType] = useState('ASC')
+  const [closedPNL, setClosedPNL] = useState<ClosedPnlDataResponsePayload[]>([])
+  const [priceType, setPriceType] = useState('open_price')
+
+  const getClosedPnlData = useCallback(
+    (
+      challenge_id: string,
+      page: number,
+      fromDate: string,
+      toDate: string,
+      order_type: string,
+      order_value: string
+    ) => {
+      setShowLoader(true)
+      getClosedPnlDetails({
+        challenge_id,
+        page,
+        fromDate,
+        toDate,
+        order_type,
+        order_value,
+      })
+        .then((data) => {
+          if (!data) return
+          setClosedPNL(data.data)
+          setPaginationData(data?.page)
+        })
+        .finally(() => {
+          setShowLoader(false)
+        })
+    },
+    []
+  )
+
+  useEffect(() => {
+    getClosedPnlData(challengeId, 1, '', '', 'ASC', 'open_price')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <div className="space-y-7">
-      <div className="w-full flex items-center justify-between gap-5">
-        <div className="flex flex-col gap-1">
-          <HeadingComponent singleLineContent={English.E81} />
-          <p className="text-text-hint-color text-base/6 font-normal flex items-center gap-2">
-            {English.E82}{' '}
-            <span>
-              {' '}
-              {English.E83}{' '}
-              <span className="underline text-tertiary-color">
-                {English.E84}
-              </span>
-            </span>{' '}
-          </p>
+    <div className="space-y-7 border border-white">
+      <Loader
+        ref={(ref) => {
+          ref?.showLoader(showLoader)
+        }}
+      />
+      <div className="w-full flex items-center justify-end gap-5">
+        <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6  !text-center">
+          <DatePickerComponent
+            className="!max-w-fit flex items-center"
+            dateFormate="d MMM yyyy"
+            selectedDate1={selectedDate?.date1 as unknown as Date}
+            selectedDate2={selectedDate?.date2}
+            onSelectDate={(data) => {
+              setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
+              const fromDate = dayjs(data?.[0]).format('YYYY-MM-DD')
+              const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
+
+              if (data?.[0] && data?.[1]) {
+                getClosedPnlData(
+                  challengeId,
+                  1,
+                  fromDate,
+                  toDate,
+                  orderType,
+                  'open_price'
+                )
+              }
+            }}
+          />
+          {selectedDate?.date1 && selectedDate?.date2 && (
+            <CommonButton
+              className="!w-fit !text-13 [&>div]:size-3 !white_filter !text-primary-color !flex !flex-row-reverse "
+              imageUrl={Images.crossIcon}
+              singleLineContent="Clear"
+              onClick={() => {
+                setSelectedDate({
+                  date1: null,
+                  date2: null,
+                })
+                getClosedPnlData(
+                  challengeId,
+                  1,
+                  '',
+                  '',
+                  orderType,
+                  'open_price'
+                )
+              }}
+            />
+          )}
         </div>
-        {/* <DatePickerComponent
-                    selectedDate1={selectedDate?.date1 as unknown as Date} 
-                    onSelectDate={(data) => {
-                        // setSelectedDate()
-                    }} /> */}
       </div>
+      <CommonTableComponent
+        className="!bg-ingfo-bg-color !text-white !whitespace-nowrap !font-medium !text-[12px] !leading-[18px]"
+        imageUrl={Images.backArrow}
+        tableHeading={Constants.ClosedPNLTableHeading}
+        type={English.E81}
+        ChangeOrder={(value) => {
+          setPriceType(value)
+          getClosedPnlData(
+            challengeId,
+            1,
+            '',
+            '',
+            orderType === 'ASC' ? 'DESC' : 'ASC',
+            value === 'Entry Price' ? 'open_price' : ' close_price'
+          )
+
+          setOrderType((data) => (data === 'ASC' ? 'DESC' : 'ASC'))
+        }}
+        headingClassName={`!font-medium !font-helvetica !text-[12px]  !leading-[18px]   [&>div>div]:transition-transform [&>div>div]:duration-300 
+          ${orderType === 'ASC' ? '[&>div>div]:!rotate-90' : '[&>div>div]:!rotate-270'} `}
+      >
+        {closedPNL?.map((tableBody) => {
+          const entryValue =
+            tableBody?.quantity && tableBody?.open_price
+              ? tableBody.quantity * tableBody.open_price
+              : '---'
+          const exitValue =
+            tableBody?.quantity && tableBody?.close_price
+              ? tableBody.quantity * tableBody.close_price
+              : '---'
+          const closedType = tableBody?.last_close_type
+
+          return (
+            <tr
+              key={`content-${tableBody?.id}`}
+              className="font-normal bg-info-bg-color border-b border-landing-page-trading-rules-para-text  text-sm/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:p-6 *:text-secondary-light-color border border-white"
+            >
+              <td className="px-7 py-4 text-left !text-primary-color !whitespace-nowrap !font-inter">
+                {tableBody?.symbol}
+              </td>
+              <td className="px-7 py-4 flex gap-1 text-left !whitespace-nowrap !font-inter">
+                <span
+                  className={
+                    tableBody?.order_side === 'buy'
+                      ? '!text-light-success-color'
+                      : '!text-light-danger-color'
+                  }
+                >
+                  {tableBody?.order_side}
+                </span>
+                &minus;&gt;
+                <span>closed</span>
+              </td>
+              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                {tableBody?.quantity?.toFixed(6)}
+              </td>
+              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                {Number(entryValue).toFixed(6)}
+              </td>
+              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                {Number(exitValue).toFixed(6)}
+              </td>
+              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                {tableBody?.open_price?.toFixed(6)}
+              </td>
+              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                {tableBody?.close_price?.toFixed(6)}
+              </td>
+              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
+                {closedType}
+              </td>
+              <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter capitalize">
+                {tableBody?.order_type}
+              </td>
+            </tr>
+          )
+        })}
+      </CommonTableComponent>
+      {paginationData?.totalPages !== 0 && paginationData?.totalPages && (
+        <BasicPagination
+          total={paginationData?.totalPages}
+          onSelectPage={(page) => {
+            getClosedPnlData(
+              challengeId,
+              page,
+              '',
+              '',
+              orderType,
+              priceType === 'Entry Price' ? 'open_price' : 'close_price'
+            )
+          }}
+        />
+      )}
     </div>
   )
 }

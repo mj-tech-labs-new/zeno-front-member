@@ -12,76 +12,97 @@ const StatsDescription = (props: StatsCardProps) => {
     headingContent,
     infoContent,
     initialContent,
-    type,
     secondContent,
-    subType = '',
-    isProgressBarType = false,
+    type,
     className = '',
+    thirdContent = 0,
   } = props
-  const percentage = useMemo(() => {
-    return ((Number(secondContent) / Number(initialContent)) * 100).toFixed(2)
-  }, [initialContent, secondContent])
+
+  const percentage = useMemo(
+    () => ((Number(secondContent) / Number(initialContent)) * 100).toFixed(2),
+    [initialContent, secondContent]
+  )
+
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex justify-between gap-4 items-center">
+      <div
+        className={`flex gap-4 items-center ${!(type === English.E259) && 'justify-between'}`}
+      >
         <span className="text-text-hint-color text-15 !leading-6">
           {headingContent}
         </span>
-        <Info singleLineContent={infoContent} className={className} />
+        {type !== English.E65 && (
+          <Info className={className} singleLineContent={infoContent} />
+        )}
       </div>
-      {type === 'lablelType' && (
+
+      {type === English.E257 && (
         <PercentageLabel
+          headingContent={headingContent}
           initialContent={initialContent}
           secondContent={secondContent}
         />
       )}
 
-      {(type === 'normalType' ||
-        type === 'winLossType' ||
-        type === 'longShortType' ||
-        type === 'normalMoneyType') && (
+      {type === English.E65 && (
         <div>
           <span className="text-tertiary-color tex-lg/6 font-normal">
-            {Utility.numberConversion(Number(initialContent))}{' '}
-            {type === 'normalMoneyType' && English.E60}
+            {headingContent === English.E72
+              ? initialContent
+              : `${initialContent.toFixed(2)} %`}
           </span>
-          {subType === 'win_rate' && (
-            <p className="text-text-hint-color text-13 !leading-6 font-normal">
-              {English.E80}: {Utility.numberConversion(0)}%
-            </p>
-          )}
-          {(type === 'winLossType' || type === 'longShortType') &&
-            subType === '' && (
-              <p className="text-13 leading-6">
-                <span className="text-light-success-color">
-                  0 {type === 'longShortType' ? English.E74 : English.E76}
-                </span>{' '}
-                /{' '}
-                <span className="text-light-danger-color">
-                  {type === 'longShortType' ? English.E75 : English.E77}
-                </span>
+
+          <span>
+            {!(
+              headingContent === English.E72 || headingContent === English.E73
+            ) && (
+              <p className="text-text-hint-color text-13 !leading-6 font-normal ">
+                {English.E80}: {secondContent.toFixed(2)}%
               </p>
             )}
+          </span>
+
+          {(headingContent === English.E72 ||
+            headingContent === English.E73) && (
+            <p className="text-13 leading-6 text-tertiary-color flex gap-2">
+              <span className="text-light-success-color">
+                {headingContent === English.E72
+                  ? `${secondContent} ${English.E74}`
+                  : `${secondContent} ${English.E76}`}
+              </span>
+              <span>/</span>
+              <span className="text-light-danger-color">
+                {headingContent === English.E72
+                  ? `${thirdContent} ${English.E75}`
+                  : `${thirdContent} ${English.E77}`}
+              </span>
+            </p>
+          )}
         </div>
       )}
 
-      {(type === 'winProgressType' || type === 'lossProgressType') && (
+      {(type === English.E64 || type === English.E259) && (
         <div className="flex flex-col gap-6">
           <p className="text-lg/6 text-tertiary-color font-normal capitalize">
             <span
-              className={`${type === 'winProgressType' ? 'text-light-success-color' : 'text-light-danger-color'}`}
+              className={
+                headingContent === English.E66 || headingContent === English.E68
+                  ? 'text-light-success-color'
+                  : 'text-light-danger-color'
+              }
             >
-              {subType.includes('money')
-                ? Utility.numberConversion(Number(secondContent))
+              {headingContent !== English.E66
+                ? Utility.numberConversion(secondContent)
                 : secondContent}
             </span>{' '}
             /{' '}
-            {subType.includes('money')
-              ? `${(subType === 'loss_money' ? '-' : '') + Utility.numberConversion(Number(initialContent))}`
+            {headingContent !== English.E66
+              ? Utility.numberConversion(initialContent)
               : initialContent}{' '}
-            {subType.includes('money') ? English.E60 : English.E67}
+            {headingContent === English.E66 ? English.E67 : English.E60}
           </p>
-          {isProgressBarType && (
+
+          {type === English.E64 && (
             <LinearProgressBar percentage={Number(percentage)} />
           )}
         </div>

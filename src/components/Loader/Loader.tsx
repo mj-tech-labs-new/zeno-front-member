@@ -1,4 +1,4 @@
-import {CSSProperties, forwardRef, useImperativeHandle} from 'react'
+import {forwardRef, useImperativeHandle} from 'react'
 
 import {GeneralProps} from '@/types/CommonTypes'
 import {AppLoaderRef} from '@/types/ComponentTypes'
@@ -13,21 +13,16 @@ const Loader = forwardRef<AppLoaderRef, Pick<GeneralProps, 'className'>>(
         if (state) {
           element?.classList.add('visible')
         } else {
-          element?.classList.remove('visible')
+          element?.classList?.remove('visible')
         }
       },
     }))
 
     return (
-      <div className={`loader-container backdrop-blur-md ${className}`}>
-        <div className="loader-body" id="loader-body">
-          <div className="ml-loader">
-            {Array.from({length: 12}).map((_, index) => {
-              const style = {'--i': index + 1} as CSSProperties
-              return <div style={style} key={`loader_${index.toString()}`} />
-            })}
-          </div>
-        </div>
+      <div
+        className={`fixed invisible h-screen w-screen bg-primary-bg-color/50 left-0 top-0 backdrop-blur-md loader-container z-[99999] ${className}`}
+      >
+        <div className="gradient-container h-36 w-36 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" />
       </div>
     )
   }

@@ -20,13 +20,14 @@ const ChallengeOptionCards = (props: CreatChallengeCardType) => {
       }}
     >
       <HeadingComponent
-        singleLineContent={singleLineContent}
-        variant="x-small"
         className="font-semibold"
+        singleLineContent={singleLineContent}
+        type="h3"
+        variant="x-small"
       />
       <DescriptionComponent
-        multilineContent={multilineContent}
         className="text-13"
+        multilineContent={multilineContent}
       />
     </div>
   )

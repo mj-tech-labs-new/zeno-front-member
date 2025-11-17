@@ -2,16 +2,20 @@ import {memo, useMemo} from 'react'
 
 import {English, Utility} from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
+import {useChallengeProvider} from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
+// import { useChallengeProvider } from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
 import {ChallengeCompletionCardProps} from '@/types/ChallengeTypes'
 
 import CircularProgressBarComponent from '../ProgessBar/CircularProgressBar'
 
 const ChallengeCompletionCard = (props: ChallengeCompletionCardProps) => {
   const {totalAmount} = props
+  const {getChallengeByIdArray} = useChallengeProvider()
 
   const cardAmount = useMemo(() => {
-    const splittedItems = totalAmount?.toString()?.split('.')
-    return {first: splittedItems?.[0], second: splittedItems?.[1] || '00'}
+    const totalAmountUSDTFormat = Utility.numberConversion(Number(totalAmount))
+    const splittedItems = totalAmountUSDTFormat?.toString()?.split('.')
+    return {first: splittedItems?.[0], second: splittedItems?.[1] ?? '00'}
   }, [totalAmount])
 
   return (
@@ -21,7 +25,7 @@ const ChallengeCompletionCard = (props: ChallengeCompletionCardProps) => {
           {English.E59}
         </span>
         <p className="text-tertiary-color text-2xl/6 font-normal">
-          {Utility.numberConversion(Number(cardAmount?.first))}.
+          {cardAmount?.first}.
           <span className="text-secondary-light-color">
             {cardAmount?.second}
           </span>{' '}
@@ -30,8 +34,11 @@ const ChallengeCompletionCard = (props: ChallengeCompletionCardProps) => {
       </div>
 
       <CircularProgressBarComponent
-        usedBalance={1340.31}
         totalAmount={totalAmount}
+        usedBalance={
+          (totalAmount ?? 60000) -
+          (getChallengeByIdArray?.[0]?.used_usdt_capital ?? 5340.31)
+        }
       />
     </ChallengeCardLayout>
   )

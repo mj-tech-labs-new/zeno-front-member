@@ -22,8 +22,9 @@ const DownloadButton = (
 
   return (
     <button
-      onClick={handleDownload}
       className={`text-secondary-light-color ${className}`}
+      onClick={handleDownload}
+      type="button"
     >
       {singleLineContent}
     </button>

@@ -1,35 +1,32 @@
-import {useMemo} from 'react'
+import {memo} from 'react'
 
+import {English} from '@/helpers'
 import {StatsCardProps} from '@/types/ComponentTypes'
 
 const PercentageLabel = (
-  props: Pick<StatsCardProps, 'initialContent' | 'secondContent'>
+  props: Pick<
+    StatsCardProps,
+    'initialContent' | 'secondContent' | 'headingContent'
+  >
 ) => {
-  const {initialContent, secondContent} = props
-  const difference = useMemo(() => {
-    return initialContent === '---'
-      ? '---'
-      : Number(secondContent) - Number(initialContent)
-  }, [initialContent, secondContent])
-  const percentage = useMemo(() => {
-    return initialContent === '---'
-      ? '---'
-      : (Number(secondContent) / Number(initialContent) / 100).toFixed(2)
-  }, [initialContent, secondContent])
+  const {headingContent, initialContent = 0, secondContent = 0} = props
+
   return (
     <div className="flex gap-2">
       <p
-        className={`text-lg/6 font-normal ${initialContent === '---' ? 'text-primary-color' : 'text-light-success-color'}`}
+        className={`text-lg/6 font-normal ${initialContent.toString().startsWith('-') ? 'text-extra-dark-danger-color' : 'text-light-success-color'}`}
       >
-        {difference}{' '}
-        <span
-          className={` px-1 pb-0.5 rounded-md text-primary-color ${initialContent === '---' ? 'bg-dropdown-bg-color' : 'bg-extra-dark-success-color '}`}
-        >
-          ({percentage}%)
-        </span>
+        <span>{initialContent !== 0 ? initialContent.toFixed(2) : '---'} </span>
+        {headingContent !== English.E63 && (
+          <span
+            className={`px-1 pb-0.5 rounded-md text-primary-color ${secondContent.toString().startsWith('-') ? 'bg-light-danger-color' : 'bg-extra-dark-success-color'}`}
+          >
+            ({secondContent.toFixed(2) ?? ''}%)
+          </span>
+        )}
       </p>
     </div>
   )
 }
 
-export default PercentageLabel
+export default memo(PercentageLabel)

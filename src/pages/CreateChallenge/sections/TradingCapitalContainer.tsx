@@ -1,58 +1,98 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 import {
+  BasicSkeleton,
   CommonTableComponent,
   DescriptionComponent,
   HeadingComponent,
   RadioInputContainer,
 } from '@/components'
-import {Constants, English} from '@/helpers'
-import {TradingCapitalProps} from '@/types/ChallengeTypes'
+import {Constants, English, Utility} from '@/helpers'
+import type {
+  ChallengePayoutObject,
+  GetTradingCapitalProps,
+} from '@/types/ChallengeTypes'
 
+import {getTradingCapitalApi} from '../api/CreateChallengeApis'
 import CreateChallengeCardLayout from '../layout/CreateChallengeCardLayout'
 
-const TradingCapitalContainer = (props: TradingCapitalProps) => {
-  const [tableBodyContent, setTableBodyContent] = useState(
-    Constants.ChallengeStaticTableContent.tableBodyData
-  )
-  const {onPressItem} = props
+const TradingCapitalContainer = (props: {
+  selectedOption: number
+  onPressItem: (data: ChallengePayoutObject) => void
+  setSelectedTableRow: (id: number) => void
+}) => {
+  const [tradingCapitalData, setTradingCapitalData] = useState<
+    GetTradingCapitalProps[]
+  >([])
+  const [showLoader, setShowLoader] = useState(false)
+
+  const {onPressItem, setSelectedTableRow, selectedOption} = props
+
+  useEffect(() => {
+    setShowLoader(true)
+    getTradingCapitalApi(selectedOption)
+      .then((res) => {
+        const response = res.map((item) => ({
+          ...item,
+          checked: false,
+        }))
+        setTradingCapitalData(response)
+      })
+      .finally(() => setShowLoader(false))
+  }, [selectedOption])
 
   return (
     <CreateChallengeCardLayout>
       <div className="flex flex-col gap-11">
         <div className="flex flex-col gap-y-2">
-          <HeadingComponent singleLineContent={English.E27} variant="small" />
-          <DescriptionComponent multilineContent={[English.E31]} />
+          <HeadingComponent
+            singleLineContent={English.E39}
+            type="h3"
+            variant="small"
+          />
+          <DescriptionComponent multilineContent={[English.E40]} />
         </div>
+
         <CommonTableComponent
+          showArrows={false}
           tableHeading={Constants.ChallengeStaticTableContent?.tableHeadings}
         >
-          {tableBodyContent?.map((tableBody) => {
-            return (
-              <tr
-                className={`font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in-out ${tableBody?.checked ? 'bg-info-bg-color' : ''} `}
-                key={`content-${tableBody?.checkBoxRole}`}
+          {tradingCapitalData?.map((tableBody) => (
+            <tr
+              key={`content-${tableBody?.id}`}
+              className={`font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in-out ${tableBody?.checked ? 'bg-info-bg-color' : ''}`}
+            >
+              <th
+                className="p-6 font-medium text-gray-900 whitespace-nowrap "
+                scope="row"
               >
-                <th
-                  scope="row"
-                  className="p-6 font-medium text-gray-900 whitespace-nowrap "
-                >
+                {showLoader ? (
+                  <BasicSkeleton className="!h-[10px] rounded-full" />
+                ) : (
                   <RadioInputContainer
                     checked={tableBody?.checked}
-                    className="text-red-600"
+                    className="text-extra-dark-danger-color"
                     onChange={(e) => {
-                      setTableBodyContent((prev) => {
+                      setTradingCapitalData((prev) => {
                         const newData = prev.map((previousData) => {
                           if (
-                            previousData?.checkBoxRole ===
-                            tableBody?.checkBoxRole
+                            previousData?.challenge_name ===
+                            tableBody?.challenge_name
                           ) {
-                            if (previousData.checked) return previousData
+                            if (previousData?.checked) return previousData
+                            setSelectedTableRow(previousData.id)
                             onPressItem({
-                              amount: previousData.amount,
-                              capital: previousData.price,
-                              name: previousData.role,
-                              type: previousData.checkBoxRole,
+                              amount: Utility.numberConversion(
+                                previousData.capital_fund
+                              ),
+                              capital: Utility.numberConversion(
+                                previousData.fee
+                              ),
+                              name: previousData.challenge_name,
+                              type:
+                                previousData.step === 1
+                                  ? English.E32
+                                  : English.E34,
                             })
                             return {
                               ...previousData,
@@ -66,21 +106,38 @@ const TradingCapitalContainer = (props: TradingCapitalProps) => {
                       })
                     }}
                   />
-                </th>
-                <td className="p-6 text-tertiary-color">{tableBody?.role}</td>
-                <td
-                  className={`p-6 ${tableBody?.checked ? 'text-primary-color' : 'text-secondary-light-color'}`}
-                >
-                  {tableBody?.price}
-                </td>
-                <td
-                  className={`p-6 ${tableBody?.checked ? 'text-primary-color' : 'text-secondary-light-color'}`}
-                >
-                  {tableBody?.amount}
-                </td>
-              </tr>
-            )
-          })}
+                )}
+              </th>
+
+              <td className="p-6 text-tertiary-color">
+                {showLoader ? (
+                  <BasicSkeleton className="!h-[10px] rounded-full" />
+                ) : (
+                  <span className="">{tableBody?.challenge_name}</span>
+                )}
+              </td>
+
+              <td className="p-6 text-tertiary-color">
+                {showLoader ? (
+                  <BasicSkeleton className="!h-[10px] rounded-full" />
+                ) : (
+                  <span className="">
+                    ${Utility.numberConversion(tableBody?.fee)}
+                  </span>
+                )}
+              </td>
+
+              <td className="p-6 text-tertiary-color">
+                {showLoader ? (
+                  <BasicSkeleton className="!h-[10px] rounded-full" />
+                ) : (
+                  <span className="">
+                    ${Utility.numberConversion(tableBody?.capital_fund)} USDT
+                  </span>
+                )}
+              </td>
+            </tr>
+          ))}
         </CommonTableComponent>
       </div>
     </CreateChallengeCardLayout>

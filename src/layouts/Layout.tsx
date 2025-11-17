@@ -1,15 +1,18 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
-import {CiMenuBurger} from 'react-icons/ci'
-import {Outlet} from 'react-router-dom'
+import {Outlet, useLocation} from 'react-router-dom'
 
-import {Sidebar} from '@/components'
-import Loader from '@/components/Loader/Loader'
+import {ImageComponent, LogoComponent, Sidebar} from '@/components'
+// import Loader from '@/components/Loader/Loader'
+import {Images} from '@/helpers'
 import {useClickOutside} from '@/hooks'
+import {AppLoaderRef} from '@/types/ComponentTypes'
 
 const Layout = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1024)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement | null>(null)
+  const loaderRef = useRef<AppLoaderRef>(null)
+  const location = useLocation()
 
   const handleCloseMenu = useCallback(() => {
     setIsMenuOpen((data) => !data)
@@ -37,31 +40,46 @@ const Layout = () => {
     }
   }, [])
 
+  useEffect(() => {
+    loaderRef.current?.showLoader(true)
+    setTimeout(() => {
+      loaderRef.current?.showLoader(false)
+    }, 2000)
+  }, [location.pathname])
+
   return (
-    <div className="h-screen w-screen">
-      <Loader ref={(ref) => ref?.showLoader(true)} />
-      <div className="h-full w-full flex">
-        <div className="w-12 transition-all duration-300 ease-in lg:w-[250px] shrink-0 bg-secondary-bg-color h-full">
-          {isSmallScreen && (
-            <CiMenuBurger
-              className="block lg:hidden text-2xl text-primary-color ml-3.5 mt-8 cursor-pointer"
-              onClick={handleCloseMenu}
-            />
-          )}
-          {(isMenuOpen || !isSmallScreen) && (
+    <div className="h-screen w-screen overflow-y-hidden">
+      {/* <Loader ref={loaderRef} /> */}
+      <div className="h-full w-full flex flex-col lg:flex-row">
+        <div className="w-full transition-all duration-300 ease-in lg:w-[250px] shrink-0 bg-secondary-bg-color lg:h-full">
+          {isSmallScreen ? (
+            <div className="flex items-center justify-start w-full h-full p-4 relative">
+              <div
+                className="block lg:hidden h-5 w-5 text-2xl text-primary-color cursor-pointer"
+                onClick={handleCloseMenu}
+              >
+                <ImageComponent
+                  className="h-full w-full"
+                  imageUrl={Images.menu}
+                />
+              </div>
+              <LogoComponent layoutClassName="!absolute left-1/2 -translatex-x-1/2 top-1/2 -translate-y-1/2" />
+            </div>
+          ) : null}
+          {isMenuOpen || !isSmallScreen ? (
             <div
+              ref={menuRef}
               className={
                 isSmallScreen && isMenuOpen
-                  ? 'fixed h-full w-[250px] top-0 left-0 z-10 bg-secondary-bg-color'
+                  ? 'fixed h-full w-[250px] top-0 left-0 z-50 bg-secondary-bg-color'
                   : ''
               }
-              ref={menuRef}
             >
               <Sidebar onPressItem={handleCloseMenu} />
             </div>
-          )}
+          ) : null}
         </div>
-        <div className="flex-1 w-full px-4  md:px-8 pt-11 max-h-screen overflow-y-auto">
+        <div className="flex-1 w-full px-2 md:px-8 overflow-y-auto h-screen bg-primary-bg-color">
           <Outlet />
         </div>
       </div>

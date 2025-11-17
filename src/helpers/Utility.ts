@@ -3,12 +3,11 @@ const numberConversion = (content: number) => {
 
   if (!hasDecimal) {
     return `${new Intl.NumberFormat('en-US').format(content)}.00`
-  } else {
-    return new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(content)
   }
+  return new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(content)
 }
 
 const isValidEmail = (content: string) => {
@@ -16,7 +15,20 @@ const isValidEmail = (content: string) => {
   return regex.test(content)
 }
 
+const validFloatNumber = (content: string) => {
+  const newContent = content.replace(/[^0-9.eE+-]/g, '')
+  return newContent
+}
+
+const ScrollToSectionUtility = (id: string) => {
+  const sectionContainer = document.getElementById(id)
+  if (!sectionContainer) return
+  sectionContainer.scrollIntoView({behavior: 'smooth', block: 'start'})
+}
+
 const Utility = {
+  ScrollToSectionUtility,
+  validFloatNumber,
   numberConversion,
   isValidEmail,
 }

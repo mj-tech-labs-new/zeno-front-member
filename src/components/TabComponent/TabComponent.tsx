@@ -12,24 +12,26 @@ const TabComponent = (props: CommonTabComponentProps) => {
     setActiveIndex,
     className = '',
     isDividerType = true,
+    type = 'lineType',
+    layoutClassName = '',
   } = props
 
   return (
-    <div className={`flex flex-col gap-8 ${className}`}>
+    <div className={`flex flex-col gap-8 ${className} `}>
       <div className="flex gap-6">
         {headingData?.map((heading, index) => {
           const {title, img = ''} = heading
           return (
             <div
-              className={`flex items-center gap-1 ${activeIndex === index ? 'cursor-auto' : 'cursor-pointer'}`}
               key={title}
+              className={`flex items-center gap-1 font-dmsans ${activeIndex === index ? 'cursor-auto' : 'cursor-pointer'}`}
               onClick={() => {
                 setActiveIndex(index)
               }}
             >
-              {img !== '' && <img src={img} alt="error-icon" />}
+              {img !== '' && <img alt="error-icon" src={img} />}
               <span
-                className={`text-15 border-b-2 border-solid transition-all duration-300 ease-in-out !leading-6 font-normal capitalize pb-2 ${activeIndex === index ? 'text-primary-color  border-primary-color' : 'text-text-hint-color border-transparent'}`}
+                className={`text-neutral-primary-color ${className} ${type === 'lineType' ? 'border-b-2 border-solid text-15 !leading-6 font-normal' : 'border-none px-3 py-1.5 rounded-full text-sm !leading-4 font-bold'}  transition-all duration-300 ease-in-out   capitalize pb-2 ${activeIndex === index && type === 'lineType' ? `text-primary-color  border-primary-color ${layoutClassName}` : 'text-text-hint-color border-transparent'} ${activeIndex === index && type === 'buttonType' ? 'bg-neutral-active-color !text-chart-text-primary-color' : 'bg-transparent'} `}
               >
                 {title}
               </span>
@@ -37,7 +39,7 @@ const TabComponent = (props: CommonTabComponentProps) => {
           )
         })}
       </div>
-      {isDividerType && <Divider className="!bg-info-bg-color" />}
+      {isDividerType ? <Divider className="!bg-info-bg-color" /> : null}
       {children}
     </div>
   )

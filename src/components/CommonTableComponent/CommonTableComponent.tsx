@@ -1,26 +1,71 @@
-import { memo } from 'react'
+import {memo} from 'react'
 
-import { CommonTableComponentProps } from '@/types/ComponentTypes'
+import {English, Images} from '@/helpers'
+import {CommonTableComponentProps} from '@/types/ComponentTypes'
+
+import CommonCloseActionButton from '../CommonButton/CommonCloseActionButton'
+import ImageComponent from '../ImageComponent/ImageComponent'
 
 const CommonTableComponent = (props: CommonTableComponentProps) => {
-  const { tableHeading, children } = props
+  const {
+    tableHeading,
+    children,
+    className = '',
+    layoutClassName = '',
+    headingClassName = '',
+    imageUrl,
+    ChangeOrder,
+    extraProp,
+    onPerformAction,
+    type = '',
+  } = props
+
   return (
-    <div className="relative overflow-x-auto border border-solid border-dropdown-bg-color rounded-lg shadow-sm">
+    <div
+      className={`relative overflow-x-auto rounded-lg shadow-sm ${layoutClassName} w-full`}
+    >
       <table className="w-full text-sm text-left overflow-hidden">
-        <thead className="text-xs bg-info-bg-color capitalize text-tertiary-color">
+        <thead
+          className={`text-xs bg-widget-primary-bg-color capitalize text-tertiary-color  ${className}`}
+        >
           <tr>
-            {tableHeading?.map((tableHeading) => {
-              return (
-                <th
-                  scope="col" className="px-6 py-4"
-                  key={tableHeading}>
-                  {tableHeading}
-                </th>
-              )
-            })}
+            {tableHeading?.map((heading) => (
+              <th
+key={heading.content} className={`px-6 py-4  `}
+scope="col">
+                {heading.content === 'Close' ? (
+                  <CommonCloseActionButton
+                    challenge_id={extraProp?.challenge_id}
+                    onPerformAction={onPerformAction}
+                    type="all_order"
+                  />
+                ) : (
+                  <div
+                    className={`flex items-center gap-2 whitespace-nowrap ${headingClassName}`}
+                    onClick={() => {
+                      if (ChangeOrder) ChangeOrder(heading.content)
+                    }}
+                  >
+                    {heading?.content}
+                    {heading.showArrow && (
+                      <div className="flex flex-col items-center cursor-pointer">
+                        <ImageComponent
+                          className="w-2"
+                          imageUrl={imageUrl ?? Images.arrows}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </th>
+            ))}
           </tr>
         </thead>
-        <tbody>{children}</tbody>
+        {type === English.E81 ? (
+          <span>No Orders</span>
+        ) : (
+          <tbody className="w-full">{children}</tbody>
+        )}
       </table>
     </div>
   )

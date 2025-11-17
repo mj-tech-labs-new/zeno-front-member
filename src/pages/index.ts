@@ -1,21 +1,29 @@
-import Login from './AuthPages/Login'
-import SignUp from './AuthPages/SignUp'
-import BillingPage from './BillingPage/BillingPage'
-import Certificate from './Certificates/Certificate'
-import ChallengeDashboard from './ChallengeDashboard/ChallengeDashboard'
-import ChallengesPage from './Challenges/ChallengesPage'
-import CreateChallenge from './CreateChallenge/CreateChallenge'
-import Dashboard from './Dashboard/Dashboard'
-import PayoutPage from './PayoutPage/PayoutPage'
-import ProfilePage from './ProfilePage/ProfilePage'
+import {lazy} from 'react'
+
+const Login = lazy(async () => import('./AuthPages/Login'))
+const SignUp = lazy(async () => import('./AuthPages/SignUp'))
+const BillingPage = lazy(async () => import('./BillingPage/BillingPage'))
+const Certificate = lazy(async () => import('./Certificates/Certificate'))
+const ChallengeDashboard = lazy(
+  async () => import('./ChallengeDashboard/ChallengeDashboard')
+)
+const Chart = lazy(async () => import('./ChartPages/Chart'))
+const CreateChallenge = lazy(
+  async () => import('./CreateChallenge/CreateChallenge')
+)
+const Dashboard = lazy(async () => import('./Dashboard/Dashboard'))
+const HomePage = lazy(async () => import('./HomePage/HomePage'))
+const PayoutPage = lazy(async () => import('./PayoutPage/PayoutPage'))
+const ProfilePage = lazy(async () => import('./ProfilePage/ProfilePage'))
 
 export {
   BillingPage,
   Certificate,
   ChallengeDashboard,
-  ChallengesPage,
+  Chart,
   CreateChallenge,
   Dashboard,
+  HomePage,
   Login,
   PayoutPage,
   ProfilePage,

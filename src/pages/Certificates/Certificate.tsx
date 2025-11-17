@@ -7,13 +7,14 @@ import CertificateTab from './components/CertificateTab'
 
 const Certificate = () => {
   const [activeIndex, setActiveIndex] = useState(0)
+
   return (
     <div className="flex flex-col gap-8">
-      <HeadingComponent singleLineContent={English.E90} variant="medium" />
+      <HeadingComponent singleLineContent={English.E22} variant="medium" />
       <TabComponent
         activeIndex={activeIndex}
-        setActiveIndex={setActiveIndex}
         headingData={Constants.CertificateTabHeading}
+        setActiveIndex={setActiveIndex}
       >
         <CertificateTab
           type={

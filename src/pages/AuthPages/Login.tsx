@@ -3,16 +3,16 @@ import {Images} from '@/helpers'
 
 import AuthForm from './components/AuthForm'
 
-const Login = () => {
-  return (
-    <div className="h-screen w-screen flex items-center relative overflow-hidden">
+const Login = () => (
+  <div className="h-screen w-screen py-10 lg:py-[74px]  relative overflow-auto no-scrollbar">
+    <div className="flex justify-between">
       <AuthForm type="loginType" />
       <ImageComponent
+        className="hidden lg:block w-full [&>img]:!object-contain"
         imageUrl={Images.heroImage}
-        className="hidden lg:block lg:h-[425px] xl:h-[517px] absolute -translate-y-1/2 top-1/2  right-0 -z-10"
       />
     </div>
-  )
-}
+  </div>
+)
 
 export default Login

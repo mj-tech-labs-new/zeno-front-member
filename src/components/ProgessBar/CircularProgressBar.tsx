@@ -9,9 +9,10 @@ import {CircularProgressBarType} from '@/types/ComponentTypes'
 const CircularProgressBarComponent = (props: CircularProgressBarType) => {
   const {usedBalance, className = '', totalAmount} = props
 
-  const percentage = useMemo(() => {
-    return (usedBalance / Number(totalAmount)) * 100
-  }, [totalAmount, usedBalance])
+  const percentage = useMemo(
+    () => ((usedBalance ?? 0) / Number(totalAmount)) * 100,
+    [totalAmount, usedBalance]
+  )
 
   return (
     <div className="relative mx-auto">
@@ -20,14 +21,15 @@ const CircularProgressBarComponent = (props: CircularProgressBarType) => {
           Capital Used
         </span>
         <p className="text-lg/6 font-normal text-tertiary-color">
-          {usedBalance} {English.E60}
+          {((totalAmount ?? 60000) - (usedBalance ?? 3340.31)).toFixed(2)}{' '}
+          {English.E60}
         </p>
       </div>
-      <svg width="0" height="0">
+      <svg height="0" width="0">
         <defs>
           <linearGradient
 id="gradient1" x1="0%"
-y1="0%" x2="100%"
+x2="100%" y1="0%"
 y2="100%">
             <stop offset="0%" style={{stopColor: '#737373', stopOpacity: 1}} />
             <stop
@@ -39,9 +41,10 @@ y2="100%">
       </svg>
 
       <CircularProgressbar
-        value={percentage}
-        strokeWidth={8}
         background
+        className={`w-[205px] h-[205px] ${className}`}
+        strokeWidth={8}
+        value={percentage}
         styles={buildStyles({
           backgroundColor: 'var(--widget-primary-bg-color)',
           textColor: 'var(--primary-color)',
@@ -49,7 +52,6 @@ y2="100%">
           pathColor: 'url(#gradient1)',
           strokeLinecap: 'round',
         })}
-        className={`w-[205px] h-[205px] ${className}`}
       />
     </div>
   )

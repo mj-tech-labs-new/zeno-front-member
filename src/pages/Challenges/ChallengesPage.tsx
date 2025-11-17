@@ -19,20 +19,18 @@ const ChallengesPage = () => {
         <ChallengeActionButton className="!m-0" />
       </div>
       <TabComponent
-        isDividerType={false}
+        activeIndex={activeIndex}
         className="!gap-6"
         headingData={Constants.ChallengesTabContent}
-        activeIndex={activeIndex}
+        isDividerType={false}
         setActiveIndex={setActiveIndex}
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 h-fi gap-6">
-          {Array.from({length: 4}).map((_, index) => {
-            return (
+          {Array.from({length: 4}).map((_, index) => (
               <ChallengeDetailCard
                 key={`challenge-detail-card ${index.toString()}`}
               />
-            )
-          })}
+            ))}
         </div>
       </TabComponent>
     </div>

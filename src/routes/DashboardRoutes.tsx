@@ -1,55 +1,132 @@
-import { Route } from 'react-router-dom'
+import {Route} from 'react-router-dom'
 
 import Layout from '@/layouts/Layout'
+import LazyLoader from '@/LazyLoader'
 import {
   BillingPage,
   Certificate,
   ChallengeDashboard,
-  ChallengesPage,
+  Chart,
   CreateChallenge,
   Dashboard,
   PayoutPage,
   ProfilePage,
 } from '@/pages'
 import ChallengeDashboardProvider from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
+import PayoutSuccessPage from '@/pages/CreateChallenge/PayoutSuccessPage'
+import DashboardProvider from '@/pages/Dashboard/context/DashboardProvider'
+import UserWrapper from '@/wrappers/UserWrapper'
 
 const DashboardRoutes = [
   <Route
-    path="/" element={<Layout />}
-    key="layout">
+key="layout" element={<Layout />}
+path="/">
     <Route
-      path="dashboard" element={<Dashboard />}
-      key="dashboard" />
+      key="dashboard"
+      path="dashboard"
+      element={
+        <UserWrapper>
+          <DashboardProvider>
+            <LazyLoader>
+              <Dashboard />
+            </LazyLoader>
+          </DashboardProvider>
+        </UserWrapper>
+      }
+    />
     <Route
+      key="challenge-dashboard"
       path="challenge-dashboard"
       element={
-        <ChallengeDashboardProvider>
-          <ChallengeDashboard />
-        </ChallengeDashboardProvider>
+        <UserWrapper>
+          <ChallengeDashboardProvider>
+            <LazyLoader>
+              <ChallengeDashboard />
+            </LazyLoader>
+          </ChallengeDashboardProvider>
+        </UserWrapper>
       }
-      key="challenge-dashboard"
     />
     ,
     <Route
-      element={<Certificate />} path="certificates"
-      key="certificates" />,
+      key="certificates"
+      path="certificates"
+      element={
+        <UserWrapper>
+          <LazyLoader>
+            <Certificate />
+          </LazyLoader>
+        </UserWrapper>
+      }
+    />
+    ,
     <Route
-      element={<PayoutPage />} path="payout"
-      key="payout" />,
+      key="payout"
+      path="payout"
+      element={
+        <UserWrapper>
+          <LazyLoader>
+            <PayoutPage />
+          </LazyLoader>
+        </UserWrapper>
+      }
+    />
+    ,
     <Route
-      element={<BillingPage />} path="billing"
-      key="billing" />,
+      key="billing"
+      path="billing"
+      element={
+        <UserWrapper>
+          <LazyLoader>
+            <BillingPage />
+          </LazyLoader>
+        </UserWrapper>
+      }
+    />
+    ,
     <Route
-      element={<ProfilePage />} path="profile"
-      key="profile" />,
-    <Route
-      element={<ChallengesPage />} path="challenges"
-      key="challenges" />,
+      key="profile"
+      path="profile"
+      element={
+        <UserWrapper>
+          <LazyLoader>
+            <ProfilePage />
+          </LazyLoader>
+        </UserWrapper>
+      }
+    />
+    ,
   </Route>,
   <Route
-    path="/create-challenge"
-    element={<CreateChallenge />}
     key="dashboard"
+    path="/create-challenge"
+    element={
+      <UserWrapper>
+        <LazyLoader>
+          <CreateChallenge />
+        </LazyLoader>
+      </UserWrapper>
+    }
+  />,
+  <Route
+    key="payout-success"
+    path="/payout-success"
+    element={
+      <UserWrapper>
+        <PayoutSuccessPage />
+      </UserWrapper>
+    }
+  />,
+  <Route
+    key="chart"
+    path="/chart"
+    element={
+      <UserWrapper>
+        <LazyLoader>
+          <Chart />
+        </LazyLoader>
+      </UserWrapper>
+    }
   />,
 ]
 

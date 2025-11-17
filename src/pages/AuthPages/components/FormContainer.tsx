@@ -1,17 +1,42 @@
-import {memo, useCallback, useEffect, useMemo, useState} from 'react'
+import {
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import {useSelector} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
-import {CommonButton, InputContainer} from '@/components'
+import {CommonButton, InputContainer, Loader} from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
-import {GeneralProps} from '@/types/CommonTypes'
+import {createChallengeApi} from '@/pages/CreateChallenge/api/CreateChallengeApis'
+import {
+  LoginApiProps,
+  RegisterApiProps,
+  UpdateApiProps,
+} from '@/types/apiTypes/AuthApiPayloadType'
+import {StorageProps} from '@/types/CommonTypes'
+import {AppLoaderRef} from '@/types/ComponentTypes'
 import {AuthType} from '@/types/UnionTypes'
 
-const FormContainer = (
-  props: {type: AuthType} & Required<Pick<GeneralProps, 'onPressItem'>>
-) => {
-  const {type, onPressItem} = props
+import {
+  getUserApi,
+  loginApi,
+  registerApi,
+  updateUserDataApi,
+} from '../api/AuthApi'
 
-  const actionButtons = useMemo(() => {
-    return [
+const FormContainer = (props: {type: AuthType}) => {
+  const {type} = props
+  const userData = useSelector((state: StorageProps) => state.userData)
+  const navigate = useNavigate()
+  const loaderRef = useRef<AppLoaderRef>(null)
+
+  const actionButtons = useMemo(
+    () => [
       {
         text:
           type === 'loginType'
@@ -27,8 +52,9 @@ const FormContainer = (
         key: 'google_sign_in_btn',
         type: 'google_sign_in',
       },
-    ]
-  }, [type])
+    ],
+    [type]
+  )
 
   const [inputValues, setInputValues] = useState<Record<string, string>>(
     type === 'loginType'
@@ -85,26 +111,103 @@ const FormContainer = (
     })
   }, [])
 
+  const handleSubmitForm = useCallback(() => {
+    loaderRef.current?.showLoader(true)
+    let payload: Record<string, string | number> = {
+      email: inputValues.email,
+    }
+    if (type === 'loginType') {
+      payload = {
+        ...payload,
+        user_signup_type: 1,
+        password: inputValues.password,
+      }
+      loginApi(payload as unknown as LoginApiProps)
+        .then((response) => {
+          loaderRef.current?.showLoader(false)
+          if (response) {
+            if (!userData.payoutDetails) {
+              navigate('/dashboard')
+              return
+            }
+            createChallengeApi(userData.payoutDetails)
+              .then((res) => {
+                navigate('/payout-success', {
+                  state: {
+                    ...res[0],
+                    capital: userData.payoutDetails?.capital,
+                  },
+                })
+              })
+              .finally(() => {})
+          }
+        })
+        .catch(() => {
+          loaderRef.current?.showLoader(false)
+        })
+
+      return
+    }
+
+    if (type === 'signUpType') {
+      payload = {
+        ...payload,
+        name: inputValues.full_name,
+        user_signup_type: 1,
+        password: inputValues.password,
+      }
+      registerApi(payload as unknown as RegisterApiProps)
+        .then((response) => {
+          if (response) navigate('/dashboard')
+          loaderRef.current?.showLoader(false)
+        })
+        .catch(() => {
+          loaderRef.current?.showLoader(false)
+        })
+    }
+
+    if (type === 'profileType') {
+      payload = {
+        ...payload,
+        name: inputValues.full_name,
+        password: inputValues.password,
+      }
+      updateUserDataApi(payload as unknown as UpdateApiProps)
+        .then((response) => {
+          loaderRef.current?.showLoader(false)
+          if (response) navigate('/dashboard')
+        })
+        .catch(() => {
+          loaderRef.current?.showLoader(false)
+        })
+    }
+  }, [
+    inputValues.email,
+    inputValues.full_name,
+    inputValues.password,
+    navigate,
+    type,
+    userData.payoutDetails,
+  ])
+
   useEffect(() => {
     if (type === 'loginType') return
 
-    setFormData((prev) => {
-      return [
-        {
-          name: 'full_name',
-          labelText: English.E15,
-          placeHolderText: English.E16,
-          type: 'text',
-        },
-        ...prev,
-        {
-          name: 're_password',
-          labelText: English.E17,
-          placeHolderText: English.E18,
-          type: 'password',
-        },
-      ]
-    })
+    setFormData((prev) => [
+      {
+        name: 'full_name',
+        labelText: English.E15,
+        placeHolderText: English.E16,
+        type: 'text',
+      },
+      ...prev,
+      {
+        name: 're_password',
+        labelText: English.E17,
+        placeHolderText: English.E18,
+        type: 'password',
+      },
+    ])
 
     setErrors((prev) => ({
       ...prev,
@@ -116,64 +219,79 @@ const FormContainer = (
   useEffect(() => {
     if (type === 'profileType') {
       setInputValues({
-        full_name: 'Test User',
-        email: 'test_user_yopmail.com',
+        full_name: userData.user.userData?.name ?? '',
+        email: userData.user.userData?.email ?? '',
         password: 'Hello@123',
         re_password: 'Hello@123',
       })
     }
+  }, [type, userData.user.userData?.email, userData.user.userData?.name])
+
+  useEffect(() => {
+    if (type !== 'profileType') return
+    loaderRef.current?.showLoader(true)
+
+    getUserApi().then((res) => {
+      loaderRef.current?.showLoader(false)
+      if (res === null) return
+      setInputValues({
+        full_name: res.name,
+        email: res.email,
+        password: res.password,
+        re_password: res.password,
+      })
+    })
   }, [type])
 
   return (
-    <form className="flex flex-col gap-8">
-      <div className="flex flex-col gap-4">
-        {formData?.map((inputItems) => {
-          return (
+    <Fragment>
+      <Loader ref={loaderRef} />
+      <form className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
+          {formData?.map((inputItems) => (
             <InputContainer
-              singleLineContent={inputItems.labelText}
               key={inputItems.name}
+              error={errors?.[inputItems.name] ?? ''}
+              name={inputItems?.name}
+              placeholder={inputItems?.placeHolderText}
+              singleLineContent={inputItems.labelText}
+              type={inputItems?.type}
               value={inputValues?.[inputItems.name] ?? ''}
               onChange={(e) =>
                 handleInputChange(inputItems?.name, e.target.value)
               }
-              placeholder={inputItems?.placeHolderText}
-              error={errors?.[inputItems.name] ?? ''}
-              name={inputItems?.name}
-              type={inputItems?.type}
             />
-          )
-        })}
-      </div>
+          ))}
+        </div>
 
-      <div className="flex flex-col gap-4">
-        {actionButtons?.map((buttonItem) => {
-          return (
+        <div className="flex flex-col gap-4">
+          {actionButtons?.map((buttonItem) => (
             <CommonButton
-              disabled={
-                Object.values(inputValues).some((item) => item === '') ||
-                Object.values(errors).some((item) => item !== '')
-              }
-              singleLineContent={buttonItem?.text}
               key={buttonItem?.key}
-              onClick={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-                onPressItem()
-              }}
+              singleLineContent={buttonItem?.text}
               type="submit"
               className={`${type === 'profileType' && buttonItem?.type === 'google_sign_in' ? 'hidden' : ''} ${
                 buttonItem?.type === 'google_sign_in'
                   ? 'google-btn-type'
                   : 'primary-btn-type'
               } ${type === 'profileType' ? 'py-3' : ''}`}
+              disabled={
+                Object.values(inputValues).some((item) => item === '') ||
+                Object.values(errors).some((item) => item !== '')
+              }
               imageUrl={
                 buttonItem?.type === 'google_sign_in' ? Images.googleIcon : ''
               }
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+                handleSubmitForm()
+              }}
             />
-          )
-        })}
-      </div>
-    </form>
+          ))}
+        </div>
+      </form>
+    </Fragment>
   )
 }
 

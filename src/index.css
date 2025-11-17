@@ -2,6 +2,7 @@
 
 :root {
   --primary-color: #ffffff;
+  --inactive-color: #8f8f8f;
   --secondary-light-color: #868686;
   --secondary-dark-color: #0e0e0e;
   --tertiary-color: #e5e5e5;
@@ -20,6 +21,8 @@
   --header-bg-color: #202020;
   --light-success-color: #32d583;
   --dark-success-color: #0b9052;
+  --extra-light-success-color: #6ce9a6;
+  --medium-success-color: #12b76a;
   --extra-dark-success-color: #28513e;
   --light-danger-color: #f04438;
   --dark-danger-color: #cc2929;
@@ -34,14 +37,79 @@
   --widget-primary-bg-color: #474747;
   --widget-primary-text-color: #6b6b6b;
   --user-info-card-bg-color: #0a0a0a;
-  --dropdown-bg-color: #3e3e3e;
   --checkbox-border-color: #d0d5dd;
   --divider-color: #d7d7d7;
+  --light-neutral-color: #b1b5c3;
+  --neutral-primary-color: #777e90;
+  --neutral-secondary-color: #23262f;
+  --neutral-tertiary-color: #e6e8ec;
+  --neutral-active-color: #353945;
+  --primary-dark-blue-color: #3772ff;
+  --chart-green-color: #00c076;
+  --chart-red-color: #ff6838;
+  --chart-layout-bg: #17181b;
+  --chart-secondary-bg-color: #22262e;
+  --chart-text-primary-color: #fcfcfd;
+  --landing-page-gray-color: rgba(4, 3, 1, 0.41);
+  --landing-page-secondary-gray-color: rgba(3, 3, 2, 0.59);
+  --landing-page-bg-color: #f5f5f5;
+  --landing-page-dark-gray-color: #737371;
+  --landing-page-bg-darker-gray-color: #1c1c1c;
+  --feature-card-bg-color: #f3f3f3;
+  --marquee-gradient-bg: #f7f6f5;
+  --primary-black: #000000;
+  --landing-page-freedom-clarity-growth: #fffffa;
+  --landing-page-freedom-clarity-growth-bg: #ffffff1c;
+  --landing-page-features-lg-less-opacity-gray: #040301;
+  --inactive-bullets-color: #d1cfce;
+  --landing-page-extra-light-red: #f8dfdf;
+  --landing-page-features-arrows-bg: #333332;
+  --landing-page-trading-rules-para-text: #3e3e3e;
+  --landing-page-landing-page-carousel-divider-bg: #afb1a1;
+  --landing-page-landing-page-carousel-border: #22170b;
+  --light-grey-btn-color: #030302;
   --font-switzer: 'Switzer', sans-serif;
   --font-inter: 'Poppins', sans-serif;
+  --font-bureau: 'Bureau', sans-serif;
+  --font-helvetica: 'Helvetica Neue', sans-serif;
+  --font-dmsans: 'DM Sans', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+}
+
+@font-face {
+  font-family: 'Bureau';
+  src: url('/assets/fonts/bureau-sans.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue';
+  src: url('/assets/fonts/helvetica-neue-5-cufonfonts');
+  font-weight: 400;
+  font-style: normal;
 }
 
 @theme {
+  --color-inactive-bullets-color: var(--inactive-bullets-color);
+  --color-light-grey-btn-color: var(--light-grey-btn-color);
+  --color-primary-black: var(--primary-black);
+  --color-marquee-gradient-bg: var(--marquee-gradient-bg);
+  --color-neutral-tertiary-color: var(--neutral-tertiary-color);
+  --color-chart-secondary-green-color: var(--chart-secondary-green-color);
+  --color-medium-success-color: var(--medium-success-color);
+  --color-primary-dark-blue-color: var(--primary-dark-blue-color);
+  --color-light-neutral-color: var(--light-neutral-color);
+  --color-extra-light-success-color: var(--extra-light-success-color);
+  --color-chart-secondary-bg-color: var(--chart-secondary-bg-color);
+  --color-chart-text-primary-color: var(--chart-text-primary-color);
+  --color-text-primary-color: var(--text-primary-color);
+  --color-neutral-active-color: var(--neutral-active-color);
+  --color-chart-layout-bg: var(--chart-layout-bg);
+  --color-chart-green-color: var(--chart-green-color);
+  --color-neutral-secondary-color: var(--neutral-secondary-color);
+  --color-chart-red-color: var(--chart-red-color);
+  --color-neutral-primary-color: var(--neutral-primary-color);
   --color-extra-dark-success-color: var(--extra-dark-success-color);
   --color-widget-primary-text-color: var(--widget-primary-text-color);
   --color-quadraple-color: var(--quadraple-color);
@@ -50,6 +118,7 @@
   --color-extra-dark-danger-color: var(--extra-dark-danger-color);
   --color-user-info-card-bg-color: var(--user-info-card-bg-color);
   --color-primary-color: var(--primary-color);
+  --color-inactive-color: var(--inactive-color);
   --color-secondary-light-color: var(--secondary-light-color);
   --color-secondary-dark-color: var(--secondary-dark-color);
   --color-tertiary-color: var(--tertiary-color);
@@ -62,6 +131,7 @@
   --color-button-secondary-color: var(--button-secondary-color);
   --color-button-tertiary-color: var(--button-tertiary-color);
   --color-primary-bg-color: var(--primary-bg-color);
+
   --color-secondary-bg-color: var(--secondary-bg-color);
   --color-tertiary-bg-color: var(--tertiary-bg-color);
   --color-header-bg-color: var(--header-bg-color);
@@ -77,12 +147,48 @@
   --color-linear-gr-bg3-color: var(--linear-gr-bg3-colo);
   --color-linear-gr-bg4-color: var(--linear-gr-bg4-color);
   --color-widget-primary-bg-color: var(--widget-primary-bg-color);
-  --color-dropdown-bg-color: var(--dropdown-bg-color);
+  --color-landing-page-gray-color: var(--landing-page-gray-color);
+  --color-landing-page-secondary-gray-color: var(
+    --landing-page-secondary-gray-color
+  );
+  --color-landing-page-bg-color: var(--landing-page-bg-color);
+  --color-landing-page-dark-gray-color: var(--landing-page-dark-gray-color);
+  --color-landing-page-bg-darker-gray-color: var(
+    --landing-page-bg-darker-gray-color
+  );
+  --color-image-bg-color: var(--image-bg-color);
+  --color-feature-card-bg-color: var(--feature-card-bg-color);
+  --color-landing-page-freedom-clarity-growth: var(
+    --landing-page-freedom-clarity-growth
+  );
+  --color-landing-page-freedom-clarity-growth-bg: var(
+    --landing-page-freedom-clarity-growth-bg
+  );
+  --color-landing-page-features-lg-less-opacity-gray: var(
+    --landing-page-features-lg-less-opacity-gray
+  );
+  --color-landing-page-features-arrows-bg: var(
+    --landing-page-features-arrows-bg
+  );
+  --color-landing-page-trading-rules-para-text: var(
+    --landing-page-trading-rules-para-text
+  );
+  --color-landing-page-landing-page-carousel-divider-bg: var(
+    --landing-page-landing-page-carousel-divider-bg
+  );
+  --color-landing-page-landing-page-carousel-border: var(
+    --landing-page-landing-page-carousel-border
+  );
+  --color-landing-page-extra-light-red: var(--landing-page-extra-light-red);
   --font-switzer: var(--font-switzer);
   --font-inter: var(--font-inter);
+  --font-bureau: var(--font-bureau);
+  --font-helvetica: var(--font-helvetica);
+  --font-dmsans: var(--font-dmsans);
   --container-xs: 440px;
   --width-small-container: var(--container-xs);
   --max-width-small-container: var(--container-xs);
+  --font-poppins: var(--font-poppins);
 }
 
 @layer base {
@@ -131,6 +237,35 @@
   [type='radio']:checked::after {
     background-color: var(--extra-dark-danger-color);
   }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(316.81deg, #d9d9d9 27.27%, #737373 75.79%);
+    border-radius: 10px;
+  }
+
+  .gradient_container {
+    position: relative;
+  }
+
+  /* This creates a soft gradient fade on the right side */
+  .gradient_container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.211),
+      rgba(255, 255, 255, 0)
+    );
+    z-index: 2;
+    pointer-events: none; /* prevents blocking interaction */
+  }
 }
 @utility text-26 {
   @apply text-[26px] leading-6;
@@ -147,21 +282,50 @@
 @utility primary-btn-type {
   @apply bg-button-primary-color hover:bg-button-primary-color/65 text-primary-color font-semibold text-base/6 text-center;
 }
+@utility secondary-btn-type {
+  @apply bg-button-secondary-color hover:bg-button-secondary-color/65 text-primary-bg-color font-medium text-base/6 text-center;
+}
 @utility google-btn-type {
   @apply bg-tertiary-color text-primary-bg-color hover:bg-tertiary-color/65 text-base/6 font-semibold;
 }
 @utility light-danger-btn-type {
-  @apply bg-light-danger-color !px-3 !py-2 text-white;
+  @apply bg-light-danger-color !px-3 !py-2 text-primary-color;
+}
+@utility medium-success-btn-type {
+  @apply bg-medium-success-color !py-4 !px-3;
 }
 @utility dark-danger-btn-type {
-  @apply bg-dark-danger-color !px-3 !py-2 text-white;
+  @apply bg-dark-danger-color !px-3 !py-2 text-primary-color;
 }
 @utility grey-disabled-btn-type {
-  @apply bg-secondary-light-color !py-2 !px-3 text-white;
+  @apply bg-secondary-light-color !py-2 !px-3 text-primary-color;
 }
+@utility black-btn-type {
+  @apply bg-primary-black text-tertiary-color !py-2 !px-4;
+}
+@utility black-secondary-btn-type {
+  @apply bg-landing-page-bg-darker-gray-color !text-primary-color !py-2 !px-4;
+}
+
 @utility grey__filter {
   filter: brightness(0) saturate(100%) invert(56%) sepia(0%) saturate(991%)
     hue-rotate(141deg) brightness(95%) contrast(82%);
+}
+@utility green_filter {
+  filter: brightness(0) saturate(100%) invert(74%) sepia(12%) saturate(1617%)
+    hue-rotate(89deg) brightness(87%) contrast(88%);
+}
+@utility red_filter {
+  filter: brightness(0) saturate(100%) invert(48%) sepia(97%) saturate(1670%)
+    hue-rotate(336deg) brightness(100%) contrast(103%);
+}
+@utility blue_filter {
+  filter: brightness(0) saturate(100%) invert(28%) sepia(98%) saturate(2482%)
+    hue-rotate(220deg) brightness(116%) contrast(101%);
+}
+@utility white_filter {
+  filter: brightness(0) saturate(100%) invert(88%) sepia(81%) saturate(0%)
+    hue-rotate(156deg) brightness(103%) contrast(80%);
 }
 /* A Normal Class to Hide the Scrollbar  */
 .no-scrollbar::-webkit-scrollbar {
@@ -178,77 +342,160 @@
 .CircularProgressbar .CircularProgressbar-path {
   stroke: linear-gradient(316.81deg, #d9d9d9 27.27%, #737373 75.79%) !important;
 }
-
-/* Loader CSS */
-.loader-container {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100%;
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.438);
-  z-index: 999;
-  visibility: hidden;
-}
 .visible {
   visibility: visible;
 }
-.ml-loader {
+
+/* DatePicker CSS  */
+.react-datepicker__input-container > input {
+  outline: none !important;
+  color: var(--tertiary-color);
+  font-size: 13px !important;
+  line-height: 24px !important;
+}
+
+/* Loader CSS  */
+.gradient-container {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--extra-dark-danger-color) 0,
+    var(--extra-dark-danger-color) 10px,
+    transparent 10px,
+    transparent 12px
+  );
+
+  mask-image: url(./assets/static_assets/logo.png);
+  -webkit-mask-image: url(./assets/static_assets/logo.png);
+
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+
+  mask-position: center center;
+  -webkit-mask-position: center center;
+
+  mask-size: 80px;
+  -webkit-mask-size: 80px;
+
+  background-size: cover;
+  background-blend-mode: lighten;
+
+  -webkit-animation: 1.5s gradient_keyframe ease-in-out infinite;
+  animation: 1.5s gradient_keyframe ease-in-out infinite;
+}
+
+@keyframes gradient_keyframe {
+  0% {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--extra-dark-danger-color) 0,
+      var(--extra-dark-danger-color) 10px,
+      transparent 10px,
+      transparent 12px
+    );
+  }
+  40% {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--extra-dark-danger-color) 0,
+      var(--extra-dark-danger-color) 10px,
+      transparent 10px,
+      transparent 13px
+    );
+  }
+  60% {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--extra-dark-danger-color) 0,
+      var(--extra-dark-danger-color) 10px,
+      transparent 10px,
+      transparent 14px
+    );
+  }
+  80% {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--extra-dark-danger-color) 0,
+      var(--extra-dark-danger-color) 10px,
+      transparent 10px,
+      transparent 13px
+    );
+  }
+  100% {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--extra-dark-danger-color) 0,
+      var(--extra-dark-danger-color) 10px,
+      transparent 10px,
+      transparent 12px
+    );
+  }
+}
+
+/* Chart CSS To Override  */
+#tv-attr-logo {
+  display: none !important;
+}
+
+.animating_line {
   position: relative;
-  width: 70px;
-  height: 70px;
-  scale: 0.6;
 }
-.ml-loader div {
-  -webkit-transform-origin: 32px 32px;
-  -ms-transform-origin: 32px 32px;
-  transform-origin: 32px 32px;
-  -webkit-animation: 1.2s opaque ease-in-out infinite both;
-  animation: 1.2s opaque ease-in-out infinite both;
-  transform: rotate(calc(30deg * var(--i)));
-  -webkit-animation-delay: calc(0.1s * var(--i));
-  animation-delay: calc(0.1s * var(--i));
-}
-.ml-loader div::after {
+.animating_line::after {
+  position: absolute;
   content: '';
-  display: block;
+  background: var(--extra-dark-danger-color);
+  height: 1px;
+  width: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-animation: 5s animating_lines ease-in-out infinite;
+  animation: 5s animating_lines ease-in-out infinite;
+}
+@keyframes animating_lines {
+  100% {
+    width: 100%;
+  }
+}
+
+/* Skeleton Loader  */
+.custom-skeleton {
+  --base-color: #dededef5;
+  --highlight-color: #f5f5f5;
+  --animation-duration: 1.5s;
+  --animation-direction: normal;
+  --pseudo-element-display: block;
+  background-color: var(--base-color);
+  display: inline-flex;
+  position: relative;
+  user-select: none;
+  overflow: hidden;
+}
+.custom-skeleton::after {
+  content: ' ';
+  display: var(--pseudo-element-display);
   position: absolute;
   top: 0;
-  left: 30px;
-  width: 3px;
-  height: 18px;
-  border-radius: 10px;
-  background: var(--linear-gr-bg4-color);
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-image: var(
+    --custom-highlight-background,
+    linear-gradient(
+      90deg,
+      var(--base-color) 0%,
+      var(--highlight-color) 50%,
+      var(--base-color) 100%
+    )
+  );
+  transform: translateX(-100%);
+  animation-name: custom-skeleton-animation;
+  animation-direction: var(--animation-direction);
+  animation-duration: var(--animation-duration);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
-@-webkit-keyframes opaque {
-  0% {
-    opacity: 0.3;
-  }
-  40% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 0.3;
-  }
+@keyframes custom-skeleton-animation {
   100% {
-    opacity: 0.8;
-  }
-}
-@keyframes opaque {
-  0% {
-    opacity: 0.3;
-  }
-  40% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0.8;
+    transform: translateX(100%);
   }
 }
