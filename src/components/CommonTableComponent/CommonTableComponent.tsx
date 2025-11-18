@@ -5,7 +5,7 @@ import {CommonTableComponentProps} from '@/types/ComponentTypes'
 
 import CommonCloseActionButton from '../CommonButton/CommonCloseActionButton'
 import ImageComponent from '../ImageComponent/ImageComponent'
-import BasicTableSkeleton from '../SkeletonComponents/BasicTableSkeleton'
+import BasicSkeleton from '../SkeletonComponents/BasicSkeleton'
 
 const CommonTableComponent = (props: CommonTableComponentProps) => {
   const {
@@ -25,7 +25,9 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
     <div
       className={`relative overflow-x-auto rounded-lg shadow-sm ${layoutClassName} w-full`}
     >
-      <table className="w-full text-sm text-left overflow-hidden border-separate border-spacing-y-2">
+      <table
+        className={`w-full text-sm text-left overflow-hidden ${showLoader && 'border-separate border-spacing-y-2'}`}
+      >
         <thead
           className={`text-xs bg-widget-primary-bg-color capitalize text-tertiary-color ${className}`}
         >
@@ -65,9 +67,10 @@ scope="col">
 
         <tbody className="w-full">
           {showLoader ? (
-            <BasicTableSkeleton
+            <BasicSkeleton
               className="!h-[50px] [&>td]:!rounded-sm"
               tableHeading={tableHeading}
+              type="tableSkeleton"
             />
           ) : (
             children

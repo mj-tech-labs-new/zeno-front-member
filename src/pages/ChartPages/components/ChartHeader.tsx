@@ -132,7 +132,7 @@ const ChartHeader = () => {
       <div className="space-y-5">
         <div className="max-w-56">
           {otherLoading.isDropdownLoading && !isLoadingCandles ? (
-            <BasicSkeleton className="rounded-lg !h-11" />
+            <BasicSkeleton className="rounded-lg !h-11" type="basicSkeleton" />
           ) : (
             <DropDown
               className="max-h-52"
