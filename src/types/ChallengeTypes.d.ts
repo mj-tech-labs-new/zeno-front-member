@@ -131,6 +131,8 @@ export type BuyOrSellApiProps = Pick<CreateChallengeProps, 'challenge_id'> &
     quantity: number
     order_type: string
     order_side: string
+    take_profit?: number
+    stop_loss?: number
   }
 
 export type BuyOrSellApiType = Pick<CreateChallengeProps, 'id' | 'created_at'> &

@@ -12,6 +12,7 @@ import {DropDownObjectType} from '@/types/CommonTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
+import SlTp from './SlTp'
 
 const BuySell = (props: BuyOrSelProps) => {
   const {activeIndex} = props
@@ -36,6 +37,8 @@ const BuySell = (props: BuyOrSelProps) => {
     DropDownObjectType[]
   >([])
   const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
+  const [stopLoss, setStopLoss] = useState<number>()
+  const [takeProfit, setTakeProfit] = useState<number>()
 
   const leverage = useMemo(
     () => currentStageArray?.[0]?.leverage,
@@ -146,6 +149,7 @@ const BuySell = (props: BuyOrSelProps) => {
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
         const {name, placeHolder, textContent} = item
+
         return (
           <div key={`name_${name}`} className="!mb-3">
             <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
@@ -214,7 +218,29 @@ const BuySell = (props: BuyOrSelProps) => {
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}
           setInputValuesMarket={setInputValues}
+          stopLoss={stopLoss}
+          takeProfit={takeProfit}
           total={Number(inputValues?.total)}
+        />
+      </div>
+      <div className="flex flex-col pointer-events-none opacity-60 ">
+        <SlTp
+          closingQuantity={Number(inputValues.total)}
+          heading="Stop Loss"
+          marketPrice={Number(inputValues.amount)}
+          subHeading="Stop loss "
+          setSlMarketPrice={(value) => {
+            setStopLoss(value)
+          }}
+        />
+        <SlTp
+          closingQuantity={Number(inputValues.total)}
+          heading="Take Profit"
+          marketPrice={Number(inputValues.amount)}
+          subHeading="Take Profit "
+          setSlMarketPrice={(value) => {
+            setTakeProfit(value)
+          }}
         />
       </div>
     </div>

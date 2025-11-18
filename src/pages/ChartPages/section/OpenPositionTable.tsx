@@ -12,6 +12,7 @@ const OpenPositionTable = (
   }
 ) => {
   const {challenge_id, openPosition, setPosition} = props
+
   return (
     <CommonTableComponent
       className="!bg-transparent !text-neutral-primary-color"
@@ -29,53 +30,54 @@ const OpenPositionTable = (
       {openPosition?.map((tableBody) => (
         <tr
           key={`content-${tableBody?.tx_hash}`}
-          className="font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in-out"
+          className="font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in"
         >
           <th
             className="px-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap"
             scope="row"
           >
-            {tableBody?.tx_hash}
+            <span>{tableBody?.tx_hash}</span>
           </th>
+
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.symbol}
+            <span>{tableBody?.symbol}</span>
           </td>
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap capitalize">
-            {tableBody?.direction}
+            <span>{tableBody?.direction}</span>
           </td>
           <th
             className="px-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap "
             scope="row"
           >
-            {dayjs(tableBody?.open_time).format('h:mm:ss')}
+            <span>{dayjs(tableBody?.open_time).format('h:mm:ss')}</span>
           </th>
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.duration}
+            <span>{tableBody?.duration}</span>
           </td>
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.quantity}
+            <span>{tableBody?.quantity}</span>
           </td>
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.open_price}
+            <span>{tableBody?.open_price}</span>
           </td>
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.take_profit}
+            <span>{tableBody?.take_profit}</span>
           </td>
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.stop_loss}
+            <span>{tableBody?.stop_loss}</span>
           </td>
           <td
             className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.realized_pnl?.toString().startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}
                         }`}
           >
-            {Number(tableBody?.realized_pnl).toFixed(6)}
+            <span>{Number(tableBody?.realized_pnl)?.toFixed(6)}</span>
           </td>
           <td
             className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.open_pnl?.startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}`}
           >
-            {Number(tableBody?.open_pnl)?.toFixed(6)}
+            <span>{Number(tableBody?.open_pnl)?.toFixed(6)}</span>
           </td>
-          <td className="px-6 py-4 text-left  !whitespace-nowrap">
+          <td className="px-6 py-4 text-left !whitespace-nowrap">
             <CommonCloseActionButton
               challenge_id={challenge_id}
               tx_hash={tableBody?.tx_hash}

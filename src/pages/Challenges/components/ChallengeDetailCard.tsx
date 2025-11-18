@@ -108,7 +108,14 @@ const ChallengeDetailCard = (props: {item: ChallengeInfoDashboardProps}) => {
               </span>
               <Divider className="!bg-button-primary-color/50" />
               <span
-                className={`text-tertiary-color whitespace-nowrap ${key === 'Status' ? 'p-1 bg-light-success-color rounded-sm font-medium' : ''}`}
+                className={`text-tertiary-color whitespace-nowrap
+                   ${
+                     key === 'Status'
+                       ? requiredItem.Status === 'Failed'
+                         ? 'p-1 !bg-light-danger-color rounded-sm font-medium'
+                         : 'p-1 !bg-light-success-color rounded-sm font-medium'
+                       : ''
+                   }`}
               >
                 {value}
               </span>

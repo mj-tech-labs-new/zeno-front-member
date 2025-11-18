@@ -48,16 +48,16 @@ const StatsDescription = (props: StatsCardProps) => {
         <div>
           <span className="text-tertiary-color tex-lg/6 font-normal">
             {headingContent === English.E72
-              ? initialContent
-              : `${initialContent.toFixed(2)} %`}
+              ? (initialContent ?? 0)
+              : `${initialContent.toFixed(2) ?? 0.0} %`}
           </span>
 
           <span>
             {!(
               headingContent === English.E72 || headingContent === English.E73
             ) && (
-              <p className="text-text-hint-color text-13 !leading-6 font-normal ">
-                {English.E80}: {secondContent.toFixed(2)}%
+              <p className="text-text-hint-color text-13 !leading-6 font-normal">
+                {English.E80}: {secondContent.toFixed(2) ?? 0.0}%
               </p>
             )}
           </span>
@@ -67,14 +67,14 @@ const StatsDescription = (props: StatsCardProps) => {
             <p className="text-13 leading-6 text-tertiary-color flex gap-2">
               <span className="text-light-success-color">
                 {headingContent === English.E72
-                  ? `${secondContent} ${English.E74}`
-                  : `${secondContent} ${English.E76}`}
+                  ? `${secondContent ?? 0} ${English.E74}`
+                  : `${secondContent ?? 0} ${English.E76}`}
               </span>
               <span>/</span>
               <span className="text-light-danger-color">
                 {headingContent === English.E72
-                  ? `${thirdContent} ${English.E75}`
-                  : `${thirdContent} ${English.E77}`}
+                  ? `${thirdContent ?? 0} ${English.E75}`
+                  : `${thirdContent ?? 0} ${English.E77}`}
               </span>
             </p>
           )}

@@ -29,36 +29,41 @@ const PendingOrderTable = (
             className="px-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap"
             scope="row"
           >
-            {tableBody?.tx_hash}
+            <span>{tableBody?.tx_hash}</span>
           </th>
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.symbol}
+            <span>{tableBody?.symbol}</span>
           </td>
 
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap capitalize">
-            {tableBody?.order_type}
+            <span>{tableBody?.order_type}</span>
           </td>
 
           <th
             className="px-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap"
             scope="row"
           >
-            {dayjs(tableBody?.submitted_time).format('h:mm:ss')}
+            <span>{dayjs(tableBody?.submitted_time).format('h:mm:ss')}</span>
           </th>
+
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.quantity}
+            <span>{tableBody?.quantity}</span>
           </td>
+
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.submitted_price}
+            <span>{tableBody?.submitted_price}</span>
           </td>
+
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.distance}
+            <span>{tableBody?.distance}</span>
           </td>
+
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.take_profit}
+            <span>{tableBody?.take_profit}</span>
           </td>
+
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.stop_loss}
+            <span>{tableBody?.stop_loss}</span>
           </td>
         </tr>
       ))}

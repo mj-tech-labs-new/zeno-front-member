@@ -294,6 +294,8 @@ const English = {
   E290: 'Limit',
   E291: 'Current Distance',
   E292: 'Stop Loss',
+  E293: ' Market Price',
+  E294: ' Closing Quantity',
 }
 
 export default English

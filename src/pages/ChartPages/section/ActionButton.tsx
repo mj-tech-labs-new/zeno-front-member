@@ -1,4 +1,5 @@
 import {useEffect, useRef} from 'react'
+import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 
 import {CommonButton} from '@/components'
@@ -16,10 +17,10 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     quantity = 0,
     order_type,
     leverage = '',
-    setInputValuesMarket,
-    setInputValuesLimit,
+    stopLoss,
+    takeProfit,
   } = props
-
+  const navigate = useNavigate()
   const amountRef = useRef(0)
   const {
     getChallengeByIdArray,
@@ -38,26 +39,16 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
         order_side: orderSide,
         challenge_id: getChallengeByIdArray?.[0]?.challenge_id,
         leverage,
+        stop_loss: stopLoss,
+        take_profit: takeProfit,
       })
-      .then((res) => {
-        setBuyOrSellApiResArray(res)
-      })
-      .finally(() => {
+      .then(async (res) => {
+        if (res.isNavigateType) {
+          navigate('/dashboard')
+          return
+        }
+        setBuyOrSellApiResArray(res.data)
         toast.success(English.E280)
-        if (order_type === 'market') {
-          setInputValuesMarket((prev: any) => ({
-            ...prev,
-            amount: '',
-            total: '',
-          }))
-        }
-        if (order_type === 'limit') {
-          setInputValuesLimit((prev: any) => ({
-            ...prev,
-            entryprice: '',
-            quantity: '',
-          }))
-        }
       })
   }
 

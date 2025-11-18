@@ -11,6 +11,7 @@ import PendingOrderTable from './PendingOrderTable'
 
 const TradesInfo = (props: {challengeId: string}) => {
   const {challengeId} = props
+  const showHeader = useMemo(() => true, [])
   const [activeIndex, setActiveIndex] = useState(0)
   const [socketEventKey, setSocketEventKey] =
     useState<keyof typeof SocketEmitter.Emitter>('user_open_position')
@@ -82,7 +83,7 @@ const TradesInfo = (props: {challengeId: string}) => {
                 pendingOrder={pendingOrder}
               />
             ) : (
-              <ClosedPNL />
+              <ClosedPNL showHeader={showHeader} />
             )}
           </React.Fragment>
         )}

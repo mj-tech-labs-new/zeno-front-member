@@ -8,21 +8,26 @@ import {
 } from '@/types/ChallengeTypes'
 
 const buyOrSellApi = async (props: BuyOrSellApiProps) =>
-  new Promise<BuyOrSellApiType[]>((resolve) => {
-    APICall('post', Endpoints.buyOrSell, props)
-      .then((res: any) => {
-        if (res?.status === 200 && res?.statusCode === 200) {
-          resolve(res?.data?.buy_order)
-        } else {
-          resolve([])
-          toast.error(res?.message)
-        }
-      })
-      .catch((error) => {
-        toast.error(error?.data?.message)
-        resolve([])
-      })
-  })
+  new Promise<{data: BuyOrSellApiType[]; isNavigateType: boolean}>(
+    (resolve) => {
+      APICall('post', Endpoints.buyOrSell, props)
+        .then((res: any) => {
+          if (res?.status === 200 && res?.statusCode === 400) {
+            resolve({data: [], isNavigateType: true})
+          }
+          if (res?.status === 200 && res?.statusCode === 200) {
+            resolve(res?.data?.buy_order)
+          } else {
+            resolve({data: [], isNavigateType: false})
+            toast.error(res?.message)
+          }
+        })
+        .catch((error) => {
+          toast.error(error?.data?.message)
+          resolve({data: [], isNavigateType: false})
+        })
+    }
+  )
 
 const closeOrderApi = async (
   props: Omit<CloseOrderButtonProps, 'className'>

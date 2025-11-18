@@ -2,13 +2,14 @@ import {memo, useCallback, useEffect, useState} from 'react'
 
 import {DropDown, ImageComponent, InputContainer} from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
-import {CommonBuyAndSellProp} from '@/types/ChartTypes'
+import {BuyOrSelProps} from '@/types/ChartTypes'
 import {DropDownObjectType} from '@/types/CommonTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
+import SlTp from './SlTp'
 
-const Limit = (props: Pick<CommonBuyAndSellProp, 'activeIndex'>) => {
+const Limit = (props: BuyOrSelProps) => {
   const {activeIndex} = props
   const {chartInfo, buyOrSellApiResArray, getChallengeByIdArray, livePrice} =
     useChartProvider()
@@ -16,6 +17,8 @@ const Limit = (props: Pick<CommonBuyAndSellProp, 'activeIndex'>) => {
     entryprice: '',
     quantity: '',
   })
+  const [stopLoss, setStopLoss] = useState<number>()
+  const [takeProfit, setTakeProfit] = useState<number>()
 
   const [leverageValueArray, setLeverageValueArray] = useState<
     DropDownObjectType[]
@@ -95,7 +98,7 @@ const Limit = (props: Pick<CommonBuyAndSellProp, 'activeIndex'>) => {
   }, [selectedLeverage])
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-4">
         <span className="text-base !leading-8 text-chart-text-primary-color font-semibold ">
           {English.E130}
@@ -182,7 +185,7 @@ const Limit = (props: Pick<CommonBuyAndSellProp, 'activeIndex'>) => {
           {English.E279}
         </span>
       )}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 ">
         <ActionButton
           activeIndex={activeIndex}
           leverage={selectedLeverage?.title}
@@ -190,6 +193,28 @@ const Limit = (props: Pick<CommonBuyAndSellProp, 'activeIndex'>) => {
           price={Number(inputValues?.entryprice)}
           quantity={Number(inputValues?.quantity)}
           setInputValuesLimit={setInputValues}
+          stopLoss={stopLoss}
+          takeProfit={takeProfit}
+        />
+      </div>
+      <div className="flex flex-col pointer-events-none opacity-60">
+        <SlTp
+          closingQuantity={Number(inputValues.quantity)}
+          heading="Stop Loss"
+          marketPrice={Number(inputValues.entryprice)}
+          subHeading="Stop loss "
+          setSlMarketPrice={(value) => {
+            setStopLoss(value)
+          }}
+        />
+        <SlTp
+          closingQuantity={Number(inputValues.quantity)}
+          heading="Take Profit"
+          marketPrice={Number(inputValues.entryprice)}
+          subHeading="Take Profit "
+          setSlMarketPrice={(value) => {
+            setTakeProfit(value)
+          }}
         />
       </div>
     </div>

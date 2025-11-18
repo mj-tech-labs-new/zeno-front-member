@@ -1,3 +1,5 @@
+import {useMemo} from 'react'
+
 import {
   ChallengeCompletionCard,
   ChallengeStatusCard,
@@ -12,6 +14,7 @@ import TradingDescriptionSection from './sections/TradingDescriptionSection'
 
 const ChallengeDashboard = () => {
   const {getChallengeByIdArray, showLoader} = useChallengeProvider()
+  const showHeader = useMemo(() => false, [])
 
   return (
     <ChallengeDashboardLayout>
@@ -36,7 +39,7 @@ const ChallengeDashboard = () => {
           layoutClassName="[&>h2]:!tracking-[0px]"
           type={English.E65}
         />
-        <ClosedPNL />
+        <ClosedPNL showHeader={showHeader} />
       </div>
     </ChallengeDashboardLayout>
   )

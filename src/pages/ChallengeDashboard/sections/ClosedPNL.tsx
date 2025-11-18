@@ -1,15 +1,17 @@
 import dayjs from 'dayjs'
-import {useCallback, useEffect, useState} from 'react'
+import {memo, useCallback, useEffect, useState} from 'react'
 import {useLocation} from 'react-router-dom'
 
 import {
   BasicPagination,
+  BasicSkeleton,
   CommonButton,
   CommonTableComponent,
   DatePickerComponent,
-  Loader,
+  DescriptionComponent,
+  HeadingComponent,
 } from '@/components'
-import {Constants, Images} from '@/helpers'
+import {Constants, English, Images} from '@/helpers'
 import {ClosedPnlDataResponsePayload} from '@/types/ChallengeTypes'
 import {PaginationType} from '@/types/CommonTypes'
 
@@ -20,7 +22,8 @@ interface DateObject {
   date2: Date | null
 }
 
-const ClosedPNL = () => {
+const ClosedPNL = (props: {showHeader: boolean}) => {
+  const {showHeader} = props
   const locationState = useLocation()
   const challengeId = locationState.state
   const [selectedDate, setSelectedDate] = useState<DateObject>({
@@ -72,13 +75,26 @@ const ClosedPNL = () => {
 
   return (
     <div className="space-y-7 w-full">
-      <Loader
-        ref={(ref) => {
-          ref?.showLoader(showLoader)
-        }}
-      />
-      <div className="w-full flex items-center justify-end gap-5">
-        <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6  !text-center">
+      <div
+        className={`w-full flex items-center ${showHeader ? 'justify-between' : 'justify-end'} gap-5`}
+      >
+        {showHeader && (
+          <div>
+            <HeadingComponent singleLineContent={English.E81} />
+            <div className="flex gap-2">
+              <DescriptionComponent multilineContent={[English.E82]} />
+              <div className="flex gap-1">
+                <DescriptionComponent multilineContent={[English.E83]} />
+                <DescriptionComponent
+                  className="!text-primary-color !underline"
+                  multilineContent={[English.E84]}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6 !text-center">
           <DatePickerComponent
             className="!max-w-fit flex items-center"
             dateFormate="d MMM yyyy"
@@ -124,6 +140,7 @@ const ClosedPNL = () => {
           )}
         </div>
       </div>
+
       <CommonTableComponent
         className="!bg-ingfo-bg-color !text-white !whitespace-nowrap !font-medium !text-[12px] !leading-[18px]"
         imageUrl={Images.backArrow}
@@ -144,7 +161,7 @@ const ClosedPNL = () => {
         headingClassName={`!font-medium !font-helvetica !text-[12px]  !leading-[18px]   [&>div>div]:transition-transform [&>div>div]:duration-300 
           ${orderType === 'ASC' ? '[&>div>div]:!rotate-90' : '[&>div>div]:!rotate-270'} `}
       >
-        {closedPNL === undefined || closedPNL?.length === 0 ? (
+        {!closedPNL || closedPNL?.length === 0 ? (
           <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
             <td
               className="py-8"
@@ -171,41 +188,79 @@ const ClosedPNL = () => {
                 className="font-normal bg-info-bg-color border-b border-landing-page-trading-rules-para-text  text-sm/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:p-6 *:text-secondary-light-color"
               >
                 <td className="px-7 py-4 text-left !text-primary-color !whitespace-nowrap !font-inter">
-                  {tableBody?.symbol}
+                  {showLoader ? (
+                    <BasicSkeleton className="!h-[10px] rounded-full" />
+                  ) : (
+                    <span>{tableBody?.symbol}</span>
+                  )}
                 </td>
                 <td className="px-7 py-4 flex gap-1 text-left !whitespace-nowrap !font-inter">
-                  <span
-                    className={
-                      tableBody?.order_side === 'buy'
-                        ? '!text-light-success-color'
-                        : '!text-light-danger-color'
-                    }
-                  >
-                    {tableBody?.order_side}
-                  </span>
-                  &minus;&gt;
-                  <span>closed</span>
+                  {showLoader ? (
+                    <BasicSkeleton className="!h-[10px] rounded-full" />
+                  ) : (
+                    <span>
+                      <span
+                        className={
+                          tableBody?.order_side === 'buy'
+                            ? '!text-light-success-color'
+                            : '!text-light-danger-color'
+                        }
+                      >
+                        {tableBody?.order_side}
+                      </span>
+                      &minus;&gt;
+                      <span>closed</span>
+                    </span>
+                  )}
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {tableBody?.quantity?.toFixed(6)}
+                  {showLoader ? (
+                    <BasicSkeleton className="!h-[10px] rounded-full" />
+                  ) : (
+                    <span>{tableBody?.quantity?.toFixed(6)}</span>
+                  )}
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {Number(entryValue).toFixed(6)}
+                  {showLoader ? (
+                    <BasicSkeleton className="!h-[10px] rounded-full" />
+                  ) : (
+                    <span>{Number(entryValue).toFixed(6)}</span>
+                  )}
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {Number(exitValue).toFixed(6)}
+                  {showLoader ? (
+                    <BasicSkeleton className="!h-[10px] rounded-full" />
+                  ) : (
+                    <span>{Number(exitValue).toFixed(6)}</span>
+                  )}
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {tableBody?.open_price?.toFixed(6)}
+                  {showLoader ? (
+                    <BasicSkeleton className="!h-[10px] rounded-full" />
+                  ) : (
+                    <span>{tableBody?.open_price?.toFixed(6)}</span>
+                  )}
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {tableBody?.close_price?.toFixed(6)}
+                  {showLoader ? (
+                    <BasicSkeleton className="!h-[10px] rounded-full" />
+                  ) : (
+                    <span>{tableBody?.close_price?.toFixed(6)}</span>
+                  )}
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {closedType}
+                  {showLoader ? (
+                    <BasicSkeleton className="!h-[10px] rounded-full" />
+                  ) : (
+                    <span>{closedType}</span>
+                  )}
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter capitalize">
-                  {tableBody?.order_type}
+                  {showLoader ? (
+                    <BasicSkeleton className="!h-[10px] rounded-full" />
+                  ) : (
+                    <span>{tableBody?.order_type}</span>
+                  )}
                 </td>
               </tr>
             )
@@ -231,4 +286,4 @@ const ClosedPNL = () => {
   )
 }
 
-export default ClosedPNL
+export default memo(ClosedPNL)

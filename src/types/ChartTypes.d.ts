@@ -124,6 +124,8 @@ export interface CommonBuyAndSellProp
       quantity: string
     }>
   >
+  stopLoss?: number
+  takeProfit?: number
 }
 
 export type BuyOrSelProps = Pick<CommonBuyAndSellProp, 'activeIndex'>
@@ -131,4 +133,8 @@ export type BuyOrSelProps = Pick<CommonBuyAndSellProp, 'activeIndex'>
 export interface CommonStopLossProp {
   heading?: string
   subHeading?: string
+  marketPrice?: number
+  closingQuantity?: number
+  BuyOrSellType?: string
+  setSlMarketPrice: (value: number) => void
 }
