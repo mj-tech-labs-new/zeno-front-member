@@ -1,3 +1,5 @@
+import {Fragment} from 'react/jsx-runtime'
+
 import {GeneralProps} from '@/types/CommonTypes'
 
 const BasicTableSkeleton = (
@@ -9,12 +11,16 @@ const BasicTableSkeleton = (
   const {tableHeading, className} = props
 
   return (
-    <tr className={className}>
-      <td
-        className="custom-table-skeleton h-full w-full"
-        colSpan={tableHeading?.length}
-      />
-    </tr>
+    <Fragment>
+      {Array.from({length: 5}).map((_, index) => (
+        <tr key={index} className={className}>
+          <td
+            className="custom-table-skeleton h-full w-full"
+            colSpan={tableHeading?.length}
+          />
+        </tr>
+      ))}
+    </Fragment>
   )
 }
 

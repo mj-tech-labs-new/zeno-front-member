@@ -25,7 +25,7 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
     <div
       className={`relative overflow-x-auto rounded-lg shadow-sm ${layoutClassName} w-full`}
     >
-      <table className="w-full text-sm text-left overflow-hidden">
+      <table className="w-full text-sm text-left overflow-hidden border-separate border-spacing-y-2">
         <thead
           className={`text-xs bg-widget-primary-bg-color capitalize text-tertiary-color ${className}`}
         >
@@ -66,7 +66,7 @@ scope="col">
         <tbody className="w-full">
           {showLoader ? (
             <BasicTableSkeleton
-              className="!h-6 [&>td]:!rounded-full"
+              className="!h-[50px] [&>td]:!rounded-sm"
               tableHeading={tableHeading}
             />
           ) : (

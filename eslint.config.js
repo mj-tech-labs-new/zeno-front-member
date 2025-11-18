@@ -92,6 +92,7 @@ export default [
             ignoreElements: ['td', 'th', 'tr', 'input'],
           },
         ],
+        'react/no-array-index-key': 'off',
         'import-x/consistent-type-specifier-style': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         'react/jsx-no-leaked-render': 'off',
