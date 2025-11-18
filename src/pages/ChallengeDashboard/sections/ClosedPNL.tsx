@@ -4,7 +4,6 @@ import {useLocation} from 'react-router-dom'
 
 import {
   BasicPagination,
-  BasicSkeleton,
   CommonButton,
   CommonTableComponent,
   DatePickerComponent,
@@ -142,8 +141,9 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
       </div>
 
       <CommonTableComponent
-        className="!bg-ingfo-bg-color !text-white !whitespace-nowrap !font-medium !text-[12px] !leading-[18px]"
+        className="!bg-ingfo-bg-color !text-primary-color !whitespace-nowrap !font-medium !text-[12px] !leading-[18px]"
         imageUrl={Images.backArrow}
+        showLoader={showLoader}
         tableHeading={Constants.ClosedPNLTableHeading}
         ChangeOrder={(value) => {
           setPriceType(value)
@@ -175,11 +175,11 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
             const entryValue =
               tableBody?.quantity && tableBody?.open_price
                 ? tableBody.quantity * tableBody.open_price
-                : '---'
+                : 0
             const exitValue =
               tableBody?.quantity && tableBody?.close_price
                 ? tableBody.quantity * tableBody.close_price
-                : '---'
+                : 0
             const closedType = tableBody?.last_close_type
 
             return (
@@ -188,79 +188,43 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
                 className="font-normal bg-info-bg-color border-b border-landing-page-trading-rules-para-text  text-sm/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:p-6 *:text-secondary-light-color"
               >
                 <td className="px-7 py-4 text-left !text-primary-color !whitespace-nowrap !font-inter">
-                  {showLoader ? (
-                    <BasicSkeleton className="!h-[10px] rounded-full" />
-                  ) : (
-                    <span>{tableBody?.symbol}</span>
-                  )}
+                  <span>{tableBody?.symbol}</span>
                 </td>
                 <td className="px-7 py-4 flex gap-1 text-left !whitespace-nowrap !font-inter">
-                  {showLoader ? (
-                    <BasicSkeleton className="!h-[10px] rounded-full" />
-                  ) : (
-                    <span>
-                      <span
-                        className={
-                          tableBody?.order_side === 'buy'
-                            ? '!text-light-success-color'
-                            : '!text-light-danger-color'
-                        }
-                      >
-                        {tableBody?.order_side}
-                      </span>
-                      &minus;&gt;
-                      <span>closed</span>
+                  <span>
+                    <span
+                      className={
+                        tableBody?.order_side === 'buy'
+                          ? '!text-light-success-color'
+                          : '!text-light-danger-color'
+                      }
+                    >
+                      {tableBody?.order_side}
                     </span>
-                  )}
+                    &minus;&gt;
+                    <span>closed</span>
+                  </span>
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {showLoader ? (
-                    <BasicSkeleton className="!h-[10px] rounded-full" />
-                  ) : (
-                    <span>{tableBody?.quantity?.toFixed(6)}</span>
-                  )}
+                  <span>{tableBody?.quantity?.toFixed(6)}</span>
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {showLoader ? (
-                    <BasicSkeleton className="!h-[10px] rounded-full" />
-                  ) : (
-                    <span>{Number(entryValue).toFixed(6)}</span>
-                  )}
+                  <span>{Number(entryValue).toFixed(6)}</span>
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {showLoader ? (
-                    <BasicSkeleton className="!h-[10px] rounded-full" />
-                  ) : (
-                    <span>{Number(exitValue).toFixed(6)}</span>
-                  )}
+                  <span>{Number(exitValue).toFixed(6)}</span>
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {showLoader ? (
-                    <BasicSkeleton className="!h-[10px] rounded-full" />
-                  ) : (
-                    <span>{tableBody?.open_price?.toFixed(6)}</span>
-                  )}
+                  <span>{tableBody?.open_price?.toFixed(6)}</span>
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {showLoader ? (
-                    <BasicSkeleton className="!h-[10px] rounded-full" />
-                  ) : (
-                    <span>{tableBody?.close_price?.toFixed(6)}</span>
-                  )}
+                  <span>{tableBody?.close_price?.toFixed(6)}</span>
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter">
-                  {showLoader ? (
-                    <BasicSkeleton className="!h-[10px] rounded-full" />
-                  ) : (
-                    <span>{closedType}</span>
-                  )}
+                  <span>{closedType}</span>
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter capitalize">
-                  {showLoader ? (
-                    <BasicSkeleton className="!h-[10px] rounded-full" />
-                  ) : (
-                    <span>{tableBody?.order_type}</span>
-                  )}
+                  <span>{tableBody?.order_type}</span>
                 </td>
               </tr>
             )

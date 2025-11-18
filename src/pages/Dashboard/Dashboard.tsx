@@ -7,7 +7,7 @@ import {
   HeadingComponent,
   TabComponent,
 } from '@/components'
-import BasicSkeleton from '@/components/SkeletonComponent/BasicSkeleton'
+import BasicSkeleton from '@/components/SkeletonComponents/BasicSkeleton'
 import {Constants, English} from '@/helpers'
 import {PaginationType} from '@/types/CommonTypes'
 

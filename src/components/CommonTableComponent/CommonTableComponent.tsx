@@ -5,6 +5,7 @@ import {CommonTableComponentProps} from '@/types/ComponentTypes'
 
 import CommonCloseActionButton from '../CommonButton/CommonCloseActionButton'
 import ImageComponent from '../ImageComponent/ImageComponent'
+import BasicTableSkeleton from '../SkeletonComponents/BasicTableSkeleton'
 
 const CommonTableComponent = (props: CommonTableComponentProps) => {
   const {
@@ -17,6 +18,7 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
     ChangeOrder,
     extraProp,
     onPerformAction,
+    showLoader,
   } = props
 
   return (
@@ -25,7 +27,7 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
     >
       <table className="w-full text-sm text-left overflow-hidden">
         <thead
-          className={`text-xs bg-widget-primary-bg-color capitalize text-tertiary-color  ${className}`}
+          className={`text-xs bg-widget-primary-bg-color capitalize text-tertiary-color ${className}`}
         >
           <tr>
             {tableHeading?.map((heading) => (
@@ -61,7 +63,16 @@ scope="col">
           </tr>
         </thead>
 
-        <tbody className="w-full">{children}</tbody>
+        <tbody className="w-full">
+          {showLoader ? (
+            <BasicTableSkeleton
+              className="!h-6 [&>td]:!rounded-full"
+              tableHeading={tableHeading}
+            />
+          ) : (
+            children
+          )}
+        </tbody>
       </table>
     </div>
   )

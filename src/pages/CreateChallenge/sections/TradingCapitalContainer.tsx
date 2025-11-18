@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react'
 
 import {
-  BasicSkeleton,
   CommonTableComponent,
   DescriptionComponent,
   HeadingComponent,
@@ -55,6 +54,7 @@ const TradingCapitalContainer = (props: {
 
         <CommonTableComponent
           showArrows={false}
+          showLoader={showLoader}
           tableHeading={Constants.ChallengeStaticTableContent?.tableHeadings}
         >
           {tradingCapitalData?.map((tableBody) => (
@@ -66,75 +66,57 @@ const TradingCapitalContainer = (props: {
                 className="p-6 font-medium text-gray-900 whitespace-nowrap "
                 scope="row"
               >
-                {showLoader ? (
-                  <BasicSkeleton className="!h-[10px] rounded-full" />
-                ) : (
-                  <RadioInputContainer
-                    checked={tableBody?.checked}
-                    className="text-extra-dark-danger-color"
-                    onChange={(e) => {
-                      setTradingCapitalData((prev) => {
-                        const newData = prev.map((previousData) => {
-                          if (
-                            previousData?.challenge_name ===
-                            tableBody?.challenge_name
-                          ) {
-                            if (previousData?.checked) return previousData
-                            setSelectedTableRow(previousData.id)
-                            onPressItem({
-                              amount: Utility.numberConversion(
-                                previousData.capital_fund
-                              ),
-                              capital: Utility.numberConversion(
-                                previousData.fee
-                              ),
-                              name: previousData.challenge_name,
-                              type:
-                                previousData.step === 1
-                                  ? English.E32
-                                  : English.E34,
-                            })
-                            return {
-                              ...previousData,
-                              checked: e.target.checked,
-                            }
+                <RadioInputContainer
+                  checked={tableBody?.checked}
+                  className="text-extra-dark-danger-color"
+                  onChange={(e) => {
+                    setTradingCapitalData((prev) => {
+                      const newData = prev.map((previousData) => {
+                        if (
+                          previousData?.challenge_name ===
+                          tableBody?.challenge_name
+                        ) {
+                          if (previousData?.checked) return previousData
+                          setSelectedTableRow(previousData.id)
+                          onPressItem({
+                            amount: Utility.numberConversion(
+                              previousData.capital_fund
+                            ),
+                            capital: Utility.numberConversion(previousData.fee),
+                            name: previousData.challenge_name,
+                            type:
+                              previousData.step === 1
+                                ? English.E32
+                                : English.E34,
+                          })
+                          return {
+                            ...previousData,
+                            checked: e.target.checked,
                           }
-                          return {...previousData, checked: false}
-                        })
-
-                        return newData
+                        }
+                        return {...previousData, checked: false}
                       })
-                    }}
-                  />
-                )}
+
+                      return newData
+                    })
+                  }}
+                />
               </th>
 
               <td className="p-6 text-tertiary-color">
-                {showLoader ? (
-                  <BasicSkeleton className="!h-[10px] rounded-full" />
-                ) : (
-                  <span className="">{tableBody?.challenge_name}</span>
-                )}
+                <span className="">{tableBody?.challenge_name}</span>
               </td>
 
               <td className="p-6 text-tertiary-color">
-                {showLoader ? (
-                  <BasicSkeleton className="!h-[10px] rounded-full" />
-                ) : (
-                  <span className="">
-                    ${Utility.numberConversion(tableBody?.fee)}
-                  </span>
-                )}
+                <span className="">
+                  ${Utility.numberConversion(tableBody?.fee)}
+                </span>
               </td>
 
               <td className="p-6 text-tertiary-color">
-                {showLoader ? (
-                  <BasicSkeleton className="!h-[10px] rounded-full" />
-                ) : (
-                  <span className="">
-                    ${Utility.numberConversion(tableBody?.capital_fund)} USDT
-                  </span>
-                )}
+                <span className="">
+                  ${Utility.numberConversion(tableBody?.capital_fund)} USDT
+                </span>
               </td>
             </tr>
           ))}

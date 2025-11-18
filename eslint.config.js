@@ -86,6 +86,12 @@ export default [
     ...tseslint.configs.recommended,
     {
       rules: {
+        'jsx-a11y/control-has-associated-label': [
+          'error',
+          {
+            ignoreElements: ['td', 'th', 'tr', 'input'],
+          },
+        ],
         'import-x/consistent-type-specifier-style': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         'react/jsx-no-leaked-render': 'off',

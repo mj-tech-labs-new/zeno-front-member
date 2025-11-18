@@ -4,7 +4,7 @@ import {toast} from 'react-toastify'
 import {English, Images} from '@/helpers'
 import {ImageComponentProps} from '@/types/ComponentTypes'
 
-import BasicSkeleton from '../SkeletonComponent/BasicSkeleton'
+import BasicSkeleton from '../SkeletonComponents/BasicSkeleton'
 
 const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
   (props, ref) => {
