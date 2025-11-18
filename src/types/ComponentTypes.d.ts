@@ -103,6 +103,7 @@ export interface CommonTabComponentProps
   setActiveIndex: (value: number) => void
   isDividerType?: boolean
   type?: TabComponentType
+  isCorruptedTabIndex?: number
 }
 
 export interface AppLoaderRef {

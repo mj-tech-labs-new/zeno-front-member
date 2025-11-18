@@ -1,6 +1,6 @@
-import {memo} from 'react'
+import { memo } from 'react'
 
-import {CommonTabComponentProps} from '@/types/ComponentTypes'
+import { CommonTabComponentProps } from '@/types/ComponentTypes'
 
 import Divider from '../Divider/Divider'
 
@@ -14,18 +14,20 @@ const TabComponent = (props: CommonTabComponentProps) => {
     isDividerType = true,
     type = 'lineType',
     layoutClassName = '',
+    isCorruptedTabIndex = ''
   } = props
 
   return (
     <div className={`flex flex-col gap-8 ${className} `}>
       <div className="flex gap-6 w-full">
         {headingData?.map((heading, index) => {
-          const {title, img = ''} = heading
+          const { title, img = '' } = heading
           return (
             <div
               key={title}
               className={`flex items-center gap-1 font-dmsans ${activeIndex === index ? 'cursor-auto' : 'cursor-pointer'}`}
               onClick={() => {
+                if (isCorruptedTabIndex === index) return
                 setActiveIndex(index)
               }}
             >
