@@ -86,7 +86,8 @@ export interface DatePickerProps extends Pick<GeneralProps, 'className'> {
 export interface CommonTableComponentProps
   extends Required<Pick<GeneralProps, 'children'>>,
     Pick<GeneralProps, 'className' | 'layoutClassName' | 'imageUrl'>,
-    Pick<CloseOrderButtonProps, 'onPerformAction'> {
+    Pick<CloseOrderButtonProps, 'onPerformAction'>,
+    Pick<CommonTableComponentProp, 'apiMethod'> {
   tableHeading: {content: string; showArrow: boolean}[]
   content?: string
   showArrows?: boolean

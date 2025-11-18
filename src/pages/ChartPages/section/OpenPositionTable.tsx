@@ -15,6 +15,7 @@ const OpenPositionTable = (
 
   return (
     <CommonTableComponent
+      apiMethod="put"
       className="!bg-transparent !text-neutral-primary-color"
       extraProp={{challenge_id}}
       headingClassName="justify-start !whitespace-nowrap"
@@ -79,11 +80,12 @@ const OpenPositionTable = (
           </td>
           <td className="px-6 py-4 text-left !whitespace-nowrap">
             <CommonCloseActionButton
+              apiMethod="put"
               challenge_id={challenge_id}
               tx_hash={tableBody?.tx_hash}
               type="single_order"
               onPerformAction={() => {
-                if (openPosition?.length === 0) {
+                if (openPosition?.length === 1) {
                   setPosition([])
                 }
               }}

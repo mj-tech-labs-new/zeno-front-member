@@ -1,7 +1,7 @@
 // eslint-disable-next-line import-x/no-cycle
 import {CommonBuyAndSellProp, OpenPosition} from './ChartTypes'
 import {CommonProps, GeneralProps, PaginationType} from './CommonTypes'
-import {CloseOrderType} from './UnionTypes'
+import {CloseOrderType, Methodtype} from './UnionTypes'
 
 export interface ChallengePayoutObject {
   amount: string
@@ -191,6 +191,7 @@ export interface CloseOrderButtonProps
     Partial<Pick<CreateChallengeProps, 'challenge_id'>> {
   type?: CloseOrderType
   onPerformAction?: (state: boolean) => void
+  apiMethod: Exclude<Methodtype, 'get', 'post'>
 }
 
 interface ChallengeDataSocketType

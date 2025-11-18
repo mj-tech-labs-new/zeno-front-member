@@ -15,6 +15,7 @@ const CommonCloseActionButton = (props: CloseOrderButtonProps) => {
     tx_hash = '',
     challenge_id = '',
     onPerformAction,
+    apiMethod = '',
   } = props
   const loaderRef = useRef<AppLoaderRef>(null)
 
@@ -22,12 +23,19 @@ const CommonCloseActionButton = (props: CloseOrderButtonProps) => {
     <React.Fragment>
       <Loader ref={loaderRef} />
       <CommonButton
-        className={`!w-fit !p-0 text-primary-dark-blue-color hover:text-primary-dark-blue-color/90 ${className}`}
-        singleLineContent={English.E243}
+        singleLineContent={apiMethod === 'delete' ? English.E295 : English.E243}
+        className={`!w-fit !p-0 text-primary-dark-blue-color  hover:text-primary-dark-blue-color/90 
+        ${
+          apiMethod === 'delete'
+            ? '!text-extra-dark-danger-color hover:!text-dark-danger-color/90'
+            : '!text-primary-dark-blue-color hover:!text-primary-dark-blue-color/90'
+        }
+        ${className}
+      `}
         onClick={() => {
           loaderRef.current?.showLoader(true)
           chartPageApi
-            .closeOrderApi({challenge_id, tx_hash, type})
+            .closeOrderApi({apiMethod, challenge_id, tx_hash, type})
             .then(() => {
               if (onPerformAction) {
                 onPerformAction(true)
