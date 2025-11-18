@@ -1,16 +1,16 @@
-import React, { memo, useEffect, useMemo, useState } from 'react'
+import React, {memo, useEffect, useMemo, useState} from 'react'
 
-import { TabComponent } from '@/components'
-import { Constants, SocketEmitter } from '@/helpers'
+import {TabComponent} from '@/components'
+import {Constants, SocketEmitter} from '@/helpers'
 import ClosedPNL from '@/pages/ChallengeDashboard/sections/ClosedPNL'
-import { OpenPosition, PendingOrder } from '@/types/ChartTypes'
+import {OpenPosition, PendingOrder} from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import OpenPositionTable from './OpenPositionTable'
 import PendingOrderTable from './PendingOrderTable'
 
-const TradesInfo = (props: { challengeId: string }) => {
-  const { challengeId } = props
+const TradesInfo = (props: {challengeId: string}) => {
+  const {challengeId} = props
   const showHeader = useMemo(() => true, [])
   const [activeIndex, setActiveIndex] = useState(0)
   const [socketEventKey, setSocketEventKey] =
@@ -21,7 +21,7 @@ const TradesInfo = (props: { challengeId: string }) => {
     () => (activeIndex === 0 ? openPosition : pendingOrder),
     [activeIndex, openPosition, pendingOrder]
   )
-  const { socketRef, isLoadingCandles } = useChartProvider()
+  const {socketRef, isLoadingCandles} = useChartProvider()
 
   useEffect(() => {
     const currentSocket = socketRef.current
