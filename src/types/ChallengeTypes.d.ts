@@ -191,7 +191,7 @@ export interface CloseOrderButtonProps
     Partial<Pick<CreateChallengeProps, 'challenge_id'>> {
   type?: CloseOrderType
   onPerformAction?: (state: boolean) => void
-  apiMethod: Exclude<Methodtype, 'get', 'post'>
+  apiMethod?: Exclude<Methodtype, 'get', 'post'>
 }
 
 interface ChallengeDataSocketType

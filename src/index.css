@@ -543,3 +543,11 @@
     transform: translateX(100%);
   }
 }
+
+#table {
+  overflow-x: auto;
+}
+
+#table::-webkit-scrollbar {
+  height: 8px;
+}

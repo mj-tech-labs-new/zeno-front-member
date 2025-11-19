@@ -24,7 +24,8 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
 
   return (
     <div
-      className={`relative overflow-x-auto rounded-lg shadow-sm ${layoutClassName} w-full`}
+      className={`relative rounded-lg shadow-sm ${layoutClassName} w-full`}
+      id="table"
     >
       <table
         className={`w-full text-sm text-left overflow-hidden ${showLoader && 'border-separate border-spacing-y-2'}`}
@@ -46,14 +47,14 @@ scope="col">
                   />
                 ) : (
                   <div
-                    className={`flex items-center gap-2 whitespace-nowrap ${headingClassName}`}
+                    className={`flex items-center gap-2 whitespace-nowrap cursor-pointer ${headingClassName}`}
                     onClick={() => {
                       if (ChangeOrder) ChangeOrder(heading.content)
                     }}
                   >
                     {heading?.content}
                     {heading.showArrow && (
-                      <div className="flex flex-col items-center cursor-pointer">
+                      <div className="flex flex-col items-center">
                         <ImageComponent
                           className="w-2"
                           imageUrl={imageUrl ?? Images.arrows}
