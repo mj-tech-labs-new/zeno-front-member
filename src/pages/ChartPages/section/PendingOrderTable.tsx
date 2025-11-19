@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-import {CommonTableComponent} from '@/components'
+import {CommonCloseActionButton, CommonTableComponent} from '@/components'
 import {Constants} from '@/helpers'
 import {CreateChallengeProps} from '@/types/ChallengeTypes'
 import {PendingOrder} from '@/types/ChartTypes'
@@ -8,17 +8,24 @@ import {PendingOrder} from '@/types/ChartTypes'
 const PendingOrderTable = (
   props: Pick<CreateChallengeProps, 'challenge_id'> & {
     pendingOrder: PendingOrder[]
+    setPendingOrder: (data: PendingOrder[]) => void
   }
 ) => {
-  const {challenge_id, pendingOrder} = props
+  const {challenge_id, pendingOrder, setPendingOrder} = props
   return (
     <CommonTableComponent
+      apiMethod="delete"
       className="!bg-transparent !text-neutral-primary-color"
       extraProp={{challenge_id}}
       headingClassName="justify-start !whitespace-nowrap"
       layoutClassName="!border-none"
       showArrows={false}
       tableHeading={Constants.PendingOrders}
+      onPerformAction={(value) => {
+        if (value) {
+          setPendingOrder([])
+        }
+      }}
     >
       {pendingOrder?.map((tableBody) => (
         <tr
@@ -64,6 +71,19 @@ const PendingOrderTable = (
 
           <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
             <span>{tableBody?.stop_loss}</span>
+          </td>
+          <td className="px-6 py-4 text-left !whitespace-nowrap">
+            <CommonCloseActionButton
+              apiMethod="delete"
+              challenge_id={challenge_id}
+              tx_hash={tableBody?.tx_hash}
+              type="single_order"
+              onPerformAction={() => {
+                if (pendingOrder?.length === 1) {
+                  setPendingOrder([])
+                }
+              }}
+            />
           </td>
         </tr>
       ))}

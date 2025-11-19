@@ -82,6 +82,7 @@ const TradesInfo = (props: {challengeId: string}) => {
                 key="pending_order"
                 challenge_id={challengeId}
                 pendingOrder={pendingOrder}
+                setPendingOrder={setPendingOrder}
               />
             ) : (
               <ClosedPNL showHeader={showHeader} />
