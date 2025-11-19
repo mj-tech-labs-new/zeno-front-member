@@ -188,7 +188,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
                 className="font-normal bg-info-bg-color border-b border-landing-page-trading-rules-para-text  text-sm/6 *:transition-all *:duration-300 *:ease-in-out whitespace-nowrap *:p-6 *:text-secondary-light-color"
               >
                 <td className="px-7 py-4 text-left !text-primary-color !whitespace-nowrap !font-inter">
-                  <span>{tableBody?.symbol.replace('BTC', 'BTC/')}</span>
+                  <span>{tableBody?.symbol.replace("USDT", "/USDT")}</span>
                 </td>
                 <td className="px-7 py-4 flex gap-1 text-left !whitespace-nowrap !font-inter">
                   <span>

@@ -1,9 +1,9 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import {GoBackComponent, ModalContextProvider} from './components'
+import { GoBackComponent, ModalContextProvider } from './components'
 import LazyLoader from './LazyLoader'
-import {HomePage} from './pages'
-import {AuthRoutes} from './routes'
+import { HomePage } from './pages'
+import { AuthRoutes } from './routes'
 import DashboardRoutes from './routes/DashboardRoutes'
 
 const App = () => (
@@ -16,13 +16,12 @@ const App = () => (
           element={
             <LazyLoader>
               <HomePage />
-              {/* <LightWeightChart /> */}
             </LazyLoader>
           }
         />
         <Route
-key="404" element={<GoBackComponent />}
-path="*" />
+          key="404" element={<GoBackComponent />}
+          path="*" />
         {AuthRoutes}
         {DashboardRoutes}
       </Routes>
