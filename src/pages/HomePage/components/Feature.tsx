@@ -74,10 +74,7 @@ const Feature = (props: FeatureComponentProps) => {
         >
           <div className="!w-full space-y-3 lg:space-y-1">
             <div className="flex items-center gap-3">
-              <ImageComponent
-                // className={className}
-                imageUrl={logo}
-              />
+              <ImageComponent imageUrl={logo} />
               <HeadingComponent
                 className="!text-extra-dark-danger-color !font-bureau !leading-[38px] !font-[430]"
                 singleLineContent={heading}
@@ -96,12 +93,12 @@ const Feature = (props: FeatureComponentProps) => {
           />
         </div>
 
-        <div className="flex gap-1.5">
-          <div className="hidden lg:block space-y-2">
+        <div className="flex lg:flex-row flex-col-reverse gap-1.5">
+          <div className="block space-y-2">
             {optionsLg?.map((feature, index) => (
               <div
                 key={feature.heading}
-                className={`relative text-xl tracking-[-0.5px] pb-16 pt-3 px-4 flex items-center justify-between w-[364px] ${index === defaultIndex && parentId === feature.parentId ? 'pointer-events-none  bg-primary-color   animating_line ' : 'cursor-pointer pointer-events-auto bg-inactive-color'}`}
+                className={`relative text-xl tracking-[-0.5px] pb-16 pt-3 px-4 flex items-center justify-between lg:w-[364px] w-full ${index === defaultIndex && parentId === feature.parentId ? 'pointer-events-none  bg-primary-color   animating_line ' : 'cursor-pointer pointer-events-auto bg-inactive-color'}`}
                 onClick={() => {
                   setDefaultIndex(index)
                   changeFeature(index)

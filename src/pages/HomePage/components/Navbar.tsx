@@ -50,14 +50,14 @@ const Navbar = () => {
     <div className="flex items-center justify-between p-4 lg:px-[52px] lg:py-3 fixed top-0 w-full bg-white z-20 lg:gap-[85px]">
       <LogoComponent
         className="!w-5"
-        layoutClassName="[&>h1]:!text-base/5 [&>h1]:!tracking-[-0.14px] [&>h1]:!font-switzer [&>h1]:!font-medium !flex-row-reverse !gap-2 !shrink-0 [&>h1]:!text-base [&>h1]:!text-extra-dark-danger-color"
+        layoutClassName="[&>h1]:!text-base/5 [&>h1]:!tracking-[-0.14px] [&>h1]:!font-switzer [&>h1]:!font-medium !flex-row-reverse !gap-2 !shrink-0 [&>h1]:!text-base [&>h1]:!text-extra-dark-danger-color [&>h1]:!hidden [&>h1]:sm:!block"
         singleLineContent={English.E20}
       />
 
       {windowSize >= 1024 && <NavList />}
 
       <CommonButton
-        className={`bg-extra-dark-danger-color text-white !px-3 !py-2 !rounded-full !text-sm !leading-5 !w-fit !ml-auto ${!showMenu && windowSize < 1024 ? 'block' : 'hidden'}`}
+        className={`sm:bg-extra-dark-danger-color bg-primary-color border border-tertiary-color sm:text-white !px-3 !py-2 !rounded-full !text-sm !leading-5 !w-fit !ml-auto ${!showMenu && windowSize < 1024 ? 'block' : 'hidden'}`}
         singleLineContent={English.E138}
         onClick={() => {
           navigate('/dashboard')

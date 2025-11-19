@@ -15,7 +15,7 @@ const BrandingCarousel = () => {
   const swiperRef = useRef<SwiperRef>(null)
 
   return (
-    <div className="flex flex-col gap-8 lg:gap-[60px] bg-primary-color px-4 lg:px-[52px] pt-[50px] pb-4 lg:py-[120px] ">
+    <div className="flex flex-col gap-8 lg:gap-[60px] bg-primary-color px-4 lg:px-[52px] pt-[34px] pb-4 lg:py-[120px] ">
       <div className="flex flex-row flex-wrap gap-5 justify-between items-end w-full lg:w-[calc(100%-217px)] ml-0 lg:ml-auto">
         <p className="text-landing-page-features-lg-less-opacity-gray/70 text-[36px] !leading-[38px] font-bureau max-w-[517px]">
           <span className="!text-linear-gr-bg1-color">{English.E185} </span>

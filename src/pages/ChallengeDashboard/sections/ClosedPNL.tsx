@@ -158,7 +158,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
 
           setOrderType((data) => (data === 'ASC' ? 'DESC' : 'ASC'))
         }}
-        headingClassName={`!font-medium !font-helvetica !text-[12px]  !leading-[18px]   [&>div>div]:transition-transform [&>div>div]:duration-300 
+        headingClassName={`!font-medium !font-helvetica !text-[12px] !leading-[18px] [&>div>div]:transition-transform [&>div>div]:duration-300 
           ${orderType === 'ASC' ? '[&>div>div]:!rotate-90' : '[&>div>div]:!rotate-270'} `}
       >
         {!closedPNL || closedPNL?.length === 0 ? (
@@ -185,7 +185,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
             return (
               <tr
                 key={`content-${tableBody?.id}`}
-                className="font-normal bg-info-bg-color border-b border-landing-page-trading-rules-para-text  text-sm/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:p-6 *:text-secondary-light-color"
+                className="font-normal bg-info-bg-color border-b border-landing-page-trading-rules-para-text  text-sm/6 *:transition-all *:duration-300 *:ease-in-out whitespace-nowrap *:p-6 *:text-secondary-light-color"
               >
                 <td className="px-7 py-4 text-left !text-primary-color !whitespace-nowrap !font-inter">
                   <span>{tableBody?.symbol}</span>

@@ -42,7 +42,7 @@ const StartChallengeTwentyMins = () => {
   }, [])
 
   return (
-    <div className="bg-primary-black text-primary-color font-[430] w-full lg:pt-[120px] lg:pb-[240px] lg:pl-[51px]">
+    <div className="bg-primary-black text-primary-color font-[430] w-full lg:pt-[120px] lg:pb-[240px] pb-14 lg:pl-[51px]">
       <div className="flex gap-5">
         <div className="hidden lg:flex lg:items-end lg:w-[275px] h-fit mt-[124px]">
           <div className="flex items-center gap-3">
@@ -93,13 +93,15 @@ const StartChallengeTwentyMins = () => {
 
           <div className="flex gap-1 gradient_container">
             <SwiperComponent
-ref={swiperRef} slidesPerView={3}
-spaceBetween={4}>
+              ref={swiperRef}
+              slidesPerView="auto"
+              spaceBetween={4}
+            >
               {Constants.zenoCards.map((card) => (
-                <SwiperSlide key={card.id} className="!h-[635px] lg:!h-[360px]">
+                <SwiperSlide key={card.id} className="!h-[360px] !w-[300px]">
                   <div
                     key={card.id}
-                    className="w-full h-[360px] bg-linear-gr-bg2-color space-y-20 p-4 flex flex-col justify-between"
+                    className="w-full h-[360px] bg-linear-gr-bg2-color space-y-20 p-4 flex flex-col flex-nowrap justify-between"
                   >
                     <HeadingComponent
                       className="!font-[430] !text-landing-page-freedom-clarity-growth/50 !text-[12px] !leading-3 !tracking-[-0.12px]"

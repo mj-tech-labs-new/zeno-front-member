@@ -35,7 +35,7 @@ const SwiperComponent = forwardRef<SwiperRef, SwiperComponentProps>(
     return (
       <Swiper
         ref={ref}
-        className={`mySwiper ${className}`}
+        className={`mySwiper w-auto ${className}`}
         direction="horizontal"
         modules={modules}
         onSlideChange={onSlideChange}

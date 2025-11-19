@@ -16,6 +16,7 @@ const App = () => (
           element={
             <LazyLoader>
               <HomePage />
+              {/* <LightWeightChart /> */}
             </LazyLoader>
           }
         />

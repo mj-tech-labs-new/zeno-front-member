@@ -46,7 +46,7 @@ const Features = () => {
   }, [sectionsToIdentify])
 
   return (
-    <div className="py-[54px] lg:py-20 px-4 lg:px-13  block lg:flex lg:flex-row lg:gap-1.5">
+    <div className="pt-[54px] pb-[18px] lg:py-20 px-4 lg:px-13  block lg:flex lg:flex-row lg:gap-1.5">
       <div
         className="w-[213px] hidden lg:block sticky h-fit top-0"
         style={{paddingTop: `${calculatedHeight}px`}}
@@ -76,7 +76,7 @@ const Features = () => {
         })}
       </div>
       <div className="flex-1">
-        <div className="flex flex-col gap-[200px]">
+        <div className="flex flex-col lg:gap-[200px] gap-14">
           {Constants.featuresWholeArray.map((feature) => (
             <Feature
               key={feature?.id}

@@ -24,7 +24,7 @@ const Footer = () => (
         {Constants.footerLinks.map((item) => (
           <ul key={item.title} className="">
             <HeadingComponent
-              className="!text-lg !leading-5 lg:!text-base !mb-5"
+              className="!text-lg !leading-5 lg:!text-base !mb-4"
               singleLineContent={item.title}
               type="h6"
             />
