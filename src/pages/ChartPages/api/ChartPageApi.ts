@@ -32,7 +32,7 @@ const buyOrSellApi = async (props: BuyOrSellApiProps) =>
 const closeOrderApi = async (
   props: Omit<CloseOrderButtonProps, 'className'>
 ) => {
-  const {challenge_id, tx_hash, type} = props
+  const {challenge_id, tx_hash, type, apiMethod} = props
   return new Promise<boolean>((resolve) => {
     let payload: Record<string, string> = {
       method: type === 'all_order' ? 'all' : 'single',
@@ -43,7 +43,12 @@ const closeOrderApi = async (
     if (tx_hash !== '' && tx_hash) {
       payload = {...payload, tx_hash}
     }
-    APICall('put', Endpoints.closeOrder, {}, payload)
+    APICall(
+      apiMethod,
+      apiMethod === 'delete' ? Endpoints.deleteOrder : Endpoints.closeOrder,
+      {},
+      payload
+    )
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(true)

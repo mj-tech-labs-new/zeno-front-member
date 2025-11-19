@@ -19,6 +19,7 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
     extraProp,
     onPerformAction,
     showLoader,
+    apiMethod = '',
   } = props
 
   return (
@@ -36,8 +37,9 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
               <th
 key={heading.content} className={`px-6 py-4  `}
 scope="col">
-                {heading.content === 'Close' ? (
+                {heading.content === 'Close' || heading.content === 'Action' ? (
                   <CommonCloseActionButton
+                    apiMethod={apiMethod}
                     challenge_id={extraProp?.challenge_id}
                     onPerformAction={onPerformAction}
                     type="all_order"

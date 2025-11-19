@@ -296,6 +296,7 @@ const English = {
   E292: 'Stop Loss',
   E293: ' Market Price',
   E294: ' Closing Quantity',
+  E295: 'Delete',
 }
 
 export default English

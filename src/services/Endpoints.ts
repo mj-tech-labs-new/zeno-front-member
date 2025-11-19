@@ -21,6 +21,7 @@ const Endpoints = {
   buyOrSell: '/users/order/placeOrder',
   getClosedPnlDetails: '/users/order/closedPositionHistory',
   closeOrder: '/users/order/closeOrder',
+  deleteOrder: '/users/order/cancelOrder',
 }
 
 export default Endpoints
