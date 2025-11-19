@@ -25,12 +25,21 @@ const ScrollToSectionUtility = (id: string) => {
   if (!sectionContainer) return
   sectionContainer.scrollIntoView({behavior: 'smooth', block: 'start'})
 }
+const validPointValue = (value: string | number) => {
+  const newvalue = value
+    .toString()
+    .replace(/[^0-9.]/g, '')
+    .replace(/(\..*)\./g, '$1')
+
+  return newvalue
+}
 
 const Utility = {
   ScrollToSectionUtility,
   validFloatNumber,
   numberConversion,
   isValidEmail,
+  validPointValue,
 }
 
 export default Utility

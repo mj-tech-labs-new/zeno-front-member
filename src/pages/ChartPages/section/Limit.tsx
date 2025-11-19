@@ -49,29 +49,61 @@ const Limit = (props: BuyOrSelProps) => {
     (name: keyof typeof inputValues, value: string) => {
       setInputValues(() => {
         if (name === 'entryprice' && getChallengeByIdArray) {
+          if (
+            value === '0' ||
+            value === '' ||
+            Number(value) === 0 ||
+            Number.isNaN(value)
+          ) {
+            setCurrentDifferent(0)
+
+            return {
+              quantity: Utility.validPointValue(value),
+              entryprice: '',
+            }
+          }
           setCurrentDifferent(
             getChallengeByIdArray[0].current_usdt - Number(value)
           )
           return {
             entryprice: (
-              Number(value) / Number(selectedLeverage?.title)
+              parseFloat(value) / Number(selectedLeverage?.title)
             ).toString(),
-            quantity: (Number(value) / livePrice).toString(),
+            quantity: (parseFloat(value) / livePrice).toString(),
           }
         }
-        setCurrentDifferent(
-          getChallengeByIdArray[0].current_usdt - Number(value) * livePrice
-        )
-        const liveValue = (Number(value) * livePrice).toString()
+
+        if (
+          value === '0' ||
+          value === '' ||
+          Number(value) === 0 ||
+          Number.isNaN(value)
+        ) {
+          setCurrentDifferent(0)
+
+          return {
+            quantity: Utility.validPointValue(value),
+            entryprice: '0',
+          }
+        }
+
+        if (Number(value) > 0) {
+          setCurrentDifferent(
+            getChallengeByIdArray[0].current_usdt -
+              Number(Utility.validPointValue(value)) * livePrice
+          )
+        }
+        const liveValue = (parseFloat(value) * livePrice).toString()
 
         return {
-          quantity: value,
-          entryprice: (
-            Number(liveValue) / Number(selectedLeverage?.title)
-          ).toString(),
+          quantity: Utility.validPointValue(value),
+          entryprice: Utility.validPointValue(
+            (parseFloat(liveValue) / Number(selectedLeverage?.title)).toString()
+          ),
         }
       })
     },
+
     [getChallengeByIdArray, livePrice, selectedLeverage?.title]
   )
 

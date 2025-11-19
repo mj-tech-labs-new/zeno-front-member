@@ -28,6 +28,7 @@ const SlTp = (props: CommonStopLossProp) => {
   const [inputValues, setInputValues] = useState<StopLoss[]>([])
   const {chartInfo} = useChartProvider()
   const stRef = useRef<number>(0)
+
   const handleInputChange = useCallback(
     (name: keyof StopLoss, value: string) => {
       setInputValues((prev) => {

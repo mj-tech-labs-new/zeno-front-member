@@ -69,13 +69,15 @@ const BuySell = (props: BuyOrSelProps) => {
       }
       setInputValues((prev) => ({
         ...prev,
-        [name]: Utility.validFloatNumber(value),
-        total: Utility.validFloatNumber(
-          (
-            (Number(name === 'amount' ? value : prev.amount) *
-              Number(name === 'price' ? value : prev.price)) /
-            Number(selectedLeverage?.title)
-          ).toString()
+        [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
+        total: Utility.validPointValue(
+          Utility.validFloatNumber(
+            (
+              (Number(name === 'amount' ? value : prev.amount) *
+                Number(name === 'price' ? value : prev.price)) /
+              Number(selectedLeverage?.title)
+            ).toString()
+          )
         ),
       }))
     },
