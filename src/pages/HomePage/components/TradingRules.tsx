@@ -15,7 +15,7 @@ const TradingRules = () => (
         />
       </div>
 
-      <div className="w-full space-y-20 lg:w-[calc(100%-275px)] pt-16 lg:py-0">
+      <div className="w-full lg:space-y-22 space-y-8.5 lg:w-[calc(100%-275px)] pt-16 lg:py-0">
         <div className="text-4xl leading-[38px] tracking-[-1px] flex  justify-between sm:w-[80%]">
           <div className="flex flex-col gap-4">
             <HeadingComponent

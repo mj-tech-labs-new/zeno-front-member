@@ -724,7 +724,7 @@ const Constants = {
           parentId: 1,
           heading: English.E175,
           subHeading: English.E234,
-          content: English.E77,
+          content: English.E244,
           image: Images.featureChallenge2,
           containerHeading: English.E175,
         },

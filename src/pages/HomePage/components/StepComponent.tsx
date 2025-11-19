@@ -52,7 +52,7 @@ const StepComponent = () => {
   return (
     <TabComponent
       activeIndex={activeIndex}
-      className="!gap-6 !text-xl lg:!text-[28px] !leading-[38px]"
+      className="!gap-6 !text-xl lg:!text-[28px] !leading-[38px] !pb-0"
       headingData={Constants.StepComponentHeading}
       isDividerType={false}
       layoutClassName="font-bureau !text-extra-dark-danger-color !border-extra-dark-danger-color"
@@ -60,7 +60,7 @@ const StepComponent = () => {
       type="lineType"
     >
       <div>
-        <div className="flex flex-col border-2 border-landing-page-trading-rules-para-text   w-full  ">
+        <div className="flex flex-col w-full">
           <CommonTableComponent
             className="whitespace-nowrap *:!font-helvetica !border-none "
             layoutClassName="!border-none !rounded-none"

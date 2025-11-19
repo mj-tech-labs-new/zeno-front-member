@@ -15,7 +15,6 @@ const FeatureCard = (
     featureCardSpan,
     featureContainerHeading,
   } = props
-
   return (
     <div
       className={`p-4 font-[430] bg-primary-color flex flex-col gap-10 ${className}`}
