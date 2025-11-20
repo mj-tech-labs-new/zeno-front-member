@@ -76,7 +76,7 @@ const BuySell = (props: BuyOrSelProps) => {
               (Number(name === 'amount' ? value : prev.amount) *
                 Number(name === 'price' ? value : prev.price)) /
               Number(selectedLeverage?.title)
-            )?.toFixed(4)
+            ).toString()
           )
         ),
       }))
@@ -198,7 +198,8 @@ const BuySell = (props: BuyOrSelProps) => {
                   const tokenValue = Number(amountRef.current) * percentValue
                   setInputValues((prev) => ({
                     ...prev,
-                    amount: (tokenValue / livePrice).toString(),
+                    amount:
+                      value === 0 ? '0' : (tokenValue / livePrice).toString(),
                   }))
                   setRangeValue(value)
                 }}
