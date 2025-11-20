@@ -71,12 +71,18 @@ const OpenPositionTable = (
             className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.realized_pnl?.toString().startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}
                         }`}
           >
-            <span>{Number(tableBody?.realized_pnl)?.toFixed(6)}</span>
+            <span>
+              {!tableBody?.realized_pnl?.toString().startsWith('-') && '+'}
+              {Number(tableBody?.realized_pnl)?.toFixed(6)}
+            </span>
           </td>
           <td
             className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.open_pnl?.startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}`}
           >
-            <span>{Number(tableBody?.open_pnl)?.toFixed(6)}</span>
+            <span>
+              {!tableBody?.realized_pnl?.toString().startsWith('-') && '+'}
+              {Number(tableBody?.open_pnl)?.toFixed(6)}
+            </span>
           </td>
           <td className="px-6 py-4 text-left !whitespace-nowrap">
             <CommonCloseActionButton
