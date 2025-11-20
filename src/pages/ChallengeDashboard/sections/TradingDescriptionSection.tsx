@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef, useState} from 'react'
+import {useEffect, useMemo, useState} from 'react'
 
 import {HeadingComponent, StatsDescription} from '@/components'
 import {English, SocketEmitter} from '@/helpers'
@@ -21,7 +21,6 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
     socketRef,
     showLoader,
   } = useChallengeProvider()
-  const dataRef = useRef(getChallengeByIdArray[0])
 
   useEffect(() => {
     if (showLoader || !socketRef.current || !challengeIdRef.current) return
@@ -34,12 +33,6 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       )
     }
   }, [challengeIdRef, showLoader, socketRef])
-
-  useEffect(() => {
-    if (!showLoader) {
-      dataRef.current = getChallengeByIdArray?.[0]
-    }
-  }, [getChallengeByIdArray, showLoader])
 
   const tradingObjectiveArray = useMemo(
     () => [
@@ -76,8 +69,8 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
   )
 
   const percentageCardsArray = useMemo(() => {
-    const initialAmount = dataRef?.current?.initial_capital ?? 1
-    const releasAmount = dataRef?.current?.released_profit
+    const initialAmount =  getChallengeByIdArray?.[0]?.initial_capital ?? 1
+    const releasAmount =  getChallengeByIdArray?.[0]?.released_profit
     return [
       {
         title: English.E61,
@@ -94,11 +87,7 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
         firstValue: socketData?.equity?.toFixed(2) ?? 0,
       },
     ]
-  }, [
-    socketData?.equity,
-    socketData?.unreleased_profit,
-    socketData?.unreleased_profit_per,
-  ])
+  }, [getChallengeByIdArray, socketData?.equity, socketData?.unreleased_profit, socketData?.unreleased_profit_per])
 
   const tradingStatisticsArray = useMemo(
     () => [
