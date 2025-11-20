@@ -49,7 +49,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       webSocketRef.current.close()
     }
     const webSocket = new WebSocket(
-      `${import.meta.env.VITE_BINANCE_ORDERBOOK_SOCKET}${SYMBOL.toLowerCase()}@depth5@100ms`
+      `wss://stream.binance.com:9443/ws/${SYMBOL.toLowerCase()}@depth5@100ms`
     )
     webSocketRef.current = webSocket
 

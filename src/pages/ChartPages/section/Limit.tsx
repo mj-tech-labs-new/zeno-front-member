@@ -1,3 +1,4 @@
+ 
 import {memo, useCallback, useEffect, useState} from 'react'
 
 import {DropDown, ImageComponent, InputContainer} from '@/components'
@@ -69,7 +70,7 @@ const Limit = (props: BuyOrSelProps) => {
             entryprice: (
               parseFloat(value) / Number(selectedLeverage?.title)
             ).toString(),
-            quantity: (parseFloat(value) / livePrice).toString(),
+            quantity: (parseFloat(value) / livePrice).toFixed(6),
           }
         }
 
