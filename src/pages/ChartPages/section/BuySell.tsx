@@ -76,7 +76,7 @@ const BuySell = (props: BuyOrSelProps) => {
               (Number(name === 'amount' ? value : prev.amount) *
                 Number(name === 'price' ? value : prev.price)) /
               Number(selectedLeverage?.title)
-            ).toString()
+            )?.toFixed(4)
           )
         ),
       }))
@@ -97,10 +97,13 @@ const BuySell = (props: BuyOrSelProps) => {
     setInputValues((prev) => ({
       ...prev,
       price: livePrice.toString() ?? '0',
-      total: (
-        (livePrice * Number(prev.amount)) /
-        Number(selectedLeverage?.title)
-      ).toString(),
+      total:
+        Number(prev.total) === 0
+          ? '0'
+          : (
+              (livePrice * Number(prev.amount)) /
+              Number(selectedLeverage?.title)
+            )?.toFixed(4),
     }))
   }, [
     isLoadingCandles,
