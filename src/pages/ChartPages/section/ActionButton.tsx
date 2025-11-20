@@ -19,6 +19,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     leverage = '',
     stopLoss,
     takeProfit,
+    setInputValues,
   } = props
   const navigate = useNavigate()
   const amountRef = useRef(0)
@@ -43,6 +44,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
         take_profit: takeProfit,
       })
       .then(async (res) => {
+        setInputValues()
         if (res.isNavigateType) {
           navigate('/dashboard')
           return

@@ -112,18 +112,7 @@ export interface CommonBuyAndSellProp
   quantity: number
   usdt_price?: number
   leverage?: string
-  setInputValuesMarket?: Dispatch<
-    SetStateAction<{
-      amount: string
-      total: string
-    }>
-  >
-  setInputValuesLimit?: Dispatch<
-    SetStateAction<{
-      entryprice: string
-      quantity: string
-    }>
-  >
+  setInputValues: () => void
   stopLoss?: number
   takeProfit?: number
 }

@@ -92,6 +92,8 @@ const Limit = (props: BuyOrSelProps) => {
             getChallengeByIdArray[0].current_usdt -
               Number(Utility.validPointValue(value)) * livePrice
           )
+        } else {
+          setCurrentDifferent(0)
         }
         const liveValue = (parseFloat(value) * livePrice).toString()
 
@@ -224,9 +226,11 @@ const Limit = (props: BuyOrSelProps) => {
           order_type="limit"
           price={Number(inputValues?.entryprice)}
           quantity={Number(inputValues?.quantity)}
-          setInputValuesLimit={setInputValues}
           stopLoss={stopLoss}
           takeProfit={takeProfit}
+          setInputValues={() => {
+            setInputValues({entryprice: '0', quantity: '0'})
+          }}
         />
       </div>
       <div className="flex flex-col pointer-events-none opacity-60">

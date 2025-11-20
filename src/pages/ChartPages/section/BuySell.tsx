@@ -219,10 +219,12 @@ const BuySell = (props: BuyOrSelProps) => {
           order_type="market"
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}
-          setInputValuesMarket={setInputValues}
           stopLoss={stopLoss}
           takeProfit={takeProfit}
           total={Number(inputValues?.total)}
+          setInputValues={() => {
+            setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
+          }}
         />
       </div>
       <div className="flex flex-col pointer-events-none opacity-60 ">

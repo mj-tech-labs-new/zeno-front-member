@@ -14,9 +14,10 @@ const buyOrSellApi = async (props: BuyOrSellApiProps) =>
         .then((res: any) => {
           if (res?.status === 200 && res?.statusCode === 400) {
             resolve({data: [], isNavigateType: true})
+            return
           }
           if (res?.status === 200 && res?.statusCode === 200) {
-            resolve(res?.data?.buy_order)
+            resolve({data: res?.data?.buy_order, isNavigateType: false})
           } else {
             resolve({data: [], isNavigateType: false})
             toast.error(res?.message)
