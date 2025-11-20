@@ -15,8 +15,8 @@ const ChartRenderer = () => {
     isLoadingCandles,
   } = useChartProvider()
   return (
-    <div className="flex-1 h-full bg-chart-layout-bg">
-      <div className="flex flex-col lg:flex-row gap-1">
+    <div className="h-full bg-chart-layout w-full">
+      <div className="flex flex-col lg:flex-row gap-1 w-full">
         <ChartShapes />
         <div className="flex-1">
           <div className="p-4 flex flex-col-reverse sm:flex-row gap-4 sm:items-center sm:justify-between">

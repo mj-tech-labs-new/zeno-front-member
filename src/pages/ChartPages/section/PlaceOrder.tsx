@@ -10,7 +10,7 @@ const PlaceOrder = () => {
   const [activeIndex, setActiveIndex] = useState(0)
 
   return (
-    <div className="pt-4 py-8 px-4 w-full lg:w-[350px]  shrink-0">
+    <div className="pt-4 py-8 px-4">
       <div className="flex flex-col gap-4">
         <HeadingComponent
           className="!text-[16px]/6 !font-poppins !tracking-normal !text-neutral-primary-color"
