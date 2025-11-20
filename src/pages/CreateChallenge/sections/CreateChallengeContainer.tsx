@@ -45,10 +45,7 @@ const CreateChallengeContainer = (props: {
         </div>
         <div className="flex flex-col lg:flex-row gap-2">
           {showLoader ? (
-            <BasicSkeleton
-              className="!h-[104px] max-w-[309px] rounded-2xl"
-              type="basicSkeleton"
-            />
+            <BasicSkeleton className="!h-[104px] max-w-[309px] rounded-2xl" />
           ) : (
             challengeTypeData?.map((item) => {
               const {content, title, step} = item

@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import {Fragment, memo, useEffect, useMemo, useState} from 'react'
+import {Fragment, memo, useEffect, useMemo, useRef, useState} from 'react'
 
 import {BasicSkeleton} from '@/components'
 import {English, Utility} from '@/helpers'
@@ -12,6 +12,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
   const {activeType} = props
   const [isLoadingOrderBook, setIsLoadingOrderBook] = useState(true)
   const [bookings, setBookings] = useState<OrderBookObjectType | null>(null)
+  const webSocketRef = useRef<WebSocket | null>(null)
   const tradesToMap = useMemo(() => {
     const buyOrders = bookings?.asks?.map((item) => ({
       price: item[0],
@@ -44,9 +45,13 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
   useEffect(() => {
     if (isLoadingCandles || !chartInfo?.fullSymbolName) return
     const SYMBOL = chartInfo?.fullSymbolName
+    if (webSocketRef.current) {
+      webSocketRef.current.close()
+    }
     const webSocket = new WebSocket(
-      `wss://stream.binance.com:9443/ws/${SYMBOL.toLowerCase()}@depth5@100ms`
+      `${import.meta.env.VITE_BINANCE_ORDERBOOK_SOCKET}${SYMBOL.toLowerCase()}@depth5@100ms`
     )
+    webSocketRef.current = webSocket
 
     webSocket.addEventListener('error', () => {
       setIsLoadingOrderBook(false)
@@ -74,10 +79,10 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-2 px-4">
+      <div className="grid grid-cols-3 gap-2 px-4 mt-3">
         {[
           `${English.E140} (${English.E60})`,
-          `${English.E141} (BTC)`,
+          `${English.E141} ${chartInfo?.symbol}`,
           English.E133,
         ].map((item) => (
           <div key={item} className="flex flex-col gap-1">
@@ -105,7 +110,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
           return (
             <Fragment key={`trade_${trade?.type}_${tradeIndex?.toString()}`}>
               {activeType === 'buy_sell_type' && tradeIndex === 5 && (
-                <p className="text-primary-color my-5 font-medium bg-neutral-secondary-color py-3 rounded !leading-6 text-center text-2xl">
+                <p className="text-primary-color my-8 font-medium bg-neutral-secondary-color py-3 rounded !leading-6 text-center text-2xl">
                   {Utility.numberConversion(livePrice)}{' '}
                 </p>
               )}

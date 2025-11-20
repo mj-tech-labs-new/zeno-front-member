@@ -46,7 +46,7 @@ const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
           }}
         >
           {isLoading ? (
-            <BasicSkeleton type="basicSkeleton" />
+            <BasicSkeleton />
           ) : (
             <img
               alt="error-icon"

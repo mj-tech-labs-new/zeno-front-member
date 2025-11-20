@@ -98,7 +98,6 @@ const Dashboard = () => {
                     <BasicSkeleton
                       key={item.id}
                       className="!w-full !h-[604px] !rounded-2xl"
-                      type="basicSkeleton"
                     />
                   ) : (
                     <ChallengeDetailCard key={item.id} item={item} />
