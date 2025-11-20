@@ -1,16 +1,8 @@
-import {useMemo, useState} from 'react'
-
-import {DropDown} from '@/components'
 import {Constants} from '@/helpers'
 import {ChartSwitchProps} from '@/types/ChartTypes'
 import {TradingSortingType} from '@/types/UnionTypes'
 
 const ChartSwitch = (props: ChartSwitchProps) => {
-  const dropDownData = useMemo(
-    () => [{title: '3'}, {title: '5'}, {title: '7'}, {title: '10'}],
-    []
-  )
-  const [selectedValue, setSelectedValue] = useState('10')
   const {activeType, setActiveType} = props
 
   return (
@@ -32,15 +24,6 @@ const ChartSwitch = (props: ChartSwitchProps) => {
             ))}
           </div>
         ))}
-      </div>
-      <div className="w-2/3">
-        <DropDown
-          dropDownData={dropDownData}
-          selectedValue={{title: selectedValue}}
-          onSelectValue={(value) => {
-            setSelectedValue(value?.title)
-          }}
-        />
       </div>
     </div>
   )

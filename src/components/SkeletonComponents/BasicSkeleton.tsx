@@ -1,14 +1,15 @@
 import {Fragment} from 'react/jsx-runtime'
 
 import {GeneralProps} from '@/types/CommonTypes'
+import {BasicSkeletonType} from '@/types/UnionTypes'
 
 const BasicSkeleton = (
   props: {
     tableHeading?: {content: string; showArrow: boolean}[]
-    type?: string
+    type?: BasicSkeletonType
   } & Pick<GeneralProps, 'className'>
 ) => {
-  const {className, type = '', tableHeading = []} = props
+  const {className, type = 'basic', tableHeading = []} = props
 
   return type === 'tableSkeleton' ? (
     <Fragment>

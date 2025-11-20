@@ -48,14 +48,7 @@ const ChartRenderer = () => {
               {English.E20}
             </span>
           </div>
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: '563px',
-              overflow: 'hidden',
-            }}
-          >
+          <div className="relative h-[563px] w-full overflow-hidden">
             <ChartGraphs />
             {!isLoadingCandles && <TrendLines />}
           </div>

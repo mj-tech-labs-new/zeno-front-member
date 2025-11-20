@@ -18,7 +18,7 @@ const ChartRenderingLayout = () => {
         <div className="grid grid-cols-1 2xl:grid-cols-2">
           <ChartRenderer />
           <div className="grid grid-cols-2">
-            <Trades close={36641.2} />
+            <Trades />
             <PlaceOrder />
           </div>
         </div>

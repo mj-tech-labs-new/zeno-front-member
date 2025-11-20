@@ -39,3 +39,5 @@ export type ChartShapesType =
   | 'multi_range'
 
 export type CloseOrderType = 'single_order' | 'all_order'
+
+export type BasicSkeletonType = 'basic' | 'tableSkeleton'

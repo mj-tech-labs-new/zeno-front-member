@@ -136,7 +136,7 @@ const English = {
   E136: 'Order Book',
   E137: '1m',
   E138: 'Start Your Challenge',
-  E139: 'Last trades',
+  E139: '',
   E140: 'Price',
   E141: 'Amounts',
   E142: 'Open Position',

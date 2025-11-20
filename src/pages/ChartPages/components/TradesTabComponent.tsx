@@ -1,37 +1,76 @@
-import {Fragment, useMemo} from 'react'
+/* eslint-disable consistent-return */
+import {Fragment, memo, useEffect, useMemo, useState} from 'react'
 
-import {ImageComponent} from '@/components'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {ChartObjectProps, ChartSwitchProps} from '@/types/ChartTypes'
+import {BasicSkeleton} from '@/components'
+import {English, Utility} from '@/helpers'
+import {ChartSwitchProps, OrderBookObjectType} from '@/types/ChartTypes'
 
-const TradesTabComponent = (
-  props: Pick<ChartSwitchProps, 'activeType'> & Pick<ChartObjectProps, 'close'>
-) => {
-  const {activeType, close} = props
+import {useChartProvider} from '../context/ChartProvider'
+
+const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
+  const {isLoadingCandles, chartInfo, livePrice} = useChartProvider()
+  const {activeType} = props
+  const [isLoadingOrderBook, setIsLoadingOrderBook] = useState(true)
+  const [bookings, setBookings] = useState<OrderBookObjectType | null>(null)
   const tradesToMap = useMemo(() => {
-    const buyOrders = Constants.OrderBook?.filter(
-      (item) => item?.type === 'buy'
-    )
-    const sellOrders = Constants.OrderBook?.filter(
-      (item) => item?.type === 'sell'
-    )
+    const buyOrders = bookings?.asks?.map((item) => ({
+      price: item[0],
+      amount: item[1],
+      type: 'buy',
+    }))
+    const sellOrders = bookings?.asks?.map((item) => ({
+      price: item[0],
+      amount: item[1],
+      type: 'sell',
+    }))
     return activeType === 'buy_sell_type'
-      ? Constants.OrderBook
+      ? [...(buyOrders ?? []), ...(sellOrders ?? [])]
       : activeType === 'buy_type'
         ? buyOrders
         : sellOrders
-  }, [activeType])
-  const maxNumber = Constants.OrderBook?.map(
-    (numbers) => numbers.amount * (numbers?.price ? numbers.price : 0)
-  ).reduce(
-    (accumulator, currentValue) => Math.max(accumulator, currentValue),
-    -Infinity
+  }, [activeType, bookings?.asks])
+
+  const maxNumber = useMemo(
+    () =>
+      [...(bookings?.asks ?? []), ...(bookings?.bids ?? [])]
+        ?.map((numbers) => numbers?.[1] ?? 0 * (numbers?.[0] ? numbers[0] : 0))
+        .reduce(
+          (accumulator, currentValue) => Math.max(accumulator, currentValue),
+          -Infinity
+        ),
+    [bookings?.asks, bookings?.bids]
   )
 
-  const indexToShowStats = useMemo(
-    () => tradesToMap.length / 2,
-    [tradesToMap?.length]
-  )
+  useEffect(() => {
+    if (isLoadingCandles || !chartInfo?.fullSymbolName) return
+    const SYMBOL = chartInfo?.fullSymbolName
+    const webSocket = new WebSocket(
+      `wss://stream.binance.com:9443/ws/${SYMBOL.toLowerCase()}@depth5@100ms`
+    )
+
+    webSocket.addEventListener('error', () => {
+      setIsLoadingOrderBook(false)
+    })
+
+    webSocket.addEventListener('open', () => {
+      setIsLoadingOrderBook(false)
+    })
+
+    webSocket.addEventListener('message', (data) => {
+      const bidData = JSON.parse(data?.data)
+      setBookings(bidData)
+    })
+
+    return () => {
+      webSocket.removeEventListener('close', () => {
+        setBookings(null)
+        setIsLoadingOrderBook(false)
+      })
+      webSocket.removeEventListener('error', () => {
+        setIsLoadingOrderBook(false)
+      })
+    }
+  }, [chartInfo?.fullSymbolName, isLoadingCandles])
 
   return (
     <div>
@@ -48,46 +87,49 @@ const TradesTabComponent = (
           </div>
         ))}
       </div>
-      {tradesToMap?.map((trade, tradeIndex) => {
-        const {amount, price, type} = trade
-        const finalAmount = amount * price
-        return (
-          <Fragment key={`trade_${trade?.type}_${tradeIndex?.toString()}`}>
-            {activeType === 'buy_sell_type' &&
-              tradeIndex === indexToShowStats && (
-                <div
-                  className={`text-chart-green-color my-6 font-medium text-base !leading-6 flex gap-2 items-center justify-center ${price > close ? 'text-chart-green-color' : 'text-chart-red-color'}`}
-                >
-                  {Utility.numberConversion(price)}{' '}
-                  <ImageComponent
-                    className={`w-[9px] ${price > close ? 'green_filter' : 'red_filter rotate-180'} `}
-                    imageUrl={Images.sharpArrow}
-                  />
-                  <span className="!text-chart-text-primary-color">
-                    {Utility.numberConversion(close)}
-                  </span>
-                </div>
-              )}
-            <div className="relative grid grid-cols-3 gap-2 last:mb-0 mb-2 mt-2 *:text-neutral-tertiary-color *:text-xs *:!leading-5 *:text-center py-1">
-              <div
-                className={`absolute right-0 h-full ${type === 'buy' ? 'bg-chart-green-color' : 'bg-chart-red-color'} opacity-15`}
-                style={{
-                  width: `${finalAmount > maxNumber ? 100 : (finalAmount / maxNumber) * 100}%`,
-                }}
-              />
-              <span
-                className={`font-semibold ${type !== 'buy' ? '!text-chart-red-color' : '!text-chart-green-color'}`}
-              >
-                {Utility.numberConversion(price)}
-              </span>
-              <span>{amount}</span>
-              <span>{Utility.numberConversion(finalAmount)}</span>
+      {isLoadingOrderBook && !isLoadingCandles ? (
+        <div className="space-y-4">
+          {Array.from({length: 5}).map((_, index) => (
+            <div
+              key={`order_loading_${index.toString()}`}
+              className="h-7 w-full mt-5"
+            >
+              <BasicSkeleton />
             </div>
-          </Fragment>
-        )
-      })}
+          ))}
+        </div>
+      ) : (
+        tradesToMap?.map((trade, tradeIndex) => {
+          const {amount, price, type} = trade
+          const finalAmount = amount * price
+          return (
+            <Fragment key={`trade_${trade?.type}_${tradeIndex?.toString()}`}>
+              {activeType === 'buy_sell_type' && tradeIndex === 5 && (
+                <p className="text-primary-color my-5 font-medium bg-neutral-secondary-color py-3 rounded !leading-6 text-center text-2xl">
+                  {Utility.numberConversion(livePrice)}{' '}
+                </p>
+              )}
+              <div className="relative grid grid-cols-3 gap-2 last:mb-0 mb-2 mt-2 *:text-neutral-tertiary-color *:text-xs *:!leading-5 *:text-center py-1">
+                <div
+                  className={`absolute right-0 h-full ${type === 'buy' ? 'bg-chart-green-color' : 'bg-chart-red-color'} opacity-15`}
+                  style={{
+                    width: `${finalAmount > maxNumber ? 100 : (finalAmount / maxNumber) * 100}%`,
+                  }}
+                />
+                <span
+                  className={`font-semibold ${type !== 'buy' ? '!text-chart-red-color' : '!text-chart-green-color'}`}
+                >
+                  {Utility.numberConversion(price)}
+                </span>
+                <span>{amount}</span>
+                <span>{Utility.numberConversion(finalAmount)}</span>
+              </div>
+            </Fragment>
+          )
+        })
+      )}
     </div>
   )
 }
 
-export default TradesTabComponent
+export default memo(TradesTabComponent)
