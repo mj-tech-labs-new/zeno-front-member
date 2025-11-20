@@ -51,6 +51,7 @@ interface OtherLoaderType {
 }
 
 const ChartContext = createContext<{
+  challengeId: string
   handleCommonMouseDown: () => void
   handleCommonMouseUp: () => void
   selectedTool: ChartShapesType | null
@@ -107,6 +108,7 @@ const ChartContext = createContext<{
   totalShapes: DrawingData[]
   setTotalShapes: Dispatch<SetStateAction<DrawingData[]>>
 }>({
+  challengeId: '',
   handleCommonMouseDown: () => {},
   handleCommonMouseUp: () => {},
   totalShapes: [],
@@ -153,6 +155,8 @@ const ChartContext = createContext<{
 })
 
 const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
+  const location = useLocation()
+  const challengeId = useMemo(() => location.state, [location.state])
   const UserData = useSelector((state: StorageProps) => state.userData?.user)
   const isDrawing = useRef(false)
   const [tempShape, setTempShape] = useState<DrawingData | null>(null)
@@ -332,6 +336,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       setBuyOrSellApiResArray,
       currentStageArray,
       setCurrentStageArray,
+      challengeId,
     }),
     [
       handleCommonMouseDown,
@@ -358,6 +363,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       selectedToken,
       selectedTool,
       totalCandleData,
+      challengeId,
     ]
   )
 
@@ -398,9 +404,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     getTokenList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const location = useLocation()
-  const challengeId = location.state
 
   useEffect(() => {
     getChallengeByIdApi({challenge_id: challengeId}).then((res) => {

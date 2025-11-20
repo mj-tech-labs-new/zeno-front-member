@@ -1,6 +1,3 @@
-import {useEffect} from 'react'
-import {useLocation, useNavigate} from 'react-router-dom'
-
 import {Loader} from '@/components'
 
 import ChartRenderer from '../ChartRenderer'
@@ -11,14 +8,7 @@ import Trades from './Trades'
 import TradesInfo from './TradesInfo'
 
 const ChartRenderingLayout = () => {
-  const {isLoadingCandles} = useChartProvider()
-  const location = useLocation()
-  const challengeId = location.state
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!challengeId) navigate(-1)
-  }, [challengeId, navigate])
+  const {isLoadingCandles, challengeId} = useChartProvider()
 
   return (
     <div className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1">
