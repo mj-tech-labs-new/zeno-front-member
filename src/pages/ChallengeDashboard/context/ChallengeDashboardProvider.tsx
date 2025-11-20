@@ -9,15 +9,15 @@ import {
   useRef,
   useState,
 } from 'react'
-import {useSelector} from 'react-redux'
-import {useLocation, useNavigate} from 'react-router-dom'
-import {io, Socket} from 'socket.io-client'
+import { useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { io, Socket } from 'socket.io-client'
 
 import {
   GetChallengeByIdType,
   TradingStatisticsType,
 } from '@/types/ChallengeTypes'
-import {GeneralProps, StorageProps} from '@/types/CommonTypes'
+import { GeneralProps, StorageProps } from '@/types/CommonTypes'
 
 import {
   getChallengeByIdApi,
@@ -35,20 +35,20 @@ const ChallengeDashboardContext = createContext<{
   challengeIdRef: RefObject<null | string>
 }>({
   getChallengeByIdArray: [],
-  setGetChallengeByIdArray: () => {},
+  setGetChallengeByIdArray: () => { },
   tradingStatistics: null,
-  setTradingStatistics: () => {},
-  socketRef: {current: null},
+  setTradingStatistics: () => { },
+  socketRef: { current: null },
   showLoader: true,
-  setShowLoader: () => {},
-  challengeIdRef: {current: null},
+  setShowLoader: () => { },
+  challengeIdRef: { current: null },
 })
 
 const ChallengeDashboardProvider = (
   props: Required<Pick<GeneralProps, 'children'>>
 ) => {
   const UserData = useSelector((state: StorageProps) => state.userData?.user)
-  const {children} = props
+  const { children } = props
   const [showLoader, setShowLoader] = useState(false)
   const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
     GetChallengeByIdType[]
@@ -75,8 +75,9 @@ const ChallengeDashboardProvider = (
   )
 
   useEffect(() => {
+    if (!challengeId) return
     setShowLoader(true)
-    getChallengeByIdApi({challenge_id: challengeId})
+    getChallengeByIdApi({ challenge_id: challengeId })
       .then((res) => {
         setGetChallengeByIdArray(res)
       })
