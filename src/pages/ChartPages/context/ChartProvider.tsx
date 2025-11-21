@@ -24,14 +24,14 @@ import {
   useRef,
   useState,
 } from 'react'
-import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { io, Socket } from 'socket.io-client'
+import {useSelector} from 'react-redux'
+import {useLocation} from 'react-router-dom'
+import {toast} from 'react-toastify'
+import {io, Socket} from 'socket.io-client'
 
-import { SocketEmitter } from '@/helpers'
-import { getChallengeByIdApi } from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
-import { APICall, Endpoints } from '@/services'
+import {SocketEmitter} from '@/helpers'
+import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
+import {APICall, Endpoints} from '@/services'
 import {
   BuyOrSellApiType,
   ChallengeStageType,
@@ -43,8 +43,8 @@ import {
   DrawingData,
   LivePriceSocketType,
 } from '@/types/ChartTypes'
-import { GeneralProps, StorageProps } from '@/types/CommonTypes'
-import { ChartShapesType, ChartTimePeriodType } from '@/types/UnionTypes'
+import {GeneralProps, StorageProps} from '@/types/CommonTypes'
+import {ChartShapesType, ChartTimePeriodType} from '@/types/UnionTypes'
 
 interface OtherLoaderType {
   isDropdownLoading: boolean
@@ -109,49 +109,49 @@ const ChartContext = createContext<{
   setTotalShapes: Dispatch<SetStateAction<DrawingData[]>>
 }>({
   challengeId: '',
-  handleCommonMouseDown: () => { },
-  handleCommonMouseUp: () => { },
+  handleCommonMouseDown: () => {},
+  handleCommonMouseUp: () => {},
   totalShapes: [],
-  setTotalShapes: () => { },
+  setTotalShapes: () => {},
   tempShape: null,
-  setTempShape: () => { },
-  isDrawing: { current: false },
-  enableChartActions: () => { },
-  disableChartActions: () => { },
+  setTempShape: () => {},
+  isDrawing: {current: false},
+  enableChartActions: () => {},
+  disableChartActions: () => {},
   livePrice: 0,
-  setLivePrice: () => { },
+  setLivePrice: () => {},
   getChallengeByIdArray: [],
-  setGetChallengeByIdArray: () => { },
+  setGetChallengeByIdArray: () => {},
   buyOrSellApiResArray: [],
-  setBuyOrSellApiResArray: () => { },
+  setBuyOrSellApiResArray: () => {},
   currentStageArray: [],
-  setCurrentStageArray: () => { },
-  totalCandlesCount: { current: 0 },
-  isLastCandle: { current: false },
-  isCallingCurrent: { current: false },
-  getCandleHistory: () => { },
-  currnetLimit: { current: 0 },
-  otherLoading: { isDropdownLoading: true },
-  setOtherLoading: () => { },
+  setCurrentStageArray: () => {},
+  totalCandlesCount: {current: 0},
+  isLastCandle: {current: false},
+  isCallingCurrent: {current: false},
+  getCandleHistory: () => {},
+  currnetLimit: {current: 0},
+  otherLoading: {isDropdownLoading: true},
+  setOtherLoading: () => {},
   tokenList: null,
-  setTokenList: () => { },
+  setTokenList: () => {},
   selectedToken: 'Bitcoin',
-  setSelectedToken: () => { },
+  setSelectedToken: () => {},
   selectedIndex: '1m',
-  setSelectedIndex: () => { },
+  setSelectedIndex: () => {},
   chartInfo: null,
-  setChartInfo: () => { },
+  setChartInfo: () => {},
   totalCandleData: [],
-  setTotalCandleData: () => { },
+  setTotalCandleData: () => {},
   isLoadingCandles: false,
-  setIsLoadingCandles: () => { },
-  socketRef: { current: null },
+  setIsLoadingCandles: () => {},
+  socketRef: {current: null},
   selectedTool: null,
-  setSelectedTool: () => { },
-  chartAreaRef: { current: null },
-  firstChartRef: { current: null },
-  chartObjectRef: { current: null },
-  volumeSeriesRef: { current: null },
+  setSelectedTool: () => {},
+  chartAreaRef: {current: null},
+  firstChartRef: {current: null},
+  chartObjectRef: {current: null},
+  volumeSeriesRef: {current: null},
 })
 
 const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
@@ -160,7 +160,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const UserData = useSelector((state: StorageProps) => state.userData?.user)
   const isDrawing = useRef(false)
   const [tempShape, setTempShape] = useState<DrawingData | null>(null)
-  const { children } = props
+  const {children} = props
   const [livePrice, setLivePrice] = useState(0)
   const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
     GetChallengeByIdType[]
@@ -269,7 +269,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     chartObjectRef.current.applyOptions({
       handleScroll: true,
       handleScale: true,
-      crosshair: { mode: 1 },
+      crosshair: {mode: 1},
     })
   }, [chartObjectRef])
 
@@ -278,7 +278,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     chartObjectRef.current.applyOptions({
       handleScroll: false,
       handleScale: false,
-      crosshair: { mode: 0 },
+      crosshair: {mode: 0},
     })
   }, [])
 
@@ -368,7 +368,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   )
 
   const getTokenList = useCallback(() => {
-    setOtherLoading({ isDropdownLoading: true })
+    setOtherLoading({isDropdownLoading: true})
     APICall('get', Endpoints.suppportedToken)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
@@ -381,7 +381,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
         toast.error(error?.data?.message)
       })
       .finally(() => {
-        setOtherLoading((prev) => ({ ...prev, isDropdownLoading: false }))
+        setOtherLoading((prev) => ({...prev, isDropdownLoading: false}))
       })
   }, [])
 
@@ -407,7 +407,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
 
   useEffect(() => {
     if (!challengeId) return
-    getChallengeByIdApi({ challenge_id: challengeId }).then((res) => {
+    getChallengeByIdApi({challenge_id: challengeId}).then((res) => {
       setGetChallengeByIdArray(res)
     })
   }, [challengeId])

@@ -65,12 +65,23 @@ const PendingOrderTable = (
             <span>{tableBody?.distance}</span>
           </td>
 
-          <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            <span>{tableBody?.take_profit}</span>
-          </td>
+          <td className=" px-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
+            {tableBody?.take_profit?.[0]?.price &&
+            tableBody?.stop_loss?.[0]?.price ? (
+              <div className="flex flex-col">
+                <div className="flex flex-col">
+                  <span className="!text-primary-green">
+                    {tableBody?.take_profit?.[0]?.price ?? '--'}
+                  </span>
 
-          <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            <span>{tableBody?.stop_loss}</span>
+                  <span className="!text-extra-dark-danger-color">
+                    {tableBody?.stop_loss?.[0]?.price ?? '--'}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              '--'
+            )}
           </td>
           <td className="px-6 py-4 text-left !whitespace-nowrap">
             <CommonCloseActionButton

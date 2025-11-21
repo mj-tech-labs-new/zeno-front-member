@@ -7,12 +7,12 @@ import {
   RangeSelector,
 } from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
-import {BuyOrSelProps} from '@/types/ChartTypes'
+import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 import {DropDownObjectType} from '@/types/CommonTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
-import SlTp from './SlTp'
+import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
   const {activeIndex} = props
@@ -37,8 +37,12 @@ const BuySell = (props: BuyOrSelProps) => {
     DropDownObjectType[]
   >([])
   const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
-  const [stopLoss, setStopLoss] = useState<number>()
-  const [takeProfit, setTakeProfit] = useState<number>()
+  const [stopLoss, setStopLoss] = useState<
+    Pick<CommonBuyAndSellProp, 'stop_loss'>
+  >({stop_loss: []})
+  const [takeProfit, setTakeProfit] = useState<
+    Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({take_profit: []})
 
   const leverage = useMemo(
     () => currentStageArray?.[0]?.leverage,
@@ -222,8 +226,8 @@ const BuySell = (props: BuyOrSelProps) => {
           order_type="market"
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}
-          stopLoss={stopLoss}
-          takeProfit={takeProfit}
+          stop_loss={stopLoss?.stop_loss}
+          take_profit={takeProfit?.take_profit}
           total={Number(inputValues?.total)}
           setInputValues={() => {
             setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
@@ -231,21 +235,21 @@ const BuySell = (props: BuyOrSelProps) => {
         />
       </div>
       <div className="flex flex-col pointer-events-none opacity-60 ">
-        <SlTp
+        <StopLoss
           closingQuantity={Number(inputValues.total)}
           heading="Stop Loss"
           marketPrice={Number(inputValues.amount)}
           subHeading="Stop loss "
-          setSlMarketPrice={(value) => {
+          setStopLoss={(value) => {
             setStopLoss(value)
           }}
         />
-        <SlTp
+        <StopLoss
           closingQuantity={Number(inputValues.total)}
           heading="Take Profit"
           marketPrice={Number(inputValues.amount)}
           subHeading="Take Profit "
-          setSlMarketPrice={(value) => {
+          setStopLoss={(value) => {
             setTakeProfit(value)
           }}
         />

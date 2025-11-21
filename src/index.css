@@ -27,6 +27,7 @@
   --light-danger-color: #f04438;
   --dark-danger-color: #cc2929;
   --extra-dark-danger-color: #ff0000;
+  --primary-green: #34c759;
   --primary-border-color: #262626;
   --secondary-border-color: #262729;
   --info-bg-color: #252525;
@@ -131,7 +132,7 @@
   --color-button-secondary-color: var(--button-secondary-color);
   --color-button-tertiary-color: var(--button-tertiary-color);
   --color-primary-bg-color: var(--primary-bg-color);
-
+  --color-primary-green: var(--primary-green);
   --color-secondary-bg-color: var(--secondary-bg-color);
   --color-tertiary-bg-color: var(--tertiary-bg-color);
   --color-header-bg-color: var(--header-bg-color);

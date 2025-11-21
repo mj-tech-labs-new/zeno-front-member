@@ -297,6 +297,9 @@ const English = {
   E293: ' Market Price',
   E294: ' Closing Quantity',
   E295: 'Delete',
+  E296: 'Stop Loss must be LESS than Live Price And Take Profit must be GREATER than Live Price for BUY order ',
+  E297: 'Stop Loss must be GREATER than Live Price And Take Profit must be LESS than Live Price for SELL order ',
+  E298: 'TP/SL',
 }
 
 export default English
