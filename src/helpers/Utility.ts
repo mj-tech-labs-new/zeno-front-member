@@ -34,12 +34,20 @@ const validPointValue = (value: string | number) => {
   return newvalue
 }
 
+const convertScientificToNormalNum = (value: number) => {
+  const magnitude = Math.floor(Math.log10(Math.abs(value))) + 1
+  const newValue = value.toPrecision(Math.max(magnitude, 1))
+
+  return newValue
+}
+
 const Utility = {
   ScrollToSectionUtility,
   validFloatNumber,
   numberConversion,
   isValidEmail,
   validPointValue,
+  convertScientificToNormalNum,
 }
 
 export default Utility

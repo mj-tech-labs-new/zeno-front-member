@@ -1,13 +1,13 @@
-import {useEffect, useRef} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {toast} from 'react-toastify'
+import { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import {CommonButton} from '@/components'
-import {Constants, English} from '@/helpers'
-import {CommonBuyAndSellProp} from '@/types/ChartTypes'
+import { CommonButton } from '@/components'
+import { Constants, English } from '@/helpers'
+import { CommonBuyAndSellProp } from '@/types/ChartTypes'
 
 import chartPageApi from '../api/ChartPageApi'
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
 const ActionButton = (props: CommonBuyAndSellProp) => {
   const {
@@ -17,16 +17,42 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     quantity = 0,
     order_type,
     leverage = '',
-    stopLoss,
-    takeProfit,
+    stop_loss,
+    take_profit,
     setInputValues,
   } = props
   const navigate = useNavigate()
   const amountRef = useRef(0)
-  const {getChallengeByIdArray, chartInfo, setGetChallengeByIdArray} =
+  const { getChallengeByIdArray, chartInfo, setGetChallengeByIdArray, livePrice } =
     useChartProvider()
 
   const handleButtonClick = (orderSide: string) => {
+    if (orderSide === 'buy' || orderSide === 'sell') {
+      const sl = stop_loss?.[0]?.price
+      const tp = take_profit?.[0]?.price
+
+      if (orderSide === 'buy') {
+        if (sl && Number(sl) >= livePrice) {
+          toast.error(English.E296)
+          return
+        }
+        if (tp && Number(tp) <= livePrice) {
+          toast.error(English.E296)
+          return
+        }
+      }
+
+      if (orderSide === 'sell') {
+        if (sl && Number(sl) <= livePrice) {
+          toast.error(English.E297)
+          return
+        }
+        if (tp && Number(tp) >= livePrice) {
+          toast.error(English.E297)
+          return
+        }
+      }
+    }
     chartPageApi
       .buyOrSellApi({
         symbol: chartInfo?.fullSymbolName,
@@ -36,8 +62,8 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
         order_side: orderSide,
         challenge_id: getChallengeByIdArray?.[0]?.challenge_id,
         leverage,
-        stop_loss: stopLoss,
-        take_profit: takeProfit,
+        stop_loss,
+        take_profit,
       })
       .then(async (res) => {
         setInputValues()
@@ -65,7 +91,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     <div className="flex flex-1 gap-3">
       {' '}
       {Constants?.BuySellActionButtons?.[activeIndex].map((item) => {
-        const {name, text} = item
+        const { name, text } = item
         return (
           <CommonButton
             key={name}

@@ -1,39 +1,29 @@
-import {memo, useCallback, useRef, useState} from 'react'
+import { memo, useCallback, useRef, useState } from 'react'
 
-import {CommonButton, InputContainer, RangeSelector} from '@/components'
-import {English} from '@/helpers'
-import {CommonStopLossProp} from '@/types/ChartTypes'
+import { CommonButton, InputContainer, RangeSelector } from '@/components'
+import { English } from '@/helpers'
+import { CommonStopLossProp, StopLossProps } from '@/types/ChartTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
-interface StopLoss {
-  marketprice: number
-  quantity: number
-  persantageValue?: number
-  rangeValue?: number
-}
-
-const SlTp = (props: CommonStopLossProp) => {
+const StopLoss = (props: CommonStopLossProp) => {
   const {
     heading = '',
-    subHeading = '',
     marketPrice,
     closingQuantity,
-    BuyOrSellType = 'buy',
-    setSlMarketPrice,
+    setStopLoss,
+    resetValue,
   } = props
 
-  const [error, setError] = useState('')
-
-  const [inputValues, setInputValues] = useState<StopLoss[]>([])
-  const {chartInfo} = useChartProvider()
-  const stRef = useRef<number>(0)
+  const [inputValues, setInputValues] = useState<StopLossProps[]>([])
+  const { chartInfo } = useChartProvider()
+  const stopLossRef = useRef<number>(0)
 
   const handleInputChange = useCallback(
-    (name: keyof StopLoss, value: string) => {
+    (name: keyof StopLossProps, value: string) => {
       setInputValues((prev) => {
         const updated = [...prev]
-        const currentObject = updated[stRef.current - 1]
+        const currentObject = updated[stopLossRef.current - 1]
 
         const newItem = {
           ...currentObject,
@@ -52,60 +42,53 @@ const SlTp = (props: CommonStopLossProp) => {
                 : currentObject.quantity,
         }
 
-        if (name === 'marketprice' && BuyOrSellType === 'buy') {
-          const isInvalid = Number(value) > Number(marketPrice)
-          if (isInvalid) {
-            setError('Market Price must be less than Entry Price')
-          } else {
-            setError('')
-          }
-          setSlMarketPrice(Number(value))
-          newItem.marketprice = Number(value)
-        }
-        if (name === 'marketprice' && BuyOrSellType === 'sell') {
-          const isInvalid = Number(value) > Number(marketPrice)
-
-          if (isInvalid) {
-            setError('Market Price must be Grater than Entry Price')
-          } else {
-            setError('')
-          }
-          setSlMarketPrice(Number(value))
+        if (name === 'marketprice') {
           newItem.marketprice = Number(value)
         }
 
-        if (name === 'marketprice' && BuyOrSellType !== 'buy') {
-          newItem.marketprice = Number(value)
-        }
+        updated[stopLossRef.current - 1] = newItem
 
-        updated[stRef.current - 1] = newItem
+        const payload = updated.map((item) => ({
+          id: item.id,
+          quantity: item.quantity,
+          price: item.marketprice,
+          status: item.status,
+        }))
+        setStopLoss({ stop_loss: payload })
         return updated
       })
     },
-    [BuyOrSellType, closingQuantity, marketPrice, setSlMarketPrice]
+    [closingQuantity, setStopLoss]
   )
 
   const handleSl = useCallback(
     (type: string, index?: number) => {
+      if (stopLossRef.current >= 1 && type === 'add') return
       if (type === 'add') {
-        stRef.current += 1
+        stopLossRef.current += 1
         setInputValues((prev) => [
           ...prev,
           {
+            id: 0 + 1,
             marketprice: 0,
             quantity: closingQuantity ?? 0,
             persantageValue: 100,
             rangeValue: 100,
+            status: 'unused',
           },
         ])
       }
 
       if (type === 'remove' && index !== undefined) {
-        stRef.current -= 1
-        setInputValues((prev) => prev.filter((_, i) => i !== index))
+        stopLossRef.current -= 1
+        setInputValues((prev) =>
+          prev
+            .filter((_, i) => i !== index)
+            .filter((item) => item.quantity !== resetValue)
+        )
       }
     },
-    [closingQuantity]
+    [closingQuantity, resetValue]
   )
 
   return (
@@ -117,13 +100,15 @@ const SlTp = (props: CommonStopLossProp) => {
               {heading}{' '}
             </div>
             <div>
-              <CommonButton
-                className="bg-primary-dark-blue-color rounded-md !text-xl font-normal !px-2 !py-0.5 "
-                singleLineContent="+"
-                onClick={() => {
-                  handleSl('add')
-                }}
-              />
+              {inputValues.length !== 1 && (
+                <CommonButton
+                  className="bg-primary-dark-blue-color rounded-md !text-xl font-normal !px-2 !py-0.5 "
+                  singleLineContent="+"
+                  onClick={() => {
+                    handleSl('add')
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -134,10 +119,7 @@ const SlTp = (props: CommonStopLossProp) => {
               className="mb-10 flex flex-col gap-3"
             >
               <div className="flex justify-between ">
-                <div className="text-lg mb-2.5 font-normal  ">
-                  {subHeading}
-                  {index + 1}
-                </div>
+                <div className="text-lg mb-2.5 font-normal  " />
                 <div>
                   <CommonButton
                     className="bg-dark-danger-color rounded-md !text-xl font-normal !px-2 !py-0.5 "
@@ -157,7 +139,6 @@ const SlTp = (props: CommonStopLossProp) => {
                     <div className="w-full gap-2.5 flex items-center">
                       <div>
                         <InputContainer
-                          error={error}
                           layoutClassName="!w-full"
                           className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
 [&>input]:!text-chart-text-primary-color [&>input]:!text-sm 
@@ -180,11 +161,6 @@ const SlTp = (props: CommonStopLossProp) => {
                     </div>
                   </div>
                 </div>
-                {error && (
-                  <span className="text-light-danger-color text-xs/6 font-normal mx-1.5">
-                    {error}
-                  </span>
-                )}
 
                 <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
                   <div className="flex justify-between gap-2">
@@ -231,4 +207,4 @@ const SlTp = (props: CommonStopLossProp) => {
   )
 }
 
-export default memo(SlTp)
+export default memo(StopLoss)

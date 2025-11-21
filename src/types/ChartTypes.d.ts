@@ -66,7 +66,8 @@ export interface LivePriceSocketType extends Pick<CandleObjectType, 'symbol'> {
   timestamp: string
 }
 
-export interface OpenPosition {
+export interface OpenPosition
+  extends Pick<CommonBuyAndSellProp, 'stop_loss' | 'take_profit'> {
   status: string
   user_id: string
   tx_hash: string
@@ -77,29 +78,34 @@ export interface OpenPosition {
   quantity: number
   open_price?: number
   current_price: number
-  take_profit: string
-  stop_loss: string
   realized_pnl: number
   open_pnl: string
 }
 
 export interface PendingOrder
   extends Pick<
-    OpenPosition,
-    | 'symbol'
-    | 'tx_hash'
-    | 'quantity'
-    | 'take_profit'
-    | 'stop_loss'
-    | 'realized_pnl'
-    | 'open_pnl'
-    | 'user_id'
-  > {
+      OpenPosition,
+      | 'symbol'
+      | 'tx_hash'
+      | 'quantity'
+      | 'realized_pnl'
+      | 'open_pnl'
+      | 'user_id'
+    >,
+    Pick<OpenPosition, 'stop_loss' | 'take_profit'> {
   order_type: string
   submitted_time: string
   submitted_price: number
   Expiraton?: string
   distance: number
+}
+export interface StopLossProps {
+  marketprice: number
+  quantity: number
+  persantageValue?: number
+  rangeValue?: number
+  id: number
+  status?: string
 }
 
 export interface CommonBuyAndSellProp
@@ -113,8 +119,10 @@ export interface CommonBuyAndSellProp
   usdt_price?: number
   leverage?: string
   setInputValues: () => void
-  stopLoss?: number
-  takeProfit?: number
+  stop_loss?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
+    Pick<LivePriceSocketType, 'price'>)[]
+  take_profit?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
+    Pick<LivePriceSocketType, 'price'>)[]
 }
 
 export type BuyOrSelProps = Pick<CommonBuyAndSellProp, 'activeIndex'>
@@ -125,7 +133,11 @@ export interface CommonStopLossProp {
   marketPrice?: number
   closingQuantity?: number
   BuyOrSellType?: string
-  setSlMarketPrice: (value: number) => void
+  setStopLoss: (
+    value: Pick<CommonBuyAndSellProp, 'stop_loss'> &
+      Pick<CommonBuyAndSellProp, 'take_profit'>
+  ) => void
+  resetValue?: number
 }
 
 export interface OrderBookObjectType {
