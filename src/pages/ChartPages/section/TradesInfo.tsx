@@ -1,7 +1,8 @@
-import React, {memo, useEffect, useMemo, useState} from 'react'
+import {CreatePriceLineOptions, LineStyle} from 'lightweight-charts'
+import React, {memo, useEffect, useMemo, useRef, useState} from 'react'
 
 import {TabComponent} from '@/components'
-import {Constants, SocketEmitter} from '@/helpers'
+import {Constants, SocketEmitter, Utility} from '@/helpers'
 import ClosedPNL from '@/pages/ChallengeDashboard/sections/ClosedPNL'
 import {OpenPosition, PendingOrder} from '@/types/ChartTypes'
 
@@ -21,8 +22,8 @@ const TradesInfo = (props: {challengeId: string}) => {
     () => (activeIndex === 0 ? openPosition : pendingOrder),
     [activeIndex, openPosition, pendingOrder]
   )
-  const {socketRef, isLoadingCandles} = useChartProvider()
-
+  const {socketRef, isLoadingCandles, chartAreaRef} = useChartProvider()
+  const isPriceCreated = useRef(false)
   useEffect(() => {
     const currentSocket = socketRef.current
     if (isLoadingCandles || !currentSocket) return
@@ -47,6 +48,39 @@ const TradesInfo = (props: {challengeId: string}) => {
       currentSocket?.off(socketEventName, handler)
     }
   }, [challengeId, isLoadingCandles, socketEventKey, socketRef])
+  useEffect(() => {
+    const priceline = chartAreaRef?.current
+
+    if (
+      isLoadingCandles ||
+      !priceline ||
+      activeIndex === 1 ||
+      openPosition?.length === 0 ||
+      !openPosition
+    )
+      return
+    const minPriceLine: CreatePriceLineOptions = {
+      price: openPosition?.[0]?.open_price ?? 0,
+      color: openPosition?.[0]?.open_pnl.startsWith('-')
+        ? '#ef5350'
+        : '#34c759',
+      lineWidth: 1,
+      lineStyle: LineStyle.Solid,
+      axisLabelVisible: true,
+      title: Utility.removeDecimal(openPosition?.[0]?.realized_pnl).toString(),
+    }
+
+    if (isPriceCreated.current) return
+    const newPriceline = priceline?.createPriceLine(minPriceLine)
+    isPriceCreated.current = true
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+       
+      priceline.removePriceLine(newPriceline)
+      isPriceCreated.current = false
+    }
+  }, [pendingOrder, isLoadingCandles, chartAreaRef, activeIndex, openPosition])
 
   return (
     <div className="!w-full py-5 px-4 !bg-chart-layout-bg rounded !whitespace-nowrap">

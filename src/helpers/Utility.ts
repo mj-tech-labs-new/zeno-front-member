@@ -33,6 +33,10 @@ const validPointValue = (value: string | number) => {
 
   return newvalue
 }
+const removeDecimal = (value: number) => {
+  const newValue = Number(value).toFixed(3)
+  return newValue
+}
 
 const Utility = {
   ScrollToSectionUtility,
@@ -40,6 +44,7 @@ const Utility = {
   numberConversion,
   isValidEmail,
   validPointValue,
+  removeDecimal,
 }
 
 export default Utility

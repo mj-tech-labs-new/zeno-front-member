@@ -8,6 +8,9 @@ const ChartUtils = {
         type: ColorType.Solid,
         color: '#17181B',
       },
+      panes: {
+        separatorColor: 'transparent',
+      },
     },
     grid: {
       vertLines: {

@@ -101,7 +101,7 @@ const ChartGraphs = () => {
     volumeSeriesRef.current = volumeSeries
     volumeSeriesRef.current.moveToPane(2)
     const volumePane = chartObjectRef.current.panes()?.[1]
-    volumePane.setHeight(72)
+    volumePane.setHeight(120)
   }, [chartAreaRef, chartObjectRef, firstChartRef, volumeSeriesRef])
 
   useEffect(() => {
