@@ -23,12 +23,8 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
   } = props
   const navigate = useNavigate()
   const amountRef = useRef(0)
-  const {
-    getChallengeByIdArray,
-    setBuyOrSellApiResArray,
-    chartInfo,
-    buyOrSellApiResArray,
-  } = useChartProvider()
+  const {getChallengeByIdArray, chartInfo, setGetChallengeByIdArray} =
+    useChartProvider()
 
   const handleButtonClick = (orderSide: string) => {
     chartPageApi
@@ -49,17 +45,21 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
           navigate('/dashboard')
           return
         }
-        setBuyOrSellApiResArray(res.data)
+        setGetChallengeByIdArray((data) => {
+          const previousData = data[0]
+          const newData = {
+            ...previousData,
+            current_usdt: res?.data?.[0]?.usdt_balance_after,
+          }
+          return [newData]
+        })
         toast.success(English.E280)
       })
   }
 
   useEffect(() => {
-    amountRef.current =
-      buyOrSellApiResArray?.[0]?.usdt_balance_after ??
-      getChallengeByIdArray?.[0]?.current_usdt ??
-      0
-  }, [buyOrSellApiResArray, getChallengeByIdArray])
+    amountRef.current = getChallengeByIdArray?.[0]?.current_usdt ?? 0
+  }, [getChallengeByIdArray])
 
   return (
     <div className="flex flex-1 gap-3">

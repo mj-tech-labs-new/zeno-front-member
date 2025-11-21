@@ -11,8 +11,7 @@ import SlTp from './SlTp'
 
 const Limit = (props: BuyOrSelProps) => {
   const {activeIndex} = props
-  const {chartInfo, buyOrSellApiResArray, getChallengeByIdArray, livePrice} =
-    useChartProvider()
+  const {chartInfo, getChallengeByIdArray, livePrice} = useChartProvider()
   const [inputValues, setInputValues] = useState({
     entryprice: '',
     quantity: '',
@@ -139,10 +138,7 @@ const Limit = (props: BuyOrSelProps) => {
         </span>
         <div className="flex items-center gap-1">
           <span className="text-extra-light-success-color text-xs font-semibold !leading-5">
-            {Utility.numberConversion(
-              buyOrSellApiResArray?.[0]?.usdt_balance_after ??
-                getChallengeByIdArray?.[0]?.current_usdt
-            )}
+            {Utility.numberConversion(getChallengeByIdArray?.[0]?.current_usdt)}
           </span>
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>

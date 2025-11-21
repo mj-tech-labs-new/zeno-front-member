@@ -24,7 +24,6 @@ const BuySell = (props: BuyOrSelProps) => {
     getChallengeByIdArray,
     chartInfo,
     currentStageArray,
-    buyOrSellApiResArray,
     livePrice,
   } = useChartProvider()
   const [inputValues, setInputValues] = useState({
@@ -116,11 +115,8 @@ const BuySell = (props: BuyOrSelProps) => {
   ])
 
   useEffect(() => {
-    amountRef.current =
-      buyOrSellApiResArray?.[0]?.usdt_balance_after ??
-      getChallengeByIdArray?.[0]?.current_usdt ??
-      0
-  }, [buyOrSellApiResArray, getChallengeByIdArray])
+    amountRef.current = getChallengeByIdArray?.[0]?.current_usdt ?? 0
+  }, [getChallengeByIdArray])
 
   return (
     <div className="flex flex-col gap-3">
@@ -130,10 +126,7 @@ const BuySell = (props: BuyOrSelProps) => {
         </span>
         <div className="flex items-center gap-1">
           <span className="text-extra-light-success-color text-xs font-semibold !leading-5">
-            {Utility.numberConversion(
-              buyOrSellApiResArray?.[0]?.usdt_balance_after ??
-                getChallengeByIdArray?.[0]?.current_usdt
-            )}
+            {Utility.numberConversion(getChallengeByIdArray?.[0]?.current_usdt)}
           </span>
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>

@@ -91,7 +91,11 @@ const Dashboard = () => {
               setActiveIndex(index)
             }}
           >
-            {challengeInfoArray?.length !== 0 ? (
+            {showLoader ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
+                <BasicSkeleton className="!w-full !h-[604px] !rounded-2xl" />
+              </div>
+            ) : challengeInfoArray?.length !== 0 ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
                 {challengeInfoArray?.map((item) =>
                   showLoader ? (
