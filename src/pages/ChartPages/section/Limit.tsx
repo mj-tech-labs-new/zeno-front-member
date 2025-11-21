@@ -17,6 +17,7 @@ const Limit = (props: BuyOrSelProps) => {
     entryprice: '',
     quantity: '',
   })
+  const [total, setTotal] = useState(0)
   const [stopLoss, setStopLoss] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'>
   >({stop_loss: []})
@@ -52,7 +53,7 @@ const Limit = (props: BuyOrSelProps) => {
 
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
-      setInputValues(() => {
+      setInputValues((prev) => {
         if (name === 'entryprice' && getChallengeByIdArray) {
           if (
             value === '0' ||
@@ -61,20 +62,17 @@ const Limit = (props: BuyOrSelProps) => {
             Number.isNaN(value)
           ) {
             setCurrentDifferent(0)
-
-            return {
-              quantity: Utility.validPointValue(value),
-              entryprice: '',
-            }
           }
+
           setCurrentDifferent(
             getChallengeByIdArray[0].current_usdt - Number(value)
           )
+
           return {
-            entryprice: (
-              parseFloat(value) / Number(selectedLeverage?.title)
-            ).toString(),
-            quantity: (parseFloat(value) / livePrice).toFixed(6),
+            ...prev,
+            entryprice: Utility.validFloatNumber(
+              Utility.validPointValue(value)
+            ),
           }
         }
 
@@ -85,11 +83,6 @@ const Limit = (props: BuyOrSelProps) => {
           Number.isNaN(value)
         ) {
           setCurrentDifferent(0)
-
-          return {
-            quantity: Utility.validPointValue(value),
-            entryprice: '0',
-          }
         }
 
         if (Number(value) > 0) {
@@ -100,19 +93,27 @@ const Limit = (props: BuyOrSelProps) => {
         } else {
           setCurrentDifferent(0)
         }
-        const liveValue = (parseFloat(value) * livePrice).toString()
 
         return {
-          quantity: Utility.validPointValue(value),
-          entryprice: Utility.validPointValue(
-            (parseFloat(liveValue) / Number(selectedLeverage?.title)).toString()
-          ),
+          ...prev,
+          quantity: Utility.validFloatNumber(Utility.validPointValue(value)),
         }
       })
+      setTotal(
+        (parseFloat(inputValues.quantity) * livePrice) /
+          Number(selectedLeverage?.title)
+      )
     },
-
-    [getChallengeByIdArray, livePrice, selectedLeverage?.title]
+    [
+      getChallengeByIdArray,
+      inputValues.quantity,
+      livePrice,
+      selectedLeverage?.title,
+    ]
   )
+
+  // console.log(inputValues)
+  // console.log(total)
 
   useEffect(() => {
     const currentStage = getChallengeByIdArray?.[0]?.current_stage ?? 0
@@ -224,7 +225,7 @@ const Limit = (props: BuyOrSelProps) => {
           {English.E279}
         </span>
       )}
-      <div className="flex items-center gap-3 ">
+      <div className="flex items-center gap-3">
         <ActionButton
           activeIndex={activeIndex}
           leverage={selectedLeverage?.title}
@@ -233,6 +234,7 @@ const Limit = (props: BuyOrSelProps) => {
           quantity={Number(inputValues?.quantity)}
           stop_loss={stopLoss.stop_loss}
           take_profit={takeProfit.stop_loss}
+          total={total}
           setInputValues={() => {
             setInputValues({entryprice: '0', quantity: '0'})
             setStopLossValue(0)
