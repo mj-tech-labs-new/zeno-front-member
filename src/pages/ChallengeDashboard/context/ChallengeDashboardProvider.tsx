@@ -75,6 +75,7 @@ const ChallengeDashboardProvider = (
   )
 
   useEffect(() => {
+    if (!challengeId) return
     setShowLoader(true)
     getChallengeByIdApi({challenge_id: challengeId})
       .then((res) => {

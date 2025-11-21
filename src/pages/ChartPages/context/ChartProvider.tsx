@@ -406,6 +406,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   }, [])
 
   useEffect(() => {
+    if (!challengeId) return
     getChallengeByIdApi({challenge_id: challengeId}).then((res) => {
       setGetChallengeByIdArray(res)
     })
