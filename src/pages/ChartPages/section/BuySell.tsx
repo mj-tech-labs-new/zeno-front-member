@@ -166,11 +166,12 @@ const BuySell = (props: BuyOrSelProps) => {
     setInputValues((prev) => ({
       ...prev,
       price: livePrice.toString() ?? '0',
-      total: Number(prev.total) === 0 ? '0' : totalStrFinal,
+      total: Number(inputValues?.total) === 0 ? '0' : totalStrFinal,
     }))
   }, [
     inputValues.amount,
     inputValues.price,
+    inputValues?.total,
     isLoadingCandles,
     leverage,
     livePrice,
@@ -275,8 +276,7 @@ const BuySell = (props: BuyOrSelProps) => {
         )
       })}
 
-      {Number(inputValues.total) >
-        getChallengeByIdArray?.[0]?.initial_capital && (
+      {Number(inputValues.total) > getChallengeByIdArray?.[0]?.current_usdt && (
         <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
           {English.E279}
         </span>

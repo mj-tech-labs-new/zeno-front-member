@@ -12,7 +12,7 @@ import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
   const {activeIndex} = props
-  const {chartInfo, buyOrSellApiResArray, getChallengeByIdArray, livePrice} =
+  const {chartInfo, buyOrSellApiResArray, getChallengeByIdArray} =
     useChartProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
@@ -69,8 +69,7 @@ const Limit = (props: BuyOrSelProps) => {
 
         if (Number(value) > 0) {
           setCurrentDifferent(
-            getChallengeByIdArray[0].current_usdt -
-              Number(Utility.validPointValue(value)) * livePrice
+            Number(getChallengeByIdArray?.[0]?.current_usdt) - total
           )
         }
 
@@ -79,16 +78,8 @@ const Limit = (props: BuyOrSelProps) => {
           quantity: Utility.validFloatNumber(Utility.validPointValue(value)),
         }
       })
-
-      if (!value) setTotal(0)
-
-      if (name === 'quantity' && value) {
-        setTotal(
-          (parseFloat(value) * livePrice) / Number(selectedLeverage?.title)
-        )
-      }
     },
-    [getChallengeByIdArray, livePrice, selectedLeverage?.title]
+    [getChallengeByIdArray, total]
   )
 
   useEffect(() => {
@@ -112,6 +103,23 @@ const Limit = (props: BuyOrSelProps) => {
       quantity: '',
     })
   }, [selectedLeverage])
+
+  useEffect(() => {
+    if (inputValues?.entryprice && inputValues?.quantity) {
+      setTotal(
+        (parseFloat(inputValues?.entryprice) *
+          parseFloat(inputValues?.quantity)) /
+          Number(selectedLeverage?.title)
+      )
+    }
+  }, [inputValues, selectedLeverage?.title, total])
+
+  useEffect(() => {
+    if (total === 0) setCurrentDifferent(0)
+    setCurrentDifferent(
+      Number(getChallengeByIdArray?.[0]?.current_usdt) - total
+    )
+  }, [getChallengeByIdArray, total])
 
   return (
     <div className="flex flex-col gap-2">
@@ -188,7 +196,7 @@ const Limit = (props: BuyOrSelProps) => {
                 <div
                   className={` ${currentDifferent ? (currentDifferent < 0 ? '!text-dark-danger-color' : '!text-chart-green-color') : 'text-neutral-primary-color'}`}
                 >
-                  {Utility.numberConversion(currentDifferent)}
+                  {currentDifferent.toFixed(6)}
                 </div>
               </div>
             )}
