@@ -55,19 +55,6 @@ const Limit = (props: BuyOrSelProps) => {
     (name: keyof typeof inputValues, value: string) => {
       setInputValues((prev) => {
         if (name === 'entryprice' && getChallengeByIdArray) {
-          if (
-            value === '0' ||
-            value === '' ||
-            Number(value) === 0 ||
-            Number.isNaN(value)
-          ) {
-            setCurrentDifferent(0)
-          }
-
-          setCurrentDifferent(
-            getChallengeByIdArray[0].current_usdt - Number(value)
-          )
-
           return {
             ...prev,
             entryprice: Utility.validFloatNumber(
@@ -76,22 +63,13 @@ const Limit = (props: BuyOrSelProps) => {
           }
         }
 
-        if (
-          value === '0' ||
-          value === '' ||
-          Number(value) === 0 ||
-          Number.isNaN(value)
-        ) {
-          setCurrentDifferent(0)
-        }
+        if (Number(value) === 0) setCurrentDifferent(0)
 
         if (Number(value) > 0) {
           setCurrentDifferent(
             getChallengeByIdArray[0].current_usdt -
               Number(Utility.validPointValue(value)) * livePrice
           )
-        } else {
-          setCurrentDifferent(0)
         }
 
         return {
@@ -99,21 +77,17 @@ const Limit = (props: BuyOrSelProps) => {
           quantity: Utility.validFloatNumber(Utility.validPointValue(value)),
         }
       })
-      setTotal(
-        (parseFloat(inputValues.quantity) * livePrice) /
-          Number(selectedLeverage?.title)
-      )
-    },
-    [
-      getChallengeByIdArray,
-      inputValues.quantity,
-      livePrice,
-      selectedLeverage?.title,
-    ]
-  )
 
-  // console.log(inputValues)
-  // console.log(total)
+      if (!value) setTotal(0)
+
+      if (name === 'quantity' && value) {
+        setTotal(
+          (parseFloat(value) * livePrice) / Number(selectedLeverage?.title)
+        )
+      }
+    },
+    [getChallengeByIdArray, livePrice, selectedLeverage?.title]
+  )
 
   useEffect(() => {
     const currentStage = getChallengeByIdArray?.[0]?.current_stage ?? 0
@@ -219,8 +193,7 @@ const Limit = (props: BuyOrSelProps) => {
           </div>
         )
       })}
-      {Number(inputValues.entryprice) >
-        getChallengeByIdArray?.[0]?.current_usdt && (
+      {total > getChallengeByIdArray?.[0]?.current_usdt && (
         <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
           {English.E279}
         </span>
