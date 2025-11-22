@@ -1,17 +1,17 @@
-import {CreatePriceLineOptions, LineStyle} from 'lightweight-charts'
-import React, {memo, useEffect, useMemo, useRef, useState} from 'react'
+import { CreatePriceLineOptions, LineStyle } from 'lightweight-charts'
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react'
 
-import {TabComponent} from '@/components'
-import {Constants, SocketEmitter, Utility} from '@/helpers'
+import { TabComponent } from '@/components'
+import { Constants, SocketEmitter, Utility } from '@/helpers'
 import ClosedPNL from '@/pages/ChallengeDashboard/sections/ClosedPNL'
-import {OpenPosition, PendingOrder} from '@/types/ChartTypes'
+import { OpenPosition, PendingOrder } from '@/types/ChartTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import OpenPositionTable from './OpenPositionTable'
 import PendingOrderTable from './PendingOrderTable'
 
-const TradesInfo = (props: {challengeId: string}) => {
-  const {challengeId} = props
+const TradesInfo = (props: { challengeId: string }) => {
+  const { challengeId } = props
   const showHeader = useMemo(() => true, [])
   const [activeIndex, setActiveIndex] = useState(0)
   const [socketEventKey, setSocketEventKey] =
@@ -22,7 +22,7 @@ const TradesInfo = (props: {challengeId: string}) => {
     () => (activeIndex === 0 ? openPosition : pendingOrder),
     [activeIndex, openPosition, pendingOrder]
   )
-  const {socketRef, isLoadingCandles, chartAreaRef} = useChartProvider()
+  const { socketRef, isLoadingCandles, chartAreaRef } = useChartProvider()
   const isPriceCreated = useRef(false)
   useEffect(() => {
     const currentSocket = socketRef.current
@@ -64,7 +64,7 @@ const TradesInfo = (props: {challengeId: string}) => {
       color: openPosition?.[0]?.open_pnl?.toString()?.startsWith('-')
         ? '#ef5350'
         : '#34c759',
-      lineWidth: 1,
+      lineWidth: 3,
       lineStyle: LineStyle.Solid,
       axisLabelVisible: true,
       title: Utility.removeDecimal(openPosition?.[0]?.realized_pnl).toString(),

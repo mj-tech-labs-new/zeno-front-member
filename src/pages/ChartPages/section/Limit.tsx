@@ -1,27 +1,28 @@
 import {memo, useCallback, useEffect, useState} from 'react'
 
-import {DropDown, ImageComponent, InputContainer} from '@/components'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
-import {DropDownObjectType} from '@/types/CommonTypes'
+import { Divider, DropDown, ImageComponent, InputContainer } from '@/components'
+import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
+import { DropDownObjectType } from '@/types/CommonTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const {activeIndex} = props
-  const {chartInfo, getChallengeByIdArray, livePrice} = useChartProvider()
+  const { activeIndex } = props
+  const { chartInfo,  getChallengeByIdArray, livePrice } =
+    useChartProvider()
+  const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     entryprice: '',
     quantity: '',
   })
-  const [stopLoss, setStopLoss] = useState<
-    Pick<CommonBuyAndSellProp, 'stop_loss'>
-  >({stop_loss: []})
-  const [takeProfit, setTakeProfit] = useState<
-    Pick<CommonBuyAndSellProp, 'stop_loss'>
-  >({stop_loss: []})
+  const [total, setTotal] = useState(0)
+  const [stopLossData, setStopLossData] = useState<
+    Pick<CommonBuyAndSellProp, 'stop_loss'> & Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({ stop_loss: [], take_profit: [] })
   const [stopLossValue, setStopLossValue] = useState<number>(0)
 
   const [leverageValueArray, setLeverageValueArray] = useState<
@@ -51,63 +52,37 @@ const Limit = (props: BuyOrSelProps) => {
 
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
-      setInputValues(() => {
+      setInputValues((prev) => {
         if (name === 'entryprice' && getChallengeByIdArray) {
-          if (
-            value === '0' ||
-            value === '' ||
-            Number(value) === 0 ||
-            Number.isNaN(value)
-          ) {
-            setCurrentDifferent(0)
-
-            return {
-              quantity: Utility.validPointValue(value),
-              entryprice: '',
-            }
-          }
-          setCurrentDifferent(
-            getChallengeByIdArray[0].current_usdt - Number(value)
-          )
           return {
             entryprice: parseFloat(value).toString(),
             quantity: (parseFloat(value) / livePrice).toString(),
           }
         }
 
-        if (
-          value === '0' ||
-          value === '' ||
-          Number(value) === 0 ||
-          Number.isNaN(value)
-        ) {
-          setCurrentDifferent(0)
-
-          return {
-            quantity: Utility.validPointValue(value),
-            entryprice: '0',
-          }
-        }
+        if (Number(value) === 0) setCurrentDifferent(0)
 
         if (Number(value) > 0) {
           setCurrentDifferent(
             getChallengeByIdArray[0].current_usdt -
               Number(Utility.validPointValue(value)) * livePrice
           )
-        } else {
-          setCurrentDifferent(0)
         }
-        const liveValue = (parseFloat(value) * livePrice).toString()
 
         return {
-          quantity: Utility.validPointValue(value),
-          entryprice: Utility.validPointValue(
-            (parseFloat(liveValue) / Number(selectedLeverage?.title)).toString()
-          ),
+          ...prev,
+          quantity: Utility.validFloatNumber(Utility.validPointValue(value)),
         }
       })
-    },
 
+      if (!value) setTotal(0)
+
+      if (name === 'quantity' && value) {
+        setTotal(
+          (parseFloat(value) * livePrice) / Number(selectedLeverage?.title)
+        )
+      }
+    },
     [getChallengeByIdArray, livePrice, selectedLeverage?.title]
   )
 
@@ -230,39 +205,82 @@ const Limit = (props: BuyOrSelProps) => {
           leverage={Number(selectedLeverage?.title)}
           order_type="limit"
           price={Number(inputValues?.entryprice)}
-          quantity={Number(inputValues?.quantity)}
-          stop_loss={stopLoss.stop_loss}
-          take_profit={takeProfit.stop_loss}
+          quantity={Number(Utility.removeDecimal(Number(inputValues?.quantity)))}
+          stop_loss={stopLossData?.stop_loss}
+          take_profit={stopLossData?.take_profit}
+          total={total}
           setInputValues={() => {
             setInputValues({entryprice: '0', quantity: '0'})
             setStopLossValue(0)
           }}
         />
       </div>
-      <div className="flex flex-col ">
-        <StopLoss
-          closingQuantity={Number(inputValues.quantity)}
-          heading="Stop Loss"
-          marketPrice={Number(inputValues.entryprice)}
-          resetValue={stopLossValue}
-          subHeading="Stop loss "
-          setStopLoss={(value) => {
-            setStopLoss(value)
-          }}
-        />
-        <StopLoss
-          closingQuantity={Number(inputValues.quantity)}
-          heading="Take Profit"
-          marketPrice={Number(inputValues.entryprice)}
-          resetValue={stopLossValue}
-          subHeading="Take Profit "
-          setStopLoss={(value) => {
-            setTakeProfit(value)
-          }}
-        />
-      </div>
+
+      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+      <CheckBoxInputContainer
+        checked={checked}
+        singleLineContent={English.E298}
+        onChange={() => {
+          setChecked((prev) => !prev)
+        }}
+      />
+
+      {checked && <Divider className="!bg-chart-secondary-bg-color !my-1" />}
+
+      {checked && (
+        <div className="flex flex-col">
+          <StopLoss
+            heading="Stop Loss"
+            marketPrice={Number(inputValues.entryprice)}
+            resetValue={stopLossValue}
+            subHeading="Stop loss"
+            setStopLoss={(value) =>
+              setStopLossData((prev) => {
+                const updated = [...(prev.stop_loss ?? [])]
+
+                updated[0] = {
+                  ...updated[0],
+                  ...value.stop_loss?.[0],
+                  quantity: Number(Utility.removeDecimal(Number(inputValues.quantity))),
+                }
+
+                return {
+                  ...prev,
+                  stop_loss: updated,
+                }
+
+              })
+            }
+          />
+          <StopLoss
+            heading="Take Profit"
+            marketPrice={Number(inputValues.entryprice)}
+            resetValue={stopLossValue}
+            subHeading="Take Profit "
+            setStopLoss={(value) =>
+              setStopLossData((prev) => {
+                const updated = [...(prev?.take_profit ?? [])]
+
+                updated[0] = {
+                  ...updated[0],
+                  ...value?.take_profit?.[0],
+                  quantity: Number(Utility.removeDecimal(Number(inputValues.quantity))),
+                }
+
+                return {
+                  ...prev,
+                  take_profit: updated,
+                }
+              })
+            }
+          />
+        </div>
+      )}
+
     </div>
   )
 }
 
 export default memo(Limit)
+

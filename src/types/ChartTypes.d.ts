@@ -109,11 +109,9 @@ export interface PendingOrder
 }
 export interface StopLossProps {
   marketprice: number
-  quantity: number
-  persantageValue?: number
-  rangeValue?: number
   id: number
   status?: string
+  quantity?: number
 }
 
 export interface CommonBuyAndSellProp
@@ -139,7 +137,6 @@ export interface CommonStopLossProp {
   heading?: string
   subHeading?: string
   marketPrice?: number
-  closingQuantity?: number
   BuyOrSellType?: string
   setStopLoss: (
     value: Pick<CommonBuyAndSellProp, 'stop_loss'> &
@@ -152,19 +149,4 @@ export interface OrderBookObjectType {
   lastUpdateId: number
   bids: number[][]
   asks: number[][]
-}
-
-export interface CustomOrderBookObjectType {
-  price: number
-  amount: number
-  type: string
-}
-
-export interface CreatePriceLineOptions {
-  price: number
-  color: string
-  lineWidth: number
-  lineStyle: LineStyle
-  axisLabelVisible: boolean
-  title: string
 }

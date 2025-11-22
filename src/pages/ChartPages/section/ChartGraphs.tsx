@@ -4,13 +4,13 @@ import {
   HistogramSeries,
   Time,
 } from 'lightweight-charts'
-import {memo, useCallback, useEffect} from 'react'
+import { memo, useCallback, useEffect } from 'react'
 
-import {SocketEmitter} from '@/helpers'
-import {CandleObjectType} from '@/types/ChartTypes'
-import {ChartUtils} from '@/utils'
+import { SocketEmitter } from '@/helpers'
+import { CandleObjectType } from '@/types/ChartTypes'
+import { ChartUtils } from '@/utils'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
 const ChartGraphs = () => {
   const {
@@ -32,7 +32,7 @@ const ChartGraphs = () => {
   const calculateDataAndUpdateChart = useCallback(
     (items: CandleObjectType[]) => {
       const candlestickData = items?.map((item) => {
-        const {close, high, low, open, close_time_iso} = item
+        const { close, high, low, open, close_time_iso } = item
         return {
           close: Number(close),
           high: Number(high),
@@ -45,7 +45,7 @@ const ChartGraphs = () => {
       chartAreaRef.current?.setData(candlestickData)
 
       const volumeData = totalCandleData.map((item) => {
-        const {volume, close, open, close_time_iso} = item
+        const { volume, close, open, close_time_iso } = item
         const isUp = Number(close) > Number(open)
 
         return {
@@ -82,13 +82,14 @@ const ChartGraphs = () => {
         bottom: 0.23,
       },
     })
-    chartObj.timeScale().applyOptions({barSpacing: 10})
+    chartObj.timeScale().applyOptions({ barSpacing: 10 })
     chartObj.timeScale().fitContent()
 
     // Add volume series (histogram)
     const volumeSeries = chartObj.addSeries(HistogramSeries, {
       priceFormat: {
-        type: 'volume',
+        type: 'custom',
+        formatter: (value: number) => `${value}K`,
       },
       priceScaleId: '',
     })
@@ -115,7 +116,7 @@ const ChartGraphs = () => {
 
     socketRef.current.on(
       SocketEmitter.Emitter[
-        selectedIndex as keyof typeof SocketEmitter.Emitter
+      selectedIndex as keyof typeof SocketEmitter.Emitter
       ],
       (data) => {
         const findTokenName = Object.entries(tokenList ?? {}).find(
@@ -130,7 +131,7 @@ const ChartGraphs = () => {
           !volumeSeriesRef.current
         )
           return
-        const {open, high, low, close, volume, close_time_iso} = chartSocketData
+        const { open, high, low, close, volume, close_time_iso } = chartSocketData
         const currentCandle = {
           close: Number(close),
           high: Number(high),
@@ -186,7 +187,7 @@ const ChartGraphs = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCallingCurrent, isLoadingCandles, totalCandleData])
 
-  return <div ref={firstChartRef} style={{width: '100%', height: '100%'}} />
+  return <div ref={firstChartRef} style={{ width: '100%', height: '100%' }} />
 }
 
 export default memo(ChartGraphs)
