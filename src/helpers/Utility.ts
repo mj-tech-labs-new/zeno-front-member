@@ -33,6 +33,10 @@ const validPointValue = (value: string | number) => {
 
   return newvalue
 }
+const removeDecimal = (value: number, maxValue?: number) => {
+  const newValue = Number(value).toFixed(maxValue ?? 3)
+  return newValue
+}
 
 const convertScientificToNormalNum = (value: number) => {
   const magnitude = Math.floor(Math.log10(Math.abs(value))) + 1
@@ -48,6 +52,7 @@ const Utility = {
   isValidEmail,
   validPointValue,
   convertScientificToNormalNum,
+  removeDecimal,
 }
 
 export default Utility

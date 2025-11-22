@@ -145,3 +145,18 @@ export interface OrderBookObjectType {
   bids: number[][]
   asks: number[][]
 }
+
+export interface CustomOrderBookObjectType {
+  price: number
+  amount: number
+  type: string
+}
+
+export interface CreatePriceLineOptions {
+  price: number
+  color: string
+  lineWidth: number
+  lineStyle: LineStyle
+  axisLabelVisible: boolean
+  title: string
+}

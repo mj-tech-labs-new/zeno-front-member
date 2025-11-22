@@ -85,7 +85,7 @@ const OpenPositionTable = (
           >
             <span>
               {!tableBody?.realized_pnl?.toString().startsWith('-') && '+'}
-              {Number(tableBody?.realized_pnl)?.toFixed(6)}
+              {Number(tableBody?.realized_pnl)?.toFixed(3)}
             </span>
           </td>
           <td
@@ -93,7 +93,7 @@ const OpenPositionTable = (
           >
             <span>
               {!tableBody?.realized_pnl?.toString().startsWith('-') && '+'}
-              {Number(tableBody?.open_pnl)?.toFixed(6)}
+              {Number(tableBody?.open_pnl)?.toFixed(3)}
             </span>
           </td>
           <td className="px-6 py-4 text-left !whitespace-nowrap">
