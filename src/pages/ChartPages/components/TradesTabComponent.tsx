@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+import _ from 'lodash'
 import {Fragment, memo, useEffect, useMemo, useRef, useState} from 'react'
 
 import {BasicSkeleton} from '@/components'
@@ -17,18 +18,22 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
     const buyOrders = bookings?.asks?.map((item) => ({
       price: item[0],
       amount: item[1],
+      total: item[0] * item[1],
       type: 'buy',
     }))
+    const sortedBuyOrder = _.orderBy(buyOrders, ['total'], ['asc'])
     const sellOrders = bookings?.bids?.map((item) => ({
       price: item[0],
       amount: item[1],
+      total: item[0] * item[1],
       type: 'sell',
     }))
+    const sortedSellOrder = _.orderBy(sellOrders, ['total'], ['desc'])
     return activeType === 'buy_sell_type'
-      ? [...(buyOrders ?? []), ...(sellOrders ?? [])]
+      ? [...(sortedBuyOrder ?? []), ...(sellOrders ?? [])]
       : activeType === 'buy_type'
-        ? buyOrders
-        : sellOrders
+        ? sortedBuyOrder
+        : sortedSellOrder
   }, [activeType, bookings?.asks, bookings?.bids])
 
   const maxNumber = useMemo(() => {
@@ -96,7 +101,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       </div>
       {isLoadingOrderBook && !isLoadingCandles ? (
         <div className="space-y-4">
-          {Array.from({length: 5}).map((_, index) => (
+          {Array.from({length: 5}).map((__, index) => (
             <div
               key={`order_loading_${index.toString()}`}
               className="h-7 w-full mt-5"
@@ -107,8 +112,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
         </div>
       ) : (
         tradesToMap?.map((trade, tradeIndex) => {
-          const {amount, price, type} = trade
-          const finalAmount = amount * price
+          const {amount, price, type, total} = trade
           const amountToDivide =
             type === 'buy' ? maxNumber.maxBuy : maxNumber.maxBid
           return (
@@ -122,7 +126,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
                 <div
                   className={`absolute right-0 h-full ${type === 'buy' ? 'bg-chart-green-color' : 'bg-chart-red-color'} opacity-15`}
                   style={{
-                    width: `${finalAmount === amountToDivide ? 100 : finalAmount / amountToDivide}%`,
+                    width: `${total === amountToDivide ? 100 : total / amountToDivide}%`,
                   }}
                 />
                 <span
@@ -131,7 +135,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
                   {Utility.numberConversion(price)}
                 </span>
                 <span>{amount}</span>
-                <span>{Utility.numberConversion(finalAmount)}</span>
+                <span>{Utility.numberConversion(total)}</span>
               </div>
             </Fragment>
           )
