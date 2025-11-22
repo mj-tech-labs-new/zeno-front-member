@@ -1,6 +1,6 @@
-import {memo, useCallback, useRef, useState} from 'react'
+import {memo, useCallback, useEffect, useRef, useState} from 'react'
 
-import {CommonButton, InputContainer, RangeSelector} from '@/components'
+import {InputContainer, RangeSelector} from '@/components'
 import {English} from '@/helpers'
 import {CommonStopLossProp, StopLossProps} from '@/types/ChartTypes'
 
@@ -12,11 +12,11 @@ const StopLoss = (props: CommonStopLossProp) => {
     marketPrice,
     closingQuantity,
     setStopLoss,
-    resetValue,
+    total = 0,
   } = props
 
   const [inputValues, setInputValues] = useState<StopLossProps[]>([])
-  const {chartInfo} = useChartProvider()
+  const {chartInfo, getChallengeByIdArray} = useChartProvider()
   const stopLossRef = useRef<number>(0)
 
   const handleInputChange = useCallback(
@@ -61,35 +61,21 @@ const StopLoss = (props: CommonStopLossProp) => {
     [closingQuantity, setStopLoss]
   )
 
-  const handleSl = useCallback(
-    (type: string, index?: number) => {
-      if (stopLossRef.current >= 1 && type === 'add') return
-      if (type === 'add') {
-        stopLossRef.current += 1
-        setInputValues((prev) => [
-          ...prev,
-          {
-            id: 0 + 1,
-            marketprice: 0,
-            quantity: closingQuantity ?? 0,
-            persantageValue: 100,
-            rangeValue: 100,
-            status: 'unused',
-          },
-        ])
-      }
-
-      if (type === 'remove' && index !== undefined) {
-        stopLossRef.current -= 1
-        setInputValues((prev) =>
-          prev
-            .filter((_, i) => i !== index)
-            .filter((item) => item.quantity !== resetValue)
-        )
-      }
-    },
-    [closingQuantity, resetValue]
-  )
+  useEffect(() => {
+    if (stopLossRef.current >= 1) return
+    stopLossRef.current += 1
+    setInputValues((prev) => [
+      ...prev,
+      {
+        id: 0 + 1,
+        marketprice: 0,
+        quantity: closingQuantity ?? 0,
+        persantageValue: 100,
+        rangeValue: 100,
+        status: 'unused',
+      },
+    ])
+  }, [closingQuantity])
 
   return (
     <div>
@@ -98,17 +84,6 @@ const StopLoss = (props: CommonStopLossProp) => {
           <div className="flex gap-3">
             <div className="text-base !leading-8 text-chart-text-primary-color font-semibold">
               {heading}{' '}
-            </div>
-            <div>
-              {inputValues.length !== 1 && (
-                <CommonButton
-                  className="bg-primary-dark-blue-color rounded-md !text-xl font-normal !px-2 !py-0.5 "
-                  singleLineContent="+"
-                  onClick={() => {
-                    handleSl('add')
-                  }}
-                />
-              )}
             </div>
           </div>
         </div>
@@ -120,13 +95,6 @@ const StopLoss = (props: CommonStopLossProp) => {
             >
               <div className="flex justify-between ">
                 <div className="text-lg mb-2.5 font-normal  " />
-                <div>
-                  <CommonButton
-                    className="bg-dark-danger-color rounded-md !text-xl font-normal !px-2 !py-0.5 "
-                    onClick={() => handleSl('remove', index)}
-                    singleLineContent="X"
-                  />
-                </div>
               </div>
 
               <div className="flex flex-col gap-3">
@@ -146,6 +114,13 @@ const StopLoss = (props: CommonStopLossProp) => {
 [&>input]:!w-full !leading-6 !font-medium"
                           onChange={(e) =>
                             handleInputChange('marketprice', e.target.value)
+                          }
+                          readOnly={
+                            !(
+                              marketPrice &&
+                              closingQuantity &&
+                              total < getChallengeByIdArray?.[0]?.current_usdt
+                            )
                           }
                           value={
                             inputItem?.marketprice?.toString() ?? marketPrice
@@ -179,6 +154,13 @@ const StopLoss = (props: CommonStopLossProp) => {
                         onChange={(e) =>
                           handleInputChange('quantity', e.target.value)
                         }
+                        readOnly={
+                          !(
+                            marketPrice &&
+                            closingQuantity &&
+                            total < getChallengeByIdArray?.[0]?.current_usdt
+                          )
+                        }
                       />
                       <div className="w-[1px] bg-primary-dark-blue-color h-full" />
                       <span className="text-neutral-primary-color font-medium text-sm !leading-6">
@@ -191,7 +173,7 @@ const StopLoss = (props: CommonStopLossProp) => {
 
               <div>
                 <RangeSelector
-                  className="mt-3 mb-4"
+                  className={`mt-3 mb-4 ${marketPrice && closingQuantity && total < getChallengeByIdArray?.[0]?.current_usdt ? '!pointer-events-auto' : '!pointer-events-none !opacity-50'}`}
                   rangeClassname="bg-yellow-500"
                   rangeValue={inputValues?.[index]?.rangeValue ?? 0}
                   setRangeValue={(value) => {

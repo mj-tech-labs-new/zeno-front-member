@@ -138,6 +138,7 @@ export interface CommonStopLossProp {
       Pick<CommonBuyAndSellProp, 'take_profit'>
   ) => void
   resetValue?: number
+  total?: number
 }
 
 export interface OrderBookObjectType {

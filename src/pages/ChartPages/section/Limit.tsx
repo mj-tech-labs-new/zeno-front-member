@@ -1,6 +1,7 @@
 import {memo, useCallback, useEffect, useState} from 'react'
 
-import {DropDown, ImageComponent, InputContainer} from '@/components'
+import {Divider, DropDown, ImageComponent, InputContainer} from '@/components'
+import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
 import {Constants, English, Images, Utility} from '@/helpers'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 import {DropDownObjectType} from '@/types/CommonTypes'
@@ -13,6 +14,7 @@ const Limit = (props: BuyOrSelProps) => {
   const {activeIndex} = props
   const {chartInfo, buyOrSellApiResArray, getChallengeByIdArray, livePrice} =
     useChartProvider()
+  const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     entryprice: '',
     quantity: '',
@@ -214,28 +216,45 @@ const Limit = (props: BuyOrSelProps) => {
           }}
         />
       </div>
-      <div className="flex flex-col ">
-        <StopLoss
-          closingQuantity={Number(inputValues.quantity)}
-          heading="Stop Loss"
-          marketPrice={Number(inputValues.entryprice)}
-          resetValue={stopLossValue}
-          subHeading="Stop loss "
-          setStopLoss={(value) => {
-            setStopLoss(value)
-          }}
-        />
-        <StopLoss
-          closingQuantity={Number(inputValues.quantity)}
-          heading="Take Profit"
-          marketPrice={Number(inputValues.entryprice)}
-          resetValue={stopLossValue}
-          subHeading="Take Profit "
-          setStopLoss={(value) => {
-            setTakeProfit(value)
-          }}
-        />
-      </div>
+
+      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+      <CheckBoxInputContainer
+        checked={checked}
+        singleLineContent={English.E298}
+        onChange={() => {
+          setChecked((prev) => !prev)
+        }}
+      />
+
+      {checked && <Divider className="!bg-chart-secondary-bg-color !my-3" />}
+
+      {checked && (
+        <div className="flex flex-col">
+          <StopLoss
+            closingQuantity={Number(inputValues.quantity)}
+            heading="Stop Loss"
+            marketPrice={Number(inputValues.entryprice)}
+            resetValue={stopLossValue}
+            subHeading="Stop loss"
+            total={total}
+            setStopLoss={(value) => {
+              setStopLoss(value)
+            }}
+          />
+          <StopLoss
+            closingQuantity={Number(inputValues.quantity)}
+            heading="Take Profit"
+            marketPrice={Number(inputValues.entryprice)}
+            resetValue={stopLossValue}
+            subHeading="Take Profit "
+            total={total}
+            setStopLoss={(value) => {
+              setTakeProfit(value)
+            }}
+          />
+        </div>
+      )}
     </div>
   )
 }

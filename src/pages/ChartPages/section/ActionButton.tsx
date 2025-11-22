@@ -97,9 +97,21 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
         return (
           <CommonButton
             key={name}
-            className={`${name === 'buy' ? 'medium-success-btn-type' : 'bg-chart-red-color !py-4 !px-3'}  !rounded-full !font-bold !text-chart-text-primary-color ${activeIndex === 0 ? (total > getChallengeByIdArray?.[0]?.current_usdt || total === 0 ? '!opacity-50 !pointer-events-none' : '!pointer-events-auto') : total === 0 || total > getChallengeByIdArray?.[0]?.current_usdt ? '!opacity-50 !pointer-events-none' : '!pointer-events-auto'} `}
             onClick={() => handleButtonClick(name)}
             singleLineContent={text}
+            className={`${name === 'buy' ? 'medium-success-btn-type' : 'bg-chart-red-color !py-4 !px-3'}  !rounded-full !font-bold !text-chart-text-primary-color 
+            ${
+              activeIndex === 0
+                ? price &&
+                  total &&
+                  total < getChallengeByIdArray?.[0]?.current_usdt
+                  ? '!pointer-events-auto'
+                  : '!opacity-50 !pointer-events-none'
+                : total === 0 ||
+                    total > getChallengeByIdArray?.[0]?.current_usdt
+                  ? '!opacity-50 !pointer-events-none'
+                  : '!pointer-events-auto'
+            } `}
           />
         )
       })}
