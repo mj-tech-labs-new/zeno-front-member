@@ -1,17 +1,17 @@
-import { CreatePriceLineOptions, LineStyle } from 'lightweight-charts'
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react'
+import {CreatePriceLineOptions, LineStyle} from 'lightweight-charts'
+import React, {memo, useEffect, useMemo, useState} from 'react'
 
-import { TabComponent } from '@/components'
-import { Constants, SocketEmitter, Utility } from '@/helpers'
+import {TabComponent} from '@/components'
+import {Constants, SocketEmitter, Utility} from '@/helpers'
 import ClosedPNL from '@/pages/ChallengeDashboard/sections/ClosedPNL'
-import { OpenPosition, PendingOrder } from '@/types/ChartTypes'
+import {OpenPosition, PendingOrder} from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import OpenPositionTable from './OpenPositionTable'
 import PendingOrderTable from './PendingOrderTable'
 
-const TradesInfo = (props: { challengeId: string }) => {
-  const { challengeId } = props
+const TradesInfo = (props: {challengeId: string}) => {
+  const {challengeId} = props
   const showHeader = useMemo(() => true, [])
   const [activeIndex, setActiveIndex] = useState(0)
   const [socketEventKey, setSocketEventKey] =
@@ -22,8 +22,8 @@ const TradesInfo = (props: { challengeId: string }) => {
     () => (activeIndex === 0 ? openPosition : pendingOrder),
     [activeIndex, openPosition, pendingOrder]
   )
-  const { socketRef, isLoadingCandles, chartAreaRef } = useChartProvider()
-  const isPriceCreated = useRef(false)
+  const {socketRef, isLoadingCandles, chartAreaRef, chartInfo} =
+    useChartProvider()
   useEffect(() => {
     const currentSocket = socketRef.current
     if (isLoadingCandles || !currentSocket) return
@@ -48,6 +48,7 @@ const TradesInfo = (props: { challengeId: string }) => {
       currentSocket?.off(socketEventName, handler)
     }
   }, [challengeId, isLoadingCandles, socketEventKey, socketRef])
+
   useEffect(() => {
     const priceline = chartAreaRef?.current
 
@@ -55,31 +56,47 @@ const TradesInfo = (props: { challengeId: string }) => {
       isLoadingCandles ||
       !priceline ||
       activeIndex === 1 ||
-      openPosition?.length === 0 ||
-      !openPosition
-    )
+      openPosition?.length === 0
+    ) {
       return
-    const minPriceLine: CreatePriceLineOptions = {
-      price: openPosition?.[0]?.average_price ?? 0,
-      color: openPosition?.[0]?.open_pnl?.toString()?.startsWith('-')
-        ? '#ef5350'
-        : '#34c759',
-      lineWidth: 3,
-      lineStyle: LineStyle.Solid,
-      axisLabelVisible: true,
-      title: Utility.removeDecimal(openPosition?.[0]?.realized_pnl).toString(),
     }
 
-    if (isPriceCreated.current) return
-    const newPriceline = priceline?.createPriceLine(minPriceLine)
-    isPriceCreated.current = true
+    const chartSymbol = chartInfo?.fullSymbolName?.split('USDT')[0]
+
+    const matchedPositions = openPosition.filter((item) => {
+      const itemSymbol = item?.symbol?.split('USDT')[0]
+      return itemSymbol === chartSymbol
+    })
+
+    const createdLines = matchedPositions.map((item) => {
+      const config: CreatePriceLineOptions = {
+        price: item?.average_price ?? 0,
+        color: item?.open_pnl?.toString()?.startsWith('-')
+          ? '#ef5350'
+          : '#34c759',
+        lineWidth: 1,
+        lineStyle: LineStyle.Solid,
+        axisLabelVisible: true,
+        title: Utility.removeDecimal(item?.open_pnl).toString(),
+      }
+
+      return priceline.createPriceLine(config)
+    })
 
     // eslint-disable-next-line consistent-return
     return () => {
-      priceline.removePriceLine(newPriceline)
-      isPriceCreated.current = false
+      createdLines.forEach((line) => {
+        priceline.removePriceLine(line)
+      })
     }
-  }, [pendingOrder, isLoadingCandles, chartAreaRef, activeIndex, openPosition])
+  }, [
+    pendingOrder,
+    isLoadingCandles,
+    chartAreaRef,
+    activeIndex,
+    openPosition,
+    chartInfo,
+  ])
 
   return (
     <div className="!w-full py-5 px-4 !bg-chart-layout-bg rounded !whitespace-nowrap">

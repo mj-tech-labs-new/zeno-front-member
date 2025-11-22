@@ -1,16 +1,11 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import {memo, useCallback, useEffect, useRef, useState} from 'react'
 
-import { InputContainer } from '@/components'
-import { English } from '@/helpers'
-import { CommonStopLossProp, StopLossProps } from '@/types/ChartTypes'
-
+import {InputContainer} from '@/components'
+import {English} from '@/helpers'
+import {CommonStopLossProp, StopLossProps} from '@/types/ChartTypes'
 
 const StopLoss = (props: CommonStopLossProp) => {
-  const {
-    heading = '',
-    marketPrice,
-    setStopLoss,
-  } = props
+  const {heading = '', marketPrice, setStopLoss} = props
 
   const [inputValues, setInputValues] = useState<StopLossProps[]>([])
   const stopLossRef = useRef<number>(0)
@@ -29,13 +24,12 @@ const StopLoss = (props: CommonStopLossProp) => {
           status: item.status,
         }))
 
-        setStopLoss({ take_profit: payload, stop_loss: payload })
+        setStopLoss({take_profit: payload, stop_loss: payload})
         return updated
       })
     },
     [setStopLoss]
   )
-
 
   useEffect(() => {
     if (stopLossRef.current >= 1) return
@@ -98,10 +92,7 @@ const StopLoss = (props: CommonStopLossProp) => {
                     </div>
                   </div>
                 </div>
-
-
               </div>
-
             </div>
           ))}
         </div>

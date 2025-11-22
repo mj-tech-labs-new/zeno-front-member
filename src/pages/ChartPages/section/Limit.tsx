@@ -1,19 +1,18 @@
 import {memo, useCallback, useEffect, useState} from 'react'
 
-import { Divider, DropDown, ImageComponent, InputContainer } from '@/components'
+import {Divider, DropDown, ImageComponent, InputContainer} from '@/components'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import { Constants, English, Images, Utility } from '@/helpers'
-import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
-import { DropDownObjectType } from '@/types/CommonTypes'
+import {Constants, English, Images, Utility} from '@/helpers'
+import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
+import {DropDownObjectType} from '@/types/CommonTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const { activeIndex } = props
-  const { chartInfo,  getChallengeByIdArray, livePrice } =
-    useChartProvider()
+  const {activeIndex} = props
+  const {chartInfo, getChallengeByIdArray, livePrice} = useChartProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     entryprice: '',
@@ -21,8 +20,9 @@ const Limit = (props: BuyOrSelProps) => {
   })
   const [total, setTotal] = useState(0)
   const [stopLossData, setStopLossData] = useState<
-    Pick<CommonBuyAndSellProp, 'stop_loss'> & Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({ stop_loss: [], take_profit: [] })
+    Pick<CommonBuyAndSellProp, 'stop_loss'> &
+      Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({stop_loss: [], take_profit: []})
   const [stopLossValue, setStopLossValue] = useState<number>(0)
 
   const [leverageValueArray, setLeverageValueArray] = useState<
@@ -205,10 +205,12 @@ const Limit = (props: BuyOrSelProps) => {
           leverage={Number(selectedLeverage?.title)}
           order_type="limit"
           price={Number(inputValues?.entryprice)}
-          quantity={Number(Utility.removeDecimal(Number(inputValues?.quantity)))}
           stop_loss={stopLossData?.stop_loss}
           take_profit={stopLossData?.take_profit}
           total={total}
+          quantity={Number(
+            Utility.removeDecimal(Number(inputValues?.quantity))
+          )}
           setInputValues={() => {
             setInputValues({entryprice: '0', quantity: '0'})
             setStopLossValue(0)
@@ -242,14 +244,15 @@ const Limit = (props: BuyOrSelProps) => {
                 updated[0] = {
                   ...updated[0],
                   ...value.stop_loss?.[0],
-                  quantity: Number(Utility.removeDecimal(Number(inputValues.quantity))),
+                  quantity: Number(
+                    Utility.removeDecimal(Number(inputValues.quantity))
+                  ),
                 }
 
                 return {
                   ...prev,
                   stop_loss: updated,
                 }
-
               })
             }
           />
@@ -265,7 +268,9 @@ const Limit = (props: BuyOrSelProps) => {
                 updated[0] = {
                   ...updated[0],
                   ...value?.take_profit?.[0],
-                  quantity: Number(Utility.removeDecimal(Number(inputValues.quantity))),
+                  quantity: Number(
+                    Utility.removeDecimal(Number(inputValues.quantity))
+                  ),
                 }
 
                 return {
@@ -277,10 +282,8 @@ const Limit = (props: BuyOrSelProps) => {
           />
         </div>
       )}
-
     </div>
   )
 }
 
 export default memo(Limit)
-
