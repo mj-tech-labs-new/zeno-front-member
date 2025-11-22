@@ -1,4 +1,4 @@
-import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
   DropDown,
@@ -6,16 +6,16 @@ import {
   InputContainer,
   RangeSelector,
 } from '@/components'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
-import {DropDownObjectType} from '@/types/CommonTypes'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
+import { DropDownObjectType } from '@/types/CommonTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
-  const {activeIndex} = props
+  const { activeIndex } = props
   const {
     isLoadingCandles,
     socketRef,
@@ -39,10 +39,10 @@ const BuySell = (props: BuyOrSelProps) => {
   const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
   const [stopLoss, setStopLoss] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'>
-  >({stop_loss: []})
+  >({ stop_loss: [] })
   const [takeProfit, setTakeProfit] = useState<
     Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({take_profit: []})
+  >({ take_profit: [] })
 
   const leverage = useMemo(
     () => currentStageArray?.[0]?.leverage,
@@ -59,7 +59,7 @@ const BuySell = (props: BuyOrSelProps) => {
 
     if (!stages) return
 
-    const levArray = Array.from({length: stages.leverage}).map((_, index) => ({
+    const levArray = Array.from({ length: stages.leverage }).map((_, index) => ({
       title: (index + 1).toString(),
     }))
     setLeverageValueArray(levArray)
@@ -77,10 +77,10 @@ const BuySell = (props: BuyOrSelProps) => {
         total: Utility.validPointValue(
           Utility.validFloatNumber(
             (
-              (Number(name === 'amount' ? value : prev.amount) *
+              Utility.removeDecimal((Number(name === 'amount' ? value : prev.amount) *
                 Number(name === 'price' ? value : prev.price)) /
-              Number(selectedLeverage?.title)
-            )?.toFixed(4)
+                Number(selectedLeverage?.title)
+              )).toString()
           )
         ),
       }))
@@ -105,9 +105,9 @@ const BuySell = (props: BuyOrSelProps) => {
         Number(prev.total) === 0
           ? '0'
           : (
-              (livePrice * Number(prev.amount)) /
-              Number(selectedLeverage?.title)
-            )?.toFixed(4),
+            (livePrice * Number(prev.amount)) /
+            Number(selectedLeverage?.title)
+          )?.toFixed(3),
     }))
   }, [
     isLoadingCandles,
@@ -136,7 +136,7 @@ const BuySell = (props: BuyOrSelProps) => {
           <span className="text-extra-light-success-color text-xs font-semibold !leading-5">
             {Utility.numberConversion(
               buyOrSellApiResArray?.[0]?.usdt_balance_after ??
-                getChallengeByIdArray?.[0]?.current_usdt
+              getChallengeByIdArray?.[0]?.current_usdt
             )}
           </span>
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
@@ -150,14 +150,14 @@ const BuySell = (props: BuyOrSelProps) => {
         <DropDown
           className="!max-h-32 mt-2 !overflow-auto"
           dropDownData={leverageValueArray}
-          selectedValue={selectedLeverage ?? {title: '1'}}
+          selectedValue={selectedLeverage ?? { title: '1' }}
           onSelectValue={(data) => {
             setSelectedLeverage(data)
           }}
         />
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
-        const {name, placeHolder, textContent} = item
+        const { name, placeHolder, textContent } = item
 
         return (
           <div key={`name_${name}`} className="!mb-3">
@@ -200,10 +200,22 @@ const BuySell = (props: BuyOrSelProps) => {
                 setRangeValue={(value) => {
                   const percentValue = value === 0 ? 0 : value / 100
                   const tokenValue = Number(amountRef.current) * percentValue
-                  setInputValues((prev) => ({
-                    ...prev,
-                    amount: (tokenValue / livePrice).toString(),
-                  }))
+                  const newAmount = tokenValue / (livePrice ?? 0)
+                  setInputValues((prev) => {
+                    const price = Number(prev.price)
+                    const leverageValue = Number(selectedLeverage?.title)
+
+                    const Price = (price) ? 0 : price
+                    const Leverage = (leverageValue) || leverageValue === 0 ? 1 : leverageValue
+
+                    const totalValue = ((newAmount * Price) / Leverage).toFixed(4)
+
+                    return {
+                      ...prev,
+                      amount: newAmount.toString(),
+                      total: (Number(totalValue)) ? '' : (totalValue).toString(),
+                    }
+                  })
                   setRangeValue(value)
                 }}
               />
@@ -214,15 +226,15 @@ const BuySell = (props: BuyOrSelProps) => {
 
       {Number(inputValues.total) >
         getChallengeByIdArray?.[0]?.initial_capital && (
-        <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
-          {English.E279}
-        </span>
-      )}
+          <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
+            {English.E279}
+          </span>
+        )}
 
       <div className="flex items-center gap-3">
         <ActionButton
           activeIndex={activeIndex}
-          leverage={selectedLeverage?.title}
+          leverage={Number(selectedLeverage?.title)}
           order_type="market"
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}
@@ -230,11 +242,11 @@ const BuySell = (props: BuyOrSelProps) => {
           take_profit={takeProfit?.take_profit}
           total={Number(inputValues?.total)}
           setInputValues={() => {
-            setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
+            setInputValues((prev) => ({ ...prev, amount: '0', price: '0' }))
           }}
         />
       </div>
-      <div className="flex flex-col pointer-events-none opacity-60 ">
+      <div className="flex flex-col  ">
         <StopLoss
           closingQuantity={Number(inputValues.total)}
           heading="Stop Loss"

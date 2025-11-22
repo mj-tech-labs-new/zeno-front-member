@@ -117,7 +117,7 @@ export interface CommonBuyAndSellProp
   total?: number
   quantity: number
   usdt_price?: number
-  leverage?: string
+  leverage?: number
   setInputValues: () => void
   stop_loss?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
     Pick<LivePriceSocketType, 'price'>)[]
