@@ -1,10 +1,10 @@
-import { memo, useCallback, useRef, useState } from 'react'
+import {memo, useCallback, useRef, useState} from 'react'
 
-import { CommonButton, InputContainer, RangeSelector } from '@/components'
-import { English } from '@/helpers'
-import { CommonStopLossProp, StopLossProps } from '@/types/ChartTypes'
+import {CommonButton, InputContainer, RangeSelector} from '@/components'
+import {English} from '@/helpers'
+import {CommonStopLossProp, StopLossProps} from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 
 const StopLoss = (props: CommonStopLossProp) => {
   const {
@@ -16,7 +16,7 @@ const StopLoss = (props: CommonStopLossProp) => {
   } = props
 
   const [inputValues, setInputValues] = useState<StopLossProps[]>([])
-  const { chartInfo } = useChartProvider()
+  const {chartInfo} = useChartProvider()
   const stopLossRef = useRef<number>(0)
 
   const handleInputChange = useCallback(
@@ -54,7 +54,7 @@ const StopLoss = (props: CommonStopLossProp) => {
           price: item.marketprice,
           status: item.status,
         }))
-        setStopLoss({ stop_loss: payload })
+        setStopLoss({stop_loss: payload})
         return updated
       })
     },

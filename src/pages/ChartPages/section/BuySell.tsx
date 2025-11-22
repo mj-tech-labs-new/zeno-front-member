@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-template */
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
 
 import {
   DropDown,
@@ -8,16 +7,16 @@ import {
   InputContainer,
   RangeSelector,
 } from '@/components'
-import { Constants, English, Images, Utility } from '@/helpers'
-import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
-import { DropDownObjectType } from '@/types/CommonTypes'
+import {Constants, English, Images, Utility} from '@/helpers'
+import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
+import {DropDownObjectType} from '@/types/CommonTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
-  const { activeIndex } = props
+  const {activeIndex} = props
   const {
     isLoadingCandles,
     socketRef,
@@ -40,10 +39,10 @@ const BuySell = (props: BuyOrSelProps) => {
   const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
   const [stopLoss, setStopLoss] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'>
-  >({ stop_loss: [] })
+  >({stop_loss: []})
   const [takeProfit, setTakeProfit] = useState<
     Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({ take_profit: [] })
+  >({take_profit: []})
 
   const leverage = useMemo(
     () => currentStageArray?.[0]?.leverage,
@@ -60,7 +59,7 @@ const BuySell = (props: BuyOrSelProps) => {
 
     if (!stages) return
 
-    const levArray = Array.from({ length: stages.leverage }).map((_, index) => ({
+    const levArray = Array.from({length: stages.leverage}).map((_, index) => ({
       title: (index + 1).toString(),
     }))
     setLeverageValueArray(levArray)
@@ -114,15 +113,7 @@ const BuySell = (props: BuyOrSelProps) => {
       setInputValues((prev) => ({
         ...prev,
         [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
-        total: Utility.validPointValue(
-          Utility.validFloatNumber(
-            (
-              Utility.removeDecimal((Number(name === 'amount' ? value : prev.amount) *
-                Number(name === 'price' ? value : prev.price)) /
-                Number(selectedLeverage?.title)
-              )).toString()
-          )
-        ),
+        total: Utility.validPointValue(Utility.validFloatNumber(totalStrFinal)),
       }))
     },
     [inputValues.price, selectedLeverage?.title]
@@ -174,13 +165,7 @@ const BuySell = (props: BuyOrSelProps) => {
     setInputValues((prev) => ({
       ...prev,
       price: livePrice.toString() ?? '0',
-      total:
-        Number(prev.total) === 0
-          ? '0'
-          : (
-            (livePrice * Number(prev.amount)) /
-            Number(selectedLeverage?.title)
-          )?.toFixed(3),
+      total: Number(prev.total) === 0 ? '0' : totalStrFinal,
     }))
   }, [
     inputValues.amount,
@@ -219,14 +204,14 @@ const BuySell = (props: BuyOrSelProps) => {
         <DropDown
           className="!max-h-32 mt-2 !overflow-auto"
           dropDownData={leverageValueArray}
-          selectedValue={selectedLeverage ?? { title: '1' }}
+          selectedValue={selectedLeverage ?? {title: '1'}}
           onSelectValue={(data) => {
             setSelectedLeverage(data)
           }}
         />
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
-        const { name, placeHolder, textContent } = item
+        const {name, placeHolder, textContent} = item
 
         return (
           <div key={`name_${name}`} className="!mb-3">
@@ -274,15 +259,18 @@ const BuySell = (props: BuyOrSelProps) => {
                     const price = Number(prev.price)
                     const leverageValue = Number(selectedLeverage?.title)
 
-                    const Price = (price) ? 0 : price
-                    const Leverage = (leverageValue) || leverageValue === 0 ? 1 : leverageValue
+                    const Price = price ? 0 : price
+                    const Leverage =
+                      leverageValue || leverageValue === 0 ? 1 : leverageValue
 
-                    const totalValue = ((newAmount * Price) / Leverage).toFixed(4)
+                    const totalValue = ((newAmount * Price) / Leverage).toFixed(
+                      4
+                    )
 
                     return {
                       ...prev,
                       amount: newAmount.toString(),
-                      total: (Number(totalValue)) ? '' : (totalValue).toString(),
+                      total: Number(totalValue) ? '' : totalValue.toString(),
                     }
                   })
                   setRangeValue(value)
@@ -295,10 +283,10 @@ const BuySell = (props: BuyOrSelProps) => {
 
       {Number(inputValues.total) >
         getChallengeByIdArray?.[0]?.initial_capital && (
-          <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
-            {English.E279}
-          </span>
-        )}
+        <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
+          {English.E279}
+        </span>
+      )}
 
       <div className="flex items-center gap-3">
         <ActionButton
@@ -311,7 +299,7 @@ const BuySell = (props: BuyOrSelProps) => {
           take_profit={takeProfit?.take_profit}
           total={Number(inputValues?.total)}
           setInputValues={() => {
-            setInputValues((prev) => ({ ...prev, amount: '0', price: '0' }))
+            setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
           }}
         />
       </div>

@@ -1,9 +1,7 @@
-import dayjs from 'dayjs'
-
-import { CommonCloseActionButton, CommonTableComponent } from '@/components'
-import { Constants } from '@/helpers'
-import { CreateChallengeProps } from '@/types/ChallengeTypes'
-import { OpenPosition } from '@/types/ChartTypes'
+import {CommonCloseActionButton, CommonTableComponent} from '@/components'
+import {Constants, English, Utility} from '@/helpers'
+import {CreateChallengeProps} from '@/types/ChallengeTypes'
+import {OpenPosition} from '@/types/ChartTypes'
 
 const OpenPositionTable = (
   props: Pick<CreateChallengeProps, 'challenge_id'> & {
@@ -11,13 +9,13 @@ const OpenPositionTable = (
     setPosition: (data: OpenPosition[]) => void
   }
 ) => {
-  const { challenge_id, openPosition, setPosition } = props
+  const {challenge_id, openPosition, setPosition} = props
 
   return (
     <CommonTableComponent
       apiMethod="put"
-      className="!bg-transparent !text-neutral-primary-color"
-      extraProp={{ challenge_id }}
+      className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
+      extraProp={{challenge_id}}
       headingClassName="justify-start !whitespace-nowrap"
       layoutClassName="!border-none"
       showArrows={false}
@@ -28,89 +26,135 @@ const OpenPositionTable = (
         }
       }}
     >
-      {openPosition?.map((tableBody) => (
-        <tr
-          key={`content-${tableBody?.tx_hash}`}
-          className="font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in"
-        >
-          <th
-            className="px-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap"
-            scope="row"
+      {openPosition?.map((tableBody) => {
+        const {
+          symbol,
+          tx_hash,
+          leverage,
+          direction,
+          open,
+          open_pnl,
+          average_price,
+          current_price,
+          est_liq_price,
+          margin_ratio,
+          marginBalance,
+        } = tableBody
+        const directionCaseInsensitive = direction.toLowerCase()
+        const contractFullName = `${symbol} ${English.E132}`
+        const directionText = `${directionCaseInsensitive === 'buy' ? English.E74 : English.E75}-${leverage}x-${English.E139}`
+        return (
+          <tr
+            key={`content-${tx_hash}`}
+            className=" text-xs/5 *:transition-all *:duration-300 *:ease-in *:!font-poppins *:!leading-5"
           >
-            <span>{tableBody?.tx_hash}</span>
-          </th>
-
-          <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            <span>{tableBody?.symbol}</span>
-          </td>
-          <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap capitalize">
-            <span>{tableBody?.direction}</span>
-          </td>
-          <th
-            className="px-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap "
-            scope="row"
-          >
-            <span>{dayjs(tableBody?.open_time).format('h:mm:ss')}</span>
-          </th>
-          <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            <span>{tableBody?.duration}</span>
-          </td>
-          <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            <span>{tableBody?.quantity}</span>
-          </td>
-          <td className="px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-            <span>{tableBody?.open_price}</span>
-          </td>
-          <td className="flex flex-col  px-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
-            {tableBody?.take_profit?.[0]?.price &&
-              tableBody?.stop_loss?.[0]?.price ? (
-              <div className="flex flex-col">
-                <div className="flex flex-col">
-                  <span className="!text-primary-green">
-                    {tableBody?.take_profit?.[0]?.price ?? '--'}
-                  </span>
-
-                  <span className="!text-extra-dark-danger-color">
-                    {tableBody?.stop_loss?.[0]?.price ?? '--'}
-                  </span>
-                </div>
-              </div>
-            ) : (
-              '--'
-            )}
-          </td>
-          <td
-            className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.realized_pnl?.toString()?.startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}
-                        }`}
-          >
-            <span>
-              {!tableBody?.realized_pnl?.toString().startsWith('-') && '+'}
-              {Number(tableBody?.realized_pnl)?.toFixed(3)}
-            </span>
-          </td>
-          <td
-            className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.open_pnl?.startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}`}
-          >
-            <span>
-              {!tableBody?.realized_pnl?.toString()?.startsWith('-') && '+'}
-              {Number(tableBody?.open_pnl)?.toFixed(3)}
-            </span>
-          </td>
-          <td className="px-6 py-4 text-left !whitespace-nowrap">
-            <CommonCloseActionButton
-              apiMethod="put"
-              challenge_id={challenge_id}
-              tx_hash={tableBody?.tx_hash}
-              type="single_order"
-              onPerformAction={() => {
-                if (openPosition?.length === 1) {
-                  setPosition([])
+            <th
+              className="pr-6 py-4  text-chart-text-primary-color !whitespace-nowrap"
+              scope="row"
+            >
+              <span className="!text-light-neutral-color block !pb-0.5 ">
+                {contractFullName}
+              </span>
+              <span
+                className={
+                  directionCaseInsensitive === 'buy'
+                    ? 'text-chart-green-color'
+                    : 'text-chart-red-color'
                 }
-              }}
-            />
-          </td>
-        </tr>
-      ))}
+              >
+                {directionText}
+              </span>
+            </th>
+
+            <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+              {Utility.removeDecimal(open ?? 0)}
+            </td>
+            <td className="pr-6 py-4  !whitespace-nowrap capitalize">
+              <span
+                className={
+                  directionCaseInsensitive === 'buy'
+                    ? 'text-chart-green-color'
+                    : 'text-chart-red-color'
+                }
+              >
+                {direction ?? '--Goo'}
+              </span>
+            </td>
+            <th
+              className="pr-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap "
+              scope="row"
+            >
+              <span className={Utility.colorGeneratorUtility(open_pnl)}>
+                {Utility.removeDecimal(open_pnl ?? 0)}
+              </span>
+            </th>
+            <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+              <span>
+                {average_price
+                  ? Utility.removeDecimal(average_price ?? 0)
+                  : '--'}
+              </span>
+            </td>
+            <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+              <span>
+                {current_price ? Utility.removeDecimal(current_price) : '--'}
+              </span>
+            </td>
+            <td
+              className={`pr-6 py-4 text-left !whitespace-nowrap ${Utility.colorGeneratorUtility(est_liq_price)}`}
+            >
+              {est_liq_price ? Utility.removeDecimal(est_liq_price) : '---'}
+            </td>
+            <td
+              className={`pr-6 py-4 text-left ${!margin_ratio?.toString()?.startsWith('-') ? 'text-chart-green-color' : 'text-chart-red-color'} !whitespace-nowrap`}
+            >
+              {margin_ratio
+                ? `${Utility.removeDecimal(margin_ratio, 2)}%`
+                : '--'}
+            </td>
+            <td className="pr-6 py-4 text-left !whitespace-nowrap">
+              <span
+                className={`${Utility.colorGeneratorUtility(marginBalance)} block`}
+              >
+                {' '}
+                {marginBalance ? Utility.removeDecimal(marginBalance) : '--'}
+              </span>
+              <span className="text-primary-color pb-0.5">{English.E139}</span>
+            </td>
+            <td className="flex flex-col  pr-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
+              {tableBody?.take_profit?.[0]?.price &&
+              tableBody?.stop_loss?.[0]?.price ? (
+                <div className="flex flex-col">
+                  <div className="flex flex-col">
+                    <span className="!text-primary-green">
+                      {tableBody?.take_profit?.[0]?.price ?? '--'}
+                    </span>
+
+                    <span className="!text-extra-dark-danger-color">
+                      {tableBody?.stop_loss?.[0]?.price ?? '--'}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                '--'
+              )}
+            </td>
+            <td className="pr-6 py-4 text-left !whitespace-nowrap">
+              <CommonCloseActionButton
+                apiMethod="put"
+                challenge_id={challenge_id}
+                tx_hash={tableBody?.tx_hash}
+                type="single_order"
+                onPerformAction={() => {
+                  if (openPosition?.length === 1) {
+                    setPosition([])
+                  }
+                }}
+              />
+            </td>
+          </tr>
+        )
+      })}
     </CommonTableComponent>
   )
 }

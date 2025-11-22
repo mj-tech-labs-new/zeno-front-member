@@ -45,7 +45,15 @@ const convertScientificToNormalNum = (value: number) => {
   return newValue
 }
 
+const colorGeneratorUtility = (value: number) => {
+  const colorValue = !value?.toString()?.startsWith('-')
+    ? 'text-chart-green-color'
+    : 'text-chart-red-color'
+  return colorValue
+}
+
 const Utility = {
+  colorGeneratorUtility,
   ScrollToSectionUtility,
   validFloatNumber,
   numberConversion,

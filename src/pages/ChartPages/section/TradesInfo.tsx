@@ -60,8 +60,8 @@ const TradesInfo = (props: {challengeId: string}) => {
     )
       return
     const minPriceLine: CreatePriceLineOptions = {
-      price: openPosition?.[0]?.open_price ?? 0,
-      color: openPosition?.[0]?.open_pnl.startsWith('-')
+      price: openPosition?.[0]?.average_price ?? 0,
+      color: openPosition?.[0]?.open_pnl?.toString()?.startsWith('-')
         ? '#ef5350'
         : '#34c759',
       lineWidth: 1,
