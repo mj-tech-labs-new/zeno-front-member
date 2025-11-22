@@ -328,6 +328,13 @@
     animation: 1.5s gradient_keyframe ease-in-out infinite;
   }
 
+  .checkbox-checked-bg:checked {
+    background-image: url('../src/assets/svgs/checkbox.svg');
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
   @keyframes gradient_keyframe {
     0% {
       background: repeating-linear-gradient(
