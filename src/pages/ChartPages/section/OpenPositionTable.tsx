@@ -1,9 +1,9 @@
 import dayjs from 'dayjs'
 
-import {CommonCloseActionButton, CommonTableComponent} from '@/components'
-import {Constants} from '@/helpers'
-import {CreateChallengeProps} from '@/types/ChallengeTypes'
-import {OpenPosition} from '@/types/ChartTypes'
+import { CommonCloseActionButton, CommonTableComponent } from '@/components'
+import { Constants } from '@/helpers'
+import { CreateChallengeProps } from '@/types/ChallengeTypes'
+import { OpenPosition } from '@/types/ChartTypes'
 
 const OpenPositionTable = (
   props: Pick<CreateChallengeProps, 'challenge_id'> & {
@@ -11,13 +11,13 @@ const OpenPositionTable = (
     setPosition: (data: OpenPosition[]) => void
   }
 ) => {
-  const {challenge_id, openPosition, setPosition} = props
+  const { challenge_id, openPosition, setPosition } = props
 
   return (
     <CommonTableComponent
       apiMethod="put"
       className="!bg-transparent !text-neutral-primary-color"
-      extraProp={{challenge_id}}
+      extraProp={{ challenge_id }}
       headingClassName="justify-start !whitespace-nowrap"
       layoutClassName="!border-none"
       showArrows={false}
@@ -63,7 +63,7 @@ const OpenPositionTable = (
           </td>
           <td className="flex flex-col  px-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
             {tableBody?.take_profit?.[0]?.price &&
-            tableBody?.stop_loss?.[0]?.price ? (
+              tableBody?.stop_loss?.[0]?.price ? (
               <div className="flex flex-col">
                 <div className="flex flex-col">
                   <span className="!text-primary-green">
@@ -80,7 +80,7 @@ const OpenPositionTable = (
             )}
           </td>
           <td
-            className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.realized_pnl?.toString().startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}
+            className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.realized_pnl?.toString()?.startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}
                         }`}
           >
             <span>
@@ -92,7 +92,7 @@ const OpenPositionTable = (
             className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.open_pnl?.startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}`}
           >
             <span>
-              {!tableBody?.realized_pnl?.toString().startsWith('-') && '+'}
+              {!tableBody?.realized_pnl?.toString()?.startsWith('-') && '+'}
               {Number(tableBody?.open_pnl)?.toFixed(3)}
             </span>
           </td>

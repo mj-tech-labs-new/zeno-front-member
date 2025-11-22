@@ -16,7 +16,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     price,
     quantity = 0,
     order_type,
-    leverage = '',
+    leverage,
     stop_loss,
     take_profit,
     setInputValues,
