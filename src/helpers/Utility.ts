@@ -33,8 +33,8 @@ const validPointValue = (value: string | number) => {
 
   return newvalue
 }
-const removeDecimal = (value: number) => {
-  const newValue = Number(value).toFixed(3)
+const removeDecimal = (value: number, maxValue?: number) => {
+  const newValue = Number(value).toFixed(maxValue ?? 3)
   return newValue
 }
 

@@ -146,6 +146,12 @@ export interface OrderBookObjectType {
   asks: number[][]
 }
 
+export interface CustomOrderBookObjectType {
+  price: number
+  amount: number
+  type: string
+}
+
 export interface CreatePriceLineOptions {
   price: number
   color: string

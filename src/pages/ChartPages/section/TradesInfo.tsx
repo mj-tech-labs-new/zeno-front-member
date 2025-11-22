@@ -76,7 +76,6 @@ const TradesInfo = (props: {challengeId: string}) => {
 
     // eslint-disable-next-line consistent-return
     return () => {
-       
       priceline.removePriceLine(newPriceline)
       isPriceCreated.current = false
     }

@@ -19,7 +19,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       amount: item[1],
       type: 'buy',
     }))
-    const sellOrders = bookings?.asks?.map((item) => ({
+    const sellOrders = bookings?.bids?.map((item) => ({
       price: item[0],
       amount: item[1],
       type: 'sell',
@@ -29,18 +29,20 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       : activeType === 'buy_type'
         ? buyOrders
         : sellOrders
-  }, [activeType, bookings?.asks])
+  }, [activeType, bookings?.asks, bookings?.bids])
 
-  const maxNumber = useMemo(
-    () =>
-      [...(bookings?.asks ?? []), ...(bookings?.bids ?? [])]
-        ?.map((numbers) => numbers?.[1] ?? 0 * (numbers?.[0] ? numbers[0] : 0))
-        .reduce(
-          (accumulator, currentValue) => Math.max(accumulator, currentValue),
-          -Infinity
-        ),
-    [bookings?.asks, bookings?.bids]
-  )
+  const maxNumber = useMemo(() => {
+    const finalAmountToBids = [...(bookings?.bids ?? [])]?.map(
+      (numbers) => numbers[0] * numbers[1]
+    )
+    const finalAmountToBuy = [...(bookings?.asks ?? [])]?.map(
+      (numbers) => numbers[0] * numbers[1]
+    )
+    return {
+      maxBid: Math.max(...finalAmountToBids),
+      maxBuy: Math.max(...finalAmountToBuy),
+    }
+  }, [bookings?.asks, bookings?.bids])
 
   useEffect(() => {
     if (isLoadingCandles || !chartInfo?.fullSymbolName) return
@@ -107,6 +109,8 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
         tradesToMap?.map((trade, tradeIndex) => {
           const {amount, price, type} = trade
           const finalAmount = amount * price
+          const amountToDivide =
+            type === 'buy' ? maxNumber.maxBuy : maxNumber.maxBid
           return (
             <Fragment key={`trade_${trade?.type}_${tradeIndex?.toString()}`}>
               {activeType === 'buy_sell_type' && tradeIndex === 5 && (
@@ -118,7 +122,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
                 <div
                   className={`absolute right-0 h-full ${type === 'buy' ? 'bg-chart-green-color' : 'bg-chart-red-color'} opacity-15`}
                   style={{
-                    width: `${finalAmount > maxNumber ? 100 : (finalAmount / maxNumber) * 100}%`,
+                    width: `${finalAmount === amountToDivide ? 100 : finalAmount / amountToDivide}%`,
                   }}
                 />
                 <span
