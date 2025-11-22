@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
 
 import {
@@ -68,24 +69,55 @@ const BuySell = (props: BuyOrSelProps) => {
 
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
+      let totalStrFinal
+      const priceStr = inputValues.price
+      const priceBigInt = priceStr.includes('.')
+        ? BigInt(priceStr.replace('.', ''))
+        : BigInt(priceStr)
+
+      const amountStr = value ?? '0'
+      const amountBigInt = amountStr.includes('.')
+        ? BigInt(amountStr.replace('.', ''))
+        : BigInt(amountStr)
+
+      const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
+
+      const totalStr = (
+        (priceBigInt * amountBigInt) /
+        leverageBigInt
+      ).toString()
+
+      if (!priceStr.includes('.') && !amountStr.includes('.')) {
+        totalStrFinal = totalStr // for int
+      } else {
+        const decimalPlacesPrice = priceStr.includes('.')
+          ? priceStr.length - priceStr.indexOf('.') - 1
+          : 0
+        const decimalPlacesAmount = amountStr.includes('.')
+          ? amountStr.length - amountStr.indexOf('.') - 1
+          : 0
+
+        const indexTotal =
+          totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
+
+        const totalStrPrecise =
+          totalStr.slice(0, indexTotal) +
+          '.' +
+          totalStr.slice(indexTotal, indexTotal + 6)
+
+        totalStrFinal = totalStrPrecise // for float
+      }
+
       if (name === 'amount') {
         setRangeValue(0)
       }
       setInputValues((prev) => ({
         ...prev,
         [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
-        total: Utility.validPointValue(
-          Utility.validFloatNumber(
-            (
-              (Number(name === 'amount' ? value : prev.amount) *
-                Number(name === 'price' ? value : prev.price)) /
-              Number(selectedLeverage?.title)
-            )?.toFixed(4)
-          )
-        ),
+        total: Utility.validPointValue(Utility.validFloatNumber(totalStrFinal)),
       }))
     },
-    [selectedLeverage?.title]
+    [inputValues.price, selectedLeverage?.title]
   )
 
   useEffect(() => {
@@ -97,19 +129,48 @@ const BuySell = (props: BuyOrSelProps) => {
   }, [selectedLeverage])
 
   useEffect(() => {
+    let totalStrFinal
+    const priceStr = inputValues.price
+    const priceBigInt = priceStr.includes('.')
+      ? BigInt(priceStr.replace('.', ''))
+      : BigInt(priceStr)
+    const amountStr = inputValues.amount ?? '0'
+    const amountBigInt = amountStr.includes('.')
+      ? BigInt(amountStr.replace('.', ''))
+      : BigInt(amountStr)
+    const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
+    const totalStr = ((priceBigInt * amountBigInt) / leverageBigInt).toString()
+
+    if (!priceStr.includes('.') && !amountStr.includes('.')) {
+      totalStrFinal = totalStr // for int
+    } else {
+      const decimalPlacesPrice = priceStr.includes('.')
+        ? priceStr.length - priceStr.indexOf('.') - 1
+        : 0
+      const decimalPlacesAmount = amountStr.includes('.')
+        ? amountStr.length - amountStr.indexOf('.') - 1
+        : 0
+
+      const indexTotal =
+        totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
+
+      const totalStrPrecise =
+        totalStr.slice(0, indexTotal) +
+        '.' +
+        totalStr.slice(indexTotal, indexTotal + 6)
+
+      totalStrFinal = totalStrPrecise // for float
+    }
+
     if (isLoadingCandles || !socketRef.current) return
     setInputValues((prev) => ({
       ...prev,
       price: livePrice.toString() ?? '0',
-      total:
-        Number(prev.total) === 0
-          ? '0'
-          : (
-              (livePrice * Number(prev.amount)) /
-              Number(selectedLeverage?.title)
-            )?.toFixed(4),
+      total: Number(prev.total) === 0 ? '0' : totalStrFinal,
     }))
   }, [
+    inputValues.amount,
+    inputValues.price,
     isLoadingCandles,
     leverage,
     livePrice,
@@ -202,7 +263,9 @@ const BuySell = (props: BuyOrSelProps) => {
                   const tokenValue = Number(amountRef.current) * percentValue
                   setInputValues((prev) => ({
                     ...prev,
-                    amount: (tokenValue / livePrice).toString(),
+                    amount:
+                      value === 0 ? '0' : (tokenValue / livePrice).toString(),
+                    total: prev.total,
                   }))
                   setRangeValue(value)
                 }}

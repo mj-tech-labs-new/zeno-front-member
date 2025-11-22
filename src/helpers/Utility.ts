@@ -38,6 +38,13 @@ const removeDecimal = (value: number, maxValue?: number) => {
   return newValue
 }
 
+const convertScientificToNormalNum = (value: number) => {
+  const magnitude = Math.floor(Math.log10(Math.abs(value))) + 1
+  const newValue = value.toPrecision(Math.max(magnitude, 1))
+
+  return newValue
+}
+
 const Utility = {
   ScrollToSectionUtility,
   validFloatNumber,

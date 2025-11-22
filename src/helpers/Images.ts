@@ -139,6 +139,7 @@ const Images = {
     '../assets/static_assets/featureFundsAndWithdraw2.png',
     import.meta.url
   ).href,
+  checkbox: new URL('../assets/svgs/checkbox.svg', import.meta.url).href,
 }
 
 export default Images
