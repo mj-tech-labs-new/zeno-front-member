@@ -221,7 +221,7 @@ const Limit = (props: BuyOrSelProps) => {
 
       <CheckBoxInputContainer
         checked={checked}
-        className="checkbox-checked-bg"
+        className="checkbox-checked-bg !appearance-none"
         singleLineContent={English.E298}
         onChange={() => {
           setChecked((prev) => !prev)

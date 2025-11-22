@@ -15,7 +15,7 @@ const CheckBoxInputContainer = (
         id={singleLineContent}
         type="checkbox"
         {...rest}
-        className={`${className} appearance-none size-6.5 border border-neutral-active-color rounded-[4px] cursor-pointer`}
+        className={`${className} size-6.5 border border-neutral-active-color rounded-[4px] cursor-pointer`}
       />
       <label className="cursor-pointer" htmlFor={singleLineContent}>
         {English.E298}

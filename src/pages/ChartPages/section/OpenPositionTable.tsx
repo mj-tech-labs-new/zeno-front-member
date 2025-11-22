@@ -89,7 +89,7 @@ const OpenPositionTable = (
             </span>
           </td>
           <td
-            className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.open_pnl?.startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}`}
+            className={`px-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap ${tableBody?.open_pnl?.toString().startsWith('-') ? 'text-extra-dark-danger-color' : '!text-chart-green-color'}`}
           >
             <span>
               {!tableBody?.realized_pnl?.toString().startsWith('-') && '+'}
