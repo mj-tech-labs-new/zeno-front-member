@@ -6,7 +6,7 @@ import {
 } from 'lightweight-charts'
 import {memo, useCallback, useEffect} from 'react'
 
-import {SocketEmitter} from '@/helpers'
+import {SocketEmitter, Utility} from '@/helpers'
 import {CandleObjectType} from '@/types/ChartTypes'
 import {ChartUtils} from '@/utils'
 
@@ -88,7 +88,8 @@ const ChartGraphs = () => {
     // Add volume series (histogram)
     const volumeSeries = chartObj.addSeries(HistogramSeries, {
       priceFormat: {
-        type: 'volume',
+        type: 'custom',
+        formatter: (value: number) => `${Utility.removeDecimal(value, 2)}K`,
       },
       priceScaleId: '',
     })
@@ -101,7 +102,7 @@ const ChartGraphs = () => {
     volumeSeriesRef.current = volumeSeries
     volumeSeriesRef.current.moveToPane(2)
     const volumePane = chartObjectRef.current.panes()?.[1]
-    volumePane.setHeight(72)
+    volumePane.setHeight(120)
   }, [chartAreaRef, chartObjectRef, firstChartRef, volumeSeriesRef])
 
   useEffect(() => {

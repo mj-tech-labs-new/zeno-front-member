@@ -12,20 +12,17 @@ import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
   const {activeIndex} = props
-  const {chartInfo, buyOrSellApiResArray, getChallengeByIdArray} =
-    useChartProvider()
+  const {chartInfo, getChallengeByIdArray} = useChartProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     entryprice: '',
     quantity: '',
   })
   const [total, setTotal] = useState(0)
-  const [stopLoss, setStopLoss] = useState<
-    Pick<CommonBuyAndSellProp, 'stop_loss'>
-  >({stop_loss: []})
-  const [takeProfit, setTakeProfit] = useState<
-    Pick<CommonBuyAndSellProp, 'stop_loss'>
-  >({stop_loss: []})
+  const [stopLossData, setStopLossData] = useState<
+    Pick<CommonBuyAndSellProp, 'stop_loss'> &
+      Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({stop_loss: [], take_profit: []})
   const [stopLossValue, setStopLossValue] = useState<number>(0)
 
   const [leverageValueArray, setLeverageValueArray] = useState<
@@ -129,10 +126,7 @@ const Limit = (props: BuyOrSelProps) => {
         </span>
         <div className="flex items-center gap-1">
           <span className="text-extra-light-success-color text-xs font-semibold !leading-5">
-            {Utility.numberConversion(
-              buyOrSellApiResArray?.[0]?.usdt_balance_after ??
-                getChallengeByIdArray?.[0]?.current_usdt
-            )}
+            {Utility.numberConversion(getChallengeByIdArray?.[0]?.current_usdt)}
           </span>
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>
@@ -154,6 +148,12 @@ const Limit = (props: BuyOrSelProps) => {
 
       {Constants.BuySellInputArray.Limit.map((item, index) => {
         const {name, placeHolder, label, textContent} = item
+        let priceValue = inputValues?.[name as keyof typeof inputValues]
+        if (name === 'entryprice') {
+          priceValue = (
+            Number(priceValue) / Number(selectedLeverage?.title)
+          ).toString()
+        }
         return (
           <div key={`name_${name}`}>
             <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
@@ -165,7 +165,7 @@ const Limit = (props: BuyOrSelProps) => {
                   <InputContainer
                     layoutClassName="!w-full"
                     placeholder={name === 'price' ? placeHolder : ''}
-                    value={inputValues?.[name as keyof typeof inputValues]}
+                    value={priceValue}
                     className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
               [&>input]:!text-chart-text-primary-color [&>input]:!text-sm [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium"
                     onChange={(e) => {
@@ -196,28 +196,31 @@ const Limit = (props: BuyOrSelProps) => {
                 <div
                   className={` ${currentDifferent ? (currentDifferent < 0 ? '!text-dark-danger-color' : '!text-chart-green-color') : 'text-neutral-primary-color'}`}
                 >
-                  {currentDifferent.toFixed(6)}
+                  {Utility.numberConversion(currentDifferent)}
                 </div>
               </div>
             )}
           </div>
         )
       })}
-      {total > getChallengeByIdArray?.[0]?.current_usdt && (
+      {Number(inputValues.entryprice) >
+        getChallengeByIdArray?.[0]?.current_usdt && (
         <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
           {English.E279}
         </span>
       )}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 ">
         <ActionButton
           activeIndex={activeIndex}
-          leverage={selectedLeverage?.title}
+          leverage={Number(selectedLeverage?.title)}
           order_type="limit"
           price={Number(inputValues?.entryprice)}
-          quantity={Number(inputValues?.quantity)}
-          stop_loss={stopLoss.stop_loss}
-          take_profit={takeProfit.stop_loss}
+          stop_loss={stopLossData?.stop_loss}
+          take_profit={stopLossData?.take_profit}
           total={total}
+          quantity={Number(
+            Utility.removeDecimal(Number(inputValues?.quantity))
+          )}
           setInputValues={() => {
             setInputValues({entryprice: '0', quantity: '0'})
             setStopLossValue(0)
@@ -236,31 +239,57 @@ const Limit = (props: BuyOrSelProps) => {
         }}
       />
 
-      {checked && <Divider className="!bg-chart-secondary-bg-color !my-3" />}
+      {checked && <Divider className="!bg-chart-secondary-bg-color !my-1" />}
 
       {checked && (
         <div className="flex flex-col">
           <StopLoss
-            closingQuantity={Number(inputValues.quantity)}
             heading="Stop Loss"
             marketPrice={Number(inputValues.entryprice)}
             resetValue={stopLossValue}
             subHeading="Stop loss"
-            total={total}
-            setStopLoss={(value) => {
-              setStopLoss(value)
-            }}
+            setStopLoss={(value) =>
+              setStopLossData((prev) => {
+                const updated = [...(prev.stop_loss ?? [])]
+
+                updated[0] = {
+                  ...updated[0],
+                  ...value.stop_loss?.[0],
+                  quantity: Number(
+                    Utility.removeDecimal(Number(inputValues.quantity))
+                  ),
+                }
+
+                return {
+                  ...prev,
+                  stop_loss: updated,
+                }
+              })
+            }
           />
           <StopLoss
-            closingQuantity={Number(inputValues.quantity)}
             heading="Take Profit"
             marketPrice={Number(inputValues.entryprice)}
             resetValue={stopLossValue}
             subHeading="Take Profit "
-            total={total}
-            setStopLoss={(value) => {
-              setTakeProfit(value)
-            }}
+            setStopLoss={(value) =>
+              setStopLossData((prev) => {
+                const updated = [...(prev?.take_profit ?? [])]
+
+                updated[0] = {
+                  ...updated[0],
+                  ...value?.take_profit?.[0],
+                  quantity: Number(
+                    Utility.removeDecimal(Number(inputValues.quantity))
+                  ),
+                }
+
+                return {
+                  ...prev,
+                  take_profit: updated,
+                }
+              })
+            }
           />
         </div>
       )}

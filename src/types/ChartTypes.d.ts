@@ -69,17 +69,23 @@ export interface LivePriceSocketType extends Pick<CandleObjectType, 'symbol'> {
 export interface OpenPosition
   extends Pick<CommonBuyAndSellProp, 'stop_loss' | 'take_profit'> {
   status: string
-  user_id: string
+  user_id: number
   tx_hash: string
   symbol: string
   direction: string
   open_time: string
   duration?: string
   quantity: number
-  open_price?: number
   current_price: number
   realized_pnl: number
-  open_pnl: string
+  open_pnl: number
+  est_liq_price: number
+  margin_ratio: number
+  marginBalance: number
+  return_on_equity: number
+  average_price: number
+  open: number
+  leverage: number
 }
 
 export interface PendingOrder
@@ -91,21 +97,21 @@ export interface PendingOrder
       | 'realized_pnl'
       | 'open_pnl'
       | 'user_id'
+      | 'leverage'
+      | 'direction'
     >,
     Pick<OpenPosition, 'stop_loss' | 'take_profit'> {
   order_type: string
   submitted_time: string
   submitted_price: number
-  Expiraton?: string
+  position_margin: number
   distance: number
 }
 export interface StopLossProps {
   marketprice: number
-  quantity: number
-  persantageValue?: number
-  rangeValue?: number
   id: number
   status?: string
+  quantity?: number
 }
 
 export interface CommonBuyAndSellProp
@@ -117,7 +123,7 @@ export interface CommonBuyAndSellProp
   total?: number
   quantity: number
   usdt_price?: number
-  leverage?: string
+  leverage?: number
   setInputValues: () => void
   stop_loss?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
     Pick<LivePriceSocketType, 'price'>)[]
@@ -131,7 +137,6 @@ export interface CommonStopLossProp {
   heading?: string
   subHeading?: string
   marketPrice?: number
-  closingQuantity?: number
   BuyOrSellType?: string
   setStopLoss: (
     value: Pick<CommonBuyAndSellProp, 'stop_loss'> &

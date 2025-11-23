@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react'
+import {memo, useEffect, useRef} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 
@@ -16,7 +16,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     price,
     quantity = 0,
     order_type,
-    leverage = '',
+    leverage,
     stop_loss,
     take_profit,
     setInputValues,
@@ -26,9 +26,8 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
   const amountRef = useRef(0)
   const {
     getChallengeByIdArray,
-    setBuyOrSellApiResArray,
     chartInfo,
-    buyOrSellApiResArray,
+    setGetChallengeByIdArray,
     livePrice,
   } = useChartProvider()
 
@@ -77,17 +76,21 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
           navigate('/dashboard')
           return
         }
-        setBuyOrSellApiResArray(res.data)
+        setGetChallengeByIdArray((data) => {
+          const previousData = data[0]
+          const newData = {
+            ...previousData,
+            current_usdt: res?.data?.[0]?.usdt_balance_after,
+          }
+          return [newData]
+        })
         toast.success(English.E280)
       })
   }
 
   useEffect(() => {
-    amountRef.current =
-      buyOrSellApiResArray?.[0]?.usdt_balance_after ??
-      getChallengeByIdArray?.[0]?.current_usdt ??
-      0
-  }, [buyOrSellApiResArray, getChallengeByIdArray])
+    amountRef.current = getChallengeByIdArray?.[0]?.current_usdt ?? 0
+  }, [getChallengeByIdArray])
 
   return (
     <div className="flex flex-1 gap-3">
@@ -109,4 +112,4 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
   )
 }
 
-export default ActionButton
+export default memo(ActionButton)

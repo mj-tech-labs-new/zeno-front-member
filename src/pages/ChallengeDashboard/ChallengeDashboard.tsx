@@ -24,7 +24,7 @@ const ChallengeDashboard = () => {
           <ChallengeStatusCard />
           <ChallengeCompletionCard
             totalAmount={
-              getChallengeByIdArray?.[0]?.ChallengePlan[0].capital_fund
+              getChallengeByIdArray?.[0]?.ChallengePlan[0].capital_fund ?? 0
             }
           />
           <TradingDescriptionSection type={English.E257} />

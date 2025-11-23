@@ -25,7 +25,6 @@ const BuySell = (props: BuyOrSelProps) => {
     getChallengeByIdArray,
     chartInfo,
     currentStageArray,
-    buyOrSellApiResArray,
     livePrice,
   } = useChartProvider()
   const [inputValues, setInputValues] = useState({
@@ -38,12 +37,11 @@ const BuySell = (props: BuyOrSelProps) => {
     DropDownObjectType[]
   >([])
   const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
-  const [stopLoss, setStopLoss] = useState<
-    Pick<CommonBuyAndSellProp, 'stop_loss'>
-  >({stop_loss: []})
-  const [takeProfit, setTakeProfit] = useState<
-    Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({take_profit: []})
+
+  const [stopLossData, setStopLossData] = useState<
+    Pick<CommonBuyAndSellProp, 'stop_loss'> &
+      Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({stop_loss: [], take_profit: []})
 
   const leverage = useMemo(
     () => currentStageArray?.[0]?.leverage,
@@ -182,11 +180,8 @@ const BuySell = (props: BuyOrSelProps) => {
   ])
 
   useEffect(() => {
-    amountRef.current =
-      buyOrSellApiResArray?.[0]?.usdt_balance_after ??
-      getChallengeByIdArray?.[0]?.current_usdt ??
-      0
-  }, [buyOrSellApiResArray, getChallengeByIdArray])
+    amountRef.current = getChallengeByIdArray?.[0]?.current_usdt ?? 0
+  }, [getChallengeByIdArray])
 
   return (
     <div className="flex flex-col gap-3">
@@ -196,10 +191,7 @@ const BuySell = (props: BuyOrSelProps) => {
         </span>
         <div className="flex items-center gap-1">
           <span className="text-extra-light-success-color text-xs font-semibold !leading-5">
-            {Utility.numberConversion(
-              buyOrSellApiResArray?.[0]?.usdt_balance_after ??
-                getChallengeByIdArray?.[0]?.current_usdt
-            )}
+            {Utility.numberConversion(getChallengeByIdArray?.[0]?.current_usdt)}
           </span>
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>
@@ -262,12 +254,21 @@ const BuySell = (props: BuyOrSelProps) => {
                 setRangeValue={(value) => {
                   const percentValue = value === 0 ? 0 : value / 100
                   const tokenValue = Number(amountRef.current) * percentValue
-                  setInputValues((prev) => ({
-                    ...prev,
-                    amount:
-                      value === 0 ? '0' : (tokenValue / livePrice).toString(),
-                    total: prev.total,
-                  }))
+                  const newAmount = tokenValue / livePrice
+                  setInputValues((prev) => {
+                    const price = Number(prev.price)
+                    const Price = price ? 0 : price
+                    const Leverage = Number(selectedLeverage?.title)
+
+                    const totalValue = (newAmount * Price) / Leverage
+                    return {
+                      ...prev,
+                      amount: newAmount.toString(),
+                      total:
+                        Utility.removeDecimal(Number(totalValue))?.toString() ??
+                        '0',
+                    }
+                  })
                   setRangeValue(value)
                 }}
               />
@@ -285,36 +286,60 @@ const BuySell = (props: BuyOrSelProps) => {
       <div className="flex items-center gap-3">
         <ActionButton
           activeIndex={activeIndex}
-          leverage={selectedLeverage?.title}
+          leverage={Number(selectedLeverage?.title)}
           order_type="market"
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}
-          stop_loss={stopLoss?.stop_loss}
-          take_profit={takeProfit?.take_profit}
+          stop_loss={stopLossData?.stop_loss}
+          take_profit={stopLossData?.take_profit}
           total={Number(inputValues?.total)}
           setInputValues={() => {
             setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
           }}
         />
       </div>
-      <div className="flex flex-col pointer-events-none opacity-60 ">
+      <div className="flex flex-col  ">
         <StopLoss
-          closingQuantity={Number(inputValues.total)}
           heading="Stop Loss"
           marketPrice={Number(inputValues.amount)}
           subHeading="Stop loss "
-          setStopLoss={(value) => {
-            setStopLoss(value)
-          }}
+          setStopLoss={(value) =>
+            setStopLossData((prev) => {
+              const updated = [...(prev.stop_loss ?? [])]
+
+              updated[0] = {
+                ...updated[0],
+                ...value.stop_loss?.[0],
+                quantity: Number(inputValues.amount),
+              }
+
+              return {
+                ...prev,
+                stop_loss: updated,
+              }
+            })
+          }
         />
         <StopLoss
-          closingQuantity={Number(inputValues.total)}
           heading="Take Profit"
           marketPrice={Number(inputValues.amount)}
           subHeading="Take Profit "
-          setStopLoss={(value) => {
-            setTakeProfit(value)
-          }}
+          setStopLoss={(value) =>
+            setStopLossData((prev) => {
+              const updated = [...(prev?.take_profit ?? [])]
+
+              updated[0] = {
+                ...updated[0],
+                ...value?.take_profit?.[0],
+                quantity: Number(inputValues.amount),
+              }
+
+              return {
+                ...prev,
+                take_profit: updated,
+              }
+            })
+          }
         />
       </div>
     </div>

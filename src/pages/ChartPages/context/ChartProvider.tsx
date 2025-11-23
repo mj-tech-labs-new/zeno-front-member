@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import {
   CandlestickData,
   CandlestickSeriesOptions,
@@ -32,11 +33,7 @@ import {io, Socket} from 'socket.io-client'
 import {SocketEmitter} from '@/helpers'
 import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 import {APICall, Endpoints} from '@/services'
-import {
-  BuyOrSellApiType,
-  ChallengeStageType,
-  GetChallengeByIdType,
-} from '@/types/ChallengeTypes'
+import {ChallengeStageType, GetChallengeByIdType} from '@/types/ChallengeTypes'
 import {
   CandleObjectType,
   ChartInfoObjectType,
@@ -60,8 +57,6 @@ const ChartContext = createContext<{
   setLivePrice: Dispatch<SetStateAction<number>>
   getChallengeByIdArray: GetChallengeByIdType[]
   setGetChallengeByIdArray: Dispatch<SetStateAction<GetChallengeByIdType[]>>
-  buyOrSellApiResArray: BuyOrSellApiType[]
-  setBuyOrSellApiResArray: Dispatch<SetStateAction<BuyOrSellApiType[]>>
   currentStageArray: ChallengeStageType[]
   setCurrentStageArray: Dispatch<SetStateAction<ChallengeStageType[]>>
   socketRef: RefObject<Socket | null>
@@ -122,8 +117,6 @@ const ChartContext = createContext<{
   setLivePrice: () => {},
   getChallengeByIdArray: [],
   setGetChallengeByIdArray: () => {},
-  buyOrSellApiResArray: [],
-  setBuyOrSellApiResArray: () => {},
   currentStageArray: [],
   setCurrentStageArray: () => {},
   totalCandlesCount: {current: 0},
@@ -164,9 +157,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [livePrice, setLivePrice] = useState(0)
   const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
     GetChallengeByIdType[]
-  >([])
-  const [buyOrSellApiResArray, setBuyOrSellApiResArray] = useState<
-    BuyOrSellApiType[]
   >([])
   const [currentStageArray, setCurrentStageArray] = useState<
     ChallengeStageType[]
@@ -261,7 +251,13 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       extraHeaders: {
         token: `Bearer ${UserData?.token ?? ''}`,
       },
+      autoConnect: false,
     })
+    return () => {
+      socketRef.current?.removeAllListeners()
+      socketRef.current?.disconnect()
+      socketRef.current = null
+    }
   }, [UserData?.token])
 
   const enableChartActions = useCallback(() => {
@@ -332,8 +328,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       setSelectedIndex,
       getChallengeByIdArray,
       setGetChallengeByIdArray,
-      buyOrSellApiResArray,
-      setBuyOrSellApiResArray,
       currentStageArray,
       setCurrentStageArray,
       challengeId,
@@ -350,8 +344,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       setLivePrice,
       getChallengeByIdArray,
       setGetChallengeByIdArray,
-      buyOrSellApiResArray,
-      setBuyOrSellApiResArray,
       currentStageArray,
       setCurrentStageArray,
       getCandleHistory,
@@ -413,8 +405,9 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   }, [challengeId])
 
   useEffect(() => {
-    if (isLoadingCandles || !socketRef.current) return
-    socketRef.current.on(SocketEmitter.Emitter.live_prices, (data) => {
+    const socket = socketRef.current
+    if (isLoadingCandles || !socket) return
+    socket.on(SocketEmitter.Emitter.live_prices, (data) => {
       const tokenPrices = data.data.prices
       const findTokenName = Object.entries(tokenList ?? {}).find(
         ([_, value]) => value === selectedToken

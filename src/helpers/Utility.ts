@@ -33,6 +33,10 @@ const validPointValue = (value: string | number) => {
 
   return newvalue
 }
+const removeDecimal = (value: number, maxValue?: number) => {
+  const newValue = Number(value).toFixed(maxValue ?? 3)
+  return newValue
+}
 
 const convertScientificToNormalNum = (value: number) => {
   const magnitude = Math.floor(Math.log10(Math.abs(value))) + 1
@@ -41,13 +45,22 @@ const convertScientificToNormalNum = (value: number) => {
   return newValue
 }
 
+const colorGeneratorUtility = (value: number) => {
+  const colorValue = !value?.toString()?.startsWith('-')
+    ? 'text-chart-green-color'
+    : 'text-chart-red-color'
+  return colorValue
+}
+
 const Utility = {
+  colorGeneratorUtility,
   ScrollToSectionUtility,
   validFloatNumber,
   numberConversion,
   isValidEmail,
   validPointValue,
   convertScientificToNormalNum,
+  removeDecimal,
 }
 
 export default Utility
