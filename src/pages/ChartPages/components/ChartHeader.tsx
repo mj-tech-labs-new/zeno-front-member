@@ -192,19 +192,9 @@ const ChartHeader = () => {
                   <p
                     className={`text-sm !leading-6 font-medium ${index !== 3 ? (textContent?.priceDiff?.toString()?.startsWith('-') ? 'text-chart-red-color' : 'text-chart-green-color') : 'text-chart-text-primary-color'}`}
                   >
-                    <span>
-                      {!textContent?.priceDiff?.toString()?.startsWith('-') &&
-                      index !== 3
-                        ? '+'
-                        : ''}
-                      {textContent?.priceDiff}{' '}
-                    </span>
+                    <span>{textContent?.priceDiff} </span>
                     {index !== 3 && (
-                      <span>
-                        {!textContent?.priceDiff?.toString()?.startsWith('-') &&
-                          '+'}
-                        {(textContent as any)?.percentageDiff}
-                      </span>
+                      <span>{(textContent as any)?.percentageDiff}</span>
                     )}
                   </p>
                 </div>

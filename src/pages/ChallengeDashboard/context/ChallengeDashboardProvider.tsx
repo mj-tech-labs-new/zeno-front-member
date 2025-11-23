@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+
 import {
   createContext,
   Dispatch,
@@ -98,7 +100,14 @@ const ChallengeDashboardProvider = (
       extraHeaders: {
         token: `Bearer ${UserData?.token ?? ''}`,
       },
+      autoConnect: false,
     })
+
+    return () => {
+      socketRef.current?.removeAllListeners()
+      socketRef.current?.disconnect()
+      socketRef.current = null
+    }
   }, [UserData?.token, getChallengeByIdArray.length, showLoader, socketRef])
 
   useEffect(() => {

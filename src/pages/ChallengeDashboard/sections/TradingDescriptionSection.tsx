@@ -25,10 +25,10 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
   useEffect(() => {
     if (showLoader || !socketRef.current || !challengeIdRef.current) return
     if (!showLoader) {
+      setIsLoadingSocket(false)
       socketRef.current?.on(
         `${SocketEmitter.DashboardEmitter.challenge_dashboard_socket}_${challengeIdRef.current}`,
         (data) => {
-          setIsLoadingSocket(false)
           setSocketData(data?.data)
         }
       )

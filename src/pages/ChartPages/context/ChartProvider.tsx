@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import {
   CandlestickData,
   CandlestickSeriesOptions,
@@ -250,7 +251,13 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       extraHeaders: {
         token: `Bearer ${UserData?.token ?? ''}`,
       },
+      autoConnect: false,
     })
+    return () => {
+      socketRef.current?.removeAllListeners()
+      socketRef.current?.disconnect()
+      socketRef.current = null
+    }
   }, [UserData?.token])
 
   const enableChartActions = useCallback(() => {
