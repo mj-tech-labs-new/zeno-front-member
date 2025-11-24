@@ -5,6 +5,7 @@ import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputCon
 import {Constants, English, Images, Utility} from '@/helpers'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 
+import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
 import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
@@ -24,10 +25,8 @@ const Limit = (props: BuyOrSelProps) => {
       Pick<CommonBuyAndSellProp, 'take_profit'>
   >({stop_loss: [], take_profit: []})
   const [stopLossValue, setStopLossValue] = useState<number>(0)
-  const [currentDifferent, setCurrentDifferent] = useState(0)
 
   useEffect(() => {
-    setCurrentDifferent(0)
     setInputValues({
       entryprice: '',
       quantity: '',
@@ -55,8 +54,6 @@ const Limit = (props: BuyOrSelProps) => {
     (name: keyof typeof inputValues, value: string) => {
       setInputValues((prev) => {
         if (name === 'entryprice' && getChallengeByIdArray) {
-          if (Number(value) === 0) setCurrentDifferent(0)
-
           return {
             ...prev,
             entryprice: Utility.validFloatNumber(
@@ -65,17 +62,13 @@ const Limit = (props: BuyOrSelProps) => {
           }
         }
 
-        if (Number(value) === 0) setCurrentDifferent(0)
-
-        if (total === 0) setCurrentDifferent(0)
-
         return {
           ...prev,
           quantity: Utility.validFloatNumber(Utility.validPointValue(value)),
         }
       })
     },
-    [getChallengeByIdArray, setCurrentDifferent, total]
+    [getChallengeByIdArray]
   )
 
   useEffect(() => {
@@ -92,18 +85,8 @@ const Limit = (props: BuyOrSelProps) => {
           parseFloat(inputValues?.quantity)) /
           Number(selectedLeverage?.title)
       )
-
-      setCurrentDifferent(
-        getChallengeByIdArray?.[0]?.current_usdt
-          ? Number(getChallengeByIdArray?.[0]?.current_usdt) - total
-          : 0
-      )
     }
   }, [getChallengeByIdArray, inputValues, selectedLeverage?.title, total])
-
-  useEffect(() => {
-    setCurrentDifferent(0)
-  }, [selectedLeverage?.title])
 
   return (
     <div className="flex flex-col gap-2">
@@ -158,18 +141,6 @@ const Limit = (props: BuyOrSelProps) => {
                 </div>
               </div>
             </div>
-            {index === 0 && (
-              <div className="flex justify-between items-center !mt-5 !mb-3 px-0.5 ">
-                <div className=" !text-light-neutral-color">
-                  Current Difference :
-                </div>
-                <div
-                  className={` ${currentDifferent ? (currentDifferent < 0 ? '!text-dark-danger-color' : '!text-chart-green-color') : 'text-neutral-primary-color'}`}
-                >
-                  {Utility.numberConversion(currentDifferent)}
-                </div>
-              </div>
-            )}
           </div>
         )
       })}
@@ -264,6 +235,14 @@ const Limit = (props: BuyOrSelProps) => {
               })
             }
           />
+
+          <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+          <MaxOpenAndMargin total={total} type="max_open" />
+
+          <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+          <MaxOpenAndMargin total={total} type="margin" />
         </div>
       )}
     </div>

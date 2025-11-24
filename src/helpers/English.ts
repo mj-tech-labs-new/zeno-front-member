@@ -302,6 +302,15 @@ const English = {
   E298: 'TP/SL',
   E299: 'Order Price',
   E300: 'Position Margin',
+  E301: 'Max Open',
+  E302: 'Cost',
+  E303: 'Margin',
+  E304: 'Assets',
+  E305: 'Available Margin',
+  E306: 'Used Margin',
+  E307: 'Total Balance',
+  E308: 'Account Balance',
+  E309: 'Unreleased PNL',
 }
 
 export default English
