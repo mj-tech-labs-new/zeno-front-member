@@ -1,15 +1,9 @@
 /* eslint-disable prefer-template */
 import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
 
-import {
-  DropDown,
-  ImageComponent,
-  InputContainer,
-  RangeSelector,
-} from '@/components'
+import {ImageComponent, InputContainer, RangeSelector} from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
-import {DropDownObjectType} from '@/types/CommonTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
@@ -26,6 +20,7 @@ const BuySell = (props: BuyOrSelProps) => {
     chartInfo,
     currentStageArray,
     livePrice,
+    selectedLeverage,
   } = useChartProvider()
   const [inputValues, setInputValues] = useState({
     price: '',
@@ -33,10 +28,6 @@ const BuySell = (props: BuyOrSelProps) => {
     total: '',
   })
   const [rangeValue, setRangeValue] = useState(0)
-  const [leverageValueArray, setLeverageValueArray] = useState<
-    DropDownObjectType[]
-  >([])
-  const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
@@ -49,21 +40,6 @@ const BuySell = (props: BuyOrSelProps) => {
   )
 
   const amountRef = useRef(0)
-
-  useEffect(() => {
-    const currentStages = getChallengeByIdArray?.[0]?.current_stage ?? 0
-    if (!getChallengeByIdArray?.[0]) return
-
-    const stages = getChallengeByIdArray[0].ChallengeStage[currentStages]
-
-    if (!stages) return
-
-    const levArray = Array.from({length: stages.leverage}).map((_, index) => ({
-      title: (index + 1).toString(),
-    }))
-    setLeverageValueArray(levArray)
-    setSelectedLeverage(levArray[0])
-  }, [getChallengeByIdArray])
 
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
@@ -191,24 +167,12 @@ const BuySell = (props: BuyOrSelProps) => {
         </span>
         <div className="flex items-center gap-1">
           <span className="text-extra-light-success-color text-xs font-semibold !leading-5">
-            {Utility.numberConversion(getChallengeByIdArray?.[0]?.current_usdt ?? 0)}
+            {Utility.numberConversion(
+              getChallengeByIdArray?.[0]?.current_usdt ?? 0
+            )}
           </span>
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>
-      </div>
-      <div className="w-full">
-        <div className="flex justify-between">
-          <span>Leverage :</span>
-          <div>{selectedLeverage?.title ?? '1'}x</div>
-        </div>
-        <DropDown
-          className="!max-h-32 mt-2 !overflow-auto"
-          dropDownData={leverageValueArray}
-          selectedValue={selectedLeverage ?? {title: '1'}}
-          onSelectValue={(data) => {
-            setSelectedLeverage(data)
-          }}
-        />
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
         const {name, placeHolder, textContent} = item

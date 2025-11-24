@@ -1,18 +1,18 @@
-import { memo, useCallback, useEffect, useState } from 'react'
+import {memo, useCallback, useEffect, useState} from 'react'
 
-import { Divider, DropDown, ImageComponent, InputContainer } from '@/components'
+import {Divider, ImageComponent, InputContainer} from '@/components'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import { Constants, English, Images, Utility } from '@/helpers'
-import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
-import { DropDownObjectType } from '@/types/CommonTypes'
+import {Constants, English, Images, Utility} from '@/helpers'
+import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const { activeIndex } = props
-  const { chartInfo, getChallengeByIdArray } = useChartProvider()
+  const {activeIndex} = props
+  const {chartInfo, getChallengeByIdArray, selectedLeverage} =
+    useChartProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     entryprice: '',
@@ -21,16 +21,11 @@ const Limit = (props: BuyOrSelProps) => {
   const [total, setTotal] = useState(0)
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-    Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({ stop_loss: [], take_profit: [] })
+      Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({stop_loss: [], take_profit: []})
   const [stopLossValue, setStopLossValue] = useState<number>(0)
 
-  const [leverageValueArray, setLeverageValueArray] = useState<
-    DropDownObjectType[]
-  >([])
-
   const [currentDifferent, setCurrentDifferent] = useState(0)
-  const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
 
   const handleLeverageCount = useCallback(
     (price: number | string) => {
@@ -65,8 +60,10 @@ const Limit = (props: BuyOrSelProps) => {
         if (Number(value) === 0) setCurrentDifferent(0)
 
         if (Number(value) > 0) {
-          setCurrentDifferent(getChallengeByIdArray?.[0]?.current_usdt ?
-            Number(getChallengeByIdArray?.[0]?.current_usdt) - total : 0
+          setCurrentDifferent(
+            getChallengeByIdArray?.[0]?.current_usdt
+              ? Number(getChallengeByIdArray?.[0]?.current_usdt) - total
+              : 0
           )
         }
 
@@ -80,25 +77,11 @@ const Limit = (props: BuyOrSelProps) => {
   )
 
   useEffect(() => {
-    const currentStage = getChallengeByIdArray?.[0]?.current_stage ?? 0
-    if (!getChallengeByIdArray?.[0]) return
-
-    const stages = getChallengeByIdArray[0].ChallengeStage[currentStage]
-
-    if (!stages) return
-
-    const levArray = Array.from({ length: stages.leverage }).map((_, index) => ({
-      title: (index + 1).toString(),
-    }))
-    setLeverageValueArray(levArray)
-    setSelectedLeverage(levArray[0])
-  }, [getChallengeByIdArray])
-
-  useEffect(() => {
     setInputValues({
       entryprice: '',
       quantity: '',
     })
+    setCurrentDifferent(0)
   }, [selectedLeverage])
 
   useEffect(() => {
@@ -106,7 +89,7 @@ const Limit = (props: BuyOrSelProps) => {
       setTotal(
         (parseFloat(inputValues?.entryprice) *
           parseFloat(inputValues?.quantity)) /
-        Number(selectedLeverage?.title)
+          Number(selectedLeverage?.title)
       )
     }
   }, [inputValues, selectedLeverage?.title, total])
@@ -116,8 +99,10 @@ const Limit = (props: BuyOrSelProps) => {
       setCurrentDifferent(0)
       return
     }
-    setCurrentDifferent(getChallengeByIdArray?.[0]?.current_usdt ?
-      Number(getChallengeByIdArray?.[0]?.current_usdt) - total : 0
+    setCurrentDifferent(
+      getChallengeByIdArray?.[0]?.current_usdt
+        ? Number(getChallengeByIdArray?.[0]?.current_usdt) - total
+        : 0
     )
   }, [getChallengeByIdArray, total])
 
@@ -129,28 +114,16 @@ const Limit = (props: BuyOrSelProps) => {
         </span>
         <div className="flex items-center gap-1">
           <span className="text-extra-light-success-color text-xs font-semibold !leading-5">
-            {Utility.numberConversion(getChallengeByIdArray?.[0]?.current_usdt ?? 0)}
+            {Utility.numberConversion(
+              getChallengeByIdArray?.[0]?.current_usdt ?? 0
+            )}
           </span>
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>
       </div>
-      <div className="w-full">
-        <div className="flex justify-between">
-          <span>Leverage :</span>
-          <div>{selectedLeverage?.title ?? '1'}x</div>
-        </div>
-        <DropDown
-          className="!max-h-52 mt-2 !overflow-auto"
-          dropDownData={leverageValueArray}
-          selectedValue={selectedLeverage ?? { title: '1' }}
-          onSelectValue={(data) => {
-            setSelectedLeverage(data)
-          }}
-        />
-      </div>
 
       {Constants.BuySellInputArray.Limit.map((item, index) => {
-        const { name, placeHolder, label, textContent } = item
+        const {name, placeHolder, label, textContent} = item
         const priceValue = inputValues?.[name as keyof typeof inputValues]
         return (
           <div key={`name_${name}`}>
@@ -168,7 +141,7 @@ const Limit = (props: BuyOrSelProps) => {
               [&>input]:!text-chart-text-primary-color [&>input]:!text-sm [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium"
                     onChange={(e) => {
                       if (name === 'entryprice') {
-                        const { value } = e.target
+                        const {value} = e.target
                         handleLeverageCount(value)
                       }
                       handleInputChange(
@@ -203,10 +176,10 @@ const Limit = (props: BuyOrSelProps) => {
       })}
       {Number(inputValues.entryprice) >
         getChallengeByIdArray?.[0]?.current_usdt && (
-          <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
-            {English.E279}
-          </span>
-        )}
+        <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
+          {English.E279}
+        </span>
+      )}
       <div className="flex items-center gap-3 ">
         <ActionButton
           activeIndex={activeIndex}
@@ -220,7 +193,7 @@ const Limit = (props: BuyOrSelProps) => {
             Utility.removeDecimal(Number(inputValues?.quantity))
           )}
           setInputValues={() => {
-            setInputValues({ entryprice: '0', quantity: '0' })
+            setInputValues({entryprice: '0', quantity: '0'})
             setStopLossValue(0)
           }}
         />
