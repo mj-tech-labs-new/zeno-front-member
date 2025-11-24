@@ -1,6 +1,7 @@
 import {memo, useEffect, useMemo, useState} from 'react'
 
 import {BasicSkeleton, HeadingComponent, StatsDescription} from '@/components'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {English, SocketEmitter} from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
 import {
@@ -14,14 +15,9 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
   const {type, className, layoutClassName} = props
   const [socketData, setSocketData] = useState<ChallengeDataSocketType>()
   const [isLoadingSocket, setIsLoadingSocket] = useState(true)
-  const {
-    getChallengeByIdArray,
-    tradingStatistics,
-    challengeIdRef,
-    socketRef,
-    showLoader,
-  } = useChallengeProvider()
-
+  const {getChallengeByIdArray, tradingStatistics, challengeIdRef, showLoader} =
+    useChallengeProvider()
+  const {socketRef} = useSocketProvider()
   useEffect(() => {
     if (showLoader || !socketRef.current || !challengeIdRef.current) return
     if (!showLoader) {

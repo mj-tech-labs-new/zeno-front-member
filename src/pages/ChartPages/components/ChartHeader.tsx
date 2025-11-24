@@ -6,6 +6,7 @@ import {
   HeadingComponent,
   ImageComponent,
 } from '@/components'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {English, Images, SocketEmitter, Utility} from '@/helpers'
 import {CandleObjectType} from '@/types/ChartTypes'
 
@@ -14,7 +15,6 @@ import {useChartProvider} from '../context/ChartProvider'
 const ChartHeader = () => {
   const {
     chartInfo,
-    socketRef,
     isLoadingCandles,
     setChartInfo,
     selectedIndex,
@@ -26,10 +26,9 @@ const ChartHeader = () => {
     totalCandlesCount,
     livePrice,
   } = useChartProvider()
-
+  const {socketRef} = useSocketProvider()
   useEffect(() => {
     if (!socketRef.current) return
-
     socketRef.current.on(
       SocketEmitter.Emitter[
         selectedIndex as keyof typeof SocketEmitter.Emitter
@@ -48,9 +47,7 @@ const ChartHeader = () => {
         )
       }
     )
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoadingCandles])
+  }, [selectedIndex, selectedToken, setChartInfo, socketRef, tokenList])
 
   const change = useMemo(
     () => ({

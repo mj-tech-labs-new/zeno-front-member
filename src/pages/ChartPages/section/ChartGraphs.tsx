@@ -6,6 +6,7 @@ import {
 } from 'lightweight-charts'
 import {memo, useCallback, useEffect} from 'react'
 
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {SocketEmitter, Utility} from '@/helpers'
 import {CandleObjectType} from '@/types/ChartTypes'
 import {ChartUtils} from '@/utils'
@@ -20,7 +21,6 @@ const ChartGraphs = () => {
     chartObjectRef,
     firstChartRef,
     volumeSeriesRef,
-    socketRef,
     selectedIndex,
     selectedToken,
     tokenList,
@@ -28,7 +28,7 @@ const ChartGraphs = () => {
     currnetLimit,
     isCallingCurrent,
   } = useChartProvider()
-
+  const {socketRef} = useSocketProvider()
   const calculateDataAndUpdateChart = useCallback(
     (items: CandleObjectType[]) => {
       const candlestickData = items?.map((item) => {
@@ -113,7 +113,6 @@ const ChartGraphs = () => {
 
   useEffect(() => {
     if (isLoadingCandles || !socketRef.current) return
-
     socketRef.current.on(
       SocketEmitter.Emitter[
         selectedIndex as keyof typeof SocketEmitter.Emitter

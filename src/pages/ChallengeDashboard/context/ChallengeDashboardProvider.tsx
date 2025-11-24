@@ -1,5 +1,3 @@
-/* eslint-disable consistent-return */
-
 import {
   createContext,
   Dispatch,
@@ -11,15 +9,13 @@ import {
   useRef,
   useState,
 } from 'react'
-import {useSelector} from 'react-redux'
 import {useLocation, useNavigate} from 'react-router-dom'
-import {io, Socket} from 'socket.io-client'
 
 import {
   GetChallengeByIdType,
   TradingStatisticsType,
 } from '@/types/ChallengeTypes'
-import {GeneralProps, StorageProps} from '@/types/CommonTypes'
+import {GeneralProps} from '@/types/CommonTypes'
 
 import {
   getChallengeByIdApi,
@@ -31,7 +27,6 @@ const ChallengeDashboardContext = createContext<{
   setGetChallengeByIdArray: Dispatch<SetStateAction<GetChallengeByIdType[]>>
   tradingStatistics: TradingStatisticsType | null
   setTradingStatistics: Dispatch<SetStateAction<TradingStatisticsType | null>>
-  socketRef: RefObject<Socket | null>
   showLoader: boolean
   setShowLoader: Dispatch<SetStateAction<boolean>>
   challengeIdRef: RefObject<null | string>
@@ -40,7 +35,6 @@ const ChallengeDashboardContext = createContext<{
   setGetChallengeByIdArray: () => {},
   tradingStatistics: null,
   setTradingStatistics: () => {},
-  socketRef: {current: null},
   showLoader: true,
   setShowLoader: () => {},
   challengeIdRef: {current: null},
@@ -49,7 +43,6 @@ const ChallengeDashboardContext = createContext<{
 const ChallengeDashboardProvider = (
   props: Required<Pick<GeneralProps, 'children'>>
 ) => {
-  const UserData = useSelector((state: StorageProps) => state.userData?.user)
   const {children} = props
   const [showLoader, setShowLoader] = useState(false)
   const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
@@ -57,7 +50,6 @@ const ChallengeDashboardProvider = (
   >([])
   const [tradingStatistics, setTradingStatistics] =
     useState<TradingStatisticsType | null>(null)
-  const socketRef = useRef<Socket | null>(null)
   const location = useLocation()
   const navigate = useNavigate()
   const challengeIdRef = useRef<null | string>(null)
@@ -71,7 +63,6 @@ const ChallengeDashboardProvider = (
       setGetChallengeByIdArray,
       tradingStatistics,
       setTradingStatistics,
-      socketRef,
     }),
     [getChallengeByIdArray, showLoader, tradingStatistics]
   )
@@ -93,22 +84,6 @@ const ChallengeDashboardProvider = (
     }).then((res) => setTradingStatistics(res))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getChallengeByIdArray])
-
-  useEffect(() => {
-    if (showLoader || socketRef.current) return
-    socketRef.current = io(import.meta.env.VITE_API_BASE_URL, {
-      extraHeaders: {
-        token: `Bearer ${UserData?.token ?? ''}`,
-      },
-      autoConnect: false,
-    })
-
-    return () => {
-      socketRef.current?.removeAllListeners()
-      socketRef.current?.disconnect()
-      socketRef.current = null
-    }
-  }, [UserData?.token, getChallengeByIdArray.length, showLoader, socketRef])
 
   useEffect(() => {
     if (!challengeId) navigate(-1)

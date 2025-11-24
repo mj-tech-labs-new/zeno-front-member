@@ -7,6 +7,7 @@ import {
   InputContainer,
   RangeSelector,
 } from '@/components'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {Constants, English, Images, Utility} from '@/helpers'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 import {DropDownObjectType} from '@/types/CommonTypes'
@@ -19,7 +20,7 @@ const BuySell = (props: BuyOrSelProps) => {
   const {activeIndex} = props
   const {
     isLoadingCandles,
-    socketRef,
+
     selectedToken,
     tokenList,
     getChallengeByIdArray,
@@ -27,6 +28,7 @@ const BuySell = (props: BuyOrSelProps) => {
     currentStageArray,
     livePrice,
   } = useChartProvider()
+  const {socketRef} = useSocketProvider()
   const [inputValues, setInputValues] = useState({
     price: '',
     amount: '',
@@ -75,8 +77,8 @@ const BuySell = (props: BuyOrSelProps) => {
 
       const amountStr = value ?? '0'
       const amountBigInt = amountStr.includes('.')
-        ? BigInt(amountStr.replace('.', ''))
-        : BigInt(amountStr)
+        ? BigInt(amountStr.replace('.', '') ?? '0')
+        : BigInt(amountStr ?? '0')
 
       const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
 
@@ -134,8 +136,8 @@ const BuySell = (props: BuyOrSelProps) => {
       : BigInt(priceStr)
     const amountStr = inputValues.amount ?? '0'
     const amountBigInt = amountStr.includes('.')
-      ? BigInt(amountStr.replace('.', ''))
-      : BigInt(amountStr)
+      ? BigInt(amountStr?.replace('.', '') ?? 0)
+      : BigInt(amountStr ?? '0')
     const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
     const totalStr = ((priceBigInt * amountBigInt) / leverageBigInt).toString()
 
@@ -191,7 +193,9 @@ const BuySell = (props: BuyOrSelProps) => {
         </span>
         <div className="flex items-center gap-1">
           <span className="text-extra-light-success-color text-xs font-semibold !leading-5">
-            {Utility.numberConversion(getChallengeByIdArray?.[0]?.current_usdt ?? 0)}
+            {Utility.numberConversion(
+              getChallengeByIdArray?.[0]?.current_usdt ?? 0
+            )}
           </span>
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>
@@ -264,9 +268,9 @@ const BuySell = (props: BuyOrSelProps) => {
                     return {
                       ...prev,
                       amount: newAmount.toString(),
-                      total:
-                        Utility.removeDecimal(Number(totalValue))?.toString() ??
-                        '0',
+                      total: totalValue
+                        ? ''
+                        : Utility.removeDecimal(totalValue).toString(),
                     }
                   })
                   setRangeValue(value)

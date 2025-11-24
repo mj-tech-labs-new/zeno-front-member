@@ -2,6 +2,7 @@ import {CreatePriceLineOptions, LineStyle} from 'lightweight-charts'
 import React, {memo, useEffect, useMemo, useState} from 'react'
 
 import {TabComponent} from '@/components'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {Constants, SocketEmitter, Utility} from '@/helpers'
 import ClosedPNL from '@/pages/ChallengeDashboard/sections/ClosedPNL'
 import {OpenPosition, PendingOrder} from '@/types/ChartTypes'
@@ -21,8 +22,8 @@ const TradesInfo = (props: {challengeId: string}) => {
     () => (activeIndex === 0 ? openPosition : pendingOrder),
     [activeIndex, openPosition, pendingOrder]
   )
-  const {socketRef, isLoadingCandles, chartAreaRef, chartInfo} =
-    useChartProvider()
+  const {isLoadingCandles, chartAreaRef, chartInfo} = useChartProvider()
+  const {socketRef} = useSocketProvider()
   useEffect(() => {
     const currentSocket = socketRef.current
     if (isLoadingCandles || !currentSocket) return

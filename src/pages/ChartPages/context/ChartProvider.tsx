@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import {
   CandlestickData,
   CandlestickSeriesOptions,
@@ -25,11 +24,10 @@ import {
   useRef,
   useState,
 } from 'react'
-import {useSelector} from 'react-redux'
 import {useLocation} from 'react-router-dom'
 import {toast} from 'react-toastify'
-import {io, Socket} from 'socket.io-client'
 
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {SocketEmitter} from '@/helpers'
 import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 import {APICall, Endpoints} from '@/services'
@@ -40,7 +38,7 @@ import {
   DrawingData,
   LivePriceSocketType,
 } from '@/types/ChartTypes'
-import {GeneralProps, StorageProps} from '@/types/CommonTypes'
+import {GeneralProps} from '@/types/CommonTypes'
 import {ChartShapesType, ChartTimePeriodType} from '@/types/UnionTypes'
 
 interface OtherLoaderType {
@@ -59,7 +57,6 @@ const ChartContext = createContext<{
   setGetChallengeByIdArray: Dispatch<SetStateAction<GetChallengeByIdType[]>>
   currentStageArray: ChallengeStageType[]
   setCurrentStageArray: Dispatch<SetStateAction<ChallengeStageType[]>>
-  socketRef: RefObject<Socket | null>
   isLoadingCandles: boolean
   setIsLoadingCandles: Dispatch<SetStateAction<boolean>>
   totalCandleData: CandleObjectType[]
@@ -138,7 +135,6 @@ const ChartContext = createContext<{
   setTotalCandleData: () => {},
   isLoadingCandles: false,
   setIsLoadingCandles: () => {},
-  socketRef: {current: null},
   selectedTool: null,
   setSelectedTool: () => {},
   chartAreaRef: {current: null},
@@ -149,8 +145,8 @@ const ChartContext = createContext<{
 
 const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const location = useLocation()
+  const {socketRef} = useSocketProvider()
   const challengeId = useMemo(() => location.state, [location.state])
-  const UserData = useSelector((state: StorageProps) => state.userData?.user)
   const isDrawing = useRef(false)
   const [tempShape, setTempShape] = useState<DrawingData | null>(null)
   const {children} = props
@@ -170,7 +166,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [selectedTool, setSelectedTool] = useState<ChartShapesType | null>(
     'cursor'
   )
-  const socketRef = useRef<Socket | null>(null)
   const [isLoadingCandles, setIsLoadingCandles] = useState(true)
   const [chartInfo, setChartInfo] = useState<ChartInfoObjectType | null>(null)
   const [totalCandleData, setTotalCandleData] = useState<CandleObjectType[]>([])
@@ -244,22 +239,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     [selectedIndex]
   )
 
-  useEffect(() => {
-    if (socketRef.current) return
-    setIsLoadingCandles(true)
-    socketRef.current = io(import.meta.env.VITE_API_BASE_URL, {
-      extraHeaders: {
-        token: `Bearer ${UserData?.token ?? ''}`,
-      },
-      autoConnect: false,
-    })
-    return () => {
-      socketRef.current?.removeAllListeners()
-      socketRef.current?.disconnect()
-      socketRef.current = null
-    }
-  }, [UserData?.token])
-
   const enableChartActions = useCallback(() => {
     if (!chartObjectRef.current) return
     chartObjectRef.current.applyOptions({
@@ -316,7 +295,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       volumeSeriesRef,
       totalCandleData,
       setTotalCandleData,
-      socketRef,
       setSelectedTool,
       selectedTool,
       isLoadingCandles,
@@ -378,7 +356,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   }, [])
 
   useEffect(() => {
-    if (socketRef.current && selectedIndex) {
+    if (selectedIndex) {
       const tokenToUse = Object.entries(tokenList ?? {}).find(
         ([_, value]) => value === selectedToken
       )
