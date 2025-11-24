@@ -113,7 +113,7 @@ const ChartContext = createContext<{
 }>({
   leverageValueArray: [],
   setLeverageValueArray: () => {},
-  selectedLeverage: { title: "" },
+  selectedLeverage: {title: ''},
   setSelectedLeverage: () => {},
   challengeId: '',
   handleCommonMouseDown: () => {},

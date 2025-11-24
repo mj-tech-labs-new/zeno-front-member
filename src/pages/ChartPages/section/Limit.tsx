@@ -1,17 +1,17 @@
-import { memo, useCallback, useEffect, useState } from 'react'
+import {memo, useCallback, useEffect, useState} from 'react'
 
-import { Divider, ImageComponent, InputContainer } from '@/components'
+import {Divider, ImageComponent, InputContainer} from '@/components'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import { Constants, English, Images, Utility } from '@/helpers'
-import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
+import {Constants, English, Images, Utility} from '@/helpers'
+import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const { activeIndex } = props
-  const { chartInfo, getChallengeByIdArray, selectedLeverage } =
+  const {activeIndex} = props
+  const {chartInfo, getChallengeByIdArray, selectedLeverage} =
     useChartProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
@@ -21,8 +21,8 @@ const Limit = (props: BuyOrSelProps) => {
   const [total, setTotal] = useState(0)
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-    Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({ stop_loss: [], take_profit: [] })
+      Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({stop_loss: [], take_profit: []})
   const [stopLossValue, setStopLossValue] = useState<number>(0)
   const [currentDifferent, setCurrentDifferent] = useState(0)
 
@@ -79,13 +79,12 @@ const Limit = (props: BuyOrSelProps) => {
     [getChallengeByIdArray, setCurrentDifferent, total]
   )
 
-
   useEffect(() => {
     if (inputValues?.entryprice && inputValues?.quantity) {
       setTotal(
         (parseFloat(inputValues?.entryprice) *
           parseFloat(inputValues?.quantity)) /
-        Number(selectedLeverage?.title)
+          Number(selectedLeverage?.title)
       )
     }
   }, [inputValues, selectedLeverage?.title, total])
@@ -119,7 +118,7 @@ const Limit = (props: BuyOrSelProps) => {
       </div>
 
       {Constants.BuySellInputArray.Limit.map((item, index) => {
-        const { name, placeHolder, label, textContent } = item
+        const {name, placeHolder, label, textContent} = item
         const priceValue = inputValues?.[name as keyof typeof inputValues]
         return (
           <div key={`name_${name}`}>
@@ -137,7 +136,7 @@ const Limit = (props: BuyOrSelProps) => {
               [&>input]:!text-chart-text-primary-color [&>input]:!text-sm [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium"
                     onChange={(e) => {
                       if (name === 'entryprice') {
-                        const { value } = e.target
+                        const {value} = e.target
                         handleLeverageCount(value)
                       }
                       handleInputChange(
@@ -188,7 +187,7 @@ const Limit = (props: BuyOrSelProps) => {
             Utility.removeDecimal(Number(inputValues?.quantity))
           )}
           setInputValues={() => {
-            setInputValues({ entryprice: '0', quantity: '0' })
+            setInputValues({entryprice: '0', quantity: '0'})
             setStopLossValue(0)
           }}
         />
