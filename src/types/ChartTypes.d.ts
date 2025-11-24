@@ -137,6 +137,7 @@ export interface CommonStopLossProp {
   heading?: string
   subHeading?: string
   marketPrice?: number
+  quantity?: number
   BuyOrSellType?: string
   setStopLoss: (
     value: Pick<CommonBuyAndSellProp, 'stop_loss'> &

@@ -167,15 +167,14 @@ const Limit = (props: BuyOrSelProps) => {
                 <div
                   className={` ${currentDifferent ? (currentDifferent < 0 ? '!text-dark-danger-color' : '!text-chart-green-color') : 'text-neutral-primary-color'}`}
                 >
-                  {Utility.numberConversion(currentDifferent ?? 0)}
+                  {Utility.numberConversion(currentDifferent)}
                 </div>
               </div>
             )}
           </div>
         )
       })}
-      {Number(inputValues.entryprice) >
-        getChallengeByIdArray?.[0]?.current_usdt && (
+      {total > getChallengeByIdArray?.[0]?.current_usdt && (
         <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
           {English.E279}
         </span>
@@ -217,6 +216,7 @@ const Limit = (props: BuyOrSelProps) => {
           <StopLoss
             heading="Stop Loss"
             marketPrice={Number(inputValues.entryprice)}
+            quantity={Number(inputValues.quantity)}
             resetValue={stopLossValue}
             subHeading="Stop loss"
             setStopLoss={(value) =>
@@ -241,6 +241,7 @@ const Limit = (props: BuyOrSelProps) => {
           <StopLoss
             heading="Take Profit"
             marketPrice={Number(inputValues.entryprice)}
+            quantity={Number(inputValues.quantity)}
             resetValue={stopLossValue}
             subHeading="Take Profit "
             setStopLoss={(value) =>

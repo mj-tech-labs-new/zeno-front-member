@@ -5,7 +5,7 @@ import {English} from '@/helpers'
 import {CommonStopLossProp, StopLossProps} from '@/types/ChartTypes'
 
 const StopLoss = (props: CommonStopLossProp) => {
-  const {heading = '', marketPrice, setStopLoss} = props
+  const {heading = '', marketPrice, setStopLoss, quantity = 0} = props
 
   const [inputValues, setInputValues] = useState<StopLossProps[]>([])
   const stopLossRef = useRef<number>(0)
@@ -71,6 +71,7 @@ const StopLoss = (props: CommonStopLossProp) => {
                       <div>
                         <InputContainer
                           layoutClassName="!w-full"
+                          readOnly={!marketPrice || !quantity}
                           className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
 [&>input]:!text-chart-text-primary-color [&>input]:!text-sm 
 [&>input]:placeholder:!text-chart-text-primary-color 
