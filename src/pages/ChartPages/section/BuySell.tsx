@@ -1,49 +1,39 @@
 /* eslint-disable prefer-template */
-import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import {
-  DropDown,
-  ImageComponent,
-  InputContainer,
-  RangeSelector,
-} from '@/components'
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
-import {DropDownObjectType} from '@/types/CommonTypes'
+import { ImageComponent, InputContainer, RangeSelector } from '@/components'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
-  const {activeIndex} = props
+  const { activeIndex } = props
   const {
     isLoadingCandles,
-
     selectedToken,
     tokenList,
     getChallengeByIdArray,
     chartInfo,
     currentStageArray,
     livePrice,
+    selectedLeverage,
   } = useChartProvider()
-  const {socketRef} = useSocketProvider()
+  const { socketRef } = useSocketProvider()
   const [inputValues, setInputValues] = useState({
     price: '',
     amount: '',
     total: '',
   })
   const [rangeValue, setRangeValue] = useState(0)
-  const [leverageValueArray, setLeverageValueArray] = useState<
-    DropDownObjectType[]
-  >([])
-  const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-      Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({stop_loss: [], take_profit: []})
+    Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({ stop_loss: [], take_profit: [] })
 
   const leverage = useMemo(
     () => currentStageArray?.[0]?.leverage,
@@ -51,21 +41,6 @@ const BuySell = (props: BuyOrSelProps) => {
   )
 
   const amountRef = useRef(0)
-
-  useEffect(() => {
-    const currentStages = getChallengeByIdArray?.[0]?.current_stage ?? 0
-    if (!getChallengeByIdArray?.[0]) return
-
-    const stages = getChallengeByIdArray[0].ChallengeStage[currentStages]
-
-    if (!stages) return
-
-    const levArray = Array.from({length: stages.leverage}).map((_, index) => ({
-      title: (index + 1).toString(),
-    }))
-    setLeverageValueArray(levArray)
-    setSelectedLeverage(levArray[0])
-  }, [getChallengeByIdArray])
 
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
@@ -200,22 +175,8 @@ const BuySell = (props: BuyOrSelProps) => {
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>
       </div>
-      <div className="w-full">
-        <div className="flex justify-between">
-          <span>Leverage :</span>
-          <div>{selectedLeverage?.title ?? '1'}x</div>
-        </div>
-        <DropDown
-          className="!max-h-32 mt-2 !overflow-auto"
-          dropDownData={leverageValueArray}
-          selectedValue={selectedLeverage ?? {title: '1'}}
-          onSelectValue={(data) => {
-            setSelectedLeverage(data)
-          }}
-        />
-      </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
-        const {name, placeHolder, textContent} = item
+        const { name, placeHolder, textContent } = item
 
         return (
           <div key={`name_${name}`} className="!mb-3">
@@ -298,7 +259,7 @@ const BuySell = (props: BuyOrSelProps) => {
           take_profit={stopLossData?.take_profit}
           total={Number(inputValues?.total)}
           setInputValues={() => {
-            setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
+            setInputValues((prev) => ({ ...prev, amount: '0', price: '0' }))
           }}
         />
       </div>

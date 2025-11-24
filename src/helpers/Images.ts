@@ -140,6 +140,8 @@ const Images = {
     import.meta.url
   ).href,
   checkbox: new URL('../assets/svgs/checkbox.svg', import.meta.url).href,
+  dropdownArrow: new URL('../assets/svgs/dropdown-arrow.svg', import.meta.url)
+    .href,
 }
 
 export default Images
