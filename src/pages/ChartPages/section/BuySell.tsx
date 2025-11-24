@@ -1,17 +1,17 @@
 /* eslint-disable prefer-template */
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
 
-import { ImageComponent, InputContainer, RangeSelector } from '@/components'
-import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
-import { Constants, English, Images, Utility } from '@/helpers'
-import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
+import {ImageComponent, InputContainer, RangeSelector} from '@/components'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
+import {Constants, English, Images, Utility} from '@/helpers'
+import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
-  const { activeIndex } = props
+  const {activeIndex} = props
   const {
     isLoadingCandles,
     selectedToken,
@@ -22,7 +22,7 @@ const BuySell = (props: BuyOrSelProps) => {
     livePrice,
     selectedLeverage,
   } = useChartProvider()
-  const { socketRef } = useSocketProvider()
+  const {socketRef} = useSocketProvider()
   const [inputValues, setInputValues] = useState({
     price: '',
     amount: '',
@@ -32,8 +32,8 @@ const BuySell = (props: BuyOrSelProps) => {
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-    Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({ stop_loss: [], take_profit: [] })
+      Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({stop_loss: [], take_profit: []})
 
   const leverage = useMemo(
     () => currentStageArray?.[0]?.leverage,
@@ -176,7 +176,7 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
-        const { name, placeHolder, textContent } = item
+        const {name, placeHolder, textContent} = item
 
         return (
           <div key={`name_${name}`} className="!mb-3">
@@ -259,7 +259,7 @@ const BuySell = (props: BuyOrSelProps) => {
           take_profit={stopLossData?.take_profit}
           total={Number(inputValues?.total)}
           setInputValues={() => {
-            setInputValues((prev) => ({ ...prev, amount: '0', price: '0' }))
+            setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
           }}
         />
       </div>
