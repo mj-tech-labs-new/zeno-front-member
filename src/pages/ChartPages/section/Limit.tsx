@@ -1,17 +1,17 @@
-import {memo, useCallback, useEffect, useState} from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 
-import {Divider, ImageComponent, InputContainer} from '@/components'
+import { Divider, ImageComponent, InputContainer } from '@/components'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const {activeIndex} = props
-  const {chartInfo, getChallengeByIdArray, selectedLeverage} =
+  const { activeIndex } = props
+  const { chartInfo, getChallengeByIdArray, selectedLeverage } =
     useChartProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
@@ -21,11 +21,18 @@ const Limit = (props: BuyOrSelProps) => {
   const [total, setTotal] = useState(0)
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-      Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({stop_loss: [], take_profit: []})
+    Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({ stop_loss: [], take_profit: [] })
   const [stopLossValue, setStopLossValue] = useState<number>(0)
-
   const [currentDifferent, setCurrentDifferent] = useState(0)
+
+  useEffect(() => {
+    setCurrentDifferent(0)
+    setInputValues({
+      entryprice: '',
+      quantity: '',
+    })
+  }, [selectedLeverage])
 
   const handleLeverageCount = useCallback(
     (price: number | string) => {
@@ -49,6 +56,8 @@ const Limit = (props: BuyOrSelProps) => {
     (name: keyof typeof inputValues, value: string) => {
       setInputValues((prev) => {
         if (name === 'entryprice' && getChallengeByIdArray) {
+          if (Number(value) === 0) setCurrentDifferent(0)
+
           return {
             ...prev,
             entryprice: Utility.validFloatNumber(
@@ -59,13 +68,7 @@ const Limit = (props: BuyOrSelProps) => {
 
         if (Number(value) === 0) setCurrentDifferent(0)
 
-        if (Number(value) > 0) {
-          setCurrentDifferent(
-            getChallengeByIdArray?.[0]?.current_usdt
-              ? Number(getChallengeByIdArray?.[0]?.current_usdt) - total
-              : 0
-          )
-        }
+        if (total === 0) setCurrentDifferent(0)
 
         return {
           ...prev,
@@ -73,23 +76,16 @@ const Limit = (props: BuyOrSelProps) => {
         }
       })
     },
-    [getChallengeByIdArray, total]
+    [getChallengeByIdArray, setCurrentDifferent, total]
   )
 
-  useEffect(() => {
-    setInputValues({
-      entryprice: '',
-      quantity: '',
-    })
-    setCurrentDifferent(0)
-  }, [selectedLeverage])
 
   useEffect(() => {
     if (inputValues?.entryprice && inputValues?.quantity) {
       setTotal(
         (parseFloat(inputValues?.entryprice) *
           parseFloat(inputValues?.quantity)) /
-          Number(selectedLeverage?.title)
+        Number(selectedLeverage?.title)
       )
     }
   }, [inputValues, selectedLeverage?.title, total])
@@ -104,7 +100,7 @@ const Limit = (props: BuyOrSelProps) => {
         ? Number(getChallengeByIdArray?.[0]?.current_usdt) - total
         : 0
     )
-  }, [getChallengeByIdArray, total])
+  }, [getChallengeByIdArray, setCurrentDifferent, total])
 
   return (
     <div className="flex flex-col gap-2">
@@ -123,7 +119,7 @@ const Limit = (props: BuyOrSelProps) => {
       </div>
 
       {Constants.BuySellInputArray.Limit.map((item, index) => {
-        const {name, placeHolder, label, textContent} = item
+        const { name, placeHolder, label, textContent } = item
         const priceValue = inputValues?.[name as keyof typeof inputValues]
         return (
           <div key={`name_${name}`}>
@@ -141,7 +137,7 @@ const Limit = (props: BuyOrSelProps) => {
               [&>input]:!text-chart-text-primary-color [&>input]:!text-sm [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium"
                     onChange={(e) => {
                       if (name === 'entryprice') {
-                        const {value} = e.target
+                        const { value } = e.target
                         handleLeverageCount(value)
                       }
                       handleInputChange(
@@ -174,11 +170,11 @@ const Limit = (props: BuyOrSelProps) => {
           </div>
         )
       })}
-      {total > getChallengeByIdArray?.[0]?.current_usdt && (
+      {total && total > getChallengeByIdArray?.[0]?.current_usdt ? (
         <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
           {English.E279}
         </span>
-      )}
+      ) : null}
       <div className="flex items-center gap-3 ">
         <ActionButton
           activeIndex={activeIndex}
@@ -192,7 +188,7 @@ const Limit = (props: BuyOrSelProps) => {
             Utility.removeDecimal(Number(inputValues?.quantity))
           )}
           setInputValues={() => {
-            setInputValues({entryprice: '0', quantity: '0'})
+            setInputValues({ entryprice: '0', quantity: '0' })
             setStopLossValue(0)
           }}
         />
