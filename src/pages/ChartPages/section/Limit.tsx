@@ -178,12 +178,14 @@ const Limit = (props: BuyOrSelProps) => {
           {English.E279}
         </span>
       ) : null}
-      <div className="flex items-center gap-3 ">
+      <div className="flex items-center gap-3">
         <ActionButton
           activeIndex={activeIndex}
+          checked={checked}
           leverage={Number(selectedLeverage?.title)}
           order_type="limit"
           price={Number(inputValues?.entryprice)}
+          setChecked={setChecked}
           stop_loss={stopLossData?.stop_loss}
           take_profit={stopLossData?.take_profit}
           total={total}

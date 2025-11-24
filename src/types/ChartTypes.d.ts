@@ -1,4 +1,5 @@
 import {Time} from 'lightweight-charts'
+import {Dispatch, SetStateAction} from 'react'
 
 // eslint-disable-next-line import-x/no-cycle
 import {GeneralProps} from './CommonTypes'
@@ -118,13 +119,15 @@ export interface CommonBuyAndSellProp
   extends Pick<GeneralProps, 'className'>,
     Pick<LivePriceSocketType, 'price'>,
     Pick<PendingOrder, 'order_type'> {
+  checked?: boolean
+  setChecked?: Dispatch<SetStateAction<boolean>>
   text?: number
   activeIndex: number
   total?: number
   quantity: number
   usdt_price?: number
   leverage?: number
-  setInputValues: () => void
+  setInputValues?: () => void
   stop_loss?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
     Pick<LivePriceSocketType, 'price'>)[]
   take_profit?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
