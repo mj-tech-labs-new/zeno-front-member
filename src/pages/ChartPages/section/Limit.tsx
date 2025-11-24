@@ -37,7 +37,6 @@ const Limit = (props: BuyOrSelProps) => {
   const handleLeverageCount = useCallback(
     (price: number | string) => {
       if (!selectedLeverage?.title || !price) return
-
       const leverage = Number()
 
       const entry = Number(price)
@@ -80,26 +79,31 @@ const Limit = (props: BuyOrSelProps) => {
   )
 
   useEffect(() => {
-    if (inputValues?.entryprice && inputValues?.quantity) {
+    if (!inputValues?.entryprice) setTotal(0)
+    if (!inputValues?.quantity) setTotal(0)
+    if (
+      inputValues?.entryprice != null &&
+      inputValues?.entryprice !== '' &&
+      inputValues?.quantity != null &&
+      inputValues?.quantity !== ''
+    ) {
       setTotal(
         (parseFloat(inputValues?.entryprice) *
           parseFloat(inputValues?.quantity)) /
           Number(selectedLeverage?.title)
       )
+
+      setCurrentDifferent(
+        getChallengeByIdArray?.[0]?.current_usdt
+          ? Number(getChallengeByIdArray?.[0]?.current_usdt) - total
+          : 0
+      )
     }
-  }, [inputValues, selectedLeverage?.title, total])
+  }, [getChallengeByIdArray, inputValues, selectedLeverage?.title, total])
 
   useEffect(() => {
-    if (total === 0) {
-      setCurrentDifferent(0)
-      return
-    }
-    setCurrentDifferent(
-      getChallengeByIdArray?.[0]?.current_usdt
-        ? Number(getChallengeByIdArray?.[0]?.current_usdt) - total
-        : 0
-    )
-  }, [getChallengeByIdArray, setCurrentDifferent, total])
+    setCurrentDifferent(0)
+  }, [selectedLeverage?.title])
 
   return (
     <div className="flex flex-col gap-2">
