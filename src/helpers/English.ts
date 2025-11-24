@@ -302,6 +302,22 @@ const English = {
   E298: 'TP/SL',
   E299: 'Order Price',
   E300: 'Position Margin',
+  E301: 'Forgot Password',
+  E302: 'Reset Your Zeno Account Password',
+  E303: 'Send OTP',
+  E304: 'Back To Login',
+  E305: 'Please Enter Valid Email',
+  E306: 'Email OTP',
+  E307: 'Enter Your OTP',
+  E308: 'Change Password',
+  E309: 'Confirm Password',
+  E310: 'Enter Confirm Password',
+  E311: 'New Password',
+  E312: 'Enter New Password',
+  E313: 'Please enter your Zeno Traders Email and follow the link sent to your email to update your password.',
+  E314: 'Set Your New Zeno Trader Password',
+  E315: 'Enter Otp You Recieved in Your Email And Set Your New Password',
+  E316: 'Enter a valid 6-digit OTP using numbers only',
 }
 
 export default English

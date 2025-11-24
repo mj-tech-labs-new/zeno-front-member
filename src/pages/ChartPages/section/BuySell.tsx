@@ -42,6 +42,16 @@ const BuySell = (props: BuyOrSelProps) => {
 
   const amountRef = useRef(0)
 
+  useEffect(() => {
+    const currentStages = getChallengeByIdArray?.[0]?.current_stage ?? 0
+    if (!getChallengeByIdArray?.[0]) return
+
+    const stages = getChallengeByIdArray[0].ChallengeStage[currentStages]
+
+    // eslint-disable-next-line no-useless-return
+    if (!stages) return
+  }, [getChallengeByIdArray])
+
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
       let totalStrFinal
@@ -252,6 +262,7 @@ const BuySell = (props: BuyOrSelProps) => {
         <ActionButton
           activeIndex={activeIndex}
           leverage={Number(selectedLeverage?.title)}
+          margin_mode="isolated"
           order_type="market"
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}

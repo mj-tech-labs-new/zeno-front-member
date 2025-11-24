@@ -128,6 +128,7 @@ export interface CommonBuyAndSellProp
   usdt_price?: number
   leverage?: number
   setInputValues?: () => void
+  margin_mode?: string
   stop_loss?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
     Pick<LivePriceSocketType, 'price'>)[]
   take_profit?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &

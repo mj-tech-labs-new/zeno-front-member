@@ -183,6 +183,7 @@ const Limit = (props: BuyOrSelProps) => {
           activeIndex={activeIndex}
           checked={checked}
           leverage={Number(selectedLeverage?.title)}
+          margin_mode="isolated"
           order_type="limit"
           price={Number(inputValues?.entryprice)}
           setChecked={setChecked}

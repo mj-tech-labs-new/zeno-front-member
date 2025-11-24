@@ -21,6 +21,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     take_profit,
     setChecked = () => {},
     checked = false,
+    margin_mode,
   } = props
 
   const navigate = useNavigate()
@@ -71,6 +72,13 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
         leverage,
         stop_loss,
         take_profit,
+        margin_mode,
+        role:
+          order_type === 'limit'
+            ? orderSide === 'buy'
+              ? 'maker'
+              : 'taker'
+            : 'taker',
       })
       .then(async (res) => {
         if (res.isNavigateType) {
