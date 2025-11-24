@@ -59,7 +59,6 @@ const Utility = {
   numberConversion,
   isValidEmail,
   validPointValue,
-  convertScientificToNormalNum,
   removeDecimal,
 }
 
