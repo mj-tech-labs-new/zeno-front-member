@@ -63,19 +63,18 @@ const StopLoss = (props: CommonStopLossProp) => {
               <div className="flex flex-col gap-3">
                 <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
                   <div className="flex justify-between gap-2">
-                    <span className="shrink-0 text-light-neutral-color text-sm !leading-6 font-medium capitalize">
-                      {English.E293}
-                    </span>
-
-                    <div className="w-full gap-2.5 flex items-center">
-                      <div>
+                    <div className="w-full gap-2.5 flex justify-between items-center">
+                      <div className="flex items-center w-[calc(100%-105px)]">
+                        <span className="shrink-0 text-light-neutral-color text-sm !leading-6 font-medium capitalize">
+                          {English.E293}
+                        </span>
                         <InputContainer
                           layoutClassName="!w-full"
                           readOnly={!marketPrice || !quantity}
                           className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
-[&>input]:!text-chart-text-primary-color [&>input]:!text-sm 
-[&>input]:placeholder:!text-chart-text-primary-color 
-[&>input]:!w-full !leading-6 !font-medium"
+  [&>input]:!text-chart-text-primary-color [&>input]:!text-sm 
+  [&>input]:placeholder:!text-chart-text-primary-color 
+  [&>input]:!w-full !leading-6 !font-medium"
                           onChange={(e) =>
                             handleInputChange('marketprice', e.target.value)
                           }
@@ -87,7 +86,7 @@ const StopLoss = (props: CommonStopLossProp) => {
 
                       <div className="w-[1px] bg-primary-dark-blue-color h-full" />
 
-                      <span className="text-neutral-primary-color font-medium text-sm !leading-6">
+                      <span className="text-neutral-primary-color font-medium text-sm !leading-6 w-[105px]">
                         {English.E60}
                       </span>
                     </div>

@@ -68,7 +68,8 @@ export interface StatsCardProps extends Pick<GeneralProps, 'className'> {
   type: string
 }
 
-export interface DropDownProps extends Pick<GeneralProps, 'className'> {
+export interface DropDownProps
+  extends Pick<GeneralProps, 'className' | 'layoutClassName'> {
   dropDownData: DropDownObjectType[]
   selectedValue: DropDownObjectType
   onSelectValue: (data: DropDownObjectType) => void
