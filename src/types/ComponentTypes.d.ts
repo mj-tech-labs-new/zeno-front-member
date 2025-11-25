@@ -78,7 +78,8 @@ export interface DropDownProps
 
 export interface MaxOpenAndMarginProps {
   type: MaxOpenAndMarginType
-  total: number
+  totalStr: string
+  totalNum: number
 }
 
 export interface DatePickerProps extends Pick<GeneralProps, 'className'> {

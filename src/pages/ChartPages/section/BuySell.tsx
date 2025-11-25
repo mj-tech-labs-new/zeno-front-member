@@ -92,9 +92,9 @@ const BuySell = (props: BuyOrSelProps) => {
           totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
 
         const totalStrPrecise =
-          totalStr.slice(0, indexTotal) +
+          (totalStr.slice(0, indexTotal) ?? '0') +
           '.' +
-          totalStr.slice(indexTotal, indexTotal + 6)
+          (totalStr.slice(indexTotal, indexTotal + 2) ?? '0')
 
         totalStrFinal = totalStrPrecise // for float
       }
@@ -150,7 +150,7 @@ const BuySell = (props: BuyOrSelProps) => {
       const totalStrPrecise =
         totalStr.slice(0, indexTotal) +
         '.' +
-        totalStr.slice(indexTotal, indexTotal + 6)
+        totalStr.slice(indexTotal, indexTotal + 2)
 
       totalStrFinal = totalStrPrecise // for float
     }
@@ -352,7 +352,8 @@ const BuySell = (props: BuyOrSelProps) => {
           <Divider className="!bg-chart-secondary-bg-color !my-3" />
 
           <MaxOpenAndMargin
-            total={Number(inputValues?.total)}
+            totalNum={Number(inputValues?.total)}
+            totalStr={inputValues?.total}
             type={index === 0 ? 'max_open' : 'margin'}
           />
         </Fragment>

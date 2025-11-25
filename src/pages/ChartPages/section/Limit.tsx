@@ -1,4 +1,5 @@
-import {Fragment, memo, useCallback, useEffect, useState} from 'react'
+/* eslint-disable prefer-template */
+import {Fragment, memo, useCallback, useEffect, useRef, useState} from 'react'
 
 import {Divider, ImageComponent, InputContainer} from '@/components'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
@@ -12,8 +13,14 @@ import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
   const {activeIndex} = props
-  const {chartInfo, getChallengeByIdArray, selectedLeverage} =
-    useChartProvider()
+  const {
+    selectedToken,
+    tokenList,
+    getChallengeByIdArray,
+    chartInfo,
+    livePrice,
+    selectedLeverage,
+  } = useChartProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     entryprice: '',
@@ -25,6 +32,7 @@ const Limit = (props: BuyOrSelProps) => {
       Pick<CommonBuyAndSellProp, 'take_profit'>
   >({stop_loss: [], take_profit: []})
   const [stopLossValue, setStopLossValue] = useState<number>(0)
+  const totalStrFinal = useRef<string>('')
 
   useEffect(() => {
     setInputValues({
@@ -32,6 +40,52 @@ const Limit = (props: BuyOrSelProps) => {
       quantity: '',
     })
   }, [selectedLeverage])
+
+  useEffect(() => {
+    const entryPriceStr = inputValues?.entryprice
+    const entryPriceBigInt = entryPriceStr.includes('.')
+      ? BigInt(entryPriceStr.replace('.', ''))
+      : BigInt(entryPriceStr)
+    const quantityStr = inputValues?.quantity ?? '0'
+    const quantityBigInt = quantityStr.includes('.')
+      ? BigInt(quantityStr?.replace('.', '') ?? '0')
+      : BigInt(quantityStr ?? '0')
+    const leverageBigInt = BigInt(
+      selectedLeverage?.title.toString().replace('X', ' ') ?? 1
+    )
+    const totalStr = (
+      (entryPriceBigInt * quantityBigInt) /
+      leverageBigInt
+    ).toString()
+
+    if (!entryPriceStr.includes('.') && !quantityStr.includes('.')) {
+      totalStrFinal.current = totalStr // for int
+    } else {
+      const decimalPlacesPrice = entryPriceStr.includes('.')
+        ? entryPriceStr.length - entryPriceStr.indexOf('.') - 1
+        : 0
+      const decimalPlacesAmount = quantityStr.includes('.')
+        ? quantityStr.length - quantityStr.indexOf('.') - 1
+        : 0
+
+      const indexTotal =
+        totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
+
+      const totalStrPrecise =
+        totalStr.slice(0, indexTotal) +
+        '.' +
+        totalStr.slice(indexTotal, indexTotal + 2)
+
+      totalStrFinal.current = totalStrPrecise // for float
+    }
+  }, [
+    inputValues.entryprice,
+    inputValues.quantity,
+    livePrice,
+    selectedLeverage?.title,
+    selectedToken,
+    tokenList,
+  ])
 
   const handleLeverageCount = useCallback(
     (price: number | string) => {
@@ -244,7 +298,8 @@ const Limit = (props: BuyOrSelProps) => {
           <Divider className="!bg-chart-secondary-bg-color !my-3" />
 
           <MaxOpenAndMargin
-            total={total}
+            totalNum={total}
+            totalStr={totalStrFinal?.current}
             type={index === 0 ? 'max_open' : 'margin'}
           />
         </Fragment>
