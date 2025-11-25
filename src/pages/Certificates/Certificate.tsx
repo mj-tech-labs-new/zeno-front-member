@@ -9,7 +9,7 @@ const Certificate = () => {
   const [activeIndex, setActiveIndex] = useState(0)
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 mt-8">
       <HeadingComponent singleLineContent={English.E22} variant="medium" />
       <TabComponent
         activeIndex={activeIndex}
