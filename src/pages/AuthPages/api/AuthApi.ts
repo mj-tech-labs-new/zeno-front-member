@@ -3,9 +3,11 @@ import {toast} from 'react-toastify'
 import {APICall, CommonFunction, Endpoints} from '@/services'
 import {Store} from '@/store'
 import {
+  forgotPasswordApiProps,
   GetUserApiProps,
   LoginApiProps,
   RegisterApiProps,
+  SetNewPasswordApiProps,
   UpdateApiProps,
 } from '@/types/apiTypes/AuthApiPayloadType'
 
@@ -101,5 +103,51 @@ const getUserApi = async () =>
         resolve(null)
       })
   })
+const forgotPasswordApi = async (props: forgotPasswordApiProps) => {
+  const payload = {...props}
+  return new Promise<forgotPasswordApiProps | null>((resolve) => {
+    APICall('post', Endpoints.forgotPassword, payload)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve(res?.data)
+          toast.success(res?.message)
+        } else {
+          resolve(null)
+          toast.error(res?.message)
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message)
+        resolve(null)
+      })
+  })
+}
+const setNewPasswordApi = async (props: SetNewPasswordApiProps) => {
+  const payload = {otp: props?.otp, new_password: props?.new_password}
+  const header = {Authorization: `${props?.token}`}
+  return new Promise<any>((resolve) => {
+    APICall('post', Endpoints.setNewPassword, payload, {}, header)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve(res)
+          toast.success(res?.message)
+        } else {
+          resolve(null)
+          toast.error(res?.message)
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message)
+        resolve(null)
+      })
+  })
+}
 
-export {getUserApi, loginApi, registerApi, updateUserDataApi}
+export {
+  forgotPasswordApi,
+  getUserApi,
+  loginApi,
+  registerApi,
+  setNewPasswordApi,
+  updateUserDataApi,
+}

@@ -1,13 +1,21 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback, useEffect, useMemo, useState} from 'react'
 import {Link, useLocation, useNavigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
 import {
   CommonButton,
   HeadingComponent,
   ImageComponent,
   InputContainer,
+  Loader,
 } from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
+import {
+  forgotPasswordApiProps,
+  SetNewPasswordApiProps,
+} from '@/types/apiTypes/AuthApiPayloadType'
+
+import {forgotPasswordApi, setNewPasswordApi} from '../AuthPages/api/AuthApi'
 
 const SetNewPasswordPage = () => {
   const [inputValues, setInputValues] = useState<Record<string, string>>({
@@ -21,9 +29,12 @@ const SetNewPasswordPage = () => {
     new_password: '',
     confirm_new_password: '',
   })
+  const [token, setToken] = useState<string>('')
   const navigate = useNavigate()
   const location = useLocation()
-  const isEmail = location.state
+  const isEmail = useMemo(() => location.state, [location.state])
+  const [showLoader, setShowLoader] = useState(false)
+
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
       setInputValues((prevValues) => {
@@ -72,11 +83,7 @@ const SetNewPasswordPage = () => {
     return `${m}:${s}`
   }
 
-  useEffect(() => {
-    if (!isEmail) {
-      navigate('/login')
-      return
-    }
+  const startTimer = useCallback(() => {
     const interval = setInterval(() => {
       setTimer((prev) => {
         if (prev <= 1) {
@@ -87,12 +94,59 @@ const SetNewPasswordPage = () => {
       })
     }, 1000)
 
-    // eslint-disable-next-line consistent-return
     return () => clearInterval(interval)
+  }, [])
+  const handleForgotPassword = useCallback(() => {
+    setShowLoader(true)
+
+    forgotPasswordApi(isEmail as forgotPasswordApiProps)
+      .then((response) => {
+        if (response) {
+          setToken(response?.token ?? '')
+          startTimer()
+        }
+      })
+      .catch((error) => {
+        toast.error(error)
+      })
+      .finally(() => {
+        setShowLoader(false)
+      })
+  }, [isEmail, startTimer])
+
+  const handleSetNewPassword = useCallback(() => {
+    setShowLoader(true)
+    const props: SetNewPasswordApiProps = {
+      otp: Number(inputValues?.otp),
+      new_password: inputValues?.new_password,
+      token: token ?? '',
+    }
+    setNewPasswordApi(props)
+      .then((response) => {
+        if (response?.status === 200) {
+          navigate('/login')
+        }
+      })
+      .catch((error) => {
+        toast.error(error)
+      })
+      .finally(() => {
+        setShowLoader(false)
+      })
+  }, [inputValues?.new_password, inputValues?.otp, navigate, token])
+
+  useEffect(() => {
+    if (!isEmail) {
+      navigate('/login')
+      return
+    }
+    handleForgotPassword()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEmail, navigate])
 
   return (
     <div className="h-screen w-screen flex items-center justify-center  ">
+      <Loader ref={(ref) => ref?.showLoader(showLoader)} />
       <div className="flex flex-col gap-8 mx-auto w-full ">
         <div
           className={`h-full sm:w-small-container mx-auto xl:w-md 2xl:w-2xl `}
@@ -142,7 +196,10 @@ const SetNewPasswordPage = () => {
                       {English.E304}
                     </Link>
                     <span className="text-nowrap">
-                      <span className=" text-primary-dark-blue-color/75 text-base/6">
+                      <span
+                        className={`text-primary-dark-blue-color/75 text-base/6 ${timer === 0 ? 'cursor-pointer text-primary-dark-blue-color/75' : 'opacity-60 pointer-events-none'}`}
+                        onClick={handleForgotPassword}
+                      >
                         Resend Otp in :{' '}
                       </span>
                       {formatTime(timer)}
@@ -150,8 +207,8 @@ const SetNewPasswordPage = () => {
                   </div>
                   <CommonButton
                     className={`primary-btn-type ${inputValues.otp.length === 0 || inputValues.new_password.length === 0 || inputValues.confirm_new_password.length === 0 ? 'bg-button-primary-color opacity-50 pointer-events-none' : ''}`}
+                    onClick={handleSetNewPassword}
                     singleLineContent={English.E308}
-                    type="submit"
                   />
                 </div>
               </div>
