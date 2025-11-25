@@ -7,7 +7,7 @@ import {
 import {Constants, English} from '@/helpers'
 
 const BillingPage = () => (
-  <div className="flex flex-col gap-8">
+  <div className="flex flex-col gap-8 mt-8">
     <HeadingComponent singleLineContent={English.E109} variant="medium" />
 
     <DescriptionComponent multilineContent={[English.E110]} />

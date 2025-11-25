@@ -1,5 +1,13 @@
 /* eslint-disable prefer-template */
-import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import {
   Divider,
@@ -83,12 +91,17 @@ const BuySell = (props: BuyOrSelProps) => {
         const indexTotal =
           totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
 
-        const totalStrPrecise =
-          totalStr.slice(0, indexTotal) +
-          '.' +
-          totalStr.slice(indexTotal, indexTotal + 6)
+        totalStrFinal = totalStr
 
-        totalStrFinal = totalStrPrecise // for float
+        if (totalStr !== '0') {
+          const totalStrPrecise =
+            (totalStr.slice(0, indexTotal) ?? '0') +
+            '.' +
+            (totalStr.slice(indexTotal, indexTotal + 2) ?? '0')
+
+          totalStrFinal = totalStrPrecise // for float
+        }
+        if (totalStr === '0') totalStrFinal = totalStr
       }
 
       if (name === 'amount') {
@@ -142,7 +155,7 @@ const BuySell = (props: BuyOrSelProps) => {
       const totalStrPrecise =
         totalStr.slice(0, indexTotal) +
         '.' +
-        totalStr.slice(indexTotal, indexTotal + 6)
+        totalStr.slice(indexTotal, indexTotal + 2)
 
       totalStrFinal = totalStrPrecise // for float
     }
@@ -339,13 +352,17 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       )}
 
-      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+      {Array.from({length: 2}).map((_, index) => (
+        <Fragment key={index}>
+          <Divider className="!bg-chart-secondary-bg-color !my-3" />
 
-      <MaxOpenAndMargin total={Number(inputValues?.total)} type="max_open" />
-
-      <Divider className="!bg-chart-secondary-bg-color !my-3" />
-
-      <MaxOpenAndMargin total={Number(inputValues?.total)} type="margin" />
+          <MaxOpenAndMargin
+            totalNum={Number(inputValues?.total)}
+            totalStr={inputValues?.total}
+            type={index === 0 ? 'max_open' : 'margin'}
+          />
+        </Fragment>
+      ))}
     </div>
   )
 }
