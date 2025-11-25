@@ -19,7 +19,9 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     leverage,
     stop_loss,
     take_profit,
-    setInputValues,
+    setChecked = () => {},
+    checked = false,
+    margin_mode,
   } = props
 
   const navigate = useNavigate()
@@ -32,6 +34,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
   } = useChartProvider()
 
   const handleButtonClick = (orderSide: string) => {
+    if (checked) setChecked(false)
     if (orderSide === 'buy' || orderSide === 'sell') {
       const sl = stop_loss?.[0]?.price
       const tp = take_profit?.[0]?.price
@@ -69,9 +72,19 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
         leverage,
         stop_loss,
         take_profit,
+        margin_mode,
+        role:
+          order_type === 'limit'
+            ? orderSide === 'buy'
+              ? price <= livePrice
+                ? 'taker'
+                : 'maker'
+              : price >= livePrice
+                ? 'taker'
+                : 'maker'
+            : 'taker',
       })
       .then(async (res) => {
-        setInputValues()
         if (res.isNavigateType) {
           navigate('/dashboard')
           return

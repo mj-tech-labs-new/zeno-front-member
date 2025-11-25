@@ -1,22 +1,68 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
-import {HeadingComponent, TabComponent} from '@/components'
+import {DropDown, HeadingComponent, TabComponent} from '@/components'
 import {Constants, English} from '@/helpers'
 
+import {useChartProvider} from '../context/ChartProvider'
 import BuySell from './BuySell'
 import Limit from './Limit'
 
 const PlaceOrder = () => {
   const [activeIndex, setActiveIndex] = useState(0)
+  const {
+    getChallengeByIdArray,
+    leverageValueArray,
+    setLeverageValueArray,
+    selectedLeverage,
+    setSelectedLeverage,
+  } = useChartProvider()
+
+  useEffect(() => {
+    const currentStage = getChallengeByIdArray?.[0]?.current_stage ?? 0
+    if (!getChallengeByIdArray?.[0]) return
+
+    const stages = getChallengeByIdArray[0].ChallengeStage[currentStage]
+
+    if (!stages) return
+
+    const levArray = Array.from({length: stages.leverage}).map((_, index) => ({
+      title: (index + 1).toString(),
+    }))
+    setLeverageValueArray(levArray)
+    setSelectedLeverage({title: levArray[0]?.title?.replace('X', '')})
+  }, [getChallengeByIdArray, setLeverageValueArray, setSelectedLeverage])
 
   return (
-    <div className="pt-4 py-8 px-4 overflow-y-auto no-scrollbar">
+    <div className="my-4 mx-4 overflow-y-auto no-scrollbar">
       <div className="flex flex-col gap-4">
         <HeadingComponent
           className="!text-[16px]/6 !font-poppins !tracking-normal !text-neutral-primary-color"
           singleLineContent={English.E129}
           type="h2"
         />
+
+        <div className="flex items-center gap-4">
+          <DropDown
+            className="!max-h-32 mt-2 !overflow-auto !w-full"
+            dropDownData={[{title: English.E139}]}
+            layoutClassName="!h-fit"
+            onSelectValue={() => English.E139}
+            selectedValue={{title: English.E139}}
+          />
+          <DropDown
+            className="!max-h-52 mt-2 !overflow-auto !w-full"
+            dropDownData={leverageValueArray}
+            onSelectValue={(data) => {
+              setSelectedLeverage(data)
+            }}
+            selectedValue={{
+              title: selectedLeverage
+                ? `${selectedLeverage.title.replace('X', '') ?? '1'}X`
+                : '1X',
+            }}
+          />
+        </div>
+
         <TabComponent
           activeIndex={activeIndex}
           className="!font-bold !text-[14px] !leading-4 !text-chart-text-primary-color !gap-4 !font-dmsansm [&>div]:!gap-2.5"

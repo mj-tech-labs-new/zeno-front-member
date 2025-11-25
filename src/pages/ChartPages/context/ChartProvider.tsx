@@ -38,7 +38,7 @@ import {
   DrawingData,
   LivePriceSocketType,
 } from '@/types/ChartTypes'
-import {GeneralProps} from '@/types/CommonTypes'
+import {DropDownObjectType, GeneralProps} from '@/types/CommonTypes'
 import {ChartShapesType, ChartTimePeriodType} from '@/types/UnionTypes'
 
 interface OtherLoaderType {
@@ -46,6 +46,10 @@ interface OtherLoaderType {
 }
 
 const ChartContext = createContext<{
+  leverageValueArray: DropDownObjectType[]
+  setLeverageValueArray: Dispatch<SetStateAction<DropDownObjectType[]>>
+  selectedLeverage: DropDownObjectType | undefined
+  setSelectedLeverage: Dispatch<SetStateAction<DropDownObjectType | undefined>>
   challengeId: string
   handleCommonMouseDown: () => void
   handleCommonMouseUp: () => void
@@ -100,6 +104,10 @@ const ChartContext = createContext<{
   totalShapes: DrawingData[]
   setTotalShapes: Dispatch<SetStateAction<DrawingData[]>>
 }>({
+  leverageValueArray: [],
+  setLeverageValueArray: () => {},
+  selectedLeverage: {title: ''},
+  setSelectedLeverage: () => {},
   challengeId: '',
   handleCommonMouseDown: () => {},
   handleCommonMouseUp: () => {},
@@ -144,6 +152,10 @@ const ChartContext = createContext<{
 })
 
 const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
+  const [leverageValueArray, setLeverageValueArray] = useState<
+    DropDownObjectType[]
+  >([])
+  const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
   const location = useLocation()
   const {socketRef} = useSocketProvider()
   const challengeId = useMemo(() => location.state, [location.state])
@@ -268,6 +280,10 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
 
   const defaultValue = useMemo(
     () => ({
+      leverageValueArray,
+      setLeverageValueArray,
+      selectedLeverage,
+      setSelectedLeverage,
       handleCommonMouseDown,
       handleCommonMouseUp,
       totalShapes,
@@ -311,6 +327,10 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       challengeId,
     }),
     [
+      leverageValueArray,
+      setLeverageValueArray,
+      selectedLeverage,
+      setSelectedLeverage,
       handleCommonMouseDown,
       handleCommonMouseUp,
       totalShapes,

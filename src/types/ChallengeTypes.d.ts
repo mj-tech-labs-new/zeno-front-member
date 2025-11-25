@@ -125,12 +125,14 @@ export interface TradingStatisticsType {
 export type ChallengeIdProp = Pick<CreateChallengeProps, 'challenge_id'>
 
 export type BuyOrSellApiProps = Pick<CreateChallengeProps, 'challenge_id'> &
-  Pick<CommonBuyAndSellProp, 'leverage' | 'stop_loss' | 'take_profit'> & {
+  Pick<CommonBuyAndSellProp, 'leverage' | 'stop_loss' | 'take_profit'> &
+  Pick<CommonBuyAndSellProp, 'margin_mode'> & {
     symbol?: string
     usdt_price: number
     quantity: number
     order_type: string
     order_side: string
+    role?: string
   }
 
 export type BuyOrSellApiType = Pick<CreateChallengeProps, 'id' | 'created_at'> &

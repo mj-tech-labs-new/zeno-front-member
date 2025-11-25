@@ -45,6 +45,11 @@ const convertScientificToNormalNum = (value: number) => {
   return newValue
 }
 
+const isValidNumber = (value: string) => {
+  const newValue = value.replace(/\D/g, '')
+  return newValue
+}
+
 const colorGeneratorUtility = (value: number) => {
   const colorValue = !value?.toString()?.startsWith('-')
     ? 'text-chart-green-color'
@@ -59,8 +64,9 @@ const Utility = {
   numberConversion,
   isValidEmail,
   validPointValue,
-  convertScientificToNormalNum,
   removeDecimal,
+  isValidNumber,
+  convertScientificToNormalNum,
 }
 
 export default Utility

@@ -1,4 +1,5 @@
 import {Time} from 'lightweight-charts'
+import {Dispatch, SetStateAction} from 'react'
 
 // eslint-disable-next-line import-x/no-cycle
 import {GeneralProps} from './CommonTypes'
@@ -67,7 +68,8 @@ export interface LivePriceSocketType extends Pick<CandleObjectType, 'symbol'> {
 }
 
 export interface OpenPosition
-  extends Pick<CommonBuyAndSellProp, 'stop_loss' | 'take_profit'> {
+  extends Pick<CommonBuyAndSellProp, 'stop_loss' | 'take_profit'>,
+    Pick<CommonBuyAndSellProp, 'margin_mode'> {
   status: string
   user_id: number
   tx_hash: string
@@ -100,6 +102,7 @@ export interface PendingOrder
       | 'leverage'
       | 'direction'
     >,
+    Pick<CommonBuyAndSellProp, 'margin_mode'>,
     Pick<OpenPosition, 'stop_loss' | 'take_profit'> {
   order_type: string
   submitted_time: string
@@ -118,13 +121,16 @@ export interface CommonBuyAndSellProp
   extends Pick<GeneralProps, 'className'>,
     Pick<LivePriceSocketType, 'price'>,
     Pick<PendingOrder, 'order_type'> {
+  checked?: boolean
+  setChecked?: Dispatch<SetStateAction<boolean>>
   text?: number
   activeIndex: number
   total?: number
   quantity: number
   usdt_price?: number
   leverage?: number
-  setInputValues: () => void
+  setInputValues?: () => void
+  margin_mode?: string
   stop_loss?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
     Pick<LivePriceSocketType, 'price'>)[]
   take_profit?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
@@ -137,6 +143,7 @@ export interface CommonStopLossProp {
   heading?: string
   subHeading?: string
   marketPrice?: number
+  quantity?: number
   BuyOrSellType?: string
   setStopLoss: (
     value: Pick<CommonBuyAndSellProp, 'stop_loss'> &

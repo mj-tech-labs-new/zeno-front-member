@@ -13,6 +13,7 @@ import {
   HeadingComponentVariant,
   ImageType,
   ListingComponentsType,
+  MaxOpenAndMarginType,
   TabComponentType,
 } from './UnionTypes'
 
@@ -68,10 +69,16 @@ export interface StatsCardProps extends Pick<GeneralProps, 'className'> {
   type: string
 }
 
-export interface DropDownProps extends Pick<GeneralProps, 'className'> {
+export interface DropDownProps
+  extends Pick<GeneralProps, 'className' | 'layoutClassName'> {
   dropDownData: DropDownObjectType[]
   selectedValue: DropDownObjectType
   onSelectValue: (data: DropDownObjectType) => void
+}
+
+export interface MaxOpenAndMarginProps {
+  type: MaxOpenAndMarginType
+  total: number
 }
 
 export interface DatePickerProps extends Pick<GeneralProps, 'className'> {

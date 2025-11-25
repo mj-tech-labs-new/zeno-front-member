@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react'
 import {useSelector} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 import {CommonButton, InputContainer, Loader} from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
@@ -246,7 +246,7 @@ const FormContainer = (props: {type: AuthType}) => {
   return (
     <Fragment>
       <Loader ref={loaderRef} />
-      <form className="flex flex-col gap-8">
+      <form className="flex flex-col gap-4">
         <div className="flex flex-col gap-4">
           {formData?.map((inputItems) => (
             <InputContainer
@@ -265,6 +265,16 @@ const FormContainer = (props: {type: AuthType}) => {
         </div>
 
         <div className="flex flex-col gap-4">
+          {type === 'loginType' && (
+            <div className="flex justify-end ">
+              <Link
+                className="font-normal underline text-primary-dark-blue-color/75 text-end text-base/6 w-full"
+                to="/forgot-password"
+              >
+                {English.E301}
+              </Link>
+            </div>
+          )}
           {actionButtons?.map((buttonItem) => (
             <CommonButton
               key={buttonItem?.key}
