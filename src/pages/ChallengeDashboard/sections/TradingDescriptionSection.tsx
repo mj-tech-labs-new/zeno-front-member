@@ -17,6 +17,7 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
   const [isLoadingSocket, setIsLoadingSocket] = useState(true)
   const {getChallengeByIdArray, tradingStatistics, challengeIdRef, showLoader} =
     useChallengeProvider()
+
   const {socketRef} = useSocketProvider()
   useEffect(() => {
     if (showLoader || !socketRef.current || !challengeIdRef.current) return
@@ -95,25 +96,25 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
     () => [
       {
         title: English.E72,
-        firstValue: tradingStatistics?.total_closed_trade,
-        secondValue: tradingStatistics?.total_buy_order,
-        thirdValue: tradingStatistics?.total_sell_order,
+        firstValue: tradingStatistics?.total_closed_trade ?? 0,
+        secondValue: tradingStatistics?.total_buy_order ?? 0,
+        thirdValue: tradingStatistics?.total_sell_order ?? 0,
       },
       {
         title: English.E73,
-        firstValue: tradingStatistics?.win_rate_of_closed_trades,
-        secondValue: tradingStatistics?.total_win,
-        thirdValue: tradingStatistics?.total_loss,
+        firstValue: tradingStatistics?.win_rate_of_closed_trades ?? 0,
+        secondValue: tradingStatistics?.total_win ?? 0,
+        thirdValue: tradingStatistics?.total_loss ?? 0,
       },
       {
         title: English.E79,
-        firstValue: tradingStatistics?.total_profit_of_buy_trade,
-        secondValue: tradingStatistics?.win_rate_of_buy_order,
+        firstValue: tradingStatistics?.total_profit_of_buy_trade ?? 0,
+        secondValue: tradingStatistics?.win_rate_of_buy_order ?? 0,
       },
       {
         title: English.E258,
-        firstValue: tradingStatistics?.total_profit_of_sell_trade,
-        secondValue: tradingStatistics?.win_rate_of_sell_order,
+        firstValue: tradingStatistics?.total_profit_of_sell_trade ?? 0,
+        secondValue: tradingStatistics?.win_rate_of_sell_order ?? 0,
       },
     ],
     [

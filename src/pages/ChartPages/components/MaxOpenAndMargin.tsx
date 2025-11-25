@@ -6,8 +6,7 @@ import {useChartProvider} from '../context/ChartProvider'
 const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
   const {type = 'max_open', totalStr, totalNum} = props
   const {getChallengeByIdArray} = useChartProvider()
-  // console.log(totalNum)
-  // console.log(totalStr)
+
   return (
     <div className="font-normal">
       <div

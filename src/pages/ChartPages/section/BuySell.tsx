@@ -91,12 +91,17 @@ const BuySell = (props: BuyOrSelProps) => {
         const indexTotal =
           totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
 
-        const totalStrPrecise =
-          (totalStr.slice(0, indexTotal) ?? '0') +
-          '.' +
-          (totalStr.slice(indexTotal, indexTotal + 2) ?? '0')
+        totalStrFinal = totalStr
 
-        totalStrFinal = totalStrPrecise // for float
+        if (totalStr !== '0') {
+          const totalStrPrecise =
+            (totalStr.slice(0, indexTotal) ?? '0') +
+            '.' +
+            (totalStr.slice(indexTotal, indexTotal + 2) ?? '0')
+
+          totalStrFinal = totalStrPrecise // for float
+        }
+        if (totalStr === '0') totalStrFinal = totalStr
       }
 
       if (name === 'amount') {
