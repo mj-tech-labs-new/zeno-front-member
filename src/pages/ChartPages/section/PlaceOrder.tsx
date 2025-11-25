@@ -26,7 +26,7 @@ const PlaceOrder = () => {
     if (!stages) return
 
     const levArray = Array.from({length: stages.leverage}).map((_, index) => ({
-      title: `${index + 1}X`.toString(),
+      title: (index + 1).toString(),
     }))
     setLeverageValueArray(levArray)
     setSelectedLeverage(levArray[0])
