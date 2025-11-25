@@ -21,7 +21,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
           <div
             key={index}
             className={
-              type === 'margin' ? 'block w-full' : 'flex flex-col w-full gap-2'
+              type === 'margin' ? 'block w-full' : 'flex flex-col w-full'
             }
           >
             {type === 'margin' && (
@@ -29,7 +29,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                 {index === 0 ? English.E319 : English.E320}
               </div>
             )}
-            <div className="flex flex-col gap-1 mb-2 sm:mb-0 sm:flex-row sm:justify-between sm:items-center">
+            <div className="flex flex-col gap-1 mb-2 sm:flex-row sm:justify-between sm:items-center">
               <span className="text-chart-text-primary-color/40 text-sm leading-[20px]">
                 {type === 'margin'
                   ? index === 0
@@ -45,7 +45,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
               </span>
             </div>
 
-            <div className="flex flex-col gap-1 mb-2 sm:mb-0 sm:flex-row sm:justify-between sm:items-center">
+            <div className="flex flex-col gap-1 mb-2 sm:flex-row sm:justify-between sm:items-center">
               <span className="text-chart-text-primary-color/40 text-sm">
                 {type === 'margin'
                   ? index === 0

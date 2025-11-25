@@ -295,7 +295,7 @@ const Limit = (props: BuyOrSelProps) => {
 
       {Array.from({length: 2}).map((_, index) => (
         <Fragment key={index}>
-          <Divider className="!bg-chart-secondary-bg-color !my-3" />
+          <Divider className={`!bg-chart-secondary-bg-color ${index === 0 ? "!my-3" : "!mb-3"}`} />
 
           <MaxOpenAndMargin
             totalNum={total}
