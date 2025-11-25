@@ -235,16 +235,16 @@ const Limit = (props: BuyOrSelProps) => {
               })
             }
           />
-
-          <Divider className="!bg-chart-secondary-bg-color !my-3" />
-
-          <MaxOpenAndMargin total={total} type="max_open" />
-
-          <Divider className="!bg-chart-secondary-bg-color !my-3" />
-
-          <MaxOpenAndMargin total={total} type="margin" />
         </div>
       )}
+
+      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+      <MaxOpenAndMargin total={total} type="max_open" />
+
+      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+      <MaxOpenAndMargin total={total} type="margin" />
     </div>
   )
 }
