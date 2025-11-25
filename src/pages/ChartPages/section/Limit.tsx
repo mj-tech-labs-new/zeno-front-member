@@ -153,7 +153,8 @@ const Limit = (props: BuyOrSelProps) => {
         <ActionButton
           activeIndex={activeIndex}
           checked={checked}
-          leverage={Number(selectedLeverage?.title)}
+          leverage={Number(selectedLeverage?.title.replace('X', ' '))}
+          margin_mode="isolated"
           order_type="limit"
           price={Number(inputValues?.entryprice)}
           setChecked={setChecked}

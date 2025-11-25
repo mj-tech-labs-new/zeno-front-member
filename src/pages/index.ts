@@ -15,7 +15,12 @@ const Dashboard = lazy(async () => import('./Dashboard/Dashboard'))
 const HomePage = lazy(async () => import('./HomePage/HomePage'))
 const PayoutPage = lazy(async () => import('./PayoutPage/PayoutPage'))
 const ProfilePage = lazy(async () => import('./ProfilePage/ProfilePage'))
-
+const SetNewPasswordPage = lazy(
+  async () => import('./SetNewPasswordPage/SetNewPasswordPage')
+)
+const ForgotPasswordPage = lazy(
+  async () => import('./ForgotPasswordPage/ForgotPasswordPage')
+)
 export {
   BillingPage,
   Certificate,
@@ -23,9 +28,11 @@ export {
   Chart,
   CreateChallenge,
   Dashboard,
+  ForgotPasswordPage,
   HomePage,
   Login,
   PayoutPage,
   ProfilePage,
+  SetNewPasswordPage,
   SignUp,
 }

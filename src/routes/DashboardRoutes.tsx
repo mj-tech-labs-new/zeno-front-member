@@ -1,5 +1,6 @@
 import {Route} from 'react-router-dom'
 
+import SocketProvider from '@/GlobalProvider/SocketProvider'
 import Layout from '@/layouts/Layout'
 import LazyLoader from '@/LazyLoader'
 import {
@@ -19,8 +20,14 @@ import UserWrapper from '@/wrappers/UserWrapper'
 
 const DashboardRoutes = [
   <Route
-key="layout" element={<Layout />}
-path="/">
+    key="layout"
+    path="/"
+    element={
+      <SocketProvider>
+        <Layout />
+      </SocketProvider>
+    }
+  >
     <Route
       key="dashboard"
       path="dashboard"
@@ -123,7 +130,9 @@ path="/">
     element={
       <UserWrapper>
         <LazyLoader>
-          <Chart />
+          <SocketProvider>
+            <Chart />
+          </SocketProvider>
         </LazyLoader>
       </UserWrapper>
     }

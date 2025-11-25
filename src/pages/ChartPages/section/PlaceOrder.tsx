@@ -29,7 +29,7 @@ const PlaceOrder = () => {
       title: (index + 1).toString(),
     }))
     setLeverageValueArray(levArray)
-    setSelectedLeverage(levArray[0])
+    setSelectedLeverage({title: levArray[0]?.title?.replace('X', '')})
   }, [getChallengeByIdArray, setLeverageValueArray, setSelectedLeverage])
 
   return (
@@ -44,17 +44,21 @@ const PlaceOrder = () => {
         <div className="flex items-center gap-4">
           <DropDown
             className="!max-h-32 mt-2 !overflow-auto !w-full"
-            dropDownData={[{title: 'Isolated'}]}
+            dropDownData={[{title: English.E139}]}
             layoutClassName="!h-fit"
-            onSelectValue={() => 'Isolated'}
-            selectedValue={{title: 'Isolated'}}
+            onSelectValue={() => English.E139}
+            selectedValue={{title: English.E139}}
           />
           <DropDown
             className="!max-h-52 mt-2 !overflow-auto !w-full"
             dropDownData={leverageValueArray}
-            selectedValue={selectedLeverage ?? {title: '1'}}
             onSelectValue={(data) => {
               setSelectedLeverage(data)
+            }}
+            selectedValue={{
+              title: selectedLeverage
+                ? `${selectedLeverage.title.replace('X', '') ?? '1'}X`
+                : '1X',
             }}
           />
         </div>

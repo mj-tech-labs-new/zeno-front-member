@@ -2,6 +2,7 @@
 import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
 
 import {ImageComponent, InputContainer, RangeSelector} from '@/components'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {Constants, English, Images, Utility} from '@/helpers'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 
@@ -13,7 +14,6 @@ const BuySell = (props: BuyOrSelProps) => {
   const {activeIndex} = props
   const {
     isLoadingCandles,
-    socketRef,
     selectedToken,
     tokenList,
     getChallengeByIdArray,
@@ -22,6 +22,7 @@ const BuySell = (props: BuyOrSelProps) => {
     livePrice,
     selectedLeverage,
   } = useChartProvider()
+  const {socketRef} = useSocketProvider()
   const [inputValues, setInputValues] = useState({
     price: '',
     amount: '',
@@ -51,8 +52,8 @@ const BuySell = (props: BuyOrSelProps) => {
 
       const amountStr = value ?? '0'
       const amountBigInt = amountStr.includes('.')
-        ? BigInt(amountStr.replace('.', ''))
-        : BigInt(amountStr)
+        ? BigInt(amountStr.replace('.', '') ?? '0')
+        : BigInt(amountStr ?? '0')
 
       const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
 
@@ -110,9 +111,11 @@ const BuySell = (props: BuyOrSelProps) => {
       : BigInt(priceStr)
     const amountStr = inputValues.amount ?? '0'
     const amountBigInt = amountStr.includes('.')
-      ? BigInt(amountStr.replace('.', ''))
-      : BigInt(amountStr)
-    const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
+      ? BigInt(amountStr?.replace('.', '') ?? '0')
+      : BigInt(amountStr ?? '0')
+    const leverageBigInt = BigInt(
+      selectedLeverage?.title.toString().replace('X', ' ') ?? 1
+    )
     const totalStr = ((priceBigInt * amountBigInt) / leverageBigInt).toString()
 
     if (!priceStr.includes('.') && !amountStr.includes('.')) {
@@ -221,16 +224,16 @@ const BuySell = (props: BuyOrSelProps) => {
                   const newAmount = tokenValue / livePrice
                   setInputValues((prev) => {
                     const price = Number(prev.price)
-                    const Price = price ? 0 : price
+
                     const Leverage = Number(selectedLeverage?.title)
 
-                    const totalValue = (newAmount * Price) / Leverage
+                    const totalValue = (newAmount * price) / Leverage
                     return {
                       ...prev,
-                      amount: newAmount.toString(),
-                      total:
-                        Utility.removeDecimal(Number(totalValue))?.toString() ??
-                        '0',
+                      amount: Utility.removeDecimal(newAmount).toString(),
+                      total: totalValue
+                        ? totalValue.toFixed(3).toString()
+                        : '0',
                     }
                   })
                   setRangeValue(value)
@@ -250,7 +253,8 @@ const BuySell = (props: BuyOrSelProps) => {
       <div className="flex items-center gap-3">
         <ActionButton
           activeIndex={activeIndex}
-          leverage={Number(selectedLeverage?.title)}
+          leverage={Number(selectedLeverage?.title.replace('X', ' '))}
+          margin_mode="isolated"
           order_type="market"
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}

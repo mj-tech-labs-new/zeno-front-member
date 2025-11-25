@@ -16,6 +16,27 @@ const Constants = {
       type: 'password',
     },
   ],
+  NewPasswordInoutArray: [
+    {
+      name: 'otp',
+      labelText: English.E306,
+      placeHolderText: English.E307,
+      type: 'text',
+    },
+    {
+      name: 'new_password',
+      labelText: English.E311,
+      placeHolderText: English.E312,
+      type: 'password',
+    },
+    {
+      name: 'confirm_new_password',
+      labelText: English.E309,
+      placeHolderText: English.E310,
+      type: 'password',
+    },
+  ],
+
   SidebarData: [
     {
       icon: Images.dashboard,

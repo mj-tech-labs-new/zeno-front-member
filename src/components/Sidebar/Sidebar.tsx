@@ -2,6 +2,7 @@ import {useCallback} from 'react'
 import {useSelector} from 'react-redux'
 import {Link, useLocation} from 'react-router-dom'
 
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {Constants, English, Images} from '@/helpers'
 import {CommonFunction} from '@/services'
 import {GeneralProps, StorageProps} from '@/types/CommonTypes'
@@ -11,14 +12,20 @@ import LogoComponent from '../LogoComponent/LogoComponent'
 
 const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
   const userData = useSelector((state: StorageProps) => state.userData)
+  const {socketRef} = useSocketProvider()
   const {onPressItem} = props
   const location = useLocation()
   const onPressLink = useCallback(
     (isLogoutType: boolean) => {
-      if (isLogoutType) CommonFunction.addSliceData('logout', {})
+      if (isLogoutType)
+        CommonFunction.addSliceData('logout', {}).then(() => {
+          socketRef.current?.removeAllListeners()
+          socketRef.current?.disconnect()
+          socketRef.current = null
+        })
       onPressItem()
     },
-    [onPressItem]
+    [onPressItem, socketRef]
   )
   return (
     <div className="h-full w-full px-3.5 pt-8 z-50">

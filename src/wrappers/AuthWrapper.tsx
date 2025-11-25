@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useMemo, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {useLocation, useNavigate} from 'react-router-dom'
 
@@ -13,19 +13,49 @@ const AuthWrapper = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const location = useLocation()
   // const locationData = useMemo(() => location.state: StorageProps, [])
 
+  const publicRoutes = useMemo(
+    () => ['/login', '/sign-up', '/forgot-password'],
+    []
+  )
+
   useEffect(() => {
     const user = Data?.user?.token
     const currentPath = location.pathname
+
     if (!user) {
-      navigate(currentPath === '/login' ? '/login' : '/sign-up', {
-        replace: true,
-      })
+      if (currentPath === '/set-new-password') {
+        const email = location.state?.email
+
+        if (!email) {
+          navigate('/login', {replace: true})
+          return
+        }
+
+        setStatus(false)
+        return
+      }
+
+      if (!publicRoutes.includes(currentPath)) {
+        navigate('/login', {replace: true})
+      }
+
       setStatus(false)
       return
     }
-    navigate('/dashboard')
+
+    if (currentPath !== '/dashboard') {
+      navigate('/dashboard', {replace: true})
+    }
+
     setStatus(true)
-  }, [Data?.user?.token, children, location.pathname, navigate])
+  }, [
+    Data?.user?.token,
+    children,
+    location.pathname,
+    location.state,
+    navigate,
+    publicRoutes,
+  ])
 
   return !status ? children : null
 }

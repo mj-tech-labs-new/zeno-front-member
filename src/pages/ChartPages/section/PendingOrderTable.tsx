@@ -36,10 +36,11 @@ const PendingOrderTable = (
           quantity,
           submitted_price,
           position_margin,
+          margin_mode,
         } = tableBody
         const directionCaseInsensitive = direction.toLowerCase()
         const contractFullName = `${symbol} ${English.E132}`
-        const directionText = `${directionCaseInsensitive === 'buy' ? English.E74 : English.E75}-${leverage}x-${English.E139}`
+        const directionText = `${directionCaseInsensitive === 'buy' ? English.E74 : English.E75}-${leverage}x-${margin_mode}`
         const longShortDirectionText =
           directionCaseInsensitive === 'buy'
             ? `${English.E180} ${English.E74}`
