@@ -1,11 +1,18 @@
 /* eslint-disable prefer-template */
 import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
 
-import {ImageComponent, InputContainer, RangeSelector} from '@/components'
+import {
+  Divider,
+  ImageComponent,
+  InputContainer,
+  RangeSelector,
+} from '@/components'
+import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {Constants, English, Images, Utility} from '@/helpers'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 
+import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
 import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
@@ -23,6 +30,7 @@ const BuySell = (props: BuyOrSelProps) => {
     selectedLeverage,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
+  const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     price: '',
     amount: '',
@@ -41,16 +49,6 @@ const BuySell = (props: BuyOrSelProps) => {
   )
 
   const amountRef = useRef(0)
-
-  useEffect(() => {
-    const currentStages = getChallengeByIdArray?.[0]?.current_stage ?? 0
-    if (!getChallengeByIdArray?.[0]) return
-
-    const stages = getChallengeByIdArray[0].ChallengeStage[currentStages]
-
-    // eslint-disable-next-line no-useless-return
-    if (!stages) return
-  }, [getChallengeByIdArray])
 
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
@@ -121,9 +119,11 @@ const BuySell = (props: BuyOrSelProps) => {
       : BigInt(priceStr)
     const amountStr = inputValues.amount ?? '0'
     const amountBigInt = amountStr.includes('.')
-      ? BigInt(amountStr?.replace('.', '') ?? 0)
+      ? BigInt(amountStr?.replace('.', '') ?? '0')
       : BigInt(amountStr ?? '0')
-    const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
+    const leverageBigInt = BigInt(
+      selectedLeverage?.title.toString().replace('X', ' ') ?? 1
+    )
     const totalStr = ((priceBigInt * amountBigInt) / leverageBigInt).toString()
 
     if (!priceStr.includes('.') && !amountStr.includes('.')) {
@@ -261,11 +261,13 @@ const BuySell = (props: BuyOrSelProps) => {
       <div className="flex items-center gap-3">
         <ActionButton
           activeIndex={activeIndex}
-          leverage={Number(selectedLeverage?.title)}
+          checked={checked}
+          leverage={Number(selectedLeverage?.title.replace('X', ' '))}
           margin_mode="isolated"
           order_type="market"
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}
+          setChecked={setChecked}
           stop_loss={stopLossData?.stop_loss}
           take_profit={stopLossData?.take_profit}
           total={Number(inputValues?.total)}
@@ -274,50 +276,76 @@ const BuySell = (props: BuyOrSelProps) => {
           }}
         />
       </div>
-      <div className="flex flex-col  ">
-        <StopLoss
-          heading="Stop Loss"
-          marketPrice={Number(inputValues.amount)}
-          subHeading="Stop loss "
-          setStopLoss={(value) =>
-            setStopLossData((prev) => {
-              const updated = [...(prev.stop_loss ?? [])]
 
-              updated[0] = {
-                ...updated[0],
-                ...value.stop_loss?.[0],
-                quantity: Number(inputValues.amount),
-              }
+      <Divider className="!bg-chart-secondary-bg-color !my-3" />
 
-              return {
-                ...prev,
-                stop_loss: updated,
-              }
-            })
-          }
-        />
-        <StopLoss
-          heading="Take Profit"
-          marketPrice={Number(inputValues.amount)}
-          subHeading="Take Profit "
-          setStopLoss={(value) =>
-            setStopLossData((prev) => {
-              const updated = [...(prev?.take_profit ?? [])]
+      <CheckBoxInputContainer
+        checked={checked}
+        className="checkbox-checked-bg !appearance-none"
+        singleLineContent={English.E298}
+        onChange={() => {
+          setChecked((prev) => !prev)
+        }}
+      />
 
-              updated[0] = {
-                ...updated[0],
-                ...value?.take_profit?.[0],
-                quantity: Number(inputValues.amount),
-              }
+      {checked && <Divider className="!bg-chart-secondary-bg-color !my-1" />}
 
-              return {
-                ...prev,
-                take_profit: updated,
-              }
-            })
-          }
-        />
-      </div>
+      {checked && (
+        <div className="flex flex-col">
+          <StopLoss
+            heading="Stop Loss"
+            marketPrice={Number(inputValues.price)}
+            quantity={Number(inputValues?.amount)}
+            subHeading="Stop loss"
+            setStopLoss={(value) =>
+              setStopLossData((prev) => {
+                const updated = [...(prev.stop_loss ?? [])]
+
+                updated[0] = {
+                  ...updated[0],
+                  ...value.stop_loss?.[0],
+                  quantity: Number(inputValues.amount),
+                }
+
+                return {
+                  ...prev,
+                  stop_loss: updated,
+                }
+              })
+            }
+          />
+          <StopLoss
+            heading="Take Profit"
+            marketPrice={Number(inputValues.price)}
+            quantity={Number(inputValues?.amount)}
+            subHeading="Take Profit "
+            setStopLoss={(value) =>
+              setStopLossData((prev) => {
+                const updated = [...(prev?.take_profit ?? [])]
+
+                updated[0] = {
+                  ...updated[0],
+                  ...value?.take_profit?.[0],
+                  quantity: Number(inputValues.amount),
+                }
+
+                return {
+                  ...prev,
+                  take_profit: updated,
+                }
+              })
+            }
+          />
+        </div>
+      )}
+
+      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+      <MaxOpenAndMargin total={Number(inputValues?.total)} type="max_open" />
+
+      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+      <MaxOpenAndMargin total={Number(inputValues?.total)} type="margin" />
     </div>
   )
 }

@@ -1,17 +1,18 @@
-import {memo, useCallback, useEffect, useState} from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 
-import {Divider, ImageComponent, InputContainer} from '@/components'
+import { Divider, ImageComponent, InputContainer } from '@/components'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
+import { useChartProvider } from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const {activeIndex} = props
-  const {chartInfo, getChallengeByIdArray, selectedLeverage} =
+  const { activeIndex } = props
+  const { chartInfo, getChallengeByIdArray, selectedLeverage } =
     useChartProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
@@ -21,13 +22,11 @@ const Limit = (props: BuyOrSelProps) => {
   const [total, setTotal] = useState(0)
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-      Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({stop_loss: [], take_profit: []})
+    Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({ stop_loss: [], take_profit: [] })
   const [stopLossValue, setStopLossValue] = useState<number>(0)
-  const [currentDifferent, setCurrentDifferent] = useState(0)
 
   useEffect(() => {
-    setCurrentDifferent(0)
     setInputValues({
       entryprice: '',
       quantity: '',
@@ -55,7 +54,6 @@ const Limit = (props: BuyOrSelProps) => {
     (name: keyof typeof inputValues, value: string) => {
       setInputValues((prev) => {
         if (name === 'entryprice' && getChallengeByIdArray) {
-          if (Number(value) === 0) setCurrentDifferent(0)
 
           return {
             ...prev,
@@ -65,17 +63,13 @@ const Limit = (props: BuyOrSelProps) => {
           }
         }
 
-        if (Number(value) === 0) setCurrentDifferent(0)
-
-        if (total === 0) setCurrentDifferent(0)
-
         return {
           ...prev,
           quantity: Utility.validFloatNumber(Utility.validPointValue(value)),
         }
       })
     },
-    [getChallengeByIdArray, setCurrentDifferent, total]
+    [getChallengeByIdArray]
   )
 
   useEffect(() => {
@@ -90,20 +84,10 @@ const Limit = (props: BuyOrSelProps) => {
       setTotal(
         (parseFloat(inputValues?.entryprice) *
           parseFloat(inputValues?.quantity)) /
-          Number(selectedLeverage?.title)
-      )
-
-      setCurrentDifferent(
-        getChallengeByIdArray?.[0]?.current_usdt
-          ? Number(getChallengeByIdArray?.[0]?.current_usdt) - total
-          : 0
+        Number(selectedLeverage?.title)
       )
     }
   }, [getChallengeByIdArray, inputValues, selectedLeverage?.title, total])
-
-  useEffect(() => {
-    setCurrentDifferent(0)
-  }, [selectedLeverage?.title])
 
   return (
     <div className="flex flex-col gap-2">
@@ -122,7 +106,7 @@ const Limit = (props: BuyOrSelProps) => {
       </div>
 
       {Constants.BuySellInputArray.Limit.map((item, index) => {
-        const {name, placeHolder, label, textContent} = item
+        const { name, placeHolder, label, textContent } = item
         const priceValue = inputValues?.[name as keyof typeof inputValues]
         return (
           <div key={`name_${name}`}>
@@ -140,7 +124,7 @@ const Limit = (props: BuyOrSelProps) => {
               [&>input]:!text-chart-text-primary-color [&>input]:!text-sm [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium"
                     onChange={(e) => {
                       if (name === 'entryprice') {
-                        const {value} = e.target
+                        const { value } = e.target
                         handleLeverageCount(value)
                       }
                       handleInputChange(
@@ -158,18 +142,6 @@ const Limit = (props: BuyOrSelProps) => {
                 </div>
               </div>
             </div>
-            {index === 0 && (
-              <div className="flex justify-between items-center !mt-5 !mb-3 px-0.5 ">
-                <div className=" !text-light-neutral-color">
-                  Current Difference :
-                </div>
-                <div
-                  className={` ${currentDifferent ? (currentDifferent < 0 ? '!text-dark-danger-color' : '!text-chart-green-color') : 'text-neutral-primary-color'}`}
-                >
-                  {Utility.numberConversion(currentDifferent)}
-                </div>
-              </div>
-            )}
           </div>
         )
       })}
@@ -182,7 +154,7 @@ const Limit = (props: BuyOrSelProps) => {
         <ActionButton
           activeIndex={activeIndex}
           checked={checked}
-          leverage={Number(selectedLeverage?.title)}
+          leverage={Number(selectedLeverage?.title.replace('X', ' '))}
           margin_mode="isolated"
           order_type="limit"
           price={Number(inputValues?.entryprice)}
@@ -194,7 +166,7 @@ const Limit = (props: BuyOrSelProps) => {
             Utility.removeDecimal(Number(inputValues?.quantity))
           )}
           setInputValues={() => {
-            setInputValues({entryprice: '0', quantity: '0'})
+            setInputValues({ entryprice: '0', quantity: '0' })
             setStopLossValue(0)
           }}
         />
@@ -267,6 +239,14 @@ const Limit = (props: BuyOrSelProps) => {
           />
         </div>
       )}
+
+      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+      <MaxOpenAndMargin total={total} type="max_open" />
+
+      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+      <MaxOpenAndMargin total={total} type="margin" />
     </div>
   )
 }

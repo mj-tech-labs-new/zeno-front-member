@@ -58,7 +58,7 @@ const DropDown = (props: DropDownProps) => {
         ) : null}
 
         <ImageComponent
-          className={`${!isDropDownOpen && 'rotate-180'} transition-all duration-200 ease-in-out`}
+          className={`${isDropDownOpen && 'rotate-180'} transition-all duration-200 ease-in-out`}
           imageUrl={Images.dropdownArrow}
         />
       </div>
