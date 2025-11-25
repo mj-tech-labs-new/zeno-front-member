@@ -4,7 +4,7 @@ import {English} from '@/helpers'
 import FormContainer from '../AuthPages/components/FormContainer'
 
 const ProfilePage = () => (
-  <div className="flex flex-col gap-8 w-full">
+  <div className="flex flex-col gap-8 mt-8 w-full">
     <HeadingComponent singleLineContent={English.E112} variant="medium" />
 
     <Divider className="!bg-info-bg-color" />

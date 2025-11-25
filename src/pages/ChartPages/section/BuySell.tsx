@@ -1,11 +1,26 @@
 /* eslint-disable prefer-template */
-import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
-import {ImageComponent, InputContainer, RangeSelector} from '@/components'
+import {
+  Divider,
+  ImageComponent,
+  InputContainer,
+  RangeSelector,
+} from '@/components'
+import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {Constants, English, Images, Utility} from '@/helpers'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 
+import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
 import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
@@ -23,6 +38,7 @@ const BuySell = (props: BuyOrSelProps) => {
     selectedLeverage,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
+  const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     price: '',
     amount: '',
@@ -75,12 +91,17 @@ const BuySell = (props: BuyOrSelProps) => {
         const indexTotal =
           totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
 
-        const totalStrPrecise =
-          totalStr.slice(0, indexTotal) +
-          '.' +
-          totalStr.slice(indexTotal, indexTotal + 6)
+        totalStrFinal = totalStr
 
-        totalStrFinal = totalStrPrecise // for float
+        if (totalStr !== '0') {
+          const totalStrPrecise =
+            (totalStr.slice(0, indexTotal) ?? '0') +
+            '.' +
+            (totalStr.slice(indexTotal, indexTotal + 2) ?? '0')
+
+          totalStrFinal = totalStrPrecise // for float
+        }
+        if (totalStr === '0') totalStrFinal = totalStr
       }
 
       if (name === 'amount') {
@@ -134,7 +155,7 @@ const BuySell = (props: BuyOrSelProps) => {
       const totalStrPrecise =
         totalStr.slice(0, indexTotal) +
         '.' +
-        totalStr.slice(indexTotal, indexTotal + 6)
+        totalStr.slice(indexTotal, indexTotal + 2)
 
       totalStrFinal = totalStrPrecise // for float
     }
@@ -253,11 +274,13 @@ const BuySell = (props: BuyOrSelProps) => {
       <div className="flex items-center gap-3">
         <ActionButton
           activeIndex={activeIndex}
+          checked={checked}
           leverage={Number(selectedLeverage?.title.replace('X', ' '))}
           margin_mode="isolated"
           order_type="market"
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}
+          setChecked={setChecked}
           stop_loss={stopLossData?.stop_loss}
           take_profit={stopLossData?.take_profit}
           total={Number(inputValues?.total)}
@@ -266,50 +289,80 @@ const BuySell = (props: BuyOrSelProps) => {
           }}
         />
       </div>
-      <div className="flex flex-col  ">
-        <StopLoss
-          heading="Stop Loss"
-          marketPrice={Number(inputValues.amount)}
-          subHeading="Stop loss "
-          setStopLoss={(value) =>
-            setStopLossData((prev) => {
-              const updated = [...(prev.stop_loss ?? [])]
 
-              updated[0] = {
-                ...updated[0],
-                ...value.stop_loss?.[0],
-                quantity: Number(inputValues.amount),
-              }
+      <Divider className="!bg-chart-secondary-bg-color !my-3" />
 
-              return {
-                ...prev,
-                stop_loss: updated,
-              }
-            })
-          }
-        />
-        <StopLoss
-          heading="Take Profit"
-          marketPrice={Number(inputValues.amount)}
-          subHeading="Take Profit "
-          setStopLoss={(value) =>
-            setStopLossData((prev) => {
-              const updated = [...(prev?.take_profit ?? [])]
+      <CheckBoxInputContainer
+        checked={checked}
+        className="checkbox-checked-bg !appearance-none"
+        singleLineContent={English.E298}
+        onChange={() => {
+          setChecked((prev) => !prev)
+        }}
+      />
 
-              updated[0] = {
-                ...updated[0],
-                ...value?.take_profit?.[0],
-                quantity: Number(inputValues.amount),
-              }
+      {checked && <Divider className="!bg-chart-secondary-bg-color !my-1" />}
 
-              return {
-                ...prev,
-                take_profit: updated,
-              }
-            })
-          }
-        />
-      </div>
+      {checked && (
+        <div className="flex flex-col">
+          <StopLoss
+            heading="Stop Loss"
+            marketPrice={Number(inputValues.price)}
+            quantity={Number(inputValues?.amount)}
+            subHeading="Stop loss"
+            setStopLoss={(value) =>
+              setStopLossData((prev) => {
+                const updated = [...(prev.stop_loss ?? [])]
+
+                updated[0] = {
+                  ...updated[0],
+                  ...value.stop_loss?.[0],
+                  quantity: Number(inputValues.amount),
+                }
+
+                return {
+                  ...prev,
+                  stop_loss: updated,
+                }
+              })
+            }
+          />
+          <StopLoss
+            heading="Take Profit"
+            marketPrice={Number(inputValues.price)}
+            quantity={Number(inputValues?.amount)}
+            subHeading="Take Profit "
+            setStopLoss={(value) =>
+              setStopLossData((prev) => {
+                const updated = [...(prev?.take_profit ?? [])]
+
+                updated[0] = {
+                  ...updated[0],
+                  ...value?.take_profit?.[0],
+                  quantity: Number(inputValues.amount),
+                }
+
+                return {
+                  ...prev,
+                  take_profit: updated,
+                }
+              })
+            }
+          />
+        </div>
+      )}
+
+      {Array.from({length: 2}).map((_, index) => (
+        <Fragment key={index}>
+          <Divider className="!bg-chart-secondary-bg-color !my-3" />
+
+          <MaxOpenAndMargin
+            totalNum={Number(inputValues?.total)}
+            totalStr={inputValues?.total}
+            type={index === 0 ? 'max_open' : 'margin'}
+          />
+        </Fragment>
+      ))}
     </div>
   )
 }

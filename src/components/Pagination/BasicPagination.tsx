@@ -16,13 +16,13 @@ const BasicPagination = ({total, onSelectPage}: BasicPaginatinProps) => {
   return end > 1 ? (
     <div className="mb-12 lg:mb-0">
       <div className="flex gap-5 items-center justify-center flex-wrap">
-        <div>
+        <div className="flex flex-wrap gap-2">
           {Array.from({length: end - start}).map((_, paginationIndex) => {
             const indexToRender = start + paginationIndex + 1
             return (
               <span
                 key={`pagination__${paginationIndex.toString()}`}
-                className={`border border-solid px-3 py-1 rounded ${indexToRender === currentPage ? 'bg-primary-focus-bg border-transparent text-primary-color' : 'bg-primary-color border-primary-focus-bg text-primary-focus-bg cursor-pointer'}`}
+                className={`border border-solid px-3 py-1 flex justify-center items-center rounded-full ${indexToRender === currentPage ? 'bg-light-danger-color border-transparent text-primary-color' : 'border-light-danger-color text-light-danger-color hover:bg-light-danger-color/80 hover:text-primary-color cursor-pointer'}`}
                 onClick={() => {
                   if (indexToRender !== currentPage) {
                     setCurrentPage(indexToRender)

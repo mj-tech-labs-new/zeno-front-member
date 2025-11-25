@@ -126,7 +126,7 @@ const ChallengeDetailCard = (props: {item: ChallengeInfoDashboardProps}) => {
           {[English.E56, English.E57].map((button, index) => (
             <CommonButton
               key={button}
-              className={`${index === 0 ? 'primary-btn-type' : 'secondary-btn-type'} !py-2 [&>div]:!size-4`}
+              className={`${index === 0 ? `${item?.status === English.E115 && 'opacity-50 pointer-events-none'} primary-btn-type` : 'secondary-btn-type'} !py-2 [&>div]:!size-4`}
               imageUrl={`${index === 1 && Images.showDetailsGraphIcon}`}
               singleLineContent={button}
               onClick={() => {

@@ -3,7 +3,7 @@ import {Constants, English, Utility} from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
 
 const PayoutPage = () => (
-  <div className="flex flex-col gap-8">
+  <div className="flex flex-col gap-8 mt-8">
     <HeadingComponent singleLineContent={English.E23} variant="medium" />
 
     <ChallengeCardLayout className="max-w-72">
