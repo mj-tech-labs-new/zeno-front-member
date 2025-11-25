@@ -1,5 +1,13 @@
 /* eslint-disable prefer-template */
-import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import {
   Divider,
@@ -339,13 +347,16 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       )}
 
-      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+      {Array.from({length: 2}).map((_, index) => (
+        <Fragment key={index}>
+          <Divider className="!bg-chart-secondary-bg-color !my-3" />
 
-      <MaxOpenAndMargin total={Number(inputValues?.total)} type="max_open" />
-
-      <Divider className="!bg-chart-secondary-bg-color !my-3" />
-
-      <MaxOpenAndMargin total={Number(inputValues?.total)} type="margin" />
+          <MaxOpenAndMargin
+            total={Number(inputValues?.total)}
+            type={index === 0 ? 'max_open' : 'margin'}
+          />
+        </Fragment>
+      ))}
     </div>
   )
 }

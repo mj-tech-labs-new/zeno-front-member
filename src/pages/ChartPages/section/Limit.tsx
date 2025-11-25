@@ -1,4 +1,4 @@
-import {memo, useCallback, useEffect, useState} from 'react'
+import {Fragment, memo, useCallback, useEffect, useState} from 'react'
 
 import {Divider, ImageComponent, InputContainer} from '@/components'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
@@ -239,13 +239,16 @@ const Limit = (props: BuyOrSelProps) => {
         </div>
       )}
 
-      <Divider className="!bg-chart-secondary-bg-color !my-3" />
+      {Array.from({length: 2}).map((_, index) => (
+        <Fragment key={index}>
+          <Divider className="!bg-chart-secondary-bg-color !my-3" />
 
-      <MaxOpenAndMargin total={total} type="max_open" />
-
-      <Divider className="!bg-chart-secondary-bg-color !my-3" />
-
-      <MaxOpenAndMargin total={total} type="margin" />
+          <MaxOpenAndMargin
+            total={total}
+            type={index === 0 ? 'max_open' : 'margin'}
+          />
+        </Fragment>
+      ))}
     </div>
   )
 }
