@@ -42,8 +42,6 @@ const loginApi = async (props: LoginApiProps) => {
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(true)
-          toast.success(res?.message)
-
           const newPayload = {
             token: res?.data?.token,
             userData: res?.data?.user,

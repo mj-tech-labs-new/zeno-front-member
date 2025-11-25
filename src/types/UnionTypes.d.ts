@@ -41,3 +41,5 @@ export type ChartShapesType =
 export type CloseOrderType = 'single_order' | 'all_order'
 
 export type BasicSkeletonType = 'basic' | 'tableSkeleton'
+
+export type MaxOpenAndMarginType = 'max_open' | 'margin'

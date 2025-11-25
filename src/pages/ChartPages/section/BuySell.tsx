@@ -42,16 +42,6 @@ const BuySell = (props: BuyOrSelProps) => {
 
   const amountRef = useRef(0)
 
-  useEffect(() => {
-    const currentStages = getChallengeByIdArray?.[0]?.current_stage ?? 0
-    if (!getChallengeByIdArray?.[0]) return
-
-    const stages = getChallengeByIdArray[0].ChallengeStage[currentStages]
-
-    // eslint-disable-next-line no-useless-return
-    if (!stages) return
-  }, [getChallengeByIdArray])
-
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
       let totalStrFinal
@@ -121,9 +111,11 @@ const BuySell = (props: BuyOrSelProps) => {
       : BigInt(priceStr)
     const amountStr = inputValues.amount ?? '0'
     const amountBigInt = amountStr.includes('.')
-      ? BigInt(amountStr?.replace('.', '') ?? 0)
+      ? BigInt(amountStr?.replace('.', '') ?? '0')
       : BigInt(amountStr ?? '0')
-    const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
+    const leverageBigInt = BigInt(
+      selectedLeverage?.title.toString().replace('X', ' ') ?? 1
+    )
     const totalStr = ((priceBigInt * amountBigInt) / leverageBigInt).toString()
 
     if (!priceStr.includes('.') && !amountStr.includes('.')) {
@@ -261,7 +253,7 @@ const BuySell = (props: BuyOrSelProps) => {
       <div className="flex items-center gap-3">
         <ActionButton
           activeIndex={activeIndex}
-          leverage={Number(selectedLeverage?.title)}
+          leverage={Number(selectedLeverage?.title.replace('X', ' '))}
           margin_mode="isolated"
           order_type="market"
           price={Number(inputValues?.price)}

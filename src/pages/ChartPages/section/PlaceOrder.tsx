@@ -29,7 +29,7 @@ const PlaceOrder = () => {
       title: (index + 1).toString(),
     }))
     setLeverageValueArray(levArray)
-    setSelectedLeverage(levArray[0])
+    setSelectedLeverage({title: levArray[0]?.title?.replace('X', '')})
   }, [getChallengeByIdArray, setLeverageValueArray, setSelectedLeverage])
 
   return (
@@ -52,9 +52,13 @@ const PlaceOrder = () => {
           <DropDown
             className="!max-h-52 mt-2 !overflow-auto !w-full"
             dropDownData={leverageValueArray}
-            selectedValue={selectedLeverage ?? {title: '1'}}
             onSelectValue={(data) => {
               setSelectedLeverage(data)
+            }}
+            selectedValue={{
+              title: selectedLeverage
+                ? `${selectedLeverage.title.replace('X', '') ?? '1'}X`
+                : '1X',
             }}
           />
         </div>
