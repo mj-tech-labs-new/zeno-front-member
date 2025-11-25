@@ -232,16 +232,16 @@ const BuySell = (props: BuyOrSelProps) => {
                   const newAmount = tokenValue / livePrice
                   setInputValues((prev) => {
                     const price = Number(prev.price)
-                    const Price = price ? 0 : price
+
                     const Leverage = Number(selectedLeverage?.title)
 
-                    const totalValue = (newAmount * Price) / Leverage
+                    const totalValue = (newAmount * price) / Leverage
                     return {
                       ...prev,
-                      amount: newAmount.toString(),
+                      amount: Utility.removeDecimal(newAmount).toString(),
                       total: totalValue
-                        ? ''
-                        : Utility.removeDecimal(totalValue).toString(),
+                        ? totalValue.toFixed(3).toString()
+                        : '0',
                     }
                   })
                   setRangeValue(value)

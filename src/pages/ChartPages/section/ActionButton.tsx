@@ -76,8 +76,12 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
         role:
           order_type === 'limit'
             ? orderSide === 'buy'
-              ? 'maker'
-              : 'taker'
+              ? price <= livePrice
+                ? 'taker'
+                : 'maker'
+              : price >= livePrice
+                ? 'taker'
+                : 'maker'
             : 'taker',
       })
       .then(async (res) => {

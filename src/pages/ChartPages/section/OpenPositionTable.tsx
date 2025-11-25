@@ -39,10 +39,12 @@ const OpenPositionTable = (
           est_liq_price,
           margin_ratio,
           marginBalance,
+          margin_mode,
         } = tableBody
         const directionCaseInsensitive = direction.toLowerCase()
         const contractFullName = `${symbol} ${English.E132}`
-        const directionText = `${directionCaseInsensitive === 'buy' ? English.E74 : English.E75}-${leverage}x-${English.E139}`
+        const directionText = `${directionCaseInsensitive === 'buy' ? English.E74 : English.E75}-${leverage}x-${margin_mode}`
+
         return (
           <tr
             key={`content-${tx_hash}`}
@@ -119,7 +121,7 @@ const OpenPositionTable = (
                 {' '}
                 {marginBalance ? Utility.removeDecimal(marginBalance) : '--'}
               </span>
-              <span className="text-primary-color pb-0.5">{English.E139}</span>
+              <span className="text-primary-color pb-0.5">{margin_mode}</span>
             </td>
             <td className="flex flex-col  pr-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
               {tableBody?.take_profit?.[0]?.price &&

@@ -44,10 +44,10 @@ const PlaceOrder = () => {
         <div className="flex items-center gap-4">
           <DropDown
             className="!max-h-32 mt-2 !overflow-auto !w-full"
-            dropDownData={[{title: 'Isolated'}]}
+            dropDownData={[{title: English.E139}]}
             layoutClassName="!h-fit"
-            onSelectValue={() => 'Isolated'}
-            selectedValue={{title: 'Isolated'}}
+            onSelectValue={() => English.E139}
+            selectedValue={{title: English.E139}}
           />
           <DropDown
             className="!max-h-52 mt-2 !overflow-auto !w-full"
