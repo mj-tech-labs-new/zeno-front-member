@@ -12,10 +12,14 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const tempConfig = config
     const token = Store.getState()?.userData?.user?.token
+    // eslint-disable-next-line @typescript-eslint/no-misused-spread
+    const tempTokenConfig = {...config?.headers}
+
     config.headers = {
       // eslint-disable-next-line @typescript-eslint/no-misused-spread
       ...config?.headers,
-      Authorization: `Bearer ${token}`,
+
+      Authorization: `Bearer ${tempTokenConfig?.Authorization ?? token}`,
     } as any
     return tempConfig
   },
@@ -31,7 +35,8 @@ const APICall = async (
   method: Methodtype,
   url: string,
   body?: any,
-  params?: Record<string, any>
+  params?: Record<string, any>,
+  headers?: Record<string, any>
 ) => {
   const config: AxiosRequestConfig = {}
 
@@ -46,6 +51,9 @@ const APICall = async (
   }
   if (params) {
     config.params = params
+  }
+  if (headers) {
+    config.headers = headers
   }
 
   return new Promise((resolve, reject) => {

@@ -22,6 +22,8 @@ const Endpoints = {
   getClosedPnlDetails: '/users/order/closedPositionHistory',
   closeOrder: '/users/order/closeOrder',
   deleteOrder: '/users/order/cancelOrder',
+  forgotPassword: '/users/forgotPassword',
+  setNewPassword: '/users/resetPassword',
 }
 
 export default Endpoints

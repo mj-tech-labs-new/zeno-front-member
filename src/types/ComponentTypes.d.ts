@@ -60,7 +60,8 @@ export type CircularProgressBarType = {
 } & Pick<GeneralProps, 'className'> &
   Pick<ChallengeCompletionCardProps, 'totalAmount'>
 
-export interface StatsCardProps extends Pick<GeneralProps, 'className'> {
+export interface StatsCardProps
+  extends Pick<GeneralProps, 'className' | 'layoutClassName'> {
   headingContent: string
   initialContent: number
   secondContent: number
@@ -70,15 +71,18 @@ export interface StatsCardProps extends Pick<GeneralProps, 'className'> {
 }
 
 export interface DropDownProps
-  extends Pick<GeneralProps, 'className' | 'layoutClassName'> {
+  extends Pick<GeneralProps, 'className' | 'layoutClassName'>,
+    Pick<CommonTableComponentProps, 'showArrows'> {
   dropDownData: DropDownObjectType[]
   selectedValue: DropDownObjectType
+  headingClassName?: string
   onSelectValue: (data: DropDownObjectType) => void
 }
 
 export interface MaxOpenAndMarginProps {
   type: MaxOpenAndMarginType
-  total: number
+  totalStr: string
+  totalNum: number
 }
 
 export interface DatePickerProps extends Pick<GeneralProps, 'className'> {

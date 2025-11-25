@@ -278,6 +278,13 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     isDrawing.current = false
   }, [])
 
+  useEffect(() => {
+    if (!challengeId) return
+    getChallengeByIdApi({challenge_id: challengeId}).then((res) => {
+      setGetChallengeByIdArray(res)
+    })
+  }, [challengeId])
+
   const defaultValue = useMemo(
     () => ({
       leverageValueArray,
@@ -394,13 +401,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     getTokenList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    if (!challengeId) return
-    getChallengeByIdApi({challenge_id: challengeId}).then((res) => {
-      setGetChallengeByIdArray(res)
-    })
-  }, [challengeId])
 
   useEffect(() => {
     const socket = socketRef.current

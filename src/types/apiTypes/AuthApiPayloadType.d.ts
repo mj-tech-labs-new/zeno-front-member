@@ -18,3 +18,13 @@ export type UpdateApiProps = Pick<
 export type GetUserApiProps = Omit<RegisterApiProps, 'user_signup_type'> & {
   profilePic: string | null
 }
+
+export interface forgotPasswordApiProps
+  extends Pick<RegisterApiProps, 'email'> {
+  token?: string
+}
+export interface SetNewPasswordApiProps
+  extends Pick<forgotPasswordApiProps, 'token'> {
+  otp: number
+  new_password: string
+}

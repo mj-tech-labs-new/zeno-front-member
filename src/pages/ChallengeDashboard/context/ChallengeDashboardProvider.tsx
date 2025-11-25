@@ -81,7 +81,9 @@ const ChallengeDashboardProvider = (
     if (getChallengeByIdArray?.length === 0) return
     tradingStatisticsApi({
       challenge_id: challengeId,
-    }).then((res) => setTradingStatistics(res))
+    }).then((res) => {
+      setTradingStatistics(res)
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getChallengeByIdArray])
 

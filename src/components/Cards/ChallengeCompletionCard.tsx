@@ -37,7 +37,7 @@ const ChallengeCompletionCard = (props: ChallengeCompletionCardProps) => {
         totalAmount={totalAmount}
         usedBalance={
           (totalAmount ?? 60000) -
-          (getChallengeByIdArray?.[0]?.used_usdt_capital ?? 5340.31)
+          (getChallengeByIdArray?.[0]?.current_usdt ?? 5340.31)
         }
       />
     </ChallengeCardLayout>

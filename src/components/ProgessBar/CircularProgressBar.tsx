@@ -20,10 +20,11 @@ const CircularProgressBarComponent = (props: CircularProgressBarType) => {
         <span className="text-widget-primary-text-color text-sm/6">
           Capital Used
         </span>
-        <p className="text-lg/6 font-normal text-tertiary-color">
-          {((totalAmount ?? 60000) - (usedBalance ?? 1340.31)).toFixed(2)}{' '}
-          {English.E60}
-        </p>
+        {totalAmount && (
+          <p className="text-lg/6 font-normal text-tertiary-color">
+            {(usedBalance ?? 0.0).toFixed(2)} {English.E60}
+          </p>
+        )}
       </div>
       <svg height="0" width="0">
         <defs>
@@ -44,7 +45,7 @@ y2="100%">
         background
         className={`w-[205px] h-[205px] ${className}`}
         strokeWidth={8}
-        value={percentage}
+        value={100 - percentage}
         styles={buildStyles({
           backgroundColor: 'var(--widget-primary-bg-color)',
           textColor: 'var(--primary-color)',
