@@ -22,7 +22,8 @@ const CircularProgressBarComponent = (props: CircularProgressBarType) => {
         </span>
         {totalAmount && (
           <p className="text-lg/6 font-normal text-tertiary-color">
-            {(usedBalance ?? 0.0).toFixed(2)} {English.E60}
+            {(usedBalance && usedBalance >= 0 ? usedBalance : 0).toFixed(2)}{' '}
+            {English.E60}
           </p>
         )}
       </div>
