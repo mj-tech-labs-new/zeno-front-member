@@ -47,7 +47,7 @@ y2="100%">
         strokeWidth={8}
         value={100 - percentage}
         styles={buildStyles({
-          backgroundColor: 'var(--widget-primary-bg-color)',
+          backgroundColor: 'var(--info-bg-color)',
           textColor: 'var(--primary-color)',
           trailColor: 'transparent',
           pathColor: 'url(#gradient1)',

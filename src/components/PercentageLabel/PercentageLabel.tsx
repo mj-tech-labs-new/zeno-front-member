@@ -14,14 +14,18 @@ const PercentageLabel = (
   return (
     <div className="flex gap-2">
       <p
-        className={`text-lg/6 font-normal ${initialContent.toString().startsWith('-') ? 'text-extra-dark-danger-color' : 'text-light-success-color'}`}
+        className={`text-lg/6 font-normal flex items-center gap-2 ${headingContent === English.E61 ? (initialContent.toString().startsWith('-') ? 'text-extra-dark-danger-color' : 'text-light-success-color') : 'text-primary-color'}`}
       >
-        <span>{initialContent !== 0 ? initialContent.toFixed(2) : '---'} </span>
+        <span>
+          {initialContent >= 0 && headingContent !== English.E63 && '+'}
+          {initialContent.toFixed(2)}
+        </span>
         {headingContent !== English.E63 && (
           <span
-            className={`px-1 pb-0.5 rounded-md text-primary-color ${secondContent.toString().startsWith('-') ? 'bg-light-danger-color' : 'bg-extra-dark-success-color'}`}
+            className={`px-[5px] pb-0.5 text-sm rounded-md text-primary-color ${headingContent === English.E61 ? (secondContent.toString().startsWith('-') ? 'bg-light-danger-color' : 'bg-extra-dark-success-color') : 'bg-landing-page-trading-rules-para-text'}`}
           >
-            ({secondContent.toFixed(2) ?? ''}%)
+            ({secondContent >= 0 && '+'}
+            {secondContent.toFixed(2) ?? ''}%)
           </span>
         )}
       </p>

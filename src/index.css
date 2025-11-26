@@ -35,7 +35,7 @@
   --linear-gr-bg2-color: #292929;
   --linear-gr-bg3-color: #d9d9d9;
   --linear-gr-bg4-color: #737373;
-  --widget-primary-bg-color: #474747;
+  --widget-primary-bg-color: rgba(71, 71, 71, 1);
   --widget-primary-text-color: #6b6b6b;
   --user-info-card-bg-color: #0a0a0a;
   --checkbox-border-color: #d0d5dd;
