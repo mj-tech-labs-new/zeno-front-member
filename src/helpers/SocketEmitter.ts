@@ -19,6 +19,7 @@ const SocketEmitter = {
   DashboardEmitter: {
     challenge_dashboard_socket: 'challenge_dashboard_socket',
   },
+  margin_asset: 'trade_dashboard_socket_',
 }
 
 export default SocketEmitter
