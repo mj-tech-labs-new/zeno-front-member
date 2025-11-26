@@ -182,3 +182,12 @@ export interface BasicPaginatinProps {
   total: number
   onSelectPage: (value: number) => void
 }
+
+export interface MarginAndAssetProps {
+  account_balance?: number
+  available_balance?: number
+  available_margin?: number
+  total_balance?: number
+  used_margin?: number
+  unreleased_profit?: number
+}

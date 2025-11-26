@@ -84,6 +84,7 @@ const SetNewPasswordPage = () => {
   }
 
   const startTimer = useCallback(() => {
+    setTimer(600)
     const interval = setInterval(() => {
       setTimer((prev) => {
         if (prev <= 1) {
@@ -96,14 +97,15 @@ const SetNewPasswordPage = () => {
 
     return () => clearInterval(interval)
   }, [])
+
   const handleForgotPassword = useCallback(() => {
     setShowLoader(true)
 
     forgotPasswordApi(isEmail as forgotPasswordApiProps)
       .then((response) => {
         if (response) {
-          setToken(response?.token ?? '')
           startTimer()
+          setToken(response?.token ?? '')
         }
       })
       .catch((error) => {
@@ -141,6 +143,7 @@ const SetNewPasswordPage = () => {
       return
     }
     handleForgotPassword()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEmail, navigate])
 

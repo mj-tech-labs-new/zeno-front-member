@@ -27,6 +27,7 @@ const Limit = (props: BuyOrSelProps) => {
     quantity: '',
   })
   const [total, setTotal] = useState(0)
+
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
       Pick<CommonBuyAndSellProp, 'take_profit'>
