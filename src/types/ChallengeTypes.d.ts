@@ -104,10 +104,19 @@ export type ChallengeStageType = CommonProps &
     max_total_loss: number
   }
 
-export type GetChallengeByIdType = ChallengeInfoDashboardProps & {
-  ChallengeStage: ChallengeStageType[]
-  ChallengePlan: GetTradingCapitalProps[]
-}
+export type GetChallengeByIdType = ChallengeInfoDashboardProps &
+  Pick<
+    ChallengeDataSocketType,
+    | 'profit_target_amount'
+    | 'unreleased_profit_per'
+    | 'daily_drawdown'
+    | 'max_daily_loss_amount'
+    | 'max_current_loss'
+    | 'max_total_loss'
+  > & {
+    ChallengeStage: ChallengeStageType[]
+    ChallengePlan: GetTradingCapitalProps[]
+  }
 
 export interface TradingStatisticsType {
   total_buy_order: number

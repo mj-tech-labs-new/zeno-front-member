@@ -87,7 +87,9 @@ const StatsDescription = (props: StatsCardProps) => {
             <span
               className={
                 headingContent === English.E66 || headingContent === English.E68
-                  ? 'text-light-success-color'
+                  ? secondContent >= 0
+                    ? 'text-light-success-color'
+                    : 'text-light-danger-color'
                   : 'text-light-danger-color'
               }
             >

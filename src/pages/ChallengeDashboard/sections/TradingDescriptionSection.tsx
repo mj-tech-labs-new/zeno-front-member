@@ -35,23 +35,41 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
     () => [
       {
         title: English.E66,
-        firstValue: getChallengeByIdArray?.[0]?.min_trading_day,
-        secondValue: getChallengeByIdArray?.[0]?.trading_day,
+        firstValue: getChallengeByIdArray?.[0]?.min_trading_day ?? 0,
+        secondValue: getChallengeByIdArray?.[0]?.trading_day ?? 0,
       },
       {
         title: English.E68,
-        secondValue: socketData?.total_available_profit,
-        firstValue: socketData?.profit_target_amount ?? 0,
+        secondValue:
+          socketData?.total_available_profit ??
+          getChallengeByIdArray?.[0]?.released_profit ??
+          0,
+        firstValue:
+          socketData?.profit_target_amount ??
+          getChallengeByIdArray?.[0]?.profit_target_amount ??
+          0,
       },
       {
         title: English.E69,
-        secodValue: socketData?.daily_drawdown ?? 0,
-        firstValue: socketData?.max_daily_loss_amount ?? 0,
+        secondValue:
+          socketData?.daily_drawdown ??
+          getChallengeByIdArray?.[0]?.daily_drawdown ??
+          0,
+        firstValue:
+          socketData?.max_daily_loss_amount ??
+          getChallengeByIdArray?.[0]?.max_daily_loss_amount ??
+          0,
       },
       {
         title: English.E70,
-        secodValue: socketData?.max_current_loss,
-        firstValue: socketData?.max_total_loss ?? 0,
+        secondValue:
+          socketData?.max_current_loss ??
+          getChallengeByIdArray?.[0]?.max_current_loss ??
+          0,
+        firstValue:
+          socketData?.max_total_loss ??
+          getChallengeByIdArray?.[0]?.max_total_loss ??
+          0,
       },
     ],
     [
@@ -76,12 +94,21 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       },
       {
         title: English.E62,
-        secondValue: socketData?.unreleased_profit_per ?? 0,
-        firstValue: socketData?.unreleased_profit ?? 0,
+        secondValue:
+          socketData?.unreleased_profit_per ??
+          getChallengeByIdArray?.[0]?.unreleased_profit_per ??
+          0,
+        firstValue:
+          socketData?.unreleased_profit ??
+          getChallengeByIdArray?.[0]?.unreleased_profit ??
+          0,
       },
       {
         title: English.E63,
-        firstValue: socketData?.equity?.toFixed(2) ?? 0,
+        firstValue:
+          socketData?.equity?.toFixed(2) ??
+          getChallengeByIdArray?.[0]?.current_usdt ??
+          0,
       },
     ]
   }, [
@@ -149,7 +176,7 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       ) : (
         <div className={`flex flex-col gap-4 ${className}`}>
           {type === English.E64
-            ? tradingObjectiveArray?.map((tradingItem, index) => {
+            ? tradingObjectiveArray?.map((tradingItem) => {
                 const {title, secondValue, firstValue} = tradingItem
                 return (
                   <ChallengeCardLayout key={title}>
@@ -158,14 +185,8 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
                       headingContent={title}
                       infoContent="Hello this is info Demo"
                       initialContent={firstValue ?? 0}
+                      secondContent={secondValue}
                       type={English.E64}
-                      secondContent={
-                        index === 2
-                          ? (socketData?.daily_drawdown ?? 0)
-                          : index === 3
-                            ? (socketData?.max_daily_loss_amount ?? 0)
-                            : (secondValue ?? 0)
-                      }
                     />
                   </ChallengeCardLayout>
                 )
