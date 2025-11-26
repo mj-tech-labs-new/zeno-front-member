@@ -73,7 +73,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                       )
                   : Utility.numberConversion(
                       getChallengeByIdArray[0]?.current_usdt
-                    )}
+                    )}{' '}
                 {English.E60}
               </span>
             </div>
@@ -99,7 +99,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                       )
                   : totalNum > 1
                     ? totalStr
-                    : Utility.removeDecimal(totalNum, 2)}
+                    : Utility.removeDecimal(totalNum, 2)}{' '}
                 {English.E60}
               </span>
             </div>
