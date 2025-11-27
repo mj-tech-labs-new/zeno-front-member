@@ -44,7 +44,7 @@ const ChallengeDashboardHeader = (props: ChallengeDashboardHeaderProps) => {
             </p>
           </div>
           <CommonButton
-            className="light-danger-btn-type md:!w-fit [&>div]:!h-4 [&>div]:!w-4 !gap-2"
+            className={`${getChallengeByIdArray?.[0]?.status === English.E115 && '!pointer-events-none !opacity-50'} light-danger-btn-type md:!w-fit [&>div]:!h-4 [&>div]:!w-4 !gap-2`}
             imageUrl={Images.stats}
             singleLineContent={English.E56}
             onClick={() => {

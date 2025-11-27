@@ -34,7 +34,7 @@ const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
         singleLineContent={English.E20}
       />
       <div
-        className={`${location.pathname.startsWith('/profile') ? 'h-[calc(100vh-64px)]' : 'h-[calc(100vh-86px)]'} overflow-y-auto pt-8 flex flex-col justify-between`}
+        className={`${location.pathname.startsWith('/profile') ? 'h-[calc(100vh-64px)] py-8' : 'h-[calc(100vh-86px)] pt-8'} overflow-y-auto flex flex-col justify-between`}
       >
         <ul className="space-y-2">
           {Constants.SidebarData?.slice(0, -1)?.map((sidebaritems) => {

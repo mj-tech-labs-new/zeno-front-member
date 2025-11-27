@@ -22,6 +22,7 @@ const ChallengeStatusCard = () => {
       <div className="flex flex-col gap-6 h-[calc(100%-48px)] overflow-y-auto no-scrollbar">
         {getChallengeByIdArray?.[0]?.ChallengeStage?.map((contentItem) => {
           const {stage, step} = contentItem
+
           return (
             <div
               key={stage}
