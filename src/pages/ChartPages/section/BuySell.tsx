@@ -67,6 +67,9 @@ const BuySell = (props: BuyOrSelProps) => {
         : BigInt(priceStr)
 
       const amountStr = value ?? '0'
+
+      if (Number.isNaN(Number(amountStr))) return
+
       const amountBigInt = amountStr.includes('.')
         ? BigInt(amountStr.replace('.', '') ?? '0')
         : BigInt(amountStr ?? '0')
