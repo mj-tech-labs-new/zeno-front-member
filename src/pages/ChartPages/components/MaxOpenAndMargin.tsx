@@ -72,7 +72,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                         2
                       )
                   : Utility.numberConversion(
-                      getChallengeByIdArray[0]?.current_usdt
+                      getChallengeByIdArray[0]?.current_usdt ?? 0
                     )}{' '}
                 {English.E60}
               </span>
@@ -94,7 +94,9 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                         2
                       )
                     : Utility.removeDecimal(
-                        marginAssetData?.account_balance ?? 0,
+                        marginAssetData?.account_balance ??
+                          getChallengeByIdArray[0]?.current_usdt ??
+                          0,
                         2
                       )
                   : totalNum > 1
@@ -111,8 +113,14 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                 </span>
 
                 <div className="flex flex-col gap-1">
-                  <span className="font-medium text-light-success-color">
-                    {marginAssetData?.unreleased_profit ?? '0.00'} {English.E60}
+                  <span
+                    className={`font-medium ${marginAssetData?.unreleased_profit?.toString().startsWith('-') ? 'text-light-danger-color ' : 'text-light-success-color '}`}
+                  >
+                    {Utility.removeDecimal(
+                      marginAssetData?.unreleased_profit ?? 0,
+                      2
+                    ) ?? '0.00'}{' '}
+                    {English.E60}
                   </span>
                 </div>
               </div>

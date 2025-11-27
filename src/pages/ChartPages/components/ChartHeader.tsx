@@ -20,6 +20,7 @@ const ChartHeader = () => {
     isLastCandle,
     totalCandlesCount,
     livePrice,
+    currnetLimit,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
   const isMatch = Object.values(tokenList ?? {}).includes(selectedToken)
@@ -142,6 +143,7 @@ const ChartHeader = () => {
                           if (data !== item.title) {
                             isLastCandle.current = false
                             totalCandlesCount.current = 0
+                            currnetLimit.current = 50
                             return item.title
                           }
                           return data
