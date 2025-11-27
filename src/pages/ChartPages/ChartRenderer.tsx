@@ -13,6 +13,7 @@ const ChartRenderer = () => {
     isLastCandle,
     totalCandlesCount,
     isLoadingCandles,
+    currnetLimit,
   } = useChartProvider()
   return (
     <div className="h-full bg-chart-layout w-full">
@@ -34,6 +35,7 @@ const ChartRenderer = () => {
                       onClick={() => {
                         isLastCandle.current = false
                         totalCandlesCount.current = 0
+                        currnetLimit.current = 50
                         if (selectedIndex === key) return
                         setSelectedIndex(key as ChartTimePeriodType)
                       }}
