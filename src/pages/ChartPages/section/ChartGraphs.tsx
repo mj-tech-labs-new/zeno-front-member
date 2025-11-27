@@ -166,10 +166,11 @@ const ChartGraphs = () => {
       const firstVisibleBar = chartObjectRef.current
         ?.timeScale()
         .coordinateToLogical(0)
-      if (!firstVisibleBar) return
 
-      if (firstVisibleBar < 10) {
-        currnetLimit.current += 10
+      if (!firstVisibleBar || isCallingCurrent.current) return
+
+      if (firstVisibleBar < 0) {
+        currnetLimit.current += 50
         const tokenToUse = Object.entries(tokenList ?? {}).find(
           ([_, value]) => value === selectedToken
         )
