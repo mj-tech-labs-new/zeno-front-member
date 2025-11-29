@@ -72,7 +72,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                         2
                       )
                   : Utility.numberConversion(
-                      getChallengeByIdArray[0]?.current_usdt
+                      getChallengeByIdArray[0]?.current_usdt ?? 0
                     )}{' '}
                 {English.E60}
               </span>

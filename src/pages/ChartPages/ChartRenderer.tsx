@@ -1,9 +1,9 @@
-import {Constants, English} from '@/helpers'
-import {ChartTimePeriodType} from '@/types/UnionTypes'
+import { Constants, English } from '@/helpers'
+import { ChartTimePeriodType } from '@/types/UnionTypes'
 
 import ChartShapes from './components/ChartShapes'
 import TrendLines from './components/TrendLines'
-import {useChartProvider} from './context/ChartProvider'
+import { useChartProvider } from './context/ChartProvider'
 import ChartGraphs from './section/ChartGraphs'
 
 const ChartRenderer = () => {
@@ -13,6 +13,7 @@ const ChartRenderer = () => {
     isLastCandle,
     totalCandlesCount,
     isLoadingCandles,
+    currnetLimit
   } = useChartProvider()
   return (
     <div className="h-full bg-chart-layout w-full">
@@ -26,7 +27,7 @@ const ChartRenderer = () => {
               </span>
               <div className="flex items-center flex-wrap">
                 {Constants.ChartTypes.map((chartType) => {
-                  const {content, key} = chartType
+                  const { content, key } = chartType
                   return (
                     <span
                       key={key}
@@ -34,6 +35,7 @@ const ChartRenderer = () => {
                       onClick={() => {
                         isLastCandle.current = false
                         totalCandlesCount.current = 0
+                        currnetLimit.current = 50
                         if (selectedIndex === key) return
                         setSelectedIndex(key as ChartTimePeriodType)
                       }}
