@@ -140,7 +140,7 @@ const ChartHeader = () => {
                       showArrows={false}
                       onSelectValue={(item) => {
                         setSelectedToken((data) => {
-                           if (data !== item.title) {
+                          if (data !== item.title) {
                             isLastCandle.current = false
                             totalCandlesCount.current = 0
                             currnetLimit.current = 50
