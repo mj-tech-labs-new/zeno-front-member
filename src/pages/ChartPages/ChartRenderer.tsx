@@ -1,9 +1,9 @@
-import {Constants, English} from '@/helpers'
-import {ChartTimePeriodType} from '@/types/UnionTypes'
+import { Constants, English } from '@/helpers'
+import { ChartTimePeriodType } from '@/types/UnionTypes'
 
 import ChartShapes from './components/ChartShapes'
 import TrendLines from './components/TrendLines'
-import {useChartProvider} from './context/ChartProvider'
+import { useChartProvider } from './context/ChartProvider'
 import ChartGraphs from './section/ChartGraphs'
 
 const ChartRenderer = () => {
@@ -27,7 +27,7 @@ const ChartRenderer = () => {
               </span>
               <div className="flex items-center flex-wrap">
                 {Constants.ChartTypes.map((chartType) => {
-                  const {content, key} = chartType
+                  const { content, key } = chartType
                   return (
                     <span
                       key={key}
