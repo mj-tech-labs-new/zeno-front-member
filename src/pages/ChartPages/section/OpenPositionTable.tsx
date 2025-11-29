@@ -145,6 +145,7 @@ const OpenPositionTable = (
               <CommonCloseActionButton
                 apiMethod="put"
                 challenge_id={challenge_id}
+                submittedPrice={tableBody?.marginBalance}
                 tx_hash={tableBody?.tx_hash}
                 type="single_order"
                 onPerformAction={() => {

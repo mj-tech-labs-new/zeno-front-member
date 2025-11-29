@@ -24,6 +24,7 @@ const TradesInfo = (props: {challengeId: string}) => {
   )
   const {isLoadingCandles, chartAreaRef, chartInfo} = useChartProvider()
   const {socketRef} = useSocketProvider()
+
   useEffect(() => {
     const currentSocket = socketRef.current
     if (isLoadingCandles || !currentSocket) return

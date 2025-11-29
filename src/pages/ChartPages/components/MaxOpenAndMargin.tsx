@@ -17,8 +17,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
 
   const {socketRef} = useSocketProvider()
   const {challengeId, isLoadingCandles} = useChartProvider()
-  const {getChallengeByIdArray} = useChartProvider()
-
+  const {currentUsdt} = useChartProvider()
   useEffect(() => {
     const currentSocket = socketRef.current
     if (isLoadingCandles || !currentSocket) return
@@ -26,6 +25,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
       setMarginAssetData(data?.data)
     })
   }, [challengeId, isLoadingCandles, socketRef])
+
   return (
     <div className="font-normal">
       <div
@@ -60,20 +60,14 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                 {type === 'margin'
                   ? index === 0
                     ? Utility.removeDecimal(
-                        marginAssetData?.available_margin ??
-                          getChallengeByIdArray[0]?.current_usdt ??
-                          0,
+                        marginAssetData?.available_margin ?? currentUsdt ?? 0,
                         2
                       )
                     : Utility.removeDecimal(
-                        marginAssetData?.total_balance ??
-                          getChallengeByIdArray[0]?.current_usdt ??
-                          0,
+                        marginAssetData?.total_balance ?? currentUsdt ?? 0,
                         2
                       )
-                  : Utility.numberConversion(
-                      getChallengeByIdArray[0]?.current_usdt ?? 0
-                    )}{' '}
+                  : Utility.numberConversion(currentUsdt ?? 0)}{' '}
                 {English.E60}
               </span>
             </div>
@@ -94,9 +88,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                         2
                       )
                     : Utility.removeDecimal(
-                        marginAssetData?.account_balance ??
-                          getChallengeByIdArray[0]?.current_usdt ??
-                          0,
+                        marginAssetData?.account_balance ?? currentUsdt ?? 0,
                         2
                       )
                   : totalNum >= 1

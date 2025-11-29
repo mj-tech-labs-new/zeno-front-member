@@ -193,6 +193,7 @@ export interface CloseOrderButtonProps
   type?: CloseOrderType
   onPerformAction?: (state: boolean) => void
   apiMethod?: Exclude<Methodtype, 'get', 'post'>
+  submittedPrice?: number
 }
 
 interface ChallengeDataSocketType

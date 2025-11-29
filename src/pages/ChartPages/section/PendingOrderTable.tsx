@@ -12,6 +12,7 @@ const PendingOrderTable = (
   }
 ) => {
   const {challenge_id, pendingOrder, setPendingOrder} = props
+
   return (
     <CommonTableComponent
       apiMethod="delete"
@@ -122,6 +123,7 @@ const PendingOrderTable = (
               <CommonCloseActionButton
                 apiMethod="delete"
                 challenge_id={challenge_id}
+                submittedPrice={tableBody?.position_margin}
                 tx_hash={tableBody?.tx_hash}
                 type="single_order"
                 onPerformAction={() => {

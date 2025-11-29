@@ -2,6 +2,7 @@ import React, {memo, useRef} from 'react'
 
 import {English} from '@/helpers'
 import chartPageApi from '@/pages/ChartPages/api/ChartPageApi'
+import {useChartProvider} from '@/pages/ChartPages/context/ChartProvider'
 import {CloseOrderButtonProps} from '@/types/ChallengeTypes'
 import {AppLoaderRef} from '@/types/ComponentTypes'
 
@@ -16,8 +17,10 @@ const CommonCloseActionButton = (props: CloseOrderButtonProps) => {
     challenge_id = '',
     onPerformAction,
     apiMethod = '',
+    submittedPrice = 0,
   } = props
   const loaderRef = useRef<AppLoaderRef>(null)
+  const {getChallengeByIdArray, setCurrentUsdt} = useChartProvider()
 
   return (
     <React.Fragment>
@@ -34,6 +37,16 @@ const CommonCloseActionButton = (props: CloseOrderButtonProps) => {
       `}
         onClick={() => {
           loaderRef.current?.showLoader(true)
+          if (type === 'single_order' && apiMethod === 'delete') {
+            setCurrentUsdt(
+              (getChallengeByIdArray?.[0]?.current_usdt ?? 0) + submittedPrice
+            )
+          }
+          if (type === 'single_order' && apiMethod === 'put') {
+            setCurrentUsdt(
+              (getChallengeByIdArray?.[0]?.current_usdt ?? 0) + submittedPrice
+            )
+          }
           chartPageApi
             .closeOrderApi({apiMethod, challenge_id, tx_hash, type})
             .then(() => {

@@ -20,7 +20,9 @@ const Limit = (props: BuyOrSelProps) => {
     chartInfo,
     livePrice,
     selectedLeverage,
+    currentUsdt,
   } = useChartProvider()
+  // console.log(currentUsdt)
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     entryprice: '',
@@ -151,9 +153,7 @@ const Limit = (props: BuyOrSelProps) => {
         </span>
         <div className="flex items-center gap-1">
           <span className="text-extra-light-success-color text-xs font-semibold !leading-5">
-            {Utility.numberConversion(
-              getChallengeByIdArray?.[0]?.current_usdt ?? 0
-            )}
+            {Utility.numberConversion(currentUsdt ?? 0)}
           </span>
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>

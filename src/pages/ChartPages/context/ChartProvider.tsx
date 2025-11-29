@@ -46,6 +46,8 @@ interface OtherLoaderType {
 }
 
 const ChartContext = createContext<{
+  currentUsdt: number
+  setCurrentUsdt: Dispatch<SetStateAction<number>>
   leverageValueArray: DropDownObjectType[]
   setLeverageValueArray: Dispatch<SetStateAction<DropDownObjectType[]>>
   selectedLeverage: DropDownObjectType | undefined
@@ -108,6 +110,8 @@ const ChartContext = createContext<{
   totalShapes: DrawingData[]
   setTotalShapes: Dispatch<SetStateAction<DrawingData[]>>
 }>({
+  currentUsdt: 0,
+  setCurrentUsdt: () => {},
   leverageValueArray: [],
   setLeverageValueArray: () => {},
   selectedLeverage: {title: ''},
@@ -156,6 +160,7 @@ const ChartContext = createContext<{
 })
 
 const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
+  const [currentUsdt, setCurrentUsdt] = useState(0)
   const [leverageValueArray, setLeverageValueArray] = useState<
     DropDownObjectType[]
   >([])
@@ -290,8 +295,14 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     })
   }, [challengeId])
 
+  useEffect(() => {
+    setCurrentUsdt(getChallengeByIdArray?.[0]?.current_usdt)
+  }, [getChallengeByIdArray])
+
   const defaultValue = useMemo(
     () => ({
+      currentUsdt,
+      setCurrentUsdt,
       leverageValueArray,
       setLeverageValueArray,
       selectedLeverage,
@@ -339,6 +350,8 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       challengeId,
     }),
     [
+      currentUsdt,
+      setCurrentUsdt,
       leverageValueArray,
       setLeverageValueArray,
       selectedLeverage,
