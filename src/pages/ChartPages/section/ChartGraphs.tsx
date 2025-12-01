@@ -166,7 +166,6 @@ const ChartGraphs = () => {
       const firstVisibleBar = chartObjectRef.current
         ?.timeScale()
         .coordinateToLogical(0)
-
       if (!firstVisibleBar || isCallingCurrent.current) return
 
       if (firstVisibleBar < 0) {
