@@ -410,7 +410,6 @@ const Constants = {
     ],
   },
   ChallengesTabContent: [
-    {title: English.E133, content: English.E32},
     {title: English.E114, content: English.E33},
     {title: English.E115, content: English.E34},
     {title: English.E116, content: English.E35},
@@ -498,8 +497,8 @@ const Constants = {
     {title: English.E142},
     {title: English.E143},
     {title: English.E144},
-    {title: English.E145},
   ],
+  orderMarginMode: [{title: English.E139}, {title: English.E329}],
   trades: [
     {
       id: 1,

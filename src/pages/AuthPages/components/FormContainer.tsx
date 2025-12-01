@@ -70,46 +70,64 @@ const FormContainer = (props: {type: AuthType}) => {
 
   const [formData, setFormData] = useState(Constants.AuthContainerArray)
 
-  const handleInputChange = useCallback((name: string, value: string) => {
-    setInputValues((prevValues) => {
-      const newValues = {...prevValues, [name]: value}
+  const handleInputChange = useCallback(
+    (name: string, value: string) => {
+      setInputValues((prevValues) => {
+        const newValues = {...prevValues, [name]: value}
 
-      if (value === '') {
-        setErrors((prev) => ({...prev, [name]: ''}))
-      }
+        if (value === '') {
+          setErrors((prev) => ({...prev, [name]: ''}))
+        }
 
-      if (value !== '') {
-        if (name === 'email') {
-          if (!Utility.isValidEmail(value)) {
-            setErrors((data) => ({...data, [name]: English.E86}))
-          } else {
-            setErrors((data) => ({...data, [name]: ''}))
+        if (value !== '') {
+          if (name === 'email') {
+            if (!Utility.isValidEmail(value)) {
+              setErrors((data) => ({...data, [name]: English.E86}))
+            } else {
+              setErrors((data) => ({...data, [name]: ''}))
+            }
+          }
+          if (type !== 'loginType' && name === 'password') {
+            if (Utility.isPasswordValid(value)) {
+              setErrors((prev) => ({
+                ...prev,
+                password: '',
+                re_password: '',
+              }))
+            } else {
+              setErrors((prev) => ({
+                ...prev,
+                password: English.E328,
+                re_password: '',
+              }))
+            }
+          }
+
+          if (name === 're_password') {
+            if (
+              're_password' in newValues &&
+              newValues.password !== newValues.re_password
+            ) {
+              setErrors((prev) => ({
+                ...prev,
+                password: English.E87,
+                re_password: English.E87,
+              }))
+            } else {
+              setErrors((data) => ({
+                ...data,
+                password: '',
+                re_password: '',
+              }))
+            }
           }
         }
 
-        if (name === 'password' || name === 're_password') {
-          if (
-            're_password' in newValues &&
-            newValues.password !== newValues.re_password
-          ) {
-            setErrors((prev) => ({
-              ...prev,
-              password: English.E87,
-              re_password: English.E87,
-            }))
-          } else {
-            setErrors((data) => ({
-              ...data,
-              password: '',
-              re_password: '',
-            }))
-          }
-        }
-      }
-
-      return newValues
-    })
-  }, [])
+        return newValues
+      })
+    },
+    [type]
+  )
 
   const handleSubmitForm = useCallback(() => {
     loaderRef.current?.showLoader(true)
@@ -203,8 +221,8 @@ const FormContainer = (props: {type: AuthType}) => {
       ...prev,
       {
         name: 're_password',
-        labelText: English.E17,
-        placeHolderText: English.E18,
+        labelText: English.E309,
+        placeHolderText: English.E310,
         type: 'password',
       },
     ])
@@ -275,30 +293,30 @@ const FormContainer = (props: {type: AuthType}) => {
               </Link>
             </div>
           )}
-          {actionButtons?.map((buttonItem) => (
-            <CommonButton
-              key={buttonItem?.key}
-              singleLineContent={buttonItem?.text}
-              type="submit"
-              className={`${type === 'profileType' && buttonItem?.type === 'google_sign_in' ? 'hidden' : ''} ${
-                buttonItem?.type === 'google_sign_in'
-                  ? 'google-btn-type'
-                  : 'primary-btn-type'
-              } ${type === 'profileType' ? 'py-3' : ''}`}
-              disabled={
-                Object.values(inputValues).some((item) => item === '') ||
-                Object.values(errors).some((item) => item !== '')
-              }
-              imageUrl={
-                buttonItem?.type === 'google_sign_in' ? Images.googleIcon : ''
-              }
-              onClick={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-                handleSubmitForm()
-              }}
-            />
-          ))}
+          <CommonButton
+            key={actionButtons?.[0]?.key}
+            singleLineContent={actionButtons?.[0]?.text}
+            type="submit"
+            className={`${type === 'profileType' && actionButtons?.[0]?.type === 'google_sign_in' ? 'hidden' : ''} ${
+              actionButtons?.[0]?.type === 'google_sign_in'
+                ? 'google-btn-type'
+                : 'primary-btn-type'
+            } ${type === 'profileType' ? 'py-3' : ''}`}
+            disabled={
+              Object.values(inputValues).some((item) => item === '') ||
+              Object.values(errors).some((item) => item !== '')
+            }
+            imageUrl={
+              actionButtons?.[0]?.type === 'google_sign_in'
+                ? Images.googleIcon
+                : ''
+            }
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+              handleSubmitForm()
+            }}
+          />
         </div>
       </form>
     </Fragment>

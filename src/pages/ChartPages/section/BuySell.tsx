@@ -26,7 +26,7 @@ import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
-  const {activeIndex} = props
+  const {activeIndex, margin_mode} = props
   const {
     isLoadingCandles,
     selectedToken,
@@ -94,13 +94,19 @@ const BuySell = (props: BuyOrSelProps) => {
         totalStrFinal = totalStr
 
         if (totalStr !== '0') {
-          const totalStrPrecise =
+          let totalStrPrecise =
             (totalStr.slice(0, indexTotal) ?? '0') +
             '.' +
             (totalStr.slice(indexTotal, indexTotal + 2) ?? '0')
 
-          totalStrFinal = totalStrPrecise // for float
+          if (totalStrPrecise.startsWith('.')) {
+            const updatedTotal = '0' + totalStrPrecise
+            totalStrPrecise = updatedTotal
+          }
+
+          totalStrFinal = totalStrPrecise
         }
+
         if (totalStr === '0') totalStrFinal = totalStr
       }
 
@@ -238,7 +244,6 @@ const BuySell = (props: BuyOrSelProps) => {
               <RangeSelector
                 className="!mt-3 mb-4"
                 rangeValue={rangeValue}
-                sliderWidth={300}
                 setRangeValue={(value) => {
                   const percentValue = value === 0 ? 0 : value / 100
                   const tokenValue = Number(amountRef.current) * percentValue
@@ -276,7 +281,7 @@ const BuySell = (props: BuyOrSelProps) => {
           activeIndex={activeIndex}
           checked={checked}
           leverage={Number(selectedLeverage?.title.replace('X', ' '))}
-          margin_mode="isolated"
+          margin_mode={margin_mode}
           order_type="market"
           price={Number(inputValues?.price)}
           quantity={Number(inputValues?.amount)}

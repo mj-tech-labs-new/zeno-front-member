@@ -1,6 +1,11 @@
 import {memo, useEffect, useMemo} from 'react'
 
-import {BasicSkeleton, DropDown, ImageComponent} from '@/components'
+import {
+  BasicSkeleton,
+  DropDown,
+  HeadingComponent,
+  ImageComponent,
+} from '@/components'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {English, Images, SocketEmitter, Utility} from '@/helpers'
 import {CandleObjectType} from '@/types/ChartTypes'
@@ -20,10 +25,8 @@ const ChartHeader = () => {
     isLastCandle,
     totalCandlesCount,
     livePrice,
-    currnetLimit,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
-  const isMatch = Object.values(tokenList ?? {}).includes(selectedToken)
   useEffect(() => {
     if (!socketRef.current) return
     socketRef.current.on(
@@ -124,46 +127,41 @@ const ChartHeader = () => {
   return (
     <div className="py-5 px-6 bg-chart-layout-bg rounded">
       <div className="space-y-5">
+        <div className="max-w-56">
+          {otherLoading.isDropdownLoading && !isLoadingCandles ? (
+            <BasicSkeleton className="rounded-lg !h-11" />
+          ) : (
+            <DropDown
+              className="max-h-52"
+              dropDownData={TokenArray}
+              selectedValue={{title: selectedToken}}
+              onSelectValue={(item) => {
+                setSelectedToken((data) => {
+                  if (data !== item.title) {
+                    isLastCandle.current = false
+                    totalCandlesCount.current = 0
+                    return item.title
+                  }
+                  return data
+                })
+              }}
+            />
+          )}
+        </div>
         <div className="flex flex-col lg:flex-row w-full  gap-8 lg:gap-5">
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 w-[40%]">
             {chartInfo && (
-              <div className="flex flex-col justify-center ">
-                <div className="max-w-40 ">
-                  {otherLoading.isDropdownLoading && !isLoadingCandles ? (
-                    <BasicSkeleton className="rounded-lg !h-11" />
-                  ) : (
-                    <DropDown
-                      className="max-h-52 border-none !p-0  "
-                      dropDownData={TokenArray}
-                      headingClassName="hover:!bg-transparent !text-2xl !font-semibold !font-bureau !leading-8 !text-primary-color"
-                      layoutClassName="!font-semibold !leading-8 "
-                      showArrows={false}
-                      onSelectValue={(item) => {
-                        setSelectedToken((data) => {
-                          if (data !== item.title) {
-                            isLastCandle.current = false
-                            totalCandlesCount.current = 0
-                            currnetLimit.current = 50
-                            return item.title
-                          }
-                          return data
-                        })
-                      }}
-                      selectedValue={{
-                        title: isMatch
-                          ? `${chartInfo?.fullSymbolName?.split('USDT')?.[0]} / ${English.E60}`
-                          : selectedToken,
-                      }}
-                    />
-                  )}
-                </div>
-                <div>
-                  {tokenList && (
-                    <span className="text-neutral-primary-color text-xs !leading-5 font-semibold">
-                      {tokenList[chartInfo.symbol]}
-                    </span>
-                  )}
-                </div>
+              <div className="flex flex-col gap-1">
+                <HeadingComponent
+                  className="font-semibold !leading-8"
+                  singleLineContent={`${chartInfo?.fullSymbolName?.split('USDT')?.[0]} / ${English.E60}`}
+                  variant="x-medium"
+                />
+                {tokenList && (
+                  <span className="text-neutral-primary-color text-xs !leading-5 font-semibold">
+                    {tokenList[chartInfo.symbol]}
+                  </span>
+                )}
               </div>
             )}
             <div className="flex flex-col gap-1">

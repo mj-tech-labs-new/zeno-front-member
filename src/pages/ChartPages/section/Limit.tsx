@@ -12,7 +12,7 @@ import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const {activeIndex} = props
+  const {activeIndex, margin_mode} = props
   const {
     selectedToken,
     tokenList,
@@ -209,7 +209,7 @@ const Limit = (props: BuyOrSelProps) => {
           activeIndex={activeIndex}
           checked={checked}
           leverage={Number(selectedLeverage?.title.replace('X', ' '))}
-          margin_mode="isolated"
+          margin_mode={margin_mode}
           order_type="limit"
           price={Number(inputValues?.entryprice)}
           setChecked={setChecked}

@@ -10,7 +10,7 @@ const AuthForm = (props: {type: AuthType}) => {
   const {type} = props
 
   return (
-    <div className="flex flex-col gap-8 mx-auto w-full m-auto">
+    <div className="flex flex-col gap-8 mx-auto w-full m-auto h-full">
       <div
         className={`h-full sm:w-small-container mx-auto xl:w-md 2xl:w-2xl ${type === 'loginType' ? 'lg:ml-[102px] lg:mx-0' : ''}`}
       >

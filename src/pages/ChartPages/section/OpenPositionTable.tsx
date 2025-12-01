@@ -40,6 +40,7 @@ const OpenPositionTable = (
           margin_ratio,
           marginBalance,
           margin_mode,
+          return_on_equity,
         } = tableBody
         const directionCaseInsensitive = direction.toLowerCase()
         const contractFullName = `${symbol} ${English.E132}`
@@ -87,7 +88,8 @@ const OpenPositionTable = (
               scope="row"
             >
               <span className={Utility.colorGeneratorUtility(open_pnl)}>
-                {Utility.removeDecimal(open_pnl ?? 0)}
+                {Utility.removeDecimal(open_pnl ?? 0)}(
+                {Utility.removeDecimal(return_on_equity, 3)})
               </span>
             </th>
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">

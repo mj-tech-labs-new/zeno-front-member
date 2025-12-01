@@ -11,13 +11,13 @@ const ChartRenderingLayout = () => {
   const {isLoadingCandles, challengeId} = useChartProvider()
 
   return (
-    <div className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1">
+    <div className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1 ">
       <Loader ref={(ref) => ref?.showLoader(isLoadingCandles)} />
       <ChartHeader />
       <div className="flex flex-col gap-1 flex-1 w-full ">
-        <div className="grid grid-cols-1 2xl:grid-cols-2">
+        <div className="flex flex-col lg:flex-row">
           <ChartRenderer />
-          <div className="grid grid-cols-2 h-[calc(100vh-246px)]">
+          <div className="grid grid-cols-2 lg:flex h-[calc(100vh-246px)] ">
             <Trades />
             <PlaceOrder />
           </div>

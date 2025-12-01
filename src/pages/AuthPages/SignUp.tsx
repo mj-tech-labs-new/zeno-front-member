@@ -2,7 +2,7 @@ import AuthForm from './components/AuthForm'
 
 const SignUp = () => (
   <div className="h-screen w-screen">
-    <div className="pt-[74px] pb-9">
+    <div className="py-12 h-full">
       <AuthForm type="signUpType" />
     </div>
   </div>
