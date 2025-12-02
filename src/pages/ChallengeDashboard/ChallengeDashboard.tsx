@@ -1,5 +1,5 @@
 import {useEffect} from 'react'
-import {useLocation} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 
 import {
   ChallengeCompletionCard,
@@ -27,11 +27,13 @@ const ChallengeDashboard = () => {
     setGetChallengeByIdArray,
     setTradingStatistics,
   } = useChallengeProvider()
-  const location = useLocation()
+  const params = useParams()
+  const navigate = useNavigate()
   useEffect(() => {
-    setChallengeId(location.state?.challengeId)
+    if (!params?.challengeId) navigate(-1)
+    setChallengeId(params?.challengeId ?? '')
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.state?.challengeId])
+  }, [params?.challengeId])
 
   useEffect(() => {
     if (!challengeId) return

@@ -131,12 +131,10 @@ const ChallengeDetailCard = (props: {item: ChallengeInfoDashboardProps}) => {
               singleLineContent={button}
               onClick={() => {
                 if (index === 0) {
-                  navigate('/chart', {state: {challengeId: item?.challenge_id}})
+                  navigate(`/chart/${item?.challenge_id}`)
                 }
                 if (index === 1) {
-                  navigate('/challenge-dashboard', {
-                    state: {challengeId: item?.challenge_id},
-                  })
+                  navigate(`/challenge-dashboard/${item?.challenge_id}`)
                 }
               }}
             />

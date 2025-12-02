@@ -48,9 +48,7 @@ const ChallengeDashboardHeader = (props: ChallengeDashboardHeaderProps) => {
             imageUrl={Images.stats}
             singleLineContent={English.E56}
             onClick={() => {
-              navigate('/chart', {
-                state: {challengeId: getChallengeByIdArray?.[0]?.challenge_id},
-              })
+              navigate(`/chart/${getChallengeByIdArray?.[0]?.challenge_id}`)
             }}
           />
         </div>

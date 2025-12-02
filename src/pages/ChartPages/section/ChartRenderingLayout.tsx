@@ -1,5 +1,5 @@
 import {useEffect} from 'react'
-import {useLocation} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 
 import {Loader} from '@/components'
 import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
@@ -12,26 +12,26 @@ import Trades from './Trades'
 import TradesInfo from './TradesInfo'
 
 const ChartRenderingLayout = () => {
-  const {
-    isLoadingCandles,
-    challengeId,
-    setChallengeId,
-    setGetChallengeByIdArray,
-  } = useChartProvider()
-  const location = useLocation()
-
+  const {isLoadingCandles, setChallengeId, setGetChallengeByIdArray} =
+    useChartProvider()
+  const navigate = useNavigate()
+  const params = useParams()
   useEffect(() => {
-    setChallengeId(location.state?.challengeId)
+    if (!params?.challengeId) {
+      navigate(-1)
+      return
+    }
+    setChallengeId(params.challengeId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.state?.challengeId])
+  }, [navigate, params.challengeId])
 
   useEffect(() => {
-    if (!challengeId) return
-    getChallengeByIdApi({challenge_id: challengeId}).then((res) => {
+    if (!params?.challengeId) return
+    getChallengeByIdApi({challenge_id: params?.challengeId}).then((res) => {
       setGetChallengeByIdArray(res)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [challengeId])
+  }, [params?.challengeId])
 
   return (
     <div className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1 ">
@@ -45,7 +45,9 @@ const ChartRenderingLayout = () => {
             <PlaceOrder />
           </div>
         </div>
-        {challengeId && <TradesInfo challengeId={challengeId} />}
+        {params?.challengeId && (
+          <TradesInfo challengeId={params?.challengeId} />
+        )}
       </div>
     </div>
   )

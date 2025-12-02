@@ -43,7 +43,7 @@ const DashboardRoutes = [
     />
     <Route
       key="challenge-dashboard"
-      path="challenge-dashboard"
+      path="challenge-dashboard/:challengeId"
       element={
         <UserWrapper>
           <ChallengeDashboardProvider>
@@ -126,7 +126,7 @@ const DashboardRoutes = [
   />,
   <Route
     key="chart"
-    path="/chart"
+    path="/chart/:challengeId"
     element={
       <UserWrapper>
         <LazyLoader>

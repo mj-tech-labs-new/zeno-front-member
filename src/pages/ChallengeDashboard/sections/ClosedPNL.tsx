@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
-import {memo, useCallback, useEffect, useMemo, useState} from 'react'
-import {useLocation} from 'react-router-dom'
+import {memo, useCallback, useEffect, useState} from 'react'
+import {useParams} from 'react-router-dom'
 
 import {
   BasicPagination,
@@ -23,11 +23,7 @@ interface DateObject {
 
 const ClosedPNL = (props: {showHeader: boolean}) => {
   const {showHeader} = props
-  const location = useLocation()
-  const challengeId = useMemo(
-    () => location.state?.challengeId,
-    [location.state?.challengeId]
-  )
+  const params = useParams()
   const [selectedDate, setSelectedDate] = useState<DateObject>({
     date1: null,
     date2: null,
@@ -71,7 +67,8 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
   )
 
   useEffect(() => {
-    getClosedPnlData(challengeId, 1, '', '', 'ASC', 'open_price')
+    if (!params?.challengeId) return
+    getClosedPnlData(params.challengeId, 1, '', '', 'ASC', 'open_price')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -109,7 +106,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
 
               if (data?.[0] && data?.[1]) {
                 getClosedPnlData(
-                  challengeId,
+                  params?.challengeId ?? '',
                   1,
                   fromDate,
                   toDate,
@@ -130,7 +127,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
                   date2: null,
                 })
                 getClosedPnlData(
-                  challengeId,
+                  params?.challengeId ?? '',
                   1,
                   '',
                   '',
@@ -151,7 +148,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
         ChangeOrder={(value) => {
           setPriceType(value)
           getClosedPnlData(
-            challengeId,
+            params?.challengeId ?? '',
             1,
             '',
             '',
@@ -239,7 +236,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
           total={paginationData?.totalPages}
           onSelectPage={(page) => {
             getClosedPnlData(
-              challengeId,
+              params?.challengeId ?? '',
               page,
               '',
               '',
