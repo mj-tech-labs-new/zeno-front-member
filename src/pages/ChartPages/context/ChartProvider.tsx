@@ -35,6 +35,7 @@ import {ChallengeStageType, GetChallengeByIdType} from '@/types/ChallengeTypes'
 import {
   CandleObjectType,
   ChartInfoObjectType,
+  ChartSocketHeaderProps,
   DrawingData,
   LivePriceSocketType,
 } from '@/types/ChartTypes'
@@ -84,7 +85,9 @@ const ChartContext = createContext<{
   > | null>
   chartInfo: ChartInfoObjectType | null
   setChartInfo: Dispatch<SetStateAction<ChartInfoObjectType | null>>
-  selectedIndex: ChartTimePeriodType
+  setChartSocketData: Dispatch<SetStateAction<ChartSocketHeaderProps | null>>
+  chartSocketData: ChartSocketHeaderProps | null
+  selectedIndex: ChartTimePeriodType | null
   setSelectedIndex: Dispatch<SetStateAction<ChartTimePeriodType>>
   selectedToken: string
   setSelectedToken: Dispatch<SetStateAction<string>>
@@ -105,6 +108,8 @@ const ChartContext = createContext<{
   totalShapes: DrawingData[]
   setTotalShapes: Dispatch<SetStateAction<DrawingData[]>>
 }>({
+  chartSocketData: null,
+  setChartSocketData: () => {},
   leverageValueArray: [],
   setChallengeId: () => {},
   setLeverageValueArray: () => {},
@@ -171,6 +176,8 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [currentStageArray, setCurrentStageArray] = useState<
     ChallengeStageType[]
   >([])
+  const [chartSocketData, setChartSocketData] =
+    useState<ChartSocketHeaderProps | null>(null)
   const isLastCandle = useRef(false)
   const totalCandlesCount = useRef(0)
   const [otherLoading, setOtherLoading] = useState<OtherLoaderType>({
@@ -230,12 +237,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
               timeframe: res?.data?.timeframe,
               count: res?.data?.count,
               fullSymbolName: res?.data?.data?.[0]?.symbol,
-              change: '',
-              changeAmount: '',
-              high: 0,
-              low: 0,
-              volume: 0,
-              open: 0,
             })
             setTotalCandleData(res?.data?.data)
           } else {
@@ -293,6 +294,8 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
 
   const defaultValue = useMemo(
     () => ({
+      chartSocketData,
+      setChartSocketData,
       setChallengeId,
       leverageValueArray,
       setLeverageValueArray,
@@ -341,6 +344,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       challengeId,
     }),
     [
+      chartSocketData,
       leverageValueArray,
       setLeverageValueArray,
       selectedLeverage,

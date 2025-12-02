@@ -22,16 +22,17 @@ interface CandleObjectType {
   changeAmount: string
 }
 
-export interface ChartInfoObjectType
-  extends Pick<
-    CandleObjectType,
-    'change' | 'changeAmount' | 'volume' | 'high' | 'low' | 'open'
-  > {
+export interface ChartInfoObjectType {
   symbol: string
   fullSymbolName: string
   timeframe: string
   count: number
 }
+
+export type ChartSocketHeaderProps = Pick<
+  CandleObjectType,
+  'change' | 'changeAmount' | 'volume' | 'high' | 'low' | 'open'
+>
 
 export interface ChartObjectProps {
   high: number
