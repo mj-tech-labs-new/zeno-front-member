@@ -56,6 +56,10 @@ const colorGeneratorUtility = (value: number) => {
     : 'text-chart-red-color'
   return colorValue
 }
+const isPasswordValid = (value: string) => {
+  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/
+  return regex.test(value)
+}
 
 const Utility = {
   colorGeneratorUtility,
@@ -67,6 +71,7 @@ const Utility = {
   removeDecimal,
   isValidNumber,
   convertScientificToNormalNum,
+  isPasswordValid,
 }
 
 export default Utility

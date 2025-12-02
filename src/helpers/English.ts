@@ -84,7 +84,7 @@ const English = {
   E83: '•   Trade count towards',
   E84: 'Trading Days',
   E85: 'Clear',
-  E86: 'Please Enter Proper Email',
+  E86: 'Please enter valid Email ID',
   E87: 'Password does not Match.',
   E88: 'Start New Challenge',
   E89: 'Choose your challenge type, select trading capital, and begin your journey to a funded account.',
@@ -96,7 +96,7 @@ const English = {
   E96: 'Trading Capital',
   E97: 'Challenge',
   E98: 'Issue Date',
-  E99: 'Action',
+  E99: 'Download',
   E100: 'Pending Payout',
   E101: 'Next payout on',
   E102: 'Payout History',
@@ -329,6 +329,8 @@ const English = {
   E314: 'Set Your New Zeno Trader Password',
   E315: 'Enter Otp You Recieved in Your Email And Set Your New Password',
   E316: 'Enter a valid 6-digit OTP using numbers only',
+  E328: 'Password must include 1 uppercase, 1 number, 1 special, and it must be 8characters.',
+  E329: 'cross',
 }
 
 export default English

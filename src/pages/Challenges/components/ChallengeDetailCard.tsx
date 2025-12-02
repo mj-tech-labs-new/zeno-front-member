@@ -42,7 +42,7 @@ const ChallengeDetailCard = (props: {item: ChallengeInfoDashboardProps}) => {
     Challenge: item?.challenge_type,
     'Trading type': 'Futures',
     'Drawdown type': 'Trailing',
-    'Challenge type': 'Zeno Challenger',
+    'Challenge type': item?.challenge_name,
   }
 
   return (

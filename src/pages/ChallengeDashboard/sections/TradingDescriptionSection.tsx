@@ -50,7 +50,7 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       },
       {
         title: English.E70,
-        secodValue: socketData?.max_current_loss,
+        secodValue: socketData?.max_current_loss ?? 0,
         firstValue: socketData?.max_total_loss ?? 0,
       },
     ],
@@ -161,9 +161,9 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
                       type={English.E64}
                       secondContent={
                         index === 2
-                          ? (socketData?.daily_drawdown ?? 0)
+                          ? Math.abs(socketData?.daily_drawdown ?? 0)
                           : index === 3
-                            ? (socketData?.max_daily_loss_amount ?? 0)
+                            ? Math.abs(socketData?.max_current_loss ?? 0)
                             : (secondValue ?? 0)
                       }
                     />

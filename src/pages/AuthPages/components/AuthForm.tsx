@@ -1,16 +1,16 @@
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import {HeadingComponent, ImageComponent} from '@/components'
-import {English, Images} from '@/helpers'
-import {AuthType} from '@/types/UnionTypes'
+import { HeadingComponent, ImageComponent } from '@/components'
+import { English, Images } from '@/helpers'
+import { AuthType } from '@/types/UnionTypes'
 
 import FormContainer from './FormContainer'
 
-const AuthForm = (props: {type: AuthType}) => {
-  const {type} = props
+const AuthForm = (props: { type: AuthType }) => {
+  const { type } = props
 
   return (
-    <div className="flex flex-col gap-8 mx-auto w-full m-auto">
+    <div className="flex flex-col gap-8 mx-auto w-full m-auto h-full">
       <div
         className={`h-full sm:w-small-container mx-auto xl:w-md 2xl:w-2xl ${type === 'loginType' ? 'lg:ml-[102px] lg:mx-0' : ''}`}
       >

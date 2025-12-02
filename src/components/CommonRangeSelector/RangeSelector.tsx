@@ -9,7 +9,7 @@ const RangeSelector = forwardRef<HTMLDivElement, RangeSelectorProps>(
       rangeClassname = '',
       setRangeValue,
       rangeValue,
-      sliderWidth = 300,
+      sliderWidth = 225,
     } = props
 
     const isDrawingRange = useRef(false)

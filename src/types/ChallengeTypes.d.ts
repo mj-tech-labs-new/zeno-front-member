@@ -74,6 +74,7 @@ export interface CreateChallengeProps extends CommonProps {
   current_stage: null
   total_stage: number
   trading_day: number
+  challenge_name: string
 }
 
 export type ChallengeInfoDashboardProps = CreateChallengeProps & {

@@ -14,7 +14,7 @@ const Trades = () => {
   return (
     <TabComponent
       activeIndex={activeIndex}
-      className="shrink-0 py-2 px-4 !gap-3 [&>div]:!justify-center"
+      className="shrink-0 col-span-1 py-2 px-4 !gap-3 [&>div]:!justify-center "
       headingData={Constants.TradingTab}
       setActiveIndex={setActiveIndex}
       type="buttonType"

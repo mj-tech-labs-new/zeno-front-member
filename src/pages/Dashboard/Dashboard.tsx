@@ -48,11 +48,11 @@ const Dashboard = () => {
   useEffect(() => {
     getChallenges(
       activeIndex === 0
-        ? English.E91.toLowerCase()
+        ? English.E114.toLowerCase()
         : activeIndex === 1
-          ? English.E114
+          ? English.E115
           : activeIndex === 2
-            ? English.E115
+            ? English.E116
             : '',
       1,
       10,

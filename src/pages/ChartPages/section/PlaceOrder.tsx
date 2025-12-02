@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 
 import {DropDown, HeadingComponent, TabComponent} from '@/components'
 import {Constants, English} from '@/helpers'
+import {DropDownObjectType} from '@/types/CommonTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 import BuySell from './BuySell'
@@ -9,6 +10,7 @@ import Limit from './Limit'
 
 const PlaceOrder = () => {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [mode, setMode] = useState<DropDownObjectType | string>()
   const {
     getChallengeByIdArray,
     leverageValueArray,
@@ -33,7 +35,7 @@ const PlaceOrder = () => {
   }, [getChallengeByIdArray, setLeverageValueArray, setSelectedLeverage])
 
   return (
-    <div className="my-4 mx-4 overflow-y-auto no-scrollbar">
+    <div className="my-4 mx-4 overflow-y-auto no-scrollbar ">
       <div className="flex flex-col gap-4">
         <HeadingComponent
           className="!text-[16px]/6 !font-poppins !tracking-normal !text-neutral-primary-color"
@@ -44,10 +46,14 @@ const PlaceOrder = () => {
         <div className="flex items-center gap-4">
           <DropDown
             className="!max-h-32 mt-2 !overflow-auto !w-full"
-            dropDownData={[{title: English.E139}]}
+            dropDownData={Constants.orderMarginMode}
             layoutClassName="!h-fit"
-            onSelectValue={() => English.E139}
-            selectedValue={{title: English.E139}}
+            onSelectValue={(data) => setMode(data.title)}
+            headingClassName="!bg-transparent
+        "
+            selectedValue={{
+              title: mode?.toString() ?? Constants.orderMarginMode[0].title,
+            }}
           />
           <DropDown
             className="!max-h-52 mt-2 !overflow-auto !w-full"
@@ -71,9 +77,9 @@ const PlaceOrder = () => {
           type="buttonType"
         >
           {activeIndex === 0 ? (
-            <Limit activeIndex={activeIndex} />
+            <Limit activeIndex={activeIndex} margin_mode={mode?.toString()} />
           ) : (
-            <BuySell activeIndex={activeIndex} />
+            <BuySell activeIndex={activeIndex} margin_mode={mode?.toString()} />
           )}
         </TabComponent>
       </div>

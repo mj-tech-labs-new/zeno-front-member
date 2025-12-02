@@ -16,7 +16,7 @@ const ChartRenderer = () => {
     currnetLimit,
   } = useChartProvider()
   return (
-    <div className="h-full bg-chart-layout w-full">
+    <div className="h-full bg-chart-layout w-full  lg:w-[calc(100vw-500px)]">
       <div className="flex flex-col lg:flex-row gap-1 w-full">
         <ChartShapes />
         <div className="flex-1">
@@ -50,7 +50,7 @@ const ChartRenderer = () => {
               {English.E20}
             </span>
           </div>
-          <div className="relative h-[563px] w-full overflow-hidden">
+          <div className="relative h-[563px] w-full overflow-hidden ">
             <ChartGraphs />
             {!isLoadingCandles && <TrendLines />}
           </div>

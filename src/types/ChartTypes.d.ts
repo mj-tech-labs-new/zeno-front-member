@@ -137,7 +137,9 @@ export interface CommonBuyAndSellProp
     Pick<LivePriceSocketType, 'price'>)[]
 }
 
-export type BuyOrSelProps = Pick<CommonBuyAndSellProp, 'activeIndex'>
+export interface BuyOrSelProps
+  extends Pick<CommonBuyAndSellProp, 'activeIndex'>,
+    Pick<CommonBuyAndSellProp, 'margin_mode'> {}
 
 export interface CommonStopLossProp {
   heading?: string

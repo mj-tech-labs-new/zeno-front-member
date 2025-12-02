@@ -65,11 +65,6 @@ const ForgotPasswordPage = () => {
                   type="h1"
                   variant="xx-medium"
                 />
-                <HeadingComponent
-                  className="!text-[26px]/8 "
-                  singleLineContent={English.E313}
-                  type="h2"
-                />
               </div>
               <div />
               <div className="flex flex-col gap-4">
