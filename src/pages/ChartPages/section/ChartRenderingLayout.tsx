@@ -22,7 +22,7 @@ const ChartRenderingLayout = () => {
             <PlaceOrder />
           </div>
         </div>
-        <TradesInfo challengeId={challengeId} />
+        {challengeId && <TradesInfo challengeId={challengeId} />}
       </div>
     </div>
   )
