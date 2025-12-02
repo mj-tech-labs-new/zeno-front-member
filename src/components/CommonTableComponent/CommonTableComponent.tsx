@@ -38,7 +38,9 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
               <th
 key={heading.content} className={`px-6 py-4  `}
 scope="col">
-                {heading.content === 'Close' || heading.content === 'Action' ? (
+                {heading.content === 'Close' ||
+                heading.content === 'Action' ||
+                heading.content === 'Delete' ? (
                   <CommonCloseActionButton
                     apiMethod={apiMethod}
                     challenge_id={extraProp?.challenge_id}

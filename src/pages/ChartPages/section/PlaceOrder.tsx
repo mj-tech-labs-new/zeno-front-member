@@ -9,7 +9,7 @@ import Limit from './Limit'
 
 const PlaceOrder = () => {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [mode, setMode] = useState<string>('isolated')
+  const [mode, setMode] = useState('isolated')
   const {
     getChallengeByIdArray,
     leverageValueArray,
