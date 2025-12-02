@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
-import { useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import {useMemo} from 'react'
+import {useNavigate} from 'react-router-dom'
 
 import {
   CommonButton,
@@ -8,12 +8,12 @@ import {
   ImageComponent,
   StatsDescription,
 } from '@/components'
-import { English, Images, Utility } from '@/helpers'
+import {English, Images, Utility} from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
-import { ChallengeInfoDashboardProps } from '@/types/ChallengeTypes'
+import {ChallengeInfoDashboardProps} from '@/types/ChallengeTypes'
 
-const ChallengeDetailCard = (props: { item: ChallengeInfoDashboardProps }) => {
-  const { item } = props
+const ChallengeDetailCard = (props: {item: ChallengeInfoDashboardProps}) => {
+  const {item} = props
   const navigate = useNavigate()
   const initialAmount = useMemo(() => {
     const firstNumber = Utility.numberConversion(item?.initial_capital ?? 0)
@@ -109,12 +109,13 @@ const ChallengeDetailCard = (props: { item: ChallengeInfoDashboardProps }) => {
               <Divider className="!bg-button-primary-color/50" />
               <span
                 className={`text-tertiary-color whitespace-nowrap
-                   ${key === 'Status'
-                    ? requiredItem.Status === 'Failed'
-                      ? 'p-1 !bg-light-danger-color rounded-sm font-medium'
-                      : 'p-1 !bg-light-success-color rounded-sm font-medium'
-                    : ''
-                  }`}
+                   ${
+                     key === 'Status'
+                       ? requiredItem.Status === 'Failed'
+                         ? 'p-1 !bg-light-danger-color rounded-sm font-medium'
+                         : 'p-1 !bg-light-success-color rounded-sm font-medium'
+                       : ''
+                   }`}
               >
                 {value}
               </span>
@@ -130,10 +131,12 @@ const ChallengeDetailCard = (props: { item: ChallengeInfoDashboardProps }) => {
               singleLineContent={button}
               onClick={() => {
                 if (index === 0) {
-                  navigate('/chart', { state: { challengeId: item?.challenge_id } })
+                  navigate('/chart', {state: {challengeId: item?.challenge_id}})
                 }
                 if (index === 1) {
-                  navigate('/challenge-dashboard', { state: { challengeId: item?.challenge_id } })
+                  navigate('/challenge-dashboard', {
+                    state: {challengeId: item?.challenge_id},
+                  })
                 }
               }}
             />

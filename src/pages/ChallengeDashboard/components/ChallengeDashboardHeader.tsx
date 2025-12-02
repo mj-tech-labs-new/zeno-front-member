@@ -49,7 +49,7 @@ const ChallengeDashboardHeader = (props: ChallengeDashboardHeaderProps) => {
             singleLineContent={English.E56}
             onClick={() => {
               navigate('/chart', {
-                state: getChallengeByIdArray?.[0]?.challenge_id,
+                state: {challengeId: getChallengeByIdArray?.[0]?.challenge_id},
               })
             }}
           />

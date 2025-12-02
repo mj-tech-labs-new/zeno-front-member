@@ -1,4 +1,8 @@
+import {useEffect} from 'react'
+import {useLocation} from 'react-router-dom'
+
 import {Loader} from '@/components'
+import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 
 import ChartRenderer from '../ChartRenderer'
 import ChartHeader from '../components/ChartHeader'
@@ -8,7 +12,26 @@ import Trades from './Trades'
 import TradesInfo from './TradesInfo'
 
 const ChartRenderingLayout = () => {
-  const {isLoadingCandles, challengeId} = useChartProvider()
+  const {
+    isLoadingCandles,
+    challengeId,
+    setChallengeId,
+    setGetChallengeByIdArray,
+  } = useChartProvider()
+  const location = useLocation()
+
+  useEffect(() => {
+    setChallengeId(location.state?.challengeId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state?.challengeId])
+
+  useEffect(() => {
+    if (!challengeId) return
+    getChallengeByIdApi({challenge_id: challengeId}).then((res) => {
+      setGetChallengeByIdArray(res)
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [challengeId])
 
   return (
     <div className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1 ">

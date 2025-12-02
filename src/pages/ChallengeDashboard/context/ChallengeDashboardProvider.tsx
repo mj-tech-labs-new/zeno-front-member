@@ -4,23 +4,16 @@ import {
   RefObject,
   SetStateAction,
   useContext,
-  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
   GetChallengeByIdType,
   TradingStatisticsType,
 } from '@/types/ChallengeTypes'
-import { GeneralProps } from '@/types/CommonTypes'
-
-import {
-  getChallengeByIdApi,
-  tradingStatisticsApi,
-} from '../api/ChallengeDashboardApi'
+import {GeneralProps} from '@/types/CommonTypes'
 
 const ChallengeDashboardContext = createContext<{
   getChallengeByIdArray: GetChallengeByIdType[]
@@ -29,68 +22,43 @@ const ChallengeDashboardContext = createContext<{
   setTradingStatistics: Dispatch<SetStateAction<TradingStatisticsType | null>>
   showLoader: boolean
   setShowLoader: Dispatch<SetStateAction<boolean>>
-  challengeIdRef: RefObject<null | string>
+  challengeId: string | null
+  setChallengeId: Dispatch<SetStateAction<string | null>>
 }>({
   getChallengeByIdArray: [],
-  setGetChallengeByIdArray: () => { },
+  setGetChallengeByIdArray: () => {},
   tradingStatistics: null,
-  setTradingStatistics: () => { },
+  setTradingStatistics: () => {},
   showLoader: true,
-  setShowLoader: () => { },
-  challengeIdRef: { current: null },
+  setShowLoader: () => {},
+  setChallengeId: () => {},
+  challengeId: null,
 })
 
 const ChallengeDashboardProvider = (
   props: Required<Pick<GeneralProps, 'children'>>
 ) => {
-  const { children } = props
+  const {children} = props
   const [showLoader, setShowLoader] = useState(false)
   const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
     GetChallengeByIdType[]
   >([])
   const [tradingStatistics, setTradingStatistics] =
     useState<TradingStatisticsType | null>(null)
-  const location = useLocation()
-  const navigate = useNavigate()
-  const challengeIdRef = useRef<null | string>(null)
-  const challengeId = useMemo(() => location.state?.challengeId, [location.state?.challengeId])
+  const [challengeId, setChallengeId] = useState<null | string>(null)
   const valueObj = useMemo(
     () => ({
-      challengeIdRef,
       setShowLoader,
       showLoader,
       getChallengeByIdArray,
       setGetChallengeByIdArray,
       tradingStatistics,
       setTradingStatistics,
+      challengeId,
+      setChallengeId,
     }),
-    [getChallengeByIdArray, showLoader, tradingStatistics]
+    [challengeId, getChallengeByIdArray, showLoader, tradingStatistics]
   )
-
-  useEffect(() => {
-    if (!challengeId) return
-    setShowLoader(true)
-    getChallengeByIdApi({ challenge_id: challengeId })
-      .then((res) => {
-        setGetChallengeByIdArray(res)
-      })
-      .finally(() => setShowLoader(false))
-  }, [challengeId])
-
-  useEffect(() => {
-    if (getChallengeByIdArray?.length === 0) return
-    tradingStatisticsApi({
-      challenge_id: challengeId,
-    }).then((res) => {
-      setTradingStatistics(res)
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getChallengeByIdArray])
-
-  useEffect(() => {
-    if (!challengeId) navigate(-1)
-    challengeIdRef.current = challengeId
-  }, [challengeId, navigate])
 
   return (
     <ChallengeDashboardContext.Provider value={valueObj}>

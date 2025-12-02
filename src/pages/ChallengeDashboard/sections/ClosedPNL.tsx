@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import {memo, useCallback, useEffect, useState} from 'react'
+import {memo, useCallback, useEffect, useMemo, useState} from 'react'
 import {useLocation} from 'react-router-dom'
 
 import {
@@ -23,8 +23,11 @@ interface DateObject {
 
 const ClosedPNL = (props: {showHeader: boolean}) => {
   const {showHeader} = props
-  const locationState = useLocation()
-  const challengeId = locationState.state
+  const location = useLocation()
+  const challengeId = useMemo(
+    () => location.state?.challengeId,
+    [location.state?.challengeId]
+  )
   const [selectedDate, setSelectedDate] = useState<DateObject>({
     date1: null,
     date2: null,

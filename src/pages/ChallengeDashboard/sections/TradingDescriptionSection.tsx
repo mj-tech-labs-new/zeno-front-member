@@ -15,21 +15,21 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
   const {type, className, layoutClassName} = props
   const [socketData, setSocketData] = useState<ChallengeDataSocketType>()
   const [isLoadingSocket, setIsLoadingSocket] = useState(true)
-  const {getChallengeByIdArray, tradingStatistics, challengeIdRef, showLoader} =
+  const {getChallengeByIdArray, tradingStatistics, challengeId, showLoader} =
     useChallengeProvider()
   const {socketRef} = useSocketProvider()
   useEffect(() => {
-    if (showLoader || !socketRef.current || !challengeIdRef.current) return
+    if (showLoader || !socketRef.current || !challengeId) return
     if (!showLoader) {
       setIsLoadingSocket(false)
       socketRef.current?.on(
-        `${SocketEmitter.DashboardEmitter.challenge_dashboard_socket}_${challengeIdRef.current}`,
+        `${SocketEmitter.DashboardEmitter.challenge_dashboard_socket}_${challengeId}`,
         (data) => {
           setSocketData(data?.data)
         }
       )
     }
-  }, [challengeIdRef, showLoader, socketRef])
+  }, [challengeId, showLoader, socketRef])
 
   const tradingObjectiveArray = useMemo(
     () => [
