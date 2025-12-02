@@ -18,7 +18,7 @@ import {
   RegisterApiProps,
   UpdateApiProps,
 } from '@/types/apiTypes/AuthApiPayloadType'
-import {StorageProps} from '@/types/CommonTypes'
+import {GeneralProps, StorageProps} from '@/types/CommonTypes'
 import {AppLoaderRef} from '@/types/ComponentTypes'
 import {AuthType} from '@/types/UnionTypes'
 
@@ -29,12 +29,13 @@ import {
   updateUserDataApi,
 } from '../api/AuthApi'
 
-const FormContainer = (props: {
-  type: AuthType
-  onSubmit: (token: string, data: RegisterApiProps) => void
-  setIsToken: (value: boolean) => void
-  className?: string
-}) => {
+const FormContainer = (
+  props: {
+    type: AuthType
+    onSubmit: (token: string, data: RegisterApiProps) => void
+    setIsToken: (value: boolean) => void
+  } & Pick<GeneralProps, 'className'>
+) => {
   const {type, onSubmit, setIsToken, className} = props
   const userData = useSelector((state: StorageProps) => state.userData)
   const navigate = useNavigate()

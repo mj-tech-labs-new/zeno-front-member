@@ -1,13 +1,13 @@
-import {memo, useEffect, useRef} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {toast} from 'react-toastify'
+import { memo, useEffect, useRef } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import {CommonButton} from '@/components'
-import {Constants, English} from '@/helpers'
-import {CommonBuyAndSellProp} from '@/types/ChartTypes'
+import { CommonButton } from '@/components'
+import { Constants, English } from '@/helpers'
+import { CommonBuyAndSellProp } from '@/types/ChartTypes'
 
 import chartPageApi from '../api/ChartPageApi'
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
 const ActionButton = (props: CommonBuyAndSellProp) => {
   const {
@@ -19,7 +19,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     leverage,
     stop_loss,
     take_profit,
-    setChecked = () => {},
+    setChecked = () => { },
     checked = false,
     margin_mode,
   } = props
@@ -33,7 +33,10 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     livePrice,
   } = useChartProvider()
 
+  const params = useParams()
+
   const handleButtonClick = (orderSide: string) => {
+    if (!params?.challengeId) return
     if (checked) setChecked(false)
     if (orderSide === 'buy' || orderSide === 'sell') {
       const sl = stop_loss?.[0]?.price
@@ -68,7 +71,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
         quantity,
         order_type,
         order_side: orderSide,
-        challenge_id: getChallengeByIdArray?.[0]?.challenge_id,
+        challenge_id: params?.challengeId,
         leverage,
         stop_loss,
         take_profit,
@@ -109,7 +112,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     <div className="flex flex-1 gap-3">
       {' '}
       {Constants?.BuySellActionButtons?.[activeIndex].map((item) => {
-        const {name, text} = item
+        const { name, text } = item
         return (
           <CommonButton
             key={name}
