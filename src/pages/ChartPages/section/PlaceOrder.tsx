@@ -2,7 +2,6 @@ import {useEffect, useState} from 'react'
 
 import {DropDown, HeadingComponent, TabComponent} from '@/components'
 import {Constants, English} from '@/helpers'
-import {DropDownObjectType} from '@/types/CommonTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 import BuySell from './BuySell'
@@ -10,7 +9,7 @@ import Limit from './Limit'
 
 const PlaceOrder = () => {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [mode, setMode] = useState<DropDownObjectType | string>()
+  const [mode, setMode] = useState<string>('isolated')
   const {
     getChallengeByIdArray,
     leverageValueArray,
@@ -48,11 +47,13 @@ const PlaceOrder = () => {
             className="!max-h-32 mt-2 !overflow-auto !w-full"
             dropDownData={Constants.orderMarginMode}
             layoutClassName="!h-fit"
-            onSelectValue={(data) => setMode(data.title)}
             headingClassName="!bg-transparent
         "
+            onSelectValue={(data) =>
+              setMode(data?.title ?? Constants.orderMarginMode[0])
+            }
             selectedValue={{
-              title: mode?.toString() ?? Constants.orderMarginMode[0].title,
+              title: mode?.toString() ?? Constants?.orderMarginMode[0].title,
             }}
           />
           <DropDown

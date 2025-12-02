@@ -29,8 +29,13 @@ import {
   updateUserDataApi,
 } from '../api/AuthApi'
 
-const FormContainer = (props: {type: AuthType}) => {
-  const {type} = props
+const FormContainer = (props: {
+  type: AuthType
+  onSubmit: (token: string, data: RegisterApiProps) => void
+  setIsToken: (value: boolean) => void
+  className?: string
+}) => {
+  const {type, onSubmit, setIsToken, className} = props
   const userData = useSelector((state: StorageProps) => state.userData)
   const navigate = useNavigate()
   const loaderRef = useRef<AppLoaderRef>(null)
@@ -176,11 +181,13 @@ const FormContainer = (props: {type: AuthType}) => {
       }
       registerApi(payload as unknown as RegisterApiProps)
         .then((response) => {
-          if (response) navigate('/dashboard')
-          loaderRef.current?.showLoader(false)
+          if (response) {
+            setIsToken(true)
+            onSubmit(response, payload as unknown as RegisterApiProps)
+          }
         })
-        .catch(() => {
-          loaderRef.current?.showLoader(false)
+        .finally(() => {
+          loaderRef?.current?.showLoader(false)
         })
     }
 
@@ -204,6 +211,8 @@ const FormContainer = (props: {type: AuthType}) => {
     inputValues.full_name,
     inputValues.password,
     navigate,
+    onSubmit,
+    setIsToken,
     type,
     userData.payoutDetails,
   ])
@@ -264,7 +273,7 @@ const FormContainer = (props: {type: AuthType}) => {
   return (
     <Fragment>
       <Loader ref={loaderRef} />
-      <form className="flex flex-col gap-4">
+      <form className={`flex flex-col gap-4 ${className} `}>
         <div className="flex flex-col gap-4">
           {formData?.map((inputItems) => (
             <InputContainer
@@ -297,7 +306,7 @@ const FormContainer = (props: {type: AuthType}) => {
             key={actionButtons?.[0]?.key}
             singleLineContent={actionButtons?.[0]?.text}
             type="submit"
-            className={`${type === 'profileType' && actionButtons?.[0]?.type === 'google_sign_in' ? 'hidden' : ''} ${
+            className={`${type === 'profileType' && actionButtons?.[0]?.type === 'google_sign_in' ? '' : ''} ${
               actionButtons?.[0]?.type === 'google_sign_in'
                 ? 'google-btn-type'
                 : 'primary-btn-type'
