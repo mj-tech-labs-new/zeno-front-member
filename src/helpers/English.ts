@@ -136,7 +136,7 @@ const English = {
   E136: 'Order Book',
   E137: '1m',
   E138: 'Start Your Challenge',
-  E139: 'Isolated',
+  E139: 'isolated',
   E140: 'Price',
   E141: 'Amounts',
   E142: 'Open Position',
@@ -329,8 +329,9 @@ const English = {
   E314: 'Set Your New Zeno Trader Password',
   E315: 'Enter Otp You Recieved in Your Email And Set Your New Password',
   E316: 'Enter a valid 6-digit OTP using numbers only',
-  E328: 'Password must include 1 uppercase, 1 number, 1 special, and it must be 8characters.',
+  E328: 'Password must include 1 uppercase, 1 number, 1 special, and it must be 8 characters.',
   E329: 'cross',
+  E330: 'Verify OTP',
 }
 
 export default English

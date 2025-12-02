@@ -9,30 +9,31 @@ import {
   RegisterApiProps,
   SetNewPasswordApiProps,
   UpdateApiProps,
+  VerifyOtpProps,
 } from '@/types/apiTypes/AuthApiPayloadType'
 
 const registerApi = async (props: RegisterApiProps) => {
-  const payload = {...props}
-  return new Promise<boolean>((resolve) => {
-    APICall('post', Endpoints.registerUser, payload)
+  const payload = {
+    name: props?.name,
+    email: props?.email,
+    password: props?.password,
+    user_signup_type: props?.user_signup_type,
+  }
+  const header = {Authorization: `${props?.token}`}
+  return new Promise<string | null>((resolve) => {
+    APICall('post', Endpoints.registerUser, payload, {}, header)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 201) {
-          resolve(true)
-
-          const newPayload = {
-            token: res?.data?.token,
-            userData: res?.data?.user,
-          }
-
-          CommonFunction.addSliceData('addUserToken', newPayload)
+          resolve(res?.data?.token)
+          toast.success(res?.message)
         } else {
-          resolve(false)
+          resolve(null)
           toast.error(res?.message)
         }
       })
       .catch((error) => {
         toast.error(error?.data?.message)
-        resolve(false)
+        resolve(null)
       })
   })
 }
@@ -143,6 +144,33 @@ const setNewPasswordApi = async (props: SetNewPasswordApiProps) => {
   })
 }
 
+const verifyOtpApi = async (props: VerifyOtpProps) => {
+  const payload = {otp: props?.otp}
+  const header = {Authorization: `${props?.token}`}
+  return new Promise<any>((resolve) => {
+    APICall('post', Endpoints.verifyOtp, payload, {}, header)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 201) {
+          const newPayload = {
+            token: res?.data?.token,
+            userData: res?.data?.user,
+          }
+
+          CommonFunction.addSliceData('addUserToken', newPayload)
+          resolve(res)
+          toast.success(res?.message)
+        } else {
+          resolve(null)
+          toast.error(res?.message)
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message)
+        resolve(null)
+      })
+  })
+}
+
 export {
   forgotPasswordApi,
   getUserApi,
@@ -150,4 +178,5 @@ export {
   registerApi,
   setNewPasswordApi,
   updateUserDataApi,
+  verifyOtpApi,
 }

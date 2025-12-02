@@ -1,4 +1,4 @@
-export interface RegisterApiProps {
+export interface RegisterApiProps extends Pick<VerifyOtpProps, 'token'> {
   user_signup_type: 1 | 2
   name: string
   email: string
@@ -27,4 +27,11 @@ export interface SetNewPasswordApiProps
   extends Pick<forgotPasswordApiProps, 'token'> {
   otp: number
   new_password: string
+}
+
+export interface VerifyOtpProps {
+  token?: string
+  payloadData?: RegisterApiProps
+  otp?: string
+  setToken?: (value: string) => void
 }

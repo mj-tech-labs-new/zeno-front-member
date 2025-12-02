@@ -24,6 +24,7 @@ const Endpoints = {
   deleteOrder: '/users/order/cancelOrder',
   forgotPassword: '/users/forgotPassword',
   setNewPassword: '/users/resetPassword',
+  verifyOtp: '/auth/varifyUserRagisterOtpAndRegister',
 }
 
 export default Endpoints

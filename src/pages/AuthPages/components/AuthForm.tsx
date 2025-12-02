@@ -1,13 +1,19 @@
+import {useRef, useState} from 'react'
 import {Link} from 'react-router-dom'
 
 import {HeadingComponent, ImageComponent} from '@/components'
 import {English, Images} from '@/helpers'
+import {RegisterApiProps} from '@/types/apiTypes/AuthApiPayloadType'
 import {AuthType} from '@/types/UnionTypes'
 
 import FormContainer from './FormContainer'
+import VerifyOtp from './VerifyOtp'
 
 const AuthForm = (props: {type: AuthType}) => {
   const {type} = props
+  const [isShow, setIsShow] = useState(false)
+  const tokenRef = useRef<string | null>(null)
+  const userDataRef = useRef<RegisterApiProps | null>(null)
 
   return (
     <div className="flex flex-col gap-8 mx-auto w-full m-auto h-full">
@@ -19,7 +25,9 @@ const AuthForm = (props: {type: AuthType}) => {
           imageUrl={Images.platformLogo}
         />
         <div className="flex flex-col gap-10 sm:gap-8 w-full">
-          <div className="flex flex-col gap-[60px] w-full px-6 pt-6 pb-7">
+          <div
+            className={`flex flex-col  w-full px-6 pt-6 ${type === 'signUpType' && isShow ? 'pb-2  gap-[20px]' : ' pb-7  gap-[60px]'}`}
+          >
             <div className="flex flex-col gap-2 sm:gap-3 w-full">
               <HeadingComponent
                 className="!text-secondary-light-color"
@@ -37,8 +45,28 @@ const AuthForm = (props: {type: AuthType}) => {
                 }
               />
             </div>
-            <FormContainer type={type} />
+            <FormContainer
+              className={isShow ? 'pointer-events-none opacity-50' : ''}
+              type={type}
+              onSubmit={(token, data) => {
+                tokenRef.current = token
+                userDataRef.current = data
+              }}
+              setIsToken={(value) => {
+                setIsShow(value)
+              }}
+            />
+            {type === 'signUpType' && isShow && userDataRef.current && (
+              <VerifyOtp
+                payloadData={userDataRef?.current}
+                token={tokenRef.current ?? ''}
+                setToken={(value) => {
+                  tokenRef.current = value
+                }}
+              />
+            )}
           </div>
+
           <Link
             className="font-normal text-tertiary-color text-base/6 text-center w-full"
             to={type === 'loginType' ? '/sign-up' : '/login'}
