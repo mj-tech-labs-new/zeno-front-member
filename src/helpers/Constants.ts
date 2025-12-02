@@ -856,7 +856,7 @@ const Constants = {
     {content: English.E299, showArrow: false},
     {content: English.E300, showArrow: false},
     {content: English.E298, showArrow: false},
-    {content: English.E99, showArrow: false},
+    {content: English.E295, showArrow: false},
   ],
   ClosedPNLTableHeading: [
     {content: English.E275, showArrow: false},
