@@ -24,14 +24,14 @@ import {
   useRef,
   useState,
 } from 'react'
-import {useLocation} from 'react-router-dom'
-import {toast} from 'react-toastify'
+import { useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {SocketEmitter} from '@/helpers'
-import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
-import {APICall, Endpoints} from '@/services'
-import {ChallengeStageType, GetChallengeByIdType} from '@/types/ChallengeTypes'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { SocketEmitter } from '@/helpers'
+import { getChallengeByIdApi } from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
+import { APICall, Endpoints } from '@/services'
+import { ChallengeStageType, GetChallengeByIdType } from '@/types/ChallengeTypes'
 import {
   CandleObjectType,
   ChartInfoObjectType,
@@ -39,8 +39,8 @@ import {
   DrawingData,
   LivePriceSocketType,
 } from '@/types/ChartTypes'
-import {DropDownObjectType, GeneralProps} from '@/types/CommonTypes'
-import {ChartShapesType, ChartTimePeriodType} from '@/types/UnionTypes'
+import { DropDownObjectType, GeneralProps } from '@/types/CommonTypes'
+import { ChartShapesType, ChartTimePeriodType } from '@/types/UnionTypes'
 
 interface OtherLoaderType {
   isDropdownLoading: boolean
@@ -109,53 +109,53 @@ const ChartContext = createContext<{
   setTotalShapes: Dispatch<SetStateAction<DrawingData[]>>
 }>({
   chartSocketData: null,
-  setChartSocketData: () => {},
+  setChartSocketData: () => { },
   leverageValueArray: [],
-  setChallengeId: () => {},
-  setLeverageValueArray: () => {},
-  selectedLeverage: {title: ''},
-  setSelectedLeverage: () => {},
+  setChallengeId: () => { },
+  setLeverageValueArray: () => { },
+  selectedLeverage: { title: '' },
+  setSelectedLeverage: () => { },
   challengeId: '',
-  handleCommonMouseDown: () => {},
-  handleCommonMouseUp: () => {},
+  handleCommonMouseDown: () => { },
+  handleCommonMouseUp: () => { },
   totalShapes: [],
-  setTotalShapes: () => {},
+  setTotalShapes: () => { },
   tempShape: null,
-  setTempShape: () => {},
-  isDrawing: {current: false},
-  enableChartActions: () => {},
-  disableChartActions: () => {},
+  setTempShape: () => { },
+  isDrawing: { current: false },
+  enableChartActions: () => { },
+  disableChartActions: () => { },
   livePrice: 0,
-  setLivePrice: () => {},
+  setLivePrice: () => { },
   getChallengeByIdArray: [],
-  setGetChallengeByIdArray: () => {},
+  setGetChallengeByIdArray: () => { },
   currentStageArray: [],
-  setCurrentStageArray: () => {},
-  totalCandlesCount: {current: 0},
-  isLastCandle: {current: false},
-  isCallingCurrent: {current: false},
-  getCandleHistory: () => {},
-  currnetLimit: {current: 0},
-  otherLoading: {isDropdownLoading: true},
-  setOtherLoading: () => {},
+  setCurrentStageArray: () => { },
+  totalCandlesCount: { current: 0 },
+  isLastCandle: { current: false },
+  isCallingCurrent: { current: false },
+  getCandleHistory: () => { },
+  currnetLimit: { current: 0 },
+  otherLoading: { isDropdownLoading: true },
+  setOtherLoading: () => { },
   tokenList: null,
-  setTokenList: () => {},
+  setTokenList: () => { },
   selectedToken: 'Bitcoin',
-  setSelectedToken: () => {},
+  setSelectedToken: () => { },
   selectedIndex: '1m',
-  setSelectedIndex: () => {},
+  setSelectedIndex: () => { },
   chartInfo: null,
-  setChartInfo: () => {},
+  setChartInfo: () => { },
   totalCandleData: [],
-  setTotalCandleData: () => {},
+  setTotalCandleData: () => { },
   isLoadingCandles: false,
-  setIsLoadingCandles: () => {},
+  setIsLoadingCandles: () => { },
   selectedTool: null,
-  setSelectedTool: () => {},
-  chartAreaRef: {current: null},
-  firstChartRef: {current: null},
-  chartObjectRef: {current: null},
-  volumeSeriesRef: {current: null},
+  setSelectedTool: () => { },
+  chartAreaRef: { current: null },
+  firstChartRef: { current: null },
+  chartObjectRef: { current: null },
+  volumeSeriesRef: { current: null },
 })
 
 const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
@@ -164,11 +164,11 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   >([])
   const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
   const location = useLocation()
-  const {socketRef} = useSocketProvider()
+  const { socketRef } = useSocketProvider()
   const [challengeId, setChallengeId] = useState<null | string>(null)
   const isDrawing = useRef(false)
   const [tempShape, setTempShape] = useState<DrawingData | null>(null)
-  const {children} = props
+  const { children } = props
   const [livePrice, setLivePrice] = useState(0)
   const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
     GetChallengeByIdType[]
@@ -259,7 +259,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     chartObjectRef.current.applyOptions({
       handleScroll: true,
       handleScale: true,
-      crosshair: {mode: 1},
+      crosshair: { mode: 1 },
     })
   }, [chartObjectRef])
 
@@ -268,7 +268,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     chartObjectRef.current.applyOptions({
       handleScroll: false,
       handleScale: false,
-      crosshair: {mode: 0},
+      crosshair: { mode: 0 },
     })
   }, [])
 
@@ -283,14 +283,14 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
 
   useEffect(() => {
     if (!challengeId) return
-    getChallengeByIdApi({challenge_id: challengeId}).then((res) => {
+    getChallengeByIdApi({ challenge_id: challengeId }).then((res) => {
       setGetChallengeByIdArray(res)
     })
   }, [challengeId])
 
   useEffect(() => {
-    setChallengeId(location.state)
-  }, [location.state])
+    setChallengeId(location.state?.challengeId)
+  }, [location.state?.challengeId])
 
   const defaultValue = useMemo(
     () => ({
@@ -376,7 +376,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   )
 
   const getTokenList = useCallback(() => {
-    setOtherLoading({isDropdownLoading: true})
+    setOtherLoading({ isDropdownLoading: true })
     APICall('get', Endpoints.suppportedToken)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
@@ -389,7 +389,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
         toast.error(error?.data?.message)
       })
       .finally(() => {
-        setOtherLoading((prev) => ({...prev, isDropdownLoading: false}))
+        setOtherLoading((prev) => ({ ...prev, isDropdownLoading: false }))
       })
   }, [])
 

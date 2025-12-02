@@ -9,13 +9,13 @@ import {
   useRef,
   useState,
 } from 'react'
-import {useLocation, useNavigate} from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
   GetChallengeByIdType,
   TradingStatisticsType,
 } from '@/types/ChallengeTypes'
-import {GeneralProps} from '@/types/CommonTypes'
+import { GeneralProps } from '@/types/CommonTypes'
 
 import {
   getChallengeByIdApi,
@@ -32,18 +32,18 @@ const ChallengeDashboardContext = createContext<{
   challengeIdRef: RefObject<null | string>
 }>({
   getChallengeByIdArray: [],
-  setGetChallengeByIdArray: () => {},
+  setGetChallengeByIdArray: () => { },
   tradingStatistics: null,
-  setTradingStatistics: () => {},
+  setTradingStatistics: () => { },
   showLoader: true,
-  setShowLoader: () => {},
-  challengeIdRef: {current: null},
+  setShowLoader: () => { },
+  challengeIdRef: { current: null },
 })
 
 const ChallengeDashboardProvider = (
   props: Required<Pick<GeneralProps, 'children'>>
 ) => {
-  const {children} = props
+  const { children } = props
   const [showLoader, setShowLoader] = useState(false)
   const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
     GetChallengeByIdType[]
@@ -53,7 +53,7 @@ const ChallengeDashboardProvider = (
   const location = useLocation()
   const navigate = useNavigate()
   const challengeIdRef = useRef<null | string>(null)
-  const challengeId = useMemo(() => location.state, [location.state])
+  const challengeId = useMemo(() => location.state?.challengeId, [location.state?.challengeId])
   const valueObj = useMemo(
     () => ({
       challengeIdRef,
@@ -70,7 +70,7 @@ const ChallengeDashboardProvider = (
   useEffect(() => {
     if (!challengeId) return
     setShowLoader(true)
-    getChallengeByIdApi({challenge_id: challengeId})
+    getChallengeByIdApi({ challenge_id: challengeId })
       .then((res) => {
         setGetChallengeByIdArray(res)
       })
