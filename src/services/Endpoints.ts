@@ -25,6 +25,9 @@ const Endpoints = {
   forgotPassword: '/users/forgotPassword',
   setNewPassword: '/users/resetPassword',
   verifyOtp: '/auth/varifyUserRagisterOtpAndRegister',
+  getCertificate: (type: string, page: number, limit: number) =>
+    `users/certificates/getCertificates?type=${type}&page=${page}&limit=${limit}`,
+  downloadCertificate: '/users/certificates/downloadCertificate',
 }
 
 export default Endpoints

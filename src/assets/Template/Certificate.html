@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Certificate</title>
+    <style>
+      body {
+        font-family: 'Arial';
+        text-align: center;
+        padding: 40px;
+        position: relative;
+      }
+
+      .cert-id {
+        position: absolute;
+        top: 30px;
+        right: 40px;
+        font-size: 14px;
+        color: #444;
+        font-weight: bold;
+      }
+
+      .title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 60px;
+      }
+
+      .name {
+        font-size: 34px;
+        font-weight: bold;
+        color: #222;
+        margin-top: 40px;
+      }
+
+      .challenge {
+        font-size: 22px;
+        margin-top: 10px;
+      }
+
+      .footer {
+        margin-top: 100px;
+        display: flex;
+        justify-content: space-around;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cert-id">Certificate ID: {{certificate_id}}</div>
+
+    <div class="title">Certificate of Achievement</div>
+
+    <p>This certificate is proudly presented to</p>
+
+    <div class="name">{{user_name}}</div>
+
+    <p>For successfully completing the challenge:</p>
+
+    <div class="challenge">{{challenge_name}}</div>
+
+    <div class="footer">
+      <div>
+        <hr style="width: 150px; padding-bottom: 10px" />
+        Authorized Sign
+      </div>
+      <div>
+        <hr style="width: 150px; padding-bottom: 10px" />
+        {{date}}
+      </div>
+    </div>
+  </body>
+</html>

@@ -255,7 +255,7 @@ const English = {
   E251: 'Verification Stage',
   E252: 'Demo evaluation passed',
   E253: 'Prove consistency with relaxed profit targets to move to funded.',
-  E254: '🔒 Live funded account unlocked after passing Stage 2.',
+  E254: '🔒 Live funded account unlocked after passing Stage.',
   E255: 'Stage',
   E256: 'Live funded account unlocked after passing Stage 2.',
   E257: 'Trading_Stats',
@@ -332,6 +332,8 @@ const English = {
   E328: 'Password must include 1 uppercase, 1 number, 1 special, and it must be 8 characters.',
   E329: 'cross',
   E330: 'Verify OTP',
+  E331: 'Certificate Download',
+  E332: 'Current Stage',
 }
 
 export default English
