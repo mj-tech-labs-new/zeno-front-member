@@ -21,7 +21,7 @@ const ChallengeStatusCard = () => {
       </div>
       <div className="flex flex-col gap-6 h-[calc(100%-48px)] overflow-y-auto no-scrollbar">
         {getChallengeByIdArray?.[0]?.ChallengeStage?.map((contentItem) => {
-          const {stage, step} = contentItem
+          const {stage} = contentItem
           return (
             <div
               key={stage}
@@ -49,22 +49,15 @@ const ChallengeStatusCard = () => {
                   isDirectType
                   className={`!gap-0.5 [&>div]:!mt-0 ${getChallengeByIdArray?.[0]?.current_stage !== stage && '[&>div>p]:!opacity-50 [&>p]:!opacity-50'}`}
                   multilineContent={
-                    step === 2
-                      ? stage === 1
+                    getChallengeByIdArray?.[0]?.current_stage === stage
+                      ? [English.E332]
+                      : stage === 1 &&
+                          getChallengeByIdArray?.[0]?.current_stage === 1
                         ? [English.E252]
-                        : stage === 2
-                          ? [English.E253]
-                          : getChallengeByIdArray?.[0]?.current_stage
-                            ? [English.E254]
-                            : [English.E256]
-                      : stage === 1
-                        ? [English.E252]
-                        : stage === 2
-                          ? [English.E254]
-                          : ['']
-                  }
-                  singleLineContent={
-                    step === 2 && stage === 2 ? English.E251 : ''
+                        : stage === 2 &&
+                            getChallengeByIdArray?.[0]?.current_stage === 2
+                          ? [English.E252]
+                          : [English.E254]
                   }
                 />
               </div>

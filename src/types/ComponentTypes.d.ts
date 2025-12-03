@@ -191,3 +191,12 @@ export interface MarginAndAssetProps {
   used_margin?: number
   unreleased_profit?: number
 }
+
+export interface DashboardTableComponentProps
+  extends Pick<
+      GeneralProps,
+      'className' | 'layoutClassName' | 'singleLineContent'
+    >,
+    Pick<DropDownProps, 'headingClassName'> {
+  data: []
+}

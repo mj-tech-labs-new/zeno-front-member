@@ -1,15 +1,21 @@
 import {useState} from 'react'
 
-import {HeadingComponent, TabComponent} from '@/components'
+import {HeadingComponent, Loader, TabComponent} from '@/components'
 import {Constants, English} from '@/helpers'
 
 import CertificateTab from './components/CertificateTab'
 
 const Certificate = () => {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [showLoader, setShowLoader] = useState(false)
 
   return (
     <div className="flex flex-col gap-8 mt-8">
+      <Loader
+        ref={(ref) => {
+          ref?.showLoader(showLoader)
+        }}
+      />
       <HeadingComponent singleLineContent={English.E22} variant="medium" />
       <TabComponent
         activeIndex={activeIndex}
@@ -17,9 +23,10 @@ const Certificate = () => {
         setActiveIndex={setActiveIndex}
       >
         <CertificateTab
-          type={
-            activeIndex === 0 ? 'all' : activeIndex === 1 ? 'profit' : 'passed'
-          }
+          activeIndex={activeIndex}
+          setLoader={(value) => {
+            setShowLoader(value)
+          }}
         />
       </TabComponent>
     </div>

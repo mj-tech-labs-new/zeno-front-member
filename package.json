@@ -16,6 +16,8 @@
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.12.2",
     "dayjs": "^1.11.18",
+    "html-to-pdf-js": "^0.9.3",
+    "html2pdf-ts": "^1.2.23",
     "husky": "^9.1.7",
     "lightweight-charts": "^5.0.9",
     "lodash": "^4.17.21",

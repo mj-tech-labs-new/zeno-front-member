@@ -205,3 +205,23 @@ interface ChallengeDataSocketType
   total_available_profit: number
   unreleased_profit_per: number
 }
+
+export interface GetCertificateProps
+  extends Pick<
+      CreateChallengeProps,
+      'challenge_name' | 'status' | 'challenge_id' | 'user_id' | 'created_at'
+    >,
+    Pick<CommonProps, 'id'> {
+  trading_capital?: string
+  certificate_id?: string
+}
+
+export interface GetCertificateWithPaginationProps {
+  data: GetCertificateProps[]
+  pagination: PaginationType
+}
+
+export interface CertificateTableProps
+  extends Pick<CommonBuyAndSellProp, 'activeIndex'> {
+  setLoader: (value: boolean) => void
+}
