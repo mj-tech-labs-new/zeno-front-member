@@ -93,7 +93,11 @@ const CertificateTab = (props: CertificateTableProps) => {
                   <td className="p-6 text-secondary-light-color">
                     {`${Utility.numberConversion(Number(trading_capital))} ${English.E60}`}
                   </td>
-                  <td className="p-6 text-secondary-light-color">{status}</td>
+                  <td className="p-6 text-secondary-light-color">
+                    {status === 'Profit Target'
+                      ? `🎯 ${status}`
+                      : `✅ ${status}`}
+                  </td>
                   <td className="p-6 text-secondary-light-color">
                     {dayjs(created_at).format('YYYY-MM-DD')}
                   </td>

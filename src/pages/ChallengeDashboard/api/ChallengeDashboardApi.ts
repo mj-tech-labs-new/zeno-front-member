@@ -6,6 +6,7 @@ import {
   ChallengeIdProp,
   ChallengeInfoDashboardWithPaginationProps,
   ClosedPnlDataResponse,
+  GetBillingWithPaginationProps,
   GetCertificateWithPaginationProps,
   GetChallengeByIdType,
   GetClosedPnlDetailsPayloadProps,
@@ -174,9 +175,36 @@ const downloadCertificateApi = async (
   })
 }
 
+const getBillingApi = async (page: number, limit: number) =>
+  new Promise<GetBillingWithPaginationProps | null>((resolve) => {
+    APICall('get', Endpoints.getBilling(page, limit))
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          const paginationObject: PaginationType = {
+            limit: res?.data?.limit,
+            page: res?.data?.page,
+            total: res?.data?.total,
+            totalPages: res?.data?.totalPages,
+          }
+          resolve({
+            data: res?.data?.billes,
+            pagination: paginationObject,
+          })
+        } else {
+          resolve(null)
+          toast.error(res?.message)
+        }
+      })
+      .catch((error) => {
+        resolve(null)
+        toast.error(error?.data?.message)
+      })
+  })
+
 export {
   challengeInfoDashboardApi,
   downloadCertificateApi,
+  getBillingApi,
   getCertificatesApi,
   getChallengeByIdApi,
   getClosedPnlDetails,

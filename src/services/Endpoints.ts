@@ -28,6 +28,8 @@ const Endpoints = {
   getCertificate: (type: string, page: number, limit: number) =>
     `users/certificates/getCertificates?type=${type}&page=${page}&limit=${limit}`,
   downloadCertificate: '/users/certificates/downloadCertificate',
+  getBilling: (page: number, limit: number) =>
+    `users/billing/getAllBill?page=${page}&limit=${limit}`,
 }
 
 export default Endpoints

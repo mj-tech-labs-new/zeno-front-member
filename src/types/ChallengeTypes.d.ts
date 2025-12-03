@@ -225,3 +225,27 @@ export interface CertificateTableProps
   extends Pick<CommonBuyAndSellProp, 'activeIndex'> {
   setLoader: (value: boolean) => void
 }
+
+export interface GetBillingProps
+  extends Pick<
+      CreateChallengeProps,
+      | 'user_id'
+      | 'challenge_id'
+      | 'challenge_type'
+      | 'created_at'
+      | 'payment_status'
+      | 'status'
+    >,
+    Pick<CommonProps, 'id'> {
+  user_email: string
+  user_name: string
+  invoice_id: string
+  challenge_plan: string
+  challenge_fee: string
+  transaction_id?: string
+}
+
+export interface GetBillingWithPaginationProps {
+  data: GetBillingProps[]
+  pagination: PaginationType
+}

@@ -1,18 +1,18 @@
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import {useEffect} from 'react'
+import {useParams} from 'react-router-dom'
 
-import { Loader } from '@/components'
-import { getChallengeByIdApi } from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
+import {Loader} from '@/components'
+import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 
 import ChartRenderer from '../ChartRenderer'
 import ChartHeader from '../components/ChartHeader'
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import PlaceOrder from './PlaceOrder'
 import Trades from './Trades'
 import TradesInfo from './TradesInfo'
 
 const ChartRenderingLayout = () => {
-  const { isLoadingCandles, setChallengeId, setGetChallengeByIdArray } =
+  const {isLoadingCandles, setChallengeId, setGetChallengeByIdArray} =
     useChartProvider()
   const params = useParams()
   useEffect(() => {
@@ -25,7 +25,7 @@ const ChartRenderingLayout = () => {
 
   useEffect(() => {
     if (!params?.challengeId) return
-    getChallengeByIdApi({ challenge_id: params?.challengeId }).then((res) => {
+    getChallengeByIdApi({challenge_id: params?.challengeId}).then((res) => {
       setGetChallengeByIdArray(res)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps

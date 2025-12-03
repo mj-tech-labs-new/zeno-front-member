@@ -1,13 +1,13 @@
-import { memo, useEffect, useRef } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import {memo, useEffect, useRef} from 'react'
+import {useNavigate, useParams} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
-import { CommonButton } from '@/components'
-import { Constants, English } from '@/helpers'
-import { CommonBuyAndSellProp } from '@/types/ChartTypes'
+import {CommonButton} from '@/components'
+import {Constants, English} from '@/helpers'
+import {CommonBuyAndSellProp} from '@/types/ChartTypes'
 
 import chartPageApi from '../api/ChartPageApi'
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 
 const ActionButton = (props: CommonBuyAndSellProp) => {
   const {
@@ -19,7 +19,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     leverage,
     stop_loss,
     take_profit,
-    setChecked = () => { },
+    setChecked = () => {},
     checked = false,
     margin_mode,
   } = props
@@ -112,7 +112,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     <div className="flex flex-1 gap-3">
       {' '}
       {Constants?.BuySellActionButtons?.[activeIndex].map((item) => {
-        const { name, text } = item
+        const {name, text} = item
         return (
           <CommonButton
             key={name}
