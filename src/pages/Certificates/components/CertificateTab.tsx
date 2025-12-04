@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {toast} from 'react-toastify'
 
 import {
@@ -8,10 +8,11 @@ import {
   DownloadButton,
 } from '@/components'
 import {Constants, English, Utility} from '@/helpers'
-import {getCertificatesApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
+import {APICall, Endpoints} from '@/services'
 import {
   CertificateTableProps,
   GetCertificateProps,
+  GetCertificateWithPaginationProps,
 } from '@/types/ChallengeTypes'
 import {PaginationType} from '@/types/CommonTypes'
 
@@ -23,33 +24,42 @@ const CertificateTab = (props: CertificateTableProps) => {
   const [paginationData, setPaginationData] = useState<PaginationType | null>(
     null
   )
-
-  const getCertificate = useCallback(
-    (type: string, page: number, limit: number) => {
+  const getCertificatesApi = async (type: string, page: number) =>
+    new Promise<GetCertificateWithPaginationProps | null>((resolve) => {
       setLoader(true)
-      getCertificatesApi(type, page, limit)
-        .then((res) => {
-          if (res) {
-            setCertificateData(res.data)
-            setPaginationData(res.pagination)
+      APICall('get', Endpoints.getCertificate(type, page, 10))
+        .then((res: any) => {
+          if (res?.status === 200 && res?.statusCode === 200) {
+            const paginationObject: PaginationType = {
+              limit: res?.data?.allChallenge?.limit,
+              page: res?.data?.allChallenge?.page,
+              total: res?.data?.allChallenge?.total,
+              totalPages: res?.data?.allChallenge?.totalPages,
+              totalCount: res?.data?.allChallenge?.total_all_count,
+            }
+
+            setCertificateData(res?.data?.allChallenge?.data)
+            setPaginationData(paginationObject)
+          } else {
+            resolve(null)
+            toast.error(res?.message)
           }
         })
         .catch((error) => {
-          toast.error(error)
+          resolve(null)
+          toast.error(error?.data?.message)
         })
         .finally(() => {
           setLoader(false)
         })
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+    })
+
   useEffect(() => {
-    getCertificate(
+    getCertificatesApi(
       activeIndex === 0 ? 'all' : activeIndex === 1 ? 'profit' : 'passed',
-      1,
-      10
+      1
     )
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex])
 
@@ -117,14 +127,13 @@ const CertificateTab = (props: CertificateTableProps) => {
         <BasicPagination
           total={paginationData?.totalPages}
           onSelectPage={(page) => {
-            getCertificate(
+            getCertificatesApi(
               activeIndex === 0
                 ? 'all'
                 : activeIndex === 1
                   ? 'profit'
                   : 'passed',
-              page,
-              10
+              page
             )
           }}
         />

@@ -31,7 +31,7 @@ import {
 
 const FormContainer = (
   props: {
-    type: AuthType
+    type?: AuthType
     onSubmit?: (token: string, data: RegisterApiProps) => void
     setIsToken?: (value: boolean) => void
   } & Pick<GeneralProps, 'className'>

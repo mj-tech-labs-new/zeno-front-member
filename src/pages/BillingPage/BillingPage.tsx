@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import {useCallback, useEffect, useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {toast} from 'react-toastify'
 
 import {
@@ -11,11 +11,13 @@ import {
   Loader,
 } from '@/components'
 import {Constants, English} from '@/helpers'
-import {GetBillingProps} from '@/types/ChallengeTypes'
+import {APICall, Endpoints} from '@/services'
+import {
+  GetBillingProps,
+  GetBillingWithPaginationProps,
+} from '@/types/ChallengeTypes'
 import {PaginationType} from '@/types/CommonTypes'
 import {AppLoaderRef} from '@/types/ComponentTypes'
-
-import {getBillingApi} from '../ChallengeDashboard/api/ChallengeDashboardApi'
 
 const BillingPage = () => {
   const [billingData, setBillingData] = useState<GetBillingProps[]>([])
@@ -23,26 +25,37 @@ const BillingPage = () => {
     null
   )
   const loaderRef = useRef<AppLoaderRef>(null)
-  const handleGetBilling = useCallback((page: number) => {
-    loaderRef.current?.showLoader(true)
-    getBillingApi(page, 10)
-      .then((res) => {
-        if (res) {
-          setBillingData(res?.data)
-          setPaginationData(res?.pagination)
-        }
-      })
-      .catch((error) => {
-        toast.error(error?.message)
-      })
-      .finally(() => {
-        loaderRef.current?.showLoader(false)
-      })
-  }, [])
+
+  const getBillingApi = async (page: number) =>
+    new Promise<GetBillingWithPaginationProps | null>((resolve) => {
+      loaderRef.current?.showLoader(true)
+      APICall('get', Endpoints.getBilling(page, 10))
+        .then((res: any) => {
+          if (res?.status === 200 && res?.statusCode === 200) {
+            const paginationObject: PaginationType = {
+              limit: res?.data?.limit,
+              page: res?.data?.page,
+              total: res?.data?.total,
+              totalPages: res?.data?.totalPages,
+            }
+            setBillingData(res?.data?.billes)
+            setPaginationData(paginationObject)
+          } else {
+            resolve(null)
+            toast.error(res?.message)
+          }
+        })
+        .catch((error) => {
+          resolve(null)
+          toast.error(error?.data?.message)
+        })
+        .finally(() => {
+          loaderRef.current?.showLoader(false)
+        })
+    })
 
   useEffect(() => {
-    handleGetBilling(1)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getBillingApi(1)
   }, [])
   return (
     <div className="flex flex-col gap-8 mt-8">
@@ -57,7 +70,7 @@ const BillingPage = () => {
         {billingData?.length === 0 ? (
           <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
             <td className="py-8" colSpan={8}>
-              No Billes
+              No Bills
             </td>
           </tr>
         ) : (
@@ -116,7 +129,7 @@ const BillingPage = () => {
         <BasicPagination
           total={paginationData?.totalPages}
           onSelectPage={(page) => {
-            handleGetBilling(page)
+            getBillingApi(page)
           }}
         />
       )}

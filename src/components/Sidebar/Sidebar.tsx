@@ -28,9 +28,9 @@ const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
     [onPressItem, socketRef]
   )
   return (
-    <div className="h-full w-full px-3.5 pt-8 z-50">
+    <div className="h-full w-full px-3.5 pt-8 z-50 ">
       <LogoComponent
-        layoutClassName="sticky top-0"
+        layoutClassName="sticky top-0  !flex-row-reverse w-fit mr-auto pl-5"
         singleLineContent={English.E20}
       />
       <div
