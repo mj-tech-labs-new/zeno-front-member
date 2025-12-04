@@ -142,6 +142,8 @@ const Images = {
   checkbox: new URL('../assets/svgs/checkbox.svg', import.meta.url).href,
   dropdownArrow: new URL('../assets/svgs/dropdown-arrow.svg', import.meta.url)
     .href,
+  eyeOpen: new URL('../assets/svgs/eye-open.svg', import.meta.url).href,
+  eyeClose: new URL('../assets/svgs/eye-close.svg', import.meta.url).href,
 }
 
 export default Images

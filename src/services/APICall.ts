@@ -79,6 +79,7 @@ const APICall = async (
           error?.response?.status === 500 ||
           error?.response?.status === 504 ||
           error?.status === 500 ||
+          error?.status === 404 ||
           error?.response?.status === 400 ||
           error?.status === 400 ||
           error?.response?.status === 502 ||

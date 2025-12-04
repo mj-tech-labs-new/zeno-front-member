@@ -30,7 +30,10 @@ export interface RangeSelectorProps extends Pick<GeneralProps, 'className'> {
 
 export type InputContainerProps = InputHTMLAttributes<HTMLInputElement> &
   Pick<GeneralProps, 'className' | 'layoutClassName' | 'imageUrl'> &
-  Pick<GeneralProps, 'singleLineContent'> & {error?: string}
+  Pick<GeneralProps, 'singleLineContent'> & {
+    error?: string
+    setShowPassword?: () => void
+  }
 
 export type CommonButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   Required<Pick<GeneralProps, 'singleLineContent'>> &

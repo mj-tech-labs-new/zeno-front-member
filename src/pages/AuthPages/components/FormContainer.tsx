@@ -40,6 +40,7 @@ const FormContainer = (
   const userData = useSelector((state: StorageProps) => state.userData)
   const navigate = useNavigate()
   const loaderRef = useRef<AppLoaderRef>(null)
+  const [isShowPassword, setIsShowPassword] = useState(true)
 
   const actionButtons = useMemo(
     () => [
@@ -283,10 +284,26 @@ const FormContainer = (
               name={inputItems?.name}
               placeholder={inputItems?.placeHolderText}
               singleLineContent={inputItems.labelText}
-              type={inputItems?.type}
               value={inputValues?.[inputItems.name] ?? ''}
+              imageUrl={
+                inputItems?.type === 'password'
+                  ? isShowPassword
+                    ? Images.eyeClose
+                    : Images.eyeOpen
+                  : ''
+              }
               onChange={(e) =>
                 handleInputChange(inputItems?.name, e.target.value)
+              }
+              setShowPassword={() => {
+                setIsShowPassword((prev) => !prev)
+              }}
+              type={
+                inputItems
+                  ? isShowPassword && inputItems?.type === 'password'
+                    ? 'password'
+                    : 'text'
+                  : 'text'
               }
             />
           ))}
