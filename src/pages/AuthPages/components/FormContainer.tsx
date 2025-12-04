@@ -295,7 +295,7 @@ const FormContainer = (
               onChange={(e) =>
                 handleInputChange(inputItems?.name, e.target.value)
               }
-              setShowPassword={() => {
+              onPressIcon={() => {
                 setIsShowPassword((prev) => !prev)
               }}
               type={

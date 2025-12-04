@@ -12,7 +12,7 @@ const InputContainer = forwardRef<HTMLInputElement, InputContainerProps>(
       layoutClassName = '',
       error = '',
       imageUrl = '',
-      setShowPassword,
+      onPressIcon,
       ...rest
     } = props
 
@@ -35,10 +35,7 @@ const InputContainer = forwardRef<HTMLInputElement, InputContainerProps>(
             {...rest}
           />
           {imageUrl !== '' && (
-            <span
-              className="cursor-pointer"
-              onClick={() => setShowPassword?.()}
-            >
+            <span className="cursor-pointer" onClick={() => onPressIcon?.()}>
               <ImageComponent className="w-6 h-6 " imageUrl={imageUrl} />
             </span>
           )}

@@ -32,7 +32,7 @@ export type InputContainerProps = InputHTMLAttributes<HTMLInputElement> &
   Pick<GeneralProps, 'className' | 'layoutClassName' | 'imageUrl'> &
   Pick<GeneralProps, 'singleLineContent'> & {
     error?: string
-    setShowPassword?: () => void
+    onPressIcon?: () => void
   }
 
 export type CommonButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
