@@ -32,8 +32,8 @@ import {
 const FormContainer = (
   props: {
     type: AuthType
-    onSubmit: (token: string, data: RegisterApiProps) => void
-    setIsToken: (value: boolean) => void
+    onSubmit?: (token: string, data: RegisterApiProps) => void
+    setIsToken?: (value: boolean) => void
   } & Pick<GeneralProps, 'className'>
 ) => {
   const {type, onSubmit, setIsToken, className} = props
@@ -183,8 +183,8 @@ const FormContainer = (
       registerApi(payload as unknown as RegisterApiProps)
         .then((response) => {
           if (response) {
-            setIsToken(true)
-            onSubmit(response, payload as unknown as RegisterApiProps)
+            setIsToken?.(true)
+            onSubmit?.(response, payload as unknown as RegisterApiProps)
           }
         })
         .finally(() => {
