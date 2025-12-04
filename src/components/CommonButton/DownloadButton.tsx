@@ -105,7 +105,7 @@ const DownloadButton = (
 
   return (
     <button
-      className={`text-secondary-light-color ${className}`}
+      className={`text-secondary-light-color cursor-pointer ${className}`}
       onClick={handleDownloadData}
       type="button"
     >

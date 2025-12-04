@@ -58,7 +58,7 @@ const CertificateTab = (props: CertificateTableProps) => {
       <CommonTableComponent
         tableHeading={Constants.Certificate.CertificatesHeadingData}
       >
-        {certificateData.length === 0 ? (
+        {certificateData?.length === 0 ? (
           <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
             <td className="py-8" colSpan={6}>
               No Certificates
@@ -101,7 +101,7 @@ const CertificateTab = (props: CertificateTableProps) => {
                   <td className="p-6 text-secondary-light-color">
                     {dayjs(created_at).format('YYYY-MM-DD')}
                   </td>
-                  <td className="text-secondary-light-color ">
+                  <td className="p-6  text-secondary-light-color cursor-pointer ">
                     <DownloadButton
                       challenge_id={challenge_id ?? ''}
                       singleLineContent={English.E99}
