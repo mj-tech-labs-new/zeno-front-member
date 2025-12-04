@@ -2,6 +2,7 @@ import {Constants, English} from '@/helpers'
 import {ChartTimePeriodType} from '@/types/UnionTypes'
 
 import ChartShapes from './components/ChartShapes'
+import Tooltip from './components/Tooltip'
 import TrendLines from './components/TrendLines'
 import {useChartProvider} from './context/ChartProvider'
 import ChartGraphs from './section/ChartGraphs'
@@ -52,6 +53,7 @@ const ChartRenderer = () => {
           </div>
           <div className="relative h-[563px] w-full overflow-hidden ">
             <ChartGraphs />
+            <Tooltip />
             {!isLoadingCandles && <TrendLines />}
           </div>
         </div>
