@@ -36,7 +36,7 @@ const ChartRenderer = () => {
                       onClick={() => {
                         isLastCandle.current = false
                         totalCandlesCount.current = 0
-                        currnetLimit.current = 50
+                        currnetLimit.current = 200
                         if (selectedIndex === key) return
                         setSelectedIndex(key as ChartTimePeriodType)
                       }}
