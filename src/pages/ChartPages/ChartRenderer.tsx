@@ -17,7 +17,7 @@ const ChartRenderer = () => {
     currnetLimit,
   } = useChartProvider()
   return (
-    <div className="h-full bg-chart-layout w-full  lg:w-[calc(100vw-500px)]">
+    <div className="h-full bg-chart-layout lg:w-[calc(100%-256px)]">
       <div className="flex flex-col lg:flex-row gap-1 w-full">
         <ChartShapes />
         <div className="flex-1">
@@ -36,7 +36,7 @@ const ChartRenderer = () => {
                       onClick={() => {
                         isLastCandle.current = false
                         totalCandlesCount.current = 0
-                        currnetLimit.current = 50
+                        currnetLimit.current = 200
                         if (selectedIndex === key) return
                         setSelectedIndex(key as ChartTimePeriodType)
                       }}

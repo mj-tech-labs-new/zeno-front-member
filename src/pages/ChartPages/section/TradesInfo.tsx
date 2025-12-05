@@ -99,7 +99,7 @@ const TradesInfo = (props: {challengeId: string}) => {
   ])
 
   return (
-    <div className="!w-full py-5 px-4 !bg-chart-layout-bg rounded !whitespace-nowrap">
+    <div className="!w-full py-5 px-4 !bg-chart-layout-bg rounded !whitespace-nowrap h-full">
       <TabComponent
         activeIndex={activeIndex}
         className="!w-full"

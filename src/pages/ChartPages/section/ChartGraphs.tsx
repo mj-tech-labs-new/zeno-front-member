@@ -172,7 +172,7 @@ const ChartGraphs = () => {
       if (!firstVisibleBar || isCallingCurrent.current) return
 
       if (firstVisibleBar < 0) {
-        currnetLimit.current += 50
+        currnetLimit.current += 100
         const tokenToUse = Object.entries(tokenList ?? {}).find(
           ([_, value]) => value === selectedToken
         )
