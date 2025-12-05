@@ -15,6 +15,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
     layoutClassName = '',
     headingClassName = '',
     showArrows = true,
+    elementId = '',
   } = props
   const mainDivRef = useRef<HTMLDivElement | null>(null)
   const dropDownStatsRef = useRef<HTMLDivElement | null>(null)
@@ -42,6 +43,20 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
       setIsDropDownOpen(false)
     },
   })
+
+  useEffect(() => {
+    if (!isDropDownOpen) return
+    const element = document.getElementById(elementId) ?? window
+    const handleScroll = () => {
+      setIsDropDownOpen(false)
+    }
+    element.addEventListener('scroll', handleScroll)
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      element.removeEventListener('scroll', handleScroll)
+    }
+  }, [elementId, isDropDownOpen])
 
   return (
     <div

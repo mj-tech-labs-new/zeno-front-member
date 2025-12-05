@@ -46,6 +46,7 @@ const PlaceOrder = () => {
           <DropDown
             className="!max-h-32 mt-2 !overflow-auto !w-full"
             dropDownData={Constants.orderMarginMode}
+            elementId="chartRendering"
             layoutClassName="!h-fit"
             headingClassName="!bg-transparent
         "
@@ -59,6 +60,7 @@ const PlaceOrder = () => {
           <DropDown
             className="!max-h-52 mt-2 !overflow-auto !w-full"
             dropDownData={leverageValueArray}
+            elementId="chartRendering"
             onSelectValue={(data) => {
               setSelectedLeverage(data)
             }}
