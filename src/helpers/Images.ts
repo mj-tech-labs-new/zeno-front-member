@@ -145,6 +145,7 @@ const Images = {
   eyeOpen: new URL('../assets/svgs/eye-open.svg', import.meta.url).href,
   eyeClose: new URL('../assets/svgs/eye-close.svg', import.meta.url).href,
   bitcoinIcon: new URL('../assets/svgs/bitcoin-icon.svg', import.meta.url).href,
+  editIcon: new URL('../assets/svgs/editIcon.svg', import.meta.url).href,
 }
 
 export default Images

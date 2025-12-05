@@ -410,13 +410,13 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     const socket = socketRef.current
     if (isLoadingCandles || !socket) return
     socket.on(SocketEmitter.Emitter.live_prices, (data) => {
-      const tokenPrices = data.data.prices
+      const tokenPrices = data?.data?.prices
       const findTokenName = Object.entries(tokenList ?? {}).find(
         ([_, value]) => value === selectedToken
       )
       if (!findTokenName) return
       const priceData: LivePriceSocketType = tokenPrices?.[findTokenName[0]]
-      setLivePrice(priceData.price)
+      setLivePrice(priceData?.price)
     })
   }, [isLoadingCandles, selectedToken, socketRef, tokenList])
 

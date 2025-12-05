@@ -3,6 +3,8 @@ import {Constants, English, Utility} from '@/helpers'
 import {CreateChallengeProps} from '@/types/ChallengeTypes'
 import {OpenPosition} from '@/types/ChartTypes'
 
+import EditStopLossModel from '../components/EditStopLossModel'
+
 const OpenPositionTable = (
   props: Pick<CreateChallengeProps, 'challenge_id'> & {
     openPosition: OpenPosition[]
@@ -128,7 +130,7 @@ const OpenPositionTable = (
             <td className="flex flex-col  pr-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
               {tableBody?.take_profit?.[0]?.price &&
               tableBody?.stop_loss?.[0]?.price ? (
-                <div className="flex flex-col">
+                <div className="flex gap-3 items-center">
                   <div className="flex flex-col">
                     <span className="!text-primary-green">
                       {tableBody?.take_profit?.[0]?.price ?? '--'}
@@ -137,6 +139,12 @@ const OpenPositionTable = (
                     <span className="!text-extra-dark-danger-color">
                       {tableBody?.stop_loss?.[0]?.price ?? '--'}
                     </span>
+                  </div>
+                  <div className="cursor-pointer">
+                    <EditStopLossModel
+                      item={tableBody}
+                      singleLineContent={English.E333}
+                    />
                   </div>
                 </div>
               ) : (

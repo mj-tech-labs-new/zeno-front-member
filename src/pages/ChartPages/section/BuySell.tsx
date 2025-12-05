@@ -169,7 +169,7 @@ const BuySell = (props: BuyOrSelProps) => {
     if (isLoadingCandles || !socketRef.current) return
     setInputValues((prev) => ({
       ...prev,
-      price: livePrice.toString() ?? '0',
+      price: livePrice?.toString() ?? '0',
       total: Number(inputValues?.total) === 0 ? '0' : totalStrFinal,
     }))
   }, [

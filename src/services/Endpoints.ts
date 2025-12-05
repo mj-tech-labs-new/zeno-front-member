@@ -30,6 +30,7 @@ const Endpoints = {
   downloadCertificate: '/users/certificates/downloadCertificate',
   getBilling: (page: number, limit: number) =>
     `users/billing/getAllBill?page=${page}&limit=${limit}`,
+  updateOrder: `/users/order/updateOrder`,
 }
 
 export default Endpoints

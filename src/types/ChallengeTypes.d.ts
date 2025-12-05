@@ -1,5 +1,6 @@
 // eslint-disable-next-line import-x/no-cycle
 import {CommonBuyAndSellProp, OpenPosition} from './ChartTypes'
+// eslint-disable-next-line import-x/no-cycle
 import {CommonProps, GeneralProps, PaginationType} from './CommonTypes'
 import {CloseOrderType, Methodtype} from './UnionTypes'
 

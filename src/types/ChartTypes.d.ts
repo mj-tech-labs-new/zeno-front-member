@@ -2,6 +2,7 @@ import {Time} from 'lightweight-charts'
 import {Dispatch, SetStateAction} from 'react'
 
 // eslint-disable-next-line import-x/no-cycle
+import {CreateChallengeProps} from './ChallengeTypes'
 import {GeneralProps} from './CommonTypes'
 import {ChartShapesType, TradingSortingType} from './UnionTypes'
 
@@ -69,8 +70,11 @@ export interface LivePriceSocketType extends Pick<CandleObjectType, 'symbol'> {
 }
 
 export interface OpenPosition
-  extends Pick<CommonBuyAndSellProp, 'stop_loss' | 'take_profit'>,
-    Pick<CommonBuyAndSellProp, 'margin_mode'> {
+  extends Pick<
+      CommonBuyAndSellProp,
+      'margin_mode' | 'stop_loss' | 'take_profit'
+    >,
+    Pick<CreateChallengeProps, 'challenge_id'> {
   status: string
   user_id: number
   tx_hash: string
@@ -93,18 +97,21 @@ export interface OpenPosition
 
 export interface PendingOrder
   extends Pick<
-      OpenPosition,
-      | 'symbol'
-      | 'tx_hash'
-      | 'quantity'
-      | 'realized_pnl'
-      | 'open_pnl'
-      | 'user_id'
-      | 'leverage'
-      | 'direction'
-    >,
-    Pick<CommonBuyAndSellProp, 'margin_mode'>,
-    Pick<OpenPosition, 'stop_loss' | 'take_profit'> {
+    OpenPosition,
+    | 'symbol'
+    | 'tx_hash'
+    | 'quantity'
+    | 'realized_pnl'
+    | 'open_pnl'
+    | 'user_id'
+    | 'leverage'
+    | 'direction'
+    | 'average_price'
+    | 'stop_loss'
+    | 'take_profit'
+    | 'challenge_id'
+    | 'margin_mode'
+  > {
   order_type: string
   submitted_time: string
   submitted_price: number
@@ -154,10 +161,16 @@ export interface CommonStopLossProp {
   ) => void
   resetValue?: number
   total?: number
+  stopLoss?: Omit<StopLossProps, 'marketprice'> &
+    Pick<LivePriceSocketType, 'price'>
 }
 
 export interface OrderBookObjectType {
   lastUpdateId: number
   bids: number[][]
   asks: number[][]
+}
+export interface EditStopLossModelProps
+  extends Pick<GeneralProps, 'singleLineContent'> {
+  item: (OpenPosition | PendingOrder) | null
 }

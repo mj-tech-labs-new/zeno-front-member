@@ -46,7 +46,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
   return (
     <div
       ref={mainDivRef ?? ref}
-      className={`pl-4 pr-3 py-3 border-2 border-neutral-secondary-color rounded-lg cursor-pointer ${className}`}
+      className={`pl-4 pr-3 py-3 border-2 border-neutral-secondary-color !z-100 rounded-lg cursor-pointer ${className}`}
       onClick={() => {
         setIsDropDownOpen((data) => !data)
       }}

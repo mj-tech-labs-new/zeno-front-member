@@ -334,6 +334,7 @@ const English = {
   E330: 'Verify OTP',
   E331: 'Certificate Download',
   E332: 'Current Stage',
+  E333: 'Update TP/SL',
 }
 
 export default English
