@@ -33,6 +33,7 @@ import {ChallengeStageType, GetChallengeByIdType} from '@/types/ChallengeTypes'
 import {
   CandleObjectType,
   ChartInfoObjectType,
+  ChartObjectProps,
   ChartSocketHeaderProps,
   DrawingData,
   LivePriceSocketType,
@@ -105,6 +106,7 @@ const ChartContext = createContext<{
   setTempShape: Dispatch<SetStateAction<DrawingData | null>>
   totalShapes: DrawingData[]
   setTotalShapes: Dispatch<SetStateAction<DrawingData[]>>
+  singleCandleData: RefObject<ChartObjectProps | null>
 }>({
   chartSocketData: null,
   setChartSocketData: () => {},
@@ -154,6 +156,7 @@ const ChartContext = createContext<{
   firstChartRef: {current: null},
   chartObjectRef: {current: null},
   volumeSeriesRef: {current: null},
+  singleCandleData: {current: null},
 })
 
 const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
@@ -173,6 +176,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [currentStageArray, setCurrentStageArray] = useState<
     ChallengeStageType[]
   >([])
+  const singleCandleData = useRef<ChartObjectProps | null>(null)
   const [chartSocketData, setChartSocketData] =
     useState<ChartSocketHeaderProps | null>(null)
   const isLastCandle = useRef(false)
@@ -328,6 +332,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       currentStageArray,
       setCurrentStageArray,
       challengeId,
+      singleCandleData,
     }),
     [
       chartSocketData,
@@ -358,6 +363,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       selectedTool,
       totalCandleData,
       challengeId,
+      singleCandleData,
     ]
   )
 

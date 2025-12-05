@@ -27,6 +27,7 @@ const ChartGraphs = () => {
     getCandleHistory,
     currnetLimit,
     isCallingCurrent,
+    singleCandleData,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
   const calculateDataAndUpdateChart = useCallback(
@@ -131,6 +132,7 @@ const ChartGraphs = () => {
         )
           return
         const {open, high, low, close, volume, close_time_iso} = chartSocketData
+        singleCandleData.current = chartSocketData
         const currentCandle = {
           close: Number(close),
           high: Number(high),
@@ -156,6 +158,7 @@ const ChartGraphs = () => {
     selectedToken,
     socketRef,
     volumeSeriesRef,
+    singleCandleData,
   ])
 
   chartObjectRef.current

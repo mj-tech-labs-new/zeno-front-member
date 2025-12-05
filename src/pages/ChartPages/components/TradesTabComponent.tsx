@@ -10,19 +10,20 @@ import {useChartProvider} from '../context/ChartProvider'
 
 const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
   const {isLoadingCandles, chartInfo, livePrice} = useChartProvider()
+
   const {activeType} = props
   const [isLoadingOrderBook, setIsLoadingOrderBook] = useState(true)
   const [bookings, setBookings] = useState<OrderBookObjectType | null>(null)
   const webSocketRef = useRef<WebSocket | null>(null)
   const tradesToMap = useMemo(() => {
-    const buyOrders = bookings?.asks?.map((item) => ({
+    const buyOrders = bookings?.asks?.slice(0, 6)?.map((item) => ({
       price: item[0],
       amount: item[1],
       total: item[0] * item[1],
       type: 'buy',
     }))
     const sortedBuyOrder = _.orderBy(buyOrders, ['total'], ['asc'])
-    const sellOrders = bookings?.bids?.map((item) => ({
+    const sellOrders = bookings?.bids?.slice(0, 6)?.map((item) => ({
       price: item[0],
       amount: item[1],
       total: item[0] * item[1],
@@ -48,7 +49,6 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       maxBuy: Math.max(...finalAmountToBuy),
     }
   }, [bookings?.asks, bookings?.bids])
-
   useEffect(() => {
     if (isLoadingCandles || !chartInfo?.fullSymbolName) return
     const SYMBOL = chartInfo?.fullSymbolName
@@ -56,7 +56,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       webSocketRef.current.close()
     }
     const webSocket = new WebSocket(
-      `wss://stream.binance.com:9443/ws/${SYMBOL.toLowerCase()}@depth5@100ms`
+      `wss://stream.binance.com:9443/ws/${SYMBOL.toLowerCase()}@depth10@100ms`
     )
     webSocketRef.current = webSocket
 
@@ -101,7 +101,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       </div>
       {isLoadingOrderBook && !isLoadingCandles ? (
         <div className="space-y-4">
-          {Array.from({length: 5}).map((__, index) => (
+          {Array.from({length: 6}).map((__, index) => (
             <div
               key={`order_loading_${index.toString()}`}
               className="h-7 w-full mt-5"
@@ -111,14 +111,14 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
           ))}
         </div>
       ) : (
-        tradesToMap?.map((trade, tradeIndex) => {
+        tradesToMap.map((trade, tradeIndex) => {
           const {amount, price, type, total} = trade
           const amountToDivide =
             type === 'buy' ? maxNumber.maxBuy : maxNumber.maxBid
           return (
             <Fragment key={`trade_${trade?.type}_${tradeIndex?.toString()}`}>
-              {activeType === 'buy_sell_type' && tradeIndex === 5 && (
-                <p className="text-primary-color my-8 font-medium bg-neutral-secondary-color py-3 rounded !leading-6 text-center text-2xl">
+              {activeType === 'buy_sell_type' && tradeIndex === 6 && (
+                <p className="text-primary-color my-5 font-medium  rounded !leading-6 text-left text-2xl">
                   {Utility.numberConversion(livePrice)}{' '}
                 </p>
               )}
