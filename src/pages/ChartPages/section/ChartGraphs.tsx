@@ -1,195 +1,51 @@
-import {
-  CandlestickSeries,
-  createChart,
-  HistogramSeries,
-  Time,
-} from 'lightweight-charts'
-import {memo, useCallback, useEffect} from 'react'
+import {memo} from 'react'
+import {AdvancedRealTimeChart} from 'react-ts-tradingview-widgets'
 
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {SocketEmitter, Utility} from '@/helpers'
-import {CandleObjectType} from '@/types/ChartTypes'
-import {ChartUtils} from '@/utils'
+import {ChartTimePeriodType} from '@/types/UnionTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
-
-const ChartGraphs = () => {
-  const {
-    isLoadingCandles,
-    totalCandleData,
-    chartAreaRef,
-    chartObjectRef,
-    firstChartRef,
-    volumeSeriesRef,
-    selectedIndex,
-    selectedToken,
-    tokenList,
-    getCandleHistory,
-    currnetLimit,
-    isCallingCurrent,
-    singleCandleData,
-  } = useChartProvider()
-  const {socketRef} = useSocketProvider()
-  const calculateDataAndUpdateChart = useCallback(
-    (items: CandleObjectType[]) => {
-      const candlestickData = items?.map((item) => {
-        const {close, high, low, open, close_time_iso} = item
-        return {
-          close: Number(close),
-          high: Number(high),
-          low: Number(low),
-          open: Number(open),
-          time: (new Date(close_time_iso).getTime() / 1000) as Time,
-        }
-      })
-
-      chartAreaRef.current?.setData(candlestickData)
-
-      const volumeData = totalCandleData.map((item) => {
-        const {volume, close, open, close_time_iso} = item
-        const isUp = Number(close) > Number(open)
-
-        return {
-          time: (new Date(close_time_iso).getTime() / 1000) as Time,
-          value: Number(volume),
-          color: isUp ? '#31413C' : '#4A2C25',
-        }
-      })
-      volumeSeriesRef.current?.setData(volumeData)
-    },
-    [chartAreaRef, totalCandleData, volumeSeriesRef]
+const ChartGraphs = (props: {selectedIndex: ChartTimePeriodType}) => {
+  const {selectedIndex} = props
+  return (
+    <AdvancedRealTimeChart
+      autosize
+      allow_symbol_change={false}
+      enabled_features={['header_fullscreen_button']}
+      save_image={false}
+      symbol="Binance:BTCUSDT"
+      theme="dark"
+      disabled_features={[
+        'main_series_scale_menu',
+        'header_indicators',
+        'header_resolutions',
+        'header_screenshot',
+        'header_settings',
+        'timeframes_toolbar',
+        'header_widget',
+        'header_symbol_search',
+        'legend_context_menu',
+        'pane_context_menu',
+      ]}
+      interval={
+        selectedIndex === '1m'
+          ? '1'
+          : selectedIndex === '3m'
+            ? '3'
+            : selectedIndex === '5m'
+              ? '5'
+              : selectedIndex === '15m'
+                ? '15'
+                : selectedIndex === '30m'
+                  ? '30'
+                  : selectedIndex === '1h'
+                    ? '60'
+                    : selectedIndex === '4h'
+                      ? '240'
+                      : selectedIndex === '1d'
+                        ? 'D'
+                        : 'W'
+      }
+    />
   )
-
-  const handleChartRendering = useCallback(() => {
-    if (firstChartRef.current === null) return
-    if (chartObjectRef.current) {
-      chartObjectRef.current.remove()
-      chartObjectRef.current = null
-    }
-
-    const chartObj = createChart(firstChartRef.current, ChartUtils.chartOptions)
-    chartObjectRef.current = chartObj
-
-    // Add candlestick series
-    const chartArea = chartObj.addSeries(
-      CandlestickSeries,
-      ChartUtils.seriesOptions
-    )
-    chartObj.priceScale('right')
-    chartAreaRef.current = chartArea
-    chartArea.priceScale().applyOptions({
-      scaleMargins: {
-        top: 0.25,
-        bottom: 0.23,
-      },
-    })
-    chartObj.timeScale().applyOptions({barSpacing: 10})
-    chartObj.timeScale().fitContent()
-
-    // Add volume series (histogram)
-    const volumeSeries = chartObj.addSeries(HistogramSeries, {
-      priceFormat: {
-        type: 'custom',
-        formatter: (value: number) => `${Utility.removeDecimal(value, 2)}K`,
-      },
-      priceScaleId: '',
-    })
-    volumeSeries.priceScale().applyOptions({
-      scaleMargins: {
-        top: 0,
-        bottom: 0,
-      },
-    })
-    volumeSeriesRef.current = volumeSeries
-    volumeSeriesRef.current.moveToPane(2)
-    const volumePane = chartObjectRef.current.panes()?.[1]
-    volumePane.setHeight(120)
-  }, [chartAreaRef, chartObjectRef, firstChartRef, volumeSeriesRef])
-
-  useEffect(() => {
-    if (isLoadingCandles) return
-    handleChartRendering()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoadingCandles])
-
-  useEffect(() => {
-    if (isLoadingCandles || !socketRef.current) return
-    socketRef.current.on(
-      SocketEmitter.Emitter[
-        selectedIndex as keyof typeof SocketEmitter.Emitter
-      ],
-      (data) => {
-        const findTokenName = Object.entries(tokenList ?? {}).find(
-          ([_, value]) => value === selectedToken
-        )
-        if (!findTokenName) return
-        const chartSocketData: CandleObjectType =
-          data?.data?.candles?.[findTokenName?.[0]]
-        if (
-          !chartSocketData ||
-          !chartAreaRef.current ||
-          !volumeSeriesRef.current
-        )
-          return
-        const {open, high, low, close, volume, close_time_iso} = chartSocketData
-        singleCandleData.current = chartSocketData
-        const currentCandle = {
-          close: Number(close),
-          high: Number(high),
-          low: Number(low),
-          open: Number(open),
-          time: (new Date(close_time_iso).getTime() / 1000) as Time,
-        }
-        const currentCandleVolume = {
-          time: (new Date(close_time_iso).getTime() / 1000) as Time,
-          value: Number(volume),
-          color: Number(close) > Number(open) ? '#31413C' : '#4A2C25',
-        }
-        if (!currentCandle || !currentCandleVolume) return
-        chartAreaRef.current.update(currentCandle)
-        volumeSeriesRef.current.update(currentCandleVolume)
-      }
-    )
-  }, [
-    tokenList,
-    chartAreaRef,
-    isLoadingCandles,
-    selectedIndex,
-    selectedToken,
-    socketRef,
-    volumeSeriesRef,
-    singleCandleData,
-  ])
-
-  chartObjectRef.current
-    ?.timeScale()
-    .subscribeVisibleTimeRangeChange((timeRange) => {
-      if (!timeRange) return
-
-      const firstVisibleBar = chartObjectRef.current
-        ?.timeScale()
-        .coordinateToLogical(0)
-      if (!firstVisibleBar || isCallingCurrent.current) return
-
-      if (firstVisibleBar < 0) {
-        currnetLimit.current += 100
-        const tokenToUse = Object.entries(tokenList ?? {}).find(
-          ([_, value]) => value === selectedToken
-        )
-        getCandleHistory(
-          tokenToUse ? tokenToUse?.[0] : 'BTC',
-          currnetLimit.current
-        )
-      }
-    })
-
-  useEffect(() => {
-    if (!isLoadingCandles && !isCallingCurrent) return
-    calculateDataAndUpdateChart(totalCandleData)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCallingCurrent, isLoadingCandles, totalCandleData])
-
-  return <div ref={firstChartRef} style={{width: '100%', height: '100%'}} />
 }
 
 export default memo(ChartGraphs)

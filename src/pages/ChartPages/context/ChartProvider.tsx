@@ -94,7 +94,6 @@ const ChartContext = createContext<{
   setTokenList: Dispatch<SetStateAction<Record<string, string> | null>>
   setOtherLoading: Dispatch<SetStateAction<OtherLoaderType>>
   otherLoading: OtherLoaderType
-  getCandleHistory: (tokenName: string, limit: number) => void
   currnetLimit: RefObject<number>
   isCallingCurrent: RefObject<boolean>
   isLastCandle: RefObject<boolean>
@@ -134,7 +133,6 @@ const ChartContext = createContext<{
   totalCandlesCount: {current: 0},
   isLastCandle: {current: false},
   isCallingCurrent: {current: false},
-  getCandleHistory: () => {},
   currnetLimit: {current: 0},
   otherLoading: {isDropdownLoading: true},
   setOtherLoading: () => {},
@@ -188,7 +186,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [selectedTool, setSelectedTool] = useState<ChartShapesType | null>(
     'cursor'
   )
-  const [isLoadingCandles, setIsLoadingCandles] = useState(true)
+  const [isLoadingCandles, setIsLoadingCandles] = useState(false)
   const [chartInfo, setChartInfo] = useState<ChartInfoObjectType | null>(null)
   const [totalCandleData, setTotalCandleData] = useState<CandleObjectType[]>([])
   const firstChartRef = useRef<HTMLDivElement | null>(null)
@@ -211,49 +209,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     >(null)
   const volumeSeriesRef = useRef<ISeriesApi<'Histogram'> | null>(null)
   const isCallingCurrent = useRef(false)
-
-  const getCandleHistory = useCallback(
-    (tokenName: string, limit: number) => {
-      if (isCallingCurrent.current || isLastCandle.current) {
-        setIsLoadingCandles(false)
-        return
-      }
-      isCallingCurrent.current = true
-      const paramsPayload = {
-        timeframe: selectedIndex,
-        limit,
-      }
-      APICall('get', Endpoints.candleHistory(tokenName), {}, paramsPayload)
-        .then((res: any) => {
-          isCallingCurrent.current = false
-          if (res?.status === 200 && res?.statusCode === 200) {
-            if (totalCandlesCount.current === res?.data?.count) {
-              isLastCandle.current = true
-              setIsLoadingCandles(false)
-              return
-            }
-            totalCandlesCount.current = res?.data?.count
-            setChartInfo({
-              symbol: res?.data?.symbol,
-              timeframe: res?.data?.timeframe,
-              count: res?.data?.count,
-              fullSymbolName: res?.data?.data?.[0]?.symbol,
-            })
-            setTotalCandleData(res?.data?.data)
-          } else {
-            toast.error(res?.data?.message)
-          }
-        })
-        .catch((e) => {
-          toast.error(e?.data?.message)
-          isCallingCurrent.current = false
-        })
-        .finally(() => {
-          setIsLoadingCandles(false)
-        })
-    },
-    [selectedIndex]
-  )
 
   const enableChartActions = useCallback(() => {
     if (!chartObjectRef.current) return
@@ -305,7 +260,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       isLastCandle,
       totalCandlesCount,
       isCallingCurrent,
-      getCandleHistory,
       currnetLimit,
       otherLoading,
       setOtherLoading,
@@ -353,7 +307,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       setGetChallengeByIdArray,
       currentStageArray,
       setCurrentStageArray,
-      getCandleHistory,
       otherLoading,
       tokenList,
       chartInfo,
@@ -384,22 +337,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
         setOtherLoading((prev) => ({...prev, isDropdownLoading: false}))
       })
   }, [])
-
-  useEffect(() => {
-    if (selectedIndex) {
-      const tokenToUse = Object.entries(tokenList ?? {}).find(
-        ([_, value]) => value === selectedToken
-      )
-      setIsLoadingCandles(true)
-      setTotalCandleData([])
-      getCandleHistory(
-        tokenToUse ? tokenToUse?.[0] : 'BTC',
-        currnetLimit.current
-      )
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIndex, selectedToken])
 
   useEffect(() => {
     getTokenList()

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import './index.css'
+import './chart.css'
 
 import {PersistStorage, Store} from '@store'
 import {createRoot} from 'react-dom/client'
