@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {toast} from 'react-toastify'
 
 import {CommonButton} from '@/components'
@@ -9,14 +9,16 @@ import {
   OpenPosition,
   PendingOrder,
 } from '@/types/ChartTypes'
+import {Methodtype} from '@/types/UnionTypes'
 
 import StopLoss from './StopLoss'
 
 const EditStopLoss = (props: {
   item: (OpenPosition | PendingOrder) | null
   closeModel: () => void
+  apiMethod: Methodtype
 }) => {
-  const {item, closeModel} = props
+  const {item, closeModel, apiMethod} = props
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
       Pick<CommonBuyAndSellProp, 'take_profit'>
@@ -31,8 +33,16 @@ const EditStopLoss = (props: {
       stop_loss: stopLossData?.stop_loss,
       take_profit: stopLossData?.take_profit,
     }
-    APICall('put', Endpoints.updateOrder, payload)
-      .then(() => {})
+    APICall(
+      apiMethod,
+      apiMethod === 'put' ? Endpoints.updateOrder : Endpoints.addStopLoss,
+      payload
+    )
+      .then((res: any) => {
+        if (res) {
+          toast.success(res?.message)
+        }
+      })
       .catch((error) => {
         toast.error(error?.data?.message)
       })
@@ -46,6 +56,26 @@ const EditStopLoss = (props: {
     setStopLossData({stop_loss: item.stop_loss, take_profit: item.take_profit})
   }, [item])
 
+  const handleDeleteOrder = useCallback(() => {
+    const payload = {
+      challenge_id: item?.challenge_id,
+      tx_hash: item?.tx_hash,
+      stop_loss_id: 1,
+      take_profit_id: 1,
+    }
+    APICall('delete', Endpoints.deleteStopLoss, payload)
+      .then((res: any) => {
+        if (res) {
+          toast.success(res?.message)
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message)
+      })
+      .finally(() => {
+        closeModel()
+      })
+  }, [closeModel, item?.challenge_id, item?.tx_hash])
   useEffect(() => {
     setStopLossValue(0)
   }, [])
@@ -116,12 +146,23 @@ const EditStopLoss = (props: {
             }}
           />
         </div>
-        <div>
+        <div
+          className={apiMethod === 'put' ? 'flex justify-center gap-4 ' : ''}
+        >
           <CommonButton
-            className="bg-chart-red-color text-primary-color !w-fit mx-auto"
+            className={`bg-chart-red-color text-primary-color !w-fit ${apiMethod === 'put' ? '' : 'mx-auto'} `}
             onClick={handleUpdateOrder}
-            singleLineContent={English.E333}
+            singleLineContent={
+              apiMethod === 'put' ? English.E333 : English.E341
+            }
           />
+          {apiMethod === 'put' && (
+            <CommonButton
+              className="bg-extra-dark-danger-color text-primary-color !w-fit "
+              onClick={handleDeleteOrder}
+              singleLineContent={English.E342}
+            />
+          )}
         </div>
       </div>
     </div>

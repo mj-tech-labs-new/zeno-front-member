@@ -34,39 +34,62 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
           className={`text-xs bg-widget-primary-bg-color capitalize text-tertiary-color ${className}`}
         >
           <tr>
-            {tableHeading?.map((heading) => (
-              <th
-key={heading.content} className={`px-6 py-4  `}
+            {tableHeading?.map((heading) => {
+              const {content} = heading
+              return (
+                <th
+key={content[0]} className={`px-6 py-4  `}
 scope="col">
-                {heading.content === 'Close' ||
-                heading.content === 'Action' ||
-                heading.content === 'Delete' ? (
-                  <CommonCloseActionButton
-                    apiMethod={apiMethod}
-                    challenge_id={extraProp?.challenge_id}
-                    onPerformAction={onPerformAction}
-                    type="all_order"
-                  />
-                ) : (
-                  <div
-                    className={`flex items-center gap-2 whitespace-nowrap cursor-pointer ${headingClassName}`}
-                    onClick={() => {
-                      if (ChangeOrder) ChangeOrder(heading.content)
-                    }}
-                  >
-                    {heading?.content}
-                    {heading.showArrow && (
-                      <div className="flex flex-col items-center">
-                        <ImageComponent
-                          className="w-2"
-                          imageUrl={imageUrl ?? Images.arrows}
-                        />
+                  {content.includes('Close') ||
+                  content.includes('Action') ||
+                  content.includes('Delete') ? (
+                    <CommonCloseActionButton
+                      apiMethod={apiMethod}
+                      challenge_id={extraProp?.challenge_id}
+                      onPerformAction={onPerformAction}
+                      type="all_order"
+                    />
+                  ) : (
+                    <div
+                      className={`flex items-center gap-2 whitespace-nowrap cursor-pointer ${headingClassName}`}
+                    >
+                      <div>
+                        {content.map((header) => (
+                          <div key={`header_${header}`}>
+                            {content.length > 0 ? (
+                              <span
+                                className="inline-block"
+                                onClick={() => {
+                                  if (ChangeOrder) ChangeOrder(header)
+                                }}
+                              >
+                                {header}
+                              </span>
+                            ) : (
+                              <span
+                                onClick={() => {
+                                  if (ChangeOrder) ChangeOrder(header)
+                                }}
+                              >
+                                {header}
+                              </span>
+                            )}
+                          </div>
+                        ))}
                       </div>
-                    )}
-                  </div>
-                )}
-              </th>
-            ))}
+                      {heading.showArrow && (
+                        <div className="flex flex-col items-center">
+                          <ImageComponent
+                            className="w-2"
+                            imageUrl={imageUrl ?? Images.arrows}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </th>
+              )
+            })}
           </tr>
         </thead>
 

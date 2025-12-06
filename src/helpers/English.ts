@@ -335,6 +335,15 @@ const English = {
   E331: 'Certificate Download',
   E332: 'Current Stage',
   E333: 'Update TP/SL',
+  E334: 'Order Date',
+  E335: 'Avg trading price',
+  E336: 'Commission Price',
+  E337: 'Transcation Value',
+  E338: 'Order Value',
+  E339: 'Fee',
+  E340: 'Lighten Up Only',
+  E341: 'Add TP/SL',
+  E342: 'Delete TP/SL',
 }
 
 export default English

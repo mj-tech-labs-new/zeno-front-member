@@ -6,6 +6,8 @@ import {
   BuyOrSellApiType,
   CloseOrderButtonProps,
 } from '@/types/ChallengeTypes'
+import {OrderHistoryApiProps, OrderHistoryApiResponse} from '@/types/ChartTypes'
+import {PaginationType} from '@/types/CommonTypes'
 
 const buyOrSellApi = async (props: BuyOrSellApiProps) =>
   new Promise<{data: BuyOrSellApiType[]; isNavigateType: boolean}>(
@@ -66,9 +68,48 @@ const closeOrderApi = async (
   })
 }
 
+const orderHistoryApi = async (props: OrderHistoryApiProps) => {
+  let apiPayload: Record<string, any> = {
+    challenge_id: props.challenge_id,
+    order_type: props.order_type,
+    order_value: props.order_value,
+    tp_sl: false,
+  }
+  if (props.fromDate !== '' && props.toDate !== '') {
+    apiPayload = {
+      ...apiPayload,
+      fromDate: props.fromDate,
+      toDate: props.toDate,
+    }
+  }
+
+  return new Promise<OrderHistoryApiResponse | null>((resolve) => {
+    APICall('post', Endpoints.orderHistory(props.page, 10), apiPayload, {})
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          const paginationObject: PaginationType = {
+            limit: res?.data?.limit,
+            page: res?.data?.page,
+            total: res?.data?.total,
+            totalPages: res?.data?.totalPages,
+          }
+          resolve({data: res?.data?.data, page: paginationObject})
+        } else {
+          resolve(null)
+          toast.error(res?.message)
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message)
+        resolve(null)
+      })
+  })
+}
+
 const chartPageApi = {
   buyOrSellApi,
   closeOrderApi,
+  orderHistoryApi,
 }
 
 export default chartPageApi

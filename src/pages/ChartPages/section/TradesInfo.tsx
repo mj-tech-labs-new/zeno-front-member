@@ -4,11 +4,11 @@ import React, {memo, useEffect, useMemo, useState} from 'react'
 import {TabComponent} from '@/components'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {Constants, SocketEmitter, Utility} from '@/helpers'
-import ClosedPNL from '@/pages/ChallengeDashboard/sections/ClosedPNL'
 import {OpenPosition, PendingOrder} from '@/types/ChartTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 import OpenPositionTable from './OpenPositionTable'
+import OrderHistoryTable from './OrderHistoryTable'
 import PendingOrderTable from './PendingOrderTable'
 
 const TradesInfo = (props: {challengeId: string}) => {
@@ -24,6 +24,7 @@ const TradesInfo = (props: {challengeId: string}) => {
   )
   const {isLoadingCandles, chartAreaRef, chartInfo} = useChartProvider()
   const {socketRef} = useSocketProvider()
+
   useEffect(() => {
     const currentSocket = socketRef.current
     if (isLoadingCandles || !currentSocket) return
@@ -56,6 +57,7 @@ const TradesInfo = (props: {challengeId: string}) => {
       isLoadingCandles ||
       !priceline ||
       activeIndex === 1 ||
+      activeIndex === 2 ||
       openPosition?.length === 0
     ) {
       return
@@ -104,7 +106,6 @@ const TradesInfo = (props: {challengeId: string}) => {
         activeIndex={activeIndex}
         className="!w-full"
         headingData={Constants.tradesHeadingTypes}
-        isCorruptedTabIndex={3}
         isDividerType={false}
         type="buttonType"
         setActiveIndex={(index) => {
@@ -114,7 +115,7 @@ const TradesInfo = (props: {challengeId: string}) => {
           )
         }}
       >
-        {currentData?.length === 0 && !isLoadingCandles ? (
+        {activeIndex !== 2 && currentData.length === 0 && !isLoadingCandles ? (
           <span className="font-medium text-chart-text-primary-color text-center !whitespace-nowrap">
             No Orders
           </span>
@@ -135,7 +136,7 @@ const TradesInfo = (props: {challengeId: string}) => {
                 setPendingOrder={setPendingOrder}
               />
             ) : (
-              <ClosedPNL showHeader />
+              <OrderHistoryTable showHeader />
             )}
           </React.Fragment>
         )}

@@ -31,6 +31,10 @@ const Endpoints = {
   getBilling: (page: number, limit: number) =>
     `users/billing/getAllBill?page=${page}&limit=${limit}`,
   updateOrder: `/users/order/updateOrder`,
+  orderHistory: (page: number, limit: number) =>
+    `/users/order/orderHistory?page=${page}&limit=${limit}`,
+  addStopLoss: '/users/order/addStopLossTakeProfit',
+  deleteStopLoss: '/users/order/deleteStopLossTakeProfit',
 }
 
 export default Endpoints

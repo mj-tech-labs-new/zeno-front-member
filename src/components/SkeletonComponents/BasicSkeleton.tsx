@@ -5,7 +5,7 @@ import {BasicSkeletonType} from '@/types/UnionTypes'
 
 const BasicSkeleton = (
   props: {
-    tableHeading?: {content: string; showArrow: boolean}[]
+    tableHeading?: {content: string[]; showArrow: boolean}[]
     type?: BasicSkeletonType
   } & Pick<GeneralProps, 'className'>
 ) => {

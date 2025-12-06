@@ -74,17 +74,7 @@ const OpenPositionTable = (
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
               {Utility.removeDecimal(open ?? 0)}
             </td>
-            <td className="pr-6 py-4  !whitespace-nowrap capitalize">
-              <span
-                className={
-                  directionCaseInsensitive === 'buy'
-                    ? 'text-chart-green-color'
-                    : 'text-chart-red-color'
-                }
-              >
-                {direction ?? '--Goo'}
-              </span>
-            </td>
+
             <th
               className="pr-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap "
               scope="row"
@@ -142,18 +132,26 @@ const OpenPositionTable = (
                   </div>
                   <div className="cursor-pointer">
                     <EditStopLossModel
+                      apiMethod="put"
                       item={tableBody}
                       singleLineContent={English.E333}
                     />
                   </div>
                 </div>
               ) : (
-                '--'
+                <div className="cursor-pointer flex gap-2 ">
+                  --{' '}
+                  <EditStopLossModel
+                    apiMethod="post"
+                    item={tableBody}
+                    singleLineContent={English.E341}
+                  />
+                </div>
               )}
             </td>
             <td className="pr-6 py-4 text-left !whitespace-nowrap">
               <CommonCloseActionButton
-                apiMethod="put"
+                apiMethod="post"
                 challenge_id={challenge_id}
                 tx_hash={tableBody?.tx_hash}
                 type="single_order"

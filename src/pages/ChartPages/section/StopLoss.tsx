@@ -19,7 +19,7 @@ const StopLoss = (props: CommonStopLossProp) => {
         }))
 
         const payload = updated.map((item) => ({
-          id: item.id,
+          id: 1,
           price: Number(item.marketprice),
           status: item.status,
         }))
@@ -37,7 +37,7 @@ const StopLoss = (props: CommonStopLossProp) => {
     setInputValues((prev) => [
       ...prev,
       {
-        id: 0 + 1,
+        id: 1,
         marketprice: 0,
         status: 'unused',
       },

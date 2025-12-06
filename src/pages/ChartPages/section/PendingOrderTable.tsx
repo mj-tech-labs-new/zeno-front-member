@@ -125,7 +125,14 @@ const PendingOrderTable = (
                   </div>
                 </div>
               ) : (
-                '--'
+                <div className="cursor-pointer flex gap-2 ">
+                  --{' '}
+                  <EditStopLossModel
+                    apiMethod="post"
+                    item={{...tableBody, average_price: livePrice}}
+                    singleLineContent={English.E341}
+                  />
+                </div>
               )}
             </td>
             <td className="pr-6 py-4 text-left !whitespace-nowrap">

@@ -159,7 +159,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
           setOrderType((data) => (data === 'ASC' ? 'DESC' : 'ASC'))
         }}
         headingClassName={`!font-medium !font-helvetica !text-[12px] !leading-[18px] [&>div>div]:transition-transform [&>div>div]:duration-300 
-          ${orderType === 'ASC' ? '[&>div>div]:!rotate-90' : '[&>div>div]:!rotate-270'} `}
+          ${orderType === 'ASC' ? '[&>div>div>img]:!rotate-90' : '[&>div>div>img]:!rotate-270'} `}
       >
         {!closedPNL || closedPNL?.length === 0 ? (
           <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">

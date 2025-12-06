@@ -7,13 +7,13 @@ const StepComponent = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const stepTableHeading = useMemo(() => {
     const defaultArray = [
-      {content: ' ', showArrow: false},
-      {content: English.E224, showArrow: false},
-      {content: English.E226, showArrow: false},
+      {content: [' '], showArrow: false},
+      {content: [English.E224], showArrow: false},
+      {content: [English.E226], showArrow: false},
     ]
 
     if (activeIndex === 1) {
-      defaultArray.splice(2, 0, {content: English.E225, showArrow: false})
+      defaultArray.splice(2, 0, {content: [English.E225], showArrow: false})
     }
 
     return defaultArray

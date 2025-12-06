@@ -103,7 +103,7 @@ export interface CommonTableComponentProps
     Pick<GeneralProps, 'className' | 'layoutClassName' | 'imageUrl'>,
     Pick<CloseOrderButtonProps, 'onPerformAction'>,
     Pick<CloseOrderButtonProps, 'apiMethod'> {
-  tableHeading: {content: string; showArrow: boolean}[]
+  tableHeading: {content: string[]; showArrow: boolean}[]
   content?: string
   showArrows?: boolean
   headingClassName?: string

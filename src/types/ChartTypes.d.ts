@@ -2,9 +2,13 @@ import {Time} from 'lightweight-charts'
 import {Dispatch, SetStateAction} from 'react'
 
 // eslint-disable-next-line import-x/no-cycle
-import {CreateChallengeProps} from './ChallengeTypes'
-import {GeneralProps} from './CommonTypes'
-import {ChartShapesType, TradingSortingType} from './UnionTypes'
+import {
+  CreateChallengeProps,
+  GetClosedPnlDetailsPayloadProps,
+  GetTradingCapitalProps,
+} from './ChallengeTypes'
+import {CommonProps, GeneralProps, PaginationType} from './CommonTypes'
+import {ChartShapesType, Methodtype, TradingSortingType} from './UnionTypes'
 
 interface CandleObjectType {
   symbol: string
@@ -173,4 +177,28 @@ export interface OrderBookObjectType {
 export interface EditStopLossModelProps
   extends Pick<GeneralProps, 'singleLineContent'> {
   item: (OpenPosition | PendingOrder) | null
+  apiMethod?: Methodtype
+}
+
+export interface OrderHistoryApiProps extends GetClosedPnlDetailsPayloadProps {
+  tp_sl?: boolean
+}
+
+export interface OrderHistory
+  extends Pick<OpenPosition, 'symbol' | 'status' | 'margin_mode'>,
+    Pick<CommonProps, 'created_at'>,
+    Pick<GetTradingCapitalProps, 'fee'>,
+    Pick<CommonBuyAndSellProp, 'leverage'> {
+  average_trading_price: number
+  lighten_up_only: sring
+  margin_mode: number
+  side: string
+  transaction_value: number
+  order_value: number
+  order_price_1: string
+  order_price_2: string
+}
+export interface OrderHistoryApiResponse {
+  data: OrderHistory[]
+  page: PaginationType
 }

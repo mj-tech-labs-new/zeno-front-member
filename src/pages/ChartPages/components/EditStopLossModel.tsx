@@ -8,7 +8,7 @@ import {EditStopLossModelProps} from '@/types/ChartTypes'
 import EditStopLoss from '../section/EditStopLoss'
 
 const EditStopLossModel = (props: EditStopLossModelProps) => {
-  const {singleLineContent, item} = props
+  const {singleLineContent, item, apiMethod} = props
   const {setChildContent, setModalProps} = useModalContext()
 
   const onPressEdit = useCallback(() => {
@@ -23,6 +23,7 @@ const EditStopLossModel = (props: EditStopLossModelProps) => {
     })
     setChildContent(
       <EditStopLoss
+        apiMethod={apiMethod ?? 'put'}
         item={item}
         closeModel={() => {
           setChildContent(null)
@@ -30,7 +31,7 @@ const EditStopLossModel = (props: EditStopLossModelProps) => {
         }}
       />
     )
-  }, [item, setChildContent, setModalProps, singleLineContent])
+  }, [apiMethod, item, setChildContent, setModalProps, singleLineContent])
 
   return (
     <div onClick={onPressEdit}>
