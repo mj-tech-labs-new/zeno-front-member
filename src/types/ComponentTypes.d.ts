@@ -96,6 +96,7 @@ export interface DatePickerProps extends Pick<GeneralProps, 'className'> {
   placeHolder?: string
   dateFormate?: string
   onSelectDate: (data: [Date | null, Date | null]) => void
+  showIcon?: boolean
 }
 
 export interface CommonTableComponentProps

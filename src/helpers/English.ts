@@ -344,6 +344,7 @@ const English = {
   E340: 'Lighten Up Only',
   E341: 'Add TP/SL',
   E342: 'Delete TP/SL',
+  E343: 'Please Enter a TP/SL Price.',
 }
 
 export default English

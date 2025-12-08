@@ -12,7 +12,6 @@ const OpenPositionTable = (
   }
 ) => {
   const {challenge_id, openPosition, setPosition} = props
-
   return (
     <CommonTableComponent
       apiMethod="put"

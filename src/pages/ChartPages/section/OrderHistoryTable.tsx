@@ -71,14 +71,15 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
   }, [])
 
   return (
-    <div className="space-y-7 w-full">
+    <div className="space-y-3 w-full">
       <div
         className={`w-full flex items-center ${showHeader ? 'justify-between' : 'justify-end'} gap-5`}
       >
         <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6 !text-center">
           <DatePickerComponent
-            className="!max-w-fit flex items-center"
-            dateFormate="d MMM yyyy"
+            showIcon
+            className={`!py-5 !pl-2 !pr-2  flex items-center !bg-neutral-secondary-color !rounded-[4px] ${selectedDate?.date1 && selectedDate?.date2 ? '!w-55' : '!max-w-fit'}`}
+            dateFormate="dd/MM/yyyy"
             selectedDate1={selectedDate?.date1 as unknown as Date}
             selectedDate2={selectedDate?.date2}
             onSelectDate={(data) => {
@@ -100,7 +101,7 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
           />
           {selectedDate?.date1 && selectedDate?.date2 && (
             <CommonButton
-              className="!w-fit !text-13 [&>div]:size-3 !white_filter !text-primary-color !flex !flex-row-reverse "
+              className="!w-fit !p-2 !text-13 [&>div]:size-3 !white_filter !text-primary-color !flex !flex-row-reverse "
               imageUrl={Images.crossIcon}
               singleLineContent="Clear"
               onClick={() => {

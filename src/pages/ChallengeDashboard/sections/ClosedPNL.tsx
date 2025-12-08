@@ -99,6 +99,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
             dateFormate="d MMM yyyy"
             selectedDate1={selectedDate?.date1 as unknown as Date}
             selectedDate2={selectedDate?.date2}
+            showIcon={false}
             onSelectDate={(data) => {
               setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
               const fromDate = dayjs(data?.[0]).format('YYYY-MM-DD')

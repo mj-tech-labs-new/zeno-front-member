@@ -5,12 +5,13 @@ import {useModalContext} from '@/components/Modal/context/ModalContextProvider'
 import {Images} from '@/helpers'
 import {EditStopLossModelProps} from '@/types/ChartTypes'
 
+import {useChartProvider} from '../context/ChartProvider'
 import EditStopLoss from '../section/EditStopLoss'
 
 const EditStopLossModel = (props: EditStopLossModelProps) => {
   const {singleLineContent, item, apiMethod} = props
   const {setChildContent, setModalProps} = useModalContext()
-
+  const {livePrice} = useChartProvider()
   const onPressEdit = useCallback(() => {
     setModalProps({
       singleLineContent,
@@ -25,13 +26,21 @@ const EditStopLossModel = (props: EditStopLossModelProps) => {
       <EditStopLoss
         apiMethod={apiMethod ?? 'put'}
         item={item}
+        livePrice={livePrice}
         closeModel={() => {
           setChildContent(null)
           setModalProps(null)
         }}
       />
     )
-  }, [apiMethod, item, setChildContent, setModalProps, singleLineContent])
+  }, [
+    apiMethod,
+    item,
+    livePrice,
+    setChildContent,
+    setModalProps,
+    singleLineContent,
+  ])
 
   return (
     <div onClick={onPressEdit}>

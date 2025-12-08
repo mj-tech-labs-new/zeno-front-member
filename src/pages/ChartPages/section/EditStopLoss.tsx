@@ -17,8 +17,9 @@ const EditStopLoss = (props: {
   item: (OpenPosition | PendingOrder) | null
   closeModel: () => void
   apiMethod: Methodtype
+  livePrice: number
 }) => {
-  const {item, closeModel, apiMethod} = props
+  const {item, closeModel, apiMethod, livePrice} = props
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
       Pick<CommonBuyAndSellProp, 'take_profit'>
@@ -26,6 +27,36 @@ const EditStopLoss = (props: {
   const [stopLossValue, setStopLossValue] = useState<number>(0)
 
   const handleUpdateOrder = async () => {
+    if (item?.direction === 'buy' || item?.direction === 'sell') {
+      const sl = stopLossData?.stop_loss?.[0]?.price
+      const tp = stopLossData?.take_profit?.[0]?.price
+      if (sl === undefined || tp === undefined) {
+        toast.error(English.E343)
+        return
+      }
+
+      if (item?.direction === 'buy') {
+        if (sl != null && Number(sl) >= livePrice) {
+          toast.error(English.E296)
+          return
+        }
+        if (tp != null && Number(tp) <= livePrice) {
+          toast.error(English.E296)
+          return
+        }
+      }
+
+      if (item?.direction === 'sell') {
+        if (sl != null && Number(sl) <= livePrice) {
+          toast.error(English.E297)
+          return
+        }
+        if (tp != null && Number(tp) >= livePrice) {
+          toast.error(English.E297)
+          return
+        }
+      }
+    }
     const payload = {
       challenge_id: item?.challenge_id,
       tx_hash: item?.tx_hash,

@@ -505,6 +505,20 @@
   #table::-webkit-scrollbar {
     height: 8px;
   }
+  .react-datepicker__input-container {
+    display: flex !important;
+    flex-direction: row-reverse !important;
+  }
+  .react-datepicker__input-container .react-datepicker__calendar-icon {
+    position: initial !important;
+    height: 20px !important;
+    width: 20px !important;
+    margin: 5px -2px !important;
+    padding: auto 0px !important;
+  }
+  .react-datepicker__view-calendar-icon input {
+    padding: 4px !important;
+  }
 }
 
 @utility text-26 {

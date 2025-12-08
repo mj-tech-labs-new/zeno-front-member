@@ -53,11 +53,9 @@ const ChartHeaderStats = () => {
   )
   const volumeAmount = useMemo(
     () => ({
-      priceDiff: chartSocketData?.volume
-        ? `${chartSocketData?.volume} ${chartInfo?.symbol}`
-        : '---',
+      priceDiff: chartSocketData?.volume ? `${chartSocketData?.volume}` : '---',
     }),
-    [chartInfo?.symbol, chartSocketData?.volume]
+    [chartSocketData?.volume]
   )
 
   const ConstantMapData = useMemo(
@@ -135,7 +133,11 @@ const ChartHeaderStats = () => {
             <p
               className={`text-sm !leading-6 font-medium ${index !== 3 ? (textContent?.priceDiff?.toString()?.startsWith('-') ? 'text-chart-red-color' : 'text-chart-green-color') : 'text-chart-text-primary-color'}`}
             >
-              <span>{textContent?.priceDiff} </span>
+              <span>
+                {content === English.E122
+                  ? `${textContent?.priceDiff}k  ${chartInfo?.symbol}`
+                  : textContent?.priceDiff}{' '}
+              </span>
               {index !== 3 && (
                 <span>{(textContent as any)?.percentageDiff}</span>
               )}

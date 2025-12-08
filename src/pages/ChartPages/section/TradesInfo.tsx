@@ -104,7 +104,7 @@ const TradesInfo = (props: {challengeId: string}) => {
     <div className="!w-full py-5 px-4 !bg-chart-layout-bg rounded !whitespace-nowrap h-full">
       <TabComponent
         activeIndex={activeIndex}
-        className="!w-full"
+        className="!w-full !leading-4.5 !gap-3"
         headingData={Constants.tradesHeadingTypes}
         isDividerType={false}
         type="buttonType"
