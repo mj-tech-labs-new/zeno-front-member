@@ -15,7 +15,7 @@ const CommonCloseActionButton = (props: CloseOrderButtonProps) => {
     tx_hash = '',
     challenge_id = '',
     onPerformAction,
-    apiMethod = '',
+    apiMethod = 'put',
   } = props
   const loaderRef = useRef<AppLoaderRef>(null)
 

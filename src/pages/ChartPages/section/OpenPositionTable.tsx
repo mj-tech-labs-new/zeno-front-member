@@ -150,7 +150,7 @@ const OpenPositionTable = (
             </td>
             <td className="pr-6 py-4 text-left !whitespace-nowrap">
               <CommonCloseActionButton
-                apiMethod="post"
+                apiMethod="put"
                 challenge_id={challenge_id}
                 tx_hash={tableBody?.tx_hash}
                 type="single_order"
