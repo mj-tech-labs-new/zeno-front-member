@@ -42,6 +42,7 @@ const OpenPositionTable = (
           marginBalance,
           margin_mode,
           return_on_equity,
+          quantity,
         } = tableBody
         const directionCaseInsensitive = direction.toLowerCase()
         const contractFullName = `${symbol} ${English.E132}`
@@ -73,16 +74,10 @@ const OpenPositionTable = (
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
               {Utility.removeDecimal(open ?? 0)}
             </td>
+            <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+              {quantity ?? 0}
+            </td>
 
-            <th
-              className="pr-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap "
-              scope="row"
-            >
-              <span className={Utility.colorGeneratorUtility(open_pnl)}>
-                {Utility.removeDecimal(open_pnl ?? 0)}(
-                {Utility.removeDecimal(return_on_equity, 3)})
-              </span>
-            </th>
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
               <span>
                 {average_price
@@ -148,6 +143,15 @@ const OpenPositionTable = (
                 </div>
               )}
             </td>
+            <th
+              className="pr-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap "
+              scope="row"
+            >
+              <span className={Utility.colorGeneratorUtility(open_pnl)}>
+                {Utility.removeDecimal(open_pnl ?? 0)}(
+                {Utility.removeDecimal(return_on_equity, 3)})
+              </span>
+            </th>
             <td className="pr-6 py-4 text-left !whitespace-nowrap">
               <CommonCloseActionButton
                 apiMethod="put"

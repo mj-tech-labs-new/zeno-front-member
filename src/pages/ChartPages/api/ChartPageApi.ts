@@ -47,7 +47,7 @@ const closeOrderApi = async (
       payload = {...payload, tx_hash}
     }
     APICall(
-      apiMethod,
+      apiMethod ?? 'put',
       apiMethod === 'delete' ? Endpoints.deleteOrder : Endpoints.closeOrder,
       {},
       payload

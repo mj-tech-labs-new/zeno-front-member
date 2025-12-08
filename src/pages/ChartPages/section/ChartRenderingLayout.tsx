@@ -32,25 +32,20 @@ const ChartRenderingLayout = () => {
   }, [params?.challengeId])
 
   return (
-    <div
-      className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1 "
-      id="chartRendering"
-    >
+    <div className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1 ">
       <Loader ref={(ref) => ref?.showLoader(isLoadingCandles)} />
       <ChartHeader />
-      <div className="flex flex-row">
-        <div className="flex flex-col w-[calc(100%-350px)]">
-          <div className="flex">
-            <ChartRenderer />
+      <div className="flex flex-col gap-1 flex-1 w-full ">
+        <div className="flex flex-col lg:flex-row">
+          <ChartRenderer />
+          <div className="grid grid-cols-2 lg:flex h-[600px] ">
             <Trades />
+            <PlaceOrder />
           </div>
-          {params?.challengeId && (
-            <TradesInfo challengeId={params?.challengeId} />
-          )}
         </div>
-        <div className="w-[350px] h-full">
-          <PlaceOrder />
-        </div>
+        {params?.challengeId && (
+          <TradesInfo challengeId={params?.challengeId} />
+        )}
       </div>
     </div>
   )

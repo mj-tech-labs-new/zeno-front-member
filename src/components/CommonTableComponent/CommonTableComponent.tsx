@@ -19,7 +19,7 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
     extraProp,
     onPerformAction,
     showLoader,
-    apiMethod = '',
+    apiMethod,
   } = props
 
   return (

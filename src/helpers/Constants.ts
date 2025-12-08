@@ -838,13 +838,14 @@ const Constants = {
   Openposition: [
     {content: [English.E275], showArrow: false},
     {content: [English.E180], showArrow: false},
-    {content: [`${English.E62}(${English.E289})`], showArrow: false},
+    {content: [English.E271], showArrow: false},
     {content: [English.E262], showArrow: false},
     {content: [English.E264], showArrow: false},
     {content: [English.E265], showArrow: false},
     {content: [`${English.E269} ${English.E268}`], showArrow: false},
     {content: [English.E269], showArrow: false},
     {content: [English.E298], showArrow: false},
+    {content: [`${English.E62}(${English.E289})`], showArrow: false},
     {content: [English.E243], showArrow: false},
   ],
   PendingOrders: [
