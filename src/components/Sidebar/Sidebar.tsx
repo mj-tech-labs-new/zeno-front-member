@@ -1,19 +1,19 @@
-import {useCallback} from 'react'
-import {useSelector} from 'react-redux'
-import {Link, useLocation} from 'react-router-dom'
+import { useCallback } from 'react'
+import { useSelector } from 'react-redux'
+import { Link, useLocation } from 'react-router-dom'
 
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {Constants, English, Images} from '@/helpers'
-import {CommonFunction} from '@/services'
-import {GeneralProps, StorageProps} from '@/types/CommonTypes'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { Constants, English, Images } from '@/helpers'
+import { CommonFunction } from '@/services'
+import { GeneralProps, StorageProps } from '@/types/CommonTypes'
 
 import ImageComponent from '../ImageComponent/ImageComponent'
 import LogoComponent from '../LogoComponent/LogoComponent'
 
 const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
   const userData = useSelector((state: StorageProps) => state.userData)
-  const {socketRef} = useSocketProvider()
-  const {onPressItem} = props
+  const { socketRef } = useSocketProvider()
+  const { onPressItem } = props
   const location = useLocation()
   const onPressLink = useCallback(
     (isLogoutType: boolean) => {
@@ -41,7 +41,7 @@ const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
             const currentPath = location.pathname
             const isActiveItem =
               currentPath?.toLowerCase().startsWith('/dashboard') ||
-              currentPath?.toLowerCase().startsWith('/challenge')
+                currentPath?.toLowerCase().startsWith('/challenge')
                 ? 'challenges'
                 : currentPath?.toLowerCase().startsWith('/certificates')
                   ? 'certificates'
@@ -102,7 +102,7 @@ const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
               />
               <div className="flex flex-col *:truncate items-center">
                 <p className="text-user-name-light-color w-[150px]">
-                  {userData.user.userData?.name}
+                  {userData?.user?.userData?.name}
                 </p>
                 <p className=" text-user-name-dark-color w-[150px]">
                   {userData?.user?.userData?.email}
