@@ -32,7 +32,10 @@ const ChartRenderingLayout = () => {
   }, [params?.challengeId])
 
   return (
-    <div className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1 ">
+    <div
+      className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1 "
+      id="chartRendering"
+    >
       <Loader ref={(ref) => ref?.showLoader(isLoadingCandles)} />
       <ChartHeader />
       <div className="flex flex-col gap-1 flex-1 w-full ">

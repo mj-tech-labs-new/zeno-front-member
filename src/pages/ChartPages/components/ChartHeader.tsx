@@ -48,7 +48,7 @@ const ChartHeader = () => {
                       showArrows
                       className="max-h-52 border-none !p-0  "
                       dropDownData={TokenArray}
-                      elementId="chartRendering"
+                      elementId={['chartRendering']}
                       headingClassName="hover:!bg-transparent !text-2xl !font-semibold !font-bureau !leading-8 !text-primary-color"
                       layoutClassName="!font-semibold !leading-8 "
                       onSelectValue={(item) => {
