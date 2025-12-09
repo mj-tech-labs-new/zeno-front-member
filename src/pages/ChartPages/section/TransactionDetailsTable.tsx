@@ -135,6 +135,7 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
       <CommonTableComponent
         className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
         imageUrl={Images.backArrow}
+        layoutClassName="!h-[500px] !overflow-y-auto no-scrollbar"
         showLoader={showLoader}
         tableHeading={Constants.TransactionDetailsHistoryTableHeading}
         ChangeOrder={() => {
@@ -180,7 +181,7 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
                 className=" text-xs/5 *:transition-all *:duration-300 *:ease-in *:!font-poppins *:!leading-5"
               >
                 <th
-                  className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap"
+                  className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap"
                   scope="row"
                 >
                   <span className="!text-light-neutral-color block !pb-0.5 ">
@@ -196,10 +197,10 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
                     {directionText ?? '--'}
                   </span>
                 </th>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {dayjs(created_at).format('YYYY-MM-DD') ?? '--'}
                 </td>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span
                     className={
                       side === 'Open buy'
@@ -210,16 +211,16 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
                     {side ?? '--'}
                   </span>
                 </td>
-                <td className="  pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className="  pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span>{final_price ?? '--'}</span>
                 </td>
-                <td className=" pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {quantity ?? '--'}
                 </td>
-                <td className=" flex  flex-col pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className=" flex  flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {role ?? '--'}
                 </td>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {Utility.removeDecimal(fee, 3) ?? '--'}
                 </td>
               </tr>

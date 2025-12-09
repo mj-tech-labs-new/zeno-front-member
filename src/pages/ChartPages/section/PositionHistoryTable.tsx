@@ -124,8 +124,9 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
       </div>
 
       <CommonTableComponent
-        className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
+        className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0 "
         imageUrl={Images.backArrow}
+        layoutClassName="!h-[500px] !overflow-y-auto no-scrollbar"
         showLoader={showLoader}
         tableHeading={Constants.PositionHistoryTableHeading}
         ChangeOrder={() => {

@@ -156,6 +156,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
       <CommonTableComponent
         className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
         imageUrl={Images.backArrow}
+        layoutClassName="!h-[500px] !overflow-y-auto no-scrollbar"
         showLoader={showLoader}
         tableHeading={Constants.OpenHistoryTableHeading}
         ChangeOrder={() => {
@@ -206,7 +207,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                 className=" text-xs/5 *:transition-all *:duration-300 *:ease-in *:!font-poppins *:!leading-5"
               >
                 <th
-                  className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap"
+                  className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap"
                   scope="row"
                 >
                   <span className="!text-light-neutral-color block !pb-0.5 ">
@@ -222,13 +223,13 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                     {directionText}
                   </span>
                 </th>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <div className="flex flex-col">
                     <span>{dayjs(created_at).format('YYYY-MM-DD')}</span>
                     <span>{dayjs(created_at).format('hh:mm:ss')}</span>
                   </div>
                 </td>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span
                     className={
                       side === 'Open buy'
@@ -239,31 +240,31 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                     {side}
                   </span>
                 </td>
-                <td className=" flex flex-col pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className=" flex flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span className="inline-block">
                     {Utility.removeDecimal(average_trading_price, 3)}
                   </span>
                   <span>--</span>
                 </td>
-                <td className=" pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <div className="flex flex-col">
                     <span>{order_price_1}</span>
                     <span>{order_price_2}</span>
                   </div>
                 </td>
-                <td className=" flex  flex-col pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className=" flex  flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span className="inline-block">
                     {Utility.removeDecimal(transaction_value, 3)}
                   </span>
                   <span>{Utility.removeDecimal(order_value, 3)}</span>
                 </td>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {Utility.removeDecimal(fee, 3)}
                 </td>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {lighten_up_only}
                 </td>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {status}
                 </td>
               </tr>

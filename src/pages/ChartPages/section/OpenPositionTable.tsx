@@ -18,7 +18,7 @@ const OpenPositionTable = (
       className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
       extraProp={{challenge_id}}
       headingClassName="justify-start !whitespace-nowrap"
-      layoutClassName="!border-none"
+      layoutClassName="!border-none !h-[500px] !overflow-y-auto no-scrollbar"
       showArrows={false}
       tableHeading={Constants.Openposition}
       onPerformAction={(value) => {

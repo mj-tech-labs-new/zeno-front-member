@@ -22,7 +22,7 @@ const PendingOrderTable = (
       className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
       extraProp={{challenge_id}}
       headingClassName="justify-start !whitespace-nowrap "
-      layoutClassName="!border-none"
+      layoutClassName="!border-none !h-[500px] !overflow-y-auto no-scrollbar"
       showArrows={false}
       tableHeading={Constants.PendingOrders}
       onPerformAction={(value) => {
