@@ -80,7 +80,7 @@ export interface DropDownProps
   selectedValue: DropDownObjectType
   headingClassName?: string
   onSelectValue: (data: DropDownObjectType) => void
-  elementId?: string
+  elementId?: string[]
 }
 
 export interface MaxOpenAndMarginProps {

@@ -34,7 +34,10 @@ const PlaceOrder = () => {
   }, [getChallengeByIdArray, setLeverageValueArray, setSelectedLeverage])
 
   return (
-    <div className="my-4 mx-4 overflow-y-auto no-scrollbar ">
+    <div
+      className="my-4 mx-4 overflow-y-auto no-scrollbar "
+      id="place_order_container"
+    >
       <div className="flex flex-col gap-4">
         <HeadingComponent
           className="!text-[16px]/6 !font-poppins !tracking-normal !text-neutral-primary-color"
@@ -46,7 +49,7 @@ const PlaceOrder = () => {
           <DropDown
             className="!max-h-32 mt-2 !overflow-auto !w-full"
             dropDownData={Constants.orderMarginMode}
-            elementId="chartRendering"
+            elementId={['place_order_container', 'chartRendering']}
             layoutClassName="!h-fit"
             headingClassName="!bg-transparent
         "
@@ -60,7 +63,7 @@ const PlaceOrder = () => {
           <DropDown
             className="!max-h-52 mt-2 !overflow-auto !w-full"
             dropDownData={leverageValueArray}
-            elementId="chartRendering"
+            elementId={['place_order_container', 'chartRendering']}
             onSelectValue={(data) => {
               setSelectedLeverage(data)
             }}
