@@ -19,7 +19,7 @@ interface DateObject {
   date2: Date | null
 }
 
-const TransactionDetilsTable = (props: {showHeader: boolean}) => {
+const TransactionDetailsTable = (props: {showHeader: boolean}) => {
   const {showHeader} = props
   const params = useParams()
   const [selectedDate, setSelectedDate] = useState<DateObject>({
@@ -246,4 +246,4 @@ const TransactionDetilsTable = (props: {showHeader: boolean}) => {
   )
 }
 
-export default memo(TransactionDetilsTable)
+export default memo(TransactionDetailsTable)
