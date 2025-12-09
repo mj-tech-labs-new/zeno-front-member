@@ -9,7 +9,7 @@ import {
   DatePickerComponent,
 } from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
-import {OrderHistory} from '@/types/ChartTypes'
+import {PositionHistory} from '@/types/ChartTypes'
 import {PaginationType} from '@/types/CommonTypes'
 
 import chartPageApi from '../api/ChartPageApi'
@@ -19,7 +19,7 @@ interface DateObject {
   date2: Date | null
 }
 
-const OrderHistoryTable = (props: {showHeader: boolean}) => {
+const PositionHistoryTable = (props: {showHeader: boolean}) => {
   const {showHeader} = props
   const params = useParams()
   const [selectedDate, setSelectedDate] = useState<DateObject>({
@@ -31,9 +31,9 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
     null
   )
   const [orderType, setOrderType] = useState('ASC')
-  const [orderHistory, setOrderHistory] = useState<OrderHistory[]>([])
+  const [positionHistory, setPositionHistory] = useState<PositionHistory[]>([])
 
-  const getOrderHistoryData = useCallback(
+  const getPositionHistoryData = useCallback(
     (
       challenge_id: string,
       page: number,
@@ -44,7 +44,7 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
     ) => {
       setShowLoader(true)
       chartPageApi
-        .orderHistoryApi({
+        .PositionHistoryApi({
           challenge_id,
           page,
           fromDate,
@@ -54,7 +54,7 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
         })
         .then((data) => {
           if (!data) return
-          setOrderHistory(data.data)
+          setPositionHistory(data.data)
           setPaginationData(data?.page)
         })
         .finally(() => {
@@ -66,7 +66,7 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
 
   useEffect(() => {
     if (!params?.challengeId) return
-    getOrderHistoryData(params.challengeId, 1, '', '', 'ASC', 'created_at')
+    getPositionHistoryData(params.challengeId, 1, '', '', 'ASC', 'created_at')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -88,7 +88,7 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
               const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
 
               if (data?.[0] && data?.[1]) {
-                getOrderHistoryData(
+                getPositionHistoryData(
                   params?.challengeId ?? '',
                   1,
                   fromDate,
@@ -109,7 +109,7 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
                   date1: null,
                   date2: null,
                 })
-                getOrderHistoryData(
+                getPositionHistoryData(
                   params?.challengeId ?? '',
                   1,
                   '',
@@ -127,9 +127,9 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
         className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
         imageUrl={Images.backArrow}
         showLoader={showLoader}
-        tableHeading={Constants.OrderHistoryTableHeading}
+        tableHeading={Constants.PositionHistoryTableHeading}
         ChangeOrder={() => {
-          getOrderHistoryData(
+          getPositionHistoryData(
             params?.challengeId ?? '',
             1,
             '',
@@ -141,7 +141,7 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
           setOrderType((data) => (data === 'ASC' ? 'DESC' : 'ASC'))
         }}
       >
-        {!orderHistory || orderHistory?.length === 0 ? (
+        {!positionHistory || positionHistory?.length === 0 ? (
           <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
             <td
               className="py-8"
@@ -151,86 +151,88 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
             </td>
           </tr>
         ) : (
-          orderHistory?.map((tableBody) => {
+          positionHistory?.map((tableBody) => {
             const {
-              average_trading_price,
-              created_at,
-              fee,
-              lighten_up_only,
-              margin_mode,
-              order_price_1,
-              order_price_2,
-              order_value,
-              side,
-              status,
               symbol,
-              transaction_value,
+              margin_mode,
+              open_time,
+              close_time,
               leverage,
+              close_price,
+              open_price,
+              quantity,
+              realized_pnl,
+              order_side,
+              roe,
+              total_charge_amount,
+              stop_loss,
+              take_profit,
             } = tableBody
             const contractFullName = `${symbol} ${English.E132}`
             const directionText = `${leverage}x-${margin_mode}`
             return (
               <tr
-                key={`content-${tableBody?.created_at}`}
+                key={`content-${tableBody?.open_time}`}
                 className=" text-xs/5 *:transition-all *:duration-300 *:ease-in *:!font-poppins *:!leading-5"
               >
-                <th
-                  className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap"
-                  scope="row"
-                >
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span className="!text-light-neutral-color block !pb-0.5 ">
                     {contractFullName}
                   </span>
                   <span
                     className={
-                      side === 'Open buy'
+                      order_side === 'buy'
                         ? 'text-chart-green-color'
                         : 'text-chart-red-color'
                     }
                   >
-                    {directionText}
-                  </span>
-                </th>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {dayjs(created_at).format('YYYY-MM-DD')}
-                </td>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  <span
-                    className={
-                      side === 'Open buy'
-                        ? 'text-chart-green-color'
-                        : 'text-chart-red-color'
-                    }
-                  >
-                    {side}
+                    {directionText ?? '--'}
                   </span>
                 </td>
-                <td className=" flex flex-col pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  <span className="inline-block">
-                    {Utility.removeDecimal(average_trading_price, 3)}
-                  </span>
-                  <span>--</span>
-                </td>
-                <td className=" pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <div className="flex flex-col">
-                    <span>{order_price_1}</span>
-                    <span>{order_price_2}</span>
+                    <span>{dayjs(open_time).format('YYYY-MM-DD')}</span>
+                    <span>{dayjs(open_time).format('hh:mm:ss')}</span>
                   </div>
                 </td>
-                <td className=" flex  flex-col pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  <span className="inline-block">
-                    {Utility.removeDecimal(transaction_value, 3)}
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
+                  <div className="flex flex-col">
+                    <span>{dayjs(close_time).format('YYYY-MM-DD')}</span>
+                    <span>{dayjs(close_time).format('hh:mm:ss')}</span>
+                  </div>
+                </td>
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
+                  <span
+                    className={
+                      order_side === 'buy'
+                        ? 'text-chart-green-color'
+                        : 'text-chart-red-color'
+                    }
+                  >
+                    {order_side ?? '--'}
                   </span>
-                  <span>{Utility.removeDecimal(order_value, 3)}</span>
                 </td>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {Utility.removeDecimal(fee, 3)}
+                <td className="  pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
+                  <div className="flex flex-col">
+                    <span>{open_price ?? '--'}</span>
+                    <span>{close_price ?? '--'}</span>
+                  </div>
                 </td>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {lighten_up_only}
+                <td className=" flex flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
+                  <span>{realized_pnl ?? '--'}</span>
+                  <span>{roe ?? '--'}</span>
                 </td>
-                <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {status}
+                <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
+                  <div className="flex flex-col">{quantity}</div>
+                </td>
+                <td className=" flex  flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
+                  {Utility.removeDecimal(total_charge_amount, 3) ?? '--'}
+                </td>
+                <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
+                  <div className="flex flex-col">
+                    <span>{stop_loss?.[0]?.price ?? '--'}</span>
+                    <span>{take_profit?.[0]?.price ?? '--'}</span>
+                  </div>
                 </td>
               </tr>
             )
@@ -241,7 +243,7 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
         <BasicPagination
           total={paginationData?.totalPages}
           onSelectPage={(page) => {
-            getOrderHistoryData(
+            getPositionHistoryData(
               params?.challengeId ?? '',
               page,
               '',
@@ -256,4 +258,4 @@ const OrderHistoryTable = (props: {showHeader: boolean}) => {
   )
 }
 
-export default memo(OrderHistoryTable)
+export default memo(PositionHistoryTable)

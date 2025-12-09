@@ -345,6 +345,16 @@ const English = {
   E341: 'Add TP/SL',
   E342: 'Delete TP/SL',
   E343: 'Please Enter a TP/SL Price.',
+  E344: 'Open History',
+  E345: 'Transaction Details',
+  E346: 'Opening Time',
+  E347: 'Liquid Date',
+  E348: 'ExitPrice',
+  E349: 'Realized PnL',
+  E350: 'Liuidation Qty',
+  E351: 'Final Price',
+  E352: 'Rate',
+  E353: 'Role',
 }
 
 export default English

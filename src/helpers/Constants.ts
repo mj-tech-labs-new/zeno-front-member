@@ -496,7 +496,9 @@ const Constants = {
   tradesHeadingTypes: [
     {title: English.E142},
     {title: English.E143},
+    {title: English.E344},
     {title: English.E144},
+    {title: English.E345},
   ],
   orderMarginMode: [{title: English.E139}, {title: English.E329}],
   trades: [
@@ -869,7 +871,7 @@ const Constants = {
     {content: [English.E285], showArrow: false},
     {content: [English.E286], showArrow: false},
   ],
-  OrderHistoryTableHeading: [
+  OpenHistoryTableHeading: [
     {content: [English.E275], showArrow: false},
     {content: [English.E334], showArrow: false},
     {content: [English.E270], showArrow: false},
@@ -879,6 +881,27 @@ const Constants = {
     {content: [English.E339], showArrow: false},
     {content: [English.E340], showArrow: false},
     {content: [English.E52], showArrow: false},
+  ],
+  PositionHistoryTableHeading: [
+    {content: [English.E275], showArrow: false},
+    {content: [English.E346], showArrow: false},
+    {content: [English.E347], showArrow: false},
+    {content: [English.E270], showArrow: false},
+    {content: [English.E335, English.E348], showArrow: false},
+    {content: [English.E349, `${English.E338}%`], showArrow: false},
+    {content: [English.E350], showArrow: false},
+    {content: [English.E339], showArrow: false},
+    {content: [English.E292], showArrow: false},
+  ],
+
+  TransactionDetailsHistoryTableHeading: [
+    {content: [English.E275], showArrow: false},
+    {content: [English.E334], showArrow: false},
+    {content: [English.E270], showArrow: false},
+    {content: [English.E351], showArrow: false},
+    {content: [English.E105], showArrow: false},
+    {content: [English.E353], showArrow: false},
+    {content: [English.E298], showArrow: false},
   ],
   PlaceOrderTab: [
     {title: English.E290, img: ''},
