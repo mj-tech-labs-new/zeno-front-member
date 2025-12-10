@@ -222,22 +222,10 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
                   </div>
                 </td>
                 <td className=" flex flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  <span
-                    className={
-                      realized_pnl.toString().startsWith('-')
-                        ? 'text-chart-red-color'
-                        : 'text-chart-green-color'
-                    }
-                  >
+                  <span className={Utility.colorGeneratorUtility(realized_pnl)}>
                     {`${Utility.removeDecimal(realized_pnl, 3)} ${English.E60}`}
                   </span>
-                  <span
-                    className={
-                      roe?.toString().startsWith('-')
-                        ? 'text-chart-red-color'
-                        : 'text-chart-green-color'
-                    }
-                  >
+                  <span className={Utility.colorGeneratorUtility(Number(roe))}>
                     {roe ?? '--'}
                   </span>
                 </td>
