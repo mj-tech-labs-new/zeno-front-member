@@ -192,7 +192,7 @@ export type TransactionDetailsApiProps = Pick<
 >
 
 export interface OrderHistory
-  extends Pick<OpenPosition, 'symbol' | 'status' | 'margin_mode'>,
+  extends Pick<OpenPosition, 'symbol' | 'status' | 'margin_mode' | 'quantity'>,
     Pick<CommonProps, 'created_at'>,
     Pick<GetTradingCapitalProps, 'fee'>,
     Pick<CommonBuyAndSellProp, 'leverage'> {
@@ -204,6 +204,7 @@ export interface OrderHistory
   order_value: number
   order_price_1: string
   order_price_2: string
+  commission_price?: number
 }
 export interface OrderHistoryApiResponse {
   data: OrderHistory[]

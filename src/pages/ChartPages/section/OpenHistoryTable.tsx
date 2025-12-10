@@ -21,6 +21,7 @@ interface DateObject {
 
 const OpenHistoryTable = (props: {showHeader: boolean}) => {
   const {showHeader} = props
+
   const params = useParams()
   const [selectedDate, setSelectedDate] = useState<DateObject>({
     date1: null,
@@ -30,6 +31,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
   const [paginationData, setPaginationData] = useState<PaginationType | null>(
     null
   )
+
   const [orderType, setOrderType] = useState('ASC')
   const [openHistory, setOpenHistory] = useState<OrderHistory[]>([])
   const [showTpSl, setShowTpSl] = useState(false)
@@ -108,6 +110,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
             showIcon
             className={`!py-5 !pl-2 !pr-2  flex items-center !bg-neutral-secondary-color !rounded-[4px] ${selectedDate?.date1 && selectedDate?.date2 ? '!w-55' : '!max-w-fit'}`}
             dateFormate="dd/MM/yyyy"
+            minDate={selectedDate.date1 as unknown as Date}
             selectedDate1={selectedDate?.date1 as unknown as Date}
             selectedDate2={selectedDate?.date2}
             onSelectDate={(data) => {
@@ -190,14 +193,14 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
               fee,
               lighten_up_only,
               margin_mode,
-              order_price_1,
-              order_price_2,
+              quantity,
               order_value,
               side,
               status,
               symbol,
               transaction_value,
               leverage,
+              commission_price,
             } = tableBody
             const contractFullName = `${symbol} ${English.E132}`
             const directionText = `${leverage}x-${margin_mode}`
@@ -242,15 +245,15 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                 </td>
                 <td className=" flex flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span className="inline-block">
-                    {Utility.removeDecimal(average_trading_price, 3)}
+                    {`${Utility.removeDecimal(average_trading_price, 3)} ${English.E60}`}
                   </span>
-                  <span>--</span>
+                  <span>{`${Utility.removeDecimal(commission_price ?? 0, 3)}  ${English.E60}`}</span>
                 </td>
                 <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  <div className="flex flex-col">
-                    <span>{order_price_1}</span>
-                    <span>{order_price_2}</span>
-                  </div>
+                  <span>
+                    {quantity}
+                    {` ${symbol.replace('USDT', '')}`}
+                  </span>
                 </td>
                 <td className=" flex  flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span className="inline-block">
@@ -259,7 +262,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                   <span>{Utility.removeDecimal(order_value, 3)}</span>
                 </td>
                 <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {Utility.removeDecimal(fee, 3)}
+                  {`${Utility.removeDecimal(fee, 3)} ${English.E60}`}
                 </td>
                 <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {lighten_up_only}

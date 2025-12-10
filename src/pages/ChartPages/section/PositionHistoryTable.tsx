@@ -80,6 +80,7 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
             showIcon
             className={`!py-5 !pl-2 !pr-2  flex items-center !bg-neutral-secondary-color !rounded-[4px] ${selectedDate?.date1 && selectedDate?.date2 ? '!w-55' : '!max-w-fit'}`}
             dateFormate="dd/MM/yyyy"
+            minDate={selectedDate.date1 as unknown as Date}
             selectedDate1={selectedDate?.date1 as unknown as Date}
             selectedDate2={selectedDate?.date2}
             onSelectDate={(data) => {
@@ -210,24 +211,41 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
                         : 'text-chart-red-color'
                     }
                   >
-                    {order_side ?? '--'}
+                    {order_side.charAt(0).toUpperCase() +
+                      order_side.slice(1, order_side === 'buy ' ? 3 : 4)}
                   </span>
                 </td>
                 <td className="  pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <div className="flex flex-col">
-                    <span>{open_price ?? '--'}</span>
-                    <span>{close_price ?? '--'}</span>
+                    <span>{`${open_price} ${English.E60}`}</span>
+                    <span>{`${close_price} ${English.E60}`}</span>
                   </div>
                 </td>
                 <td className=" flex flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  <span>{realized_pnl ?? '--'}</span>
-                  <span>{roe ?? '--'}</span>
+                  <span
+                    className={
+                      realized_pnl.toString().startsWith('-')
+                        ? 'text-chart-red-color'
+                        : 'text-chart-green-color'
+                    }
+                  >
+                    {`${Utility.removeDecimal(realized_pnl, 3)} ${English.E60}`}
+                  </span>
+                  <span
+                    className={
+                      roe?.toString().startsWith('-')
+                        ? 'text-chart-red-color'
+                        : 'text-chart-green-color'
+                    }
+                  >
+                    {roe ?? '--'}
+                  </span>
                 </td>
                 <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  <div className="flex flex-col">{quantity}</div>
+                  <div className="flex flex-col">{`${quantity} ${symbol.replace('USDT', '')}`}</div>
                 </td>
                 <td className=" flex  flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {Utility.removeDecimal(total_charge_amount, 3) ?? '--'}
+                  {`${Utility.removeDecimal(total_charge_amount, 3)} ${English.E60}`}
                 </td>
                 <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <div className="flex flex-col">

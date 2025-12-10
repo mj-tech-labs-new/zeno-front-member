@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import dayjs from 'dayjs'
 import {memo, useCallback, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
@@ -89,6 +90,7 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
             showIcon
             className={`!py-5 !pl-2 !pr-2  flex items-center !bg-neutral-secondary-color !rounded-[4px] ${selectedDate?.date1 && selectedDate?.date2 ? '!w-55' : '!max-w-fit'}`}
             dateFormate="dd/MM/yyyy"
+            minDate={selectedDate.date1 as unknown as Date}
             selectedDate1={selectedDate?.date1 as unknown as Date}
             selectedDate2={selectedDate?.date2}
             onSelectDate={(data) => {
@@ -171,7 +173,7 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
               leverage,
               final_price,
               quantity,
-              role,
+              role = '',
             } = tableBody
             const contractFullName = `${symbol} ${English.E132}`
             const directionText = `${leverage}x-${margin_mode}`
@@ -198,7 +200,10 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
                   </span>
                 </th>
                 <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {dayjs(created_at).format('YYYY-MM-DD') ?? '--'}
+                  <div className="flex flex-col">
+                    <span>{dayjs(created_at).format('YYYY-MM-DD')}</span>
+                    <span>{dayjs(created_at).format('hh:mm:ss')}</span>
+                  </div>
                 </td>
                 <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span
@@ -212,16 +217,18 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
                   </span>
                 </td>
                 <td className="  pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  <span>{final_price ?? '--'}</span>
+                  <span>{`${final_price} ${English.E60}`}</span>
                 </td>
                 <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {quantity ?? '--'}
+                  {`${quantity} ${symbol.replace('USDT', '')}`}
                 </td>
                 <td className=" flex  flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {role ?? '--'}
+                  {role === null
+                    ? '--'
+                    : role?.charAt(0)?.toUpperCase() + role?.slice(1, 5)}
                 </td>
                 <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {Utility.removeDecimal(fee, 3) ?? '--'}
+                  {`${Utility.removeDecimal(fee, 3)} ${English.E60}`}
                 </td>
               </tr>
             )

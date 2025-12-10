@@ -97,6 +97,7 @@ export interface DatePickerProps extends Pick<GeneralProps, 'className'> {
   dateFormate?: string
   onSelectDate: (data: [Date | null, Date | null]) => void
   showIcon?: boolean
+  minDate?: Date
 }
 
 export interface CommonTableComponentProps
