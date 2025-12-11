@@ -108,7 +108,7 @@ const BillingPage = () => {
                   {challenge_fee}
                 </td>
                 <td className="p-6 text-secondary-light-color">
-                  {payment_status === 0 ? 'Success' : 'Failed'}
+                  {payment_status === 'paid' ? 'Success' : 'Failed'}
                 </td>
                 <td className="p-6 text-secondary-light-color">
                   {challenge_id}

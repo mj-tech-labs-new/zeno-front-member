@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {useLocation, useNavigate} from 'react-router-dom'
 
@@ -9,8 +9,10 @@ import {CommonFunction} from '@/services'
 import {ChallengePayoutObject} from '@/types/ChallengeTypes'
 import {StorageProps} from '@/types/CommonTypes'
 
-import {createChallengeApi} from './api/CreateChallengeApis'
+import {getPaymentQrCode} from './api/CreateChallengeApis'
 import CreateChallengeContainer from './sections/CreateChallengeContainer'
+import PaymentDetails from './sections/PaymentDetails'
+import PaymentInstruction from './sections/PaymentInstruction'
 import Payout from './sections/Payout'
 import TradingCapitalContainer from './sections/TradingCapitalContainer'
 
@@ -18,33 +20,53 @@ const CreateChallenge = () => {
   const location = useLocation()
 
   const userData = useSelector((state: StorageProps) => state.userData)
+  const payoutData = useSelector(
+    (state: StorageProps) => state.userData.payoutDetails
+  )
   const [payoutDetails, setPayoutDetails] = useState<ChallengePayoutObject>({
     amount: '---',
     capital: '---',
     name: '---',
     type: '---',
   })
+  const [paymentDetails, setPaymentDetails] = useState<
+    Record<string, string | number>
+  >({
+    qrCode: '',
+    wallet_address: '',
+    transactionId: 0,
+  })
   const [showLoader, setShowLoader] = useState(false)
   const [selectedOption, setSelectedOption] = useState(1)
   const [selectedTableRow, setSelectedTableRow] = useState(1)
   const navigate = useNavigate()
 
-  const handleCreateChallengeApi = () => {
+  const handleGetPaymentQR = useCallback(() => {
     setShowLoader(true)
-    createChallengeApi({
+    getPaymentQrCode({
       challenge_plan_id: selectedTableRow,
       step: selectedOption,
       total_stage: selectedOption === 1 ? 2 : 3,
+      challenge_fee: Number(payoutDetails?.capital),
     }).then((res) => {
       setShowLoader(false)
-      navigate('/payout-success', {
-        state: {
-          ...res[0],
-          capital: payoutDetails.capital,
-        },
-      })
+      if (res) {
+        setPaymentDetails((prev) => ({
+          ...prev,
+          qrCode: res.qrDataURL,
+          wallet_address: res.wallet_address,
+          transactionId: res.transaction_id,
+        }))
+      }
     })
-  }
+  }, [payoutDetails?.capital, selectedOption, selectedTableRow])
+
+  useEffect(() => {
+    if (!payoutData) return
+
+    handleGetPaymentQR()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [payoutData])
 
   return (
     <Layout2>
@@ -76,7 +98,7 @@ const CreateChallenge = () => {
             />
           </div>
           <div
-            className={`w-full lg:w-[385px] bg-white p-6 rounded-2xl ${location.pathname === '/' ? '' : 'sticky top-0'} h-fit`}
+            className={`w-full  lg:w-[385px] bg-white p-6 rounded-2xl ${location.pathname === '/' ? '' : 'sticky top-0'} h-fit`}
           >
             <Payout
               amount={payoutDetails?.amount}
@@ -95,9 +117,37 @@ const CreateChallenge = () => {
                   })
                   return
                 }
-                handleCreateChallengeApi()
+                handleGetPaymentQR()
               }}
+              transaction_id={
+                paymentDetails?.transactionId as unknown as number
+              }
             />
+            {paymentDetails?.qrCode !== '' && (
+              <div>
+                <PaymentDetails
+                  qrDataURL={paymentDetails?.qrCode as unknown as string}
+                  status_message={
+                    paymentDetails?.status_message as unknown as string
+                  }
+                  wallet_address={
+                    paymentDetails?.wallet_address as unknown as string
+                  }
+                />
+                <div>
+                  <PaymentInstruction
+                    transaction_id={
+                      paymentDetails?.transactionId as unknown as number
+                    }
+                    usdt_price={Number(
+                      payoutDetails?.capital !== '---'
+                        ? payoutDetails?.capital
+                        : payoutData?.capital
+                    )}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

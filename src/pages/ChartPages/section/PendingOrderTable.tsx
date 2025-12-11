@@ -105,7 +105,7 @@ const PendingOrderTable = (
             </td>
 
             <td className=" pr-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
-              {tableBody?.take_profit?.[0]?.price &&
+              {tableBody?.take_profit?.[0]?.price ||
               tableBody?.stop_loss?.[0]?.price ? (
                 <div className="flex gap-3 items-center">
                   <div className="flex flex-col">
@@ -120,7 +120,19 @@ const PendingOrderTable = (
                   <div className="cursor-pointer">
                     <EditStopLossModel
                       item={{...tableBody, average_price: livePrice}}
-                      singleLineContent={English.E333}
+                      symbol={symbol}
+                      apiMethod={
+                        tableBody?.take_profit?.[0]?.price &&
+                        tableBody?.stop_loss?.[0]?.price
+                          ? 'put'
+                          : 'post'
+                      }
+                      singleLineContent={
+                        tableBody?.take_profit?.[0]?.price &&
+                        tableBody?.stop_loss?.[0]?.price
+                          ? English.E333
+                          : English.E341
+                      }
                     />
                   </div>
                 </div>
@@ -131,6 +143,7 @@ const PendingOrderTable = (
                     apiMethod="post"
                     item={{...tableBody, average_price: livePrice}}
                     singleLineContent={English.E341}
+                    symbol={symbol}
                   />
                 </div>
               )}

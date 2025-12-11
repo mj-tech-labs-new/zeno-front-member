@@ -110,7 +110,9 @@ const DashboardRoutes = [
     element={
       <UserWrapper>
         <LazyLoader>
-          <CreateChallenge />
+          <SocketProvider>
+            <CreateChallenge />
+          </SocketProvider>
         </LazyLoader>
       </UserWrapper>
     }

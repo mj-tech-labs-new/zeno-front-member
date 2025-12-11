@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
+import {useSelector} from 'react-redux'
 
 import {
   CommonTableComponent,
@@ -11,6 +12,7 @@ import type {
   ChallengePayoutObject,
   GetTradingCapitalProps,
 } from '@/types/ChallengeTypes'
+import {StorageProps} from '@/types/CommonTypes'
 
 import {getTradingCapitalApi} from '../api/CreateChallengeApis'
 import CreateChallengeCardLayout from '../layout/CreateChallengeCardLayout'
@@ -24,8 +26,35 @@ const TradingCapitalContainer = (props: {
     GetTradingCapitalProps[]
   >([])
   const [showLoader, setShowLoader] = useState(false)
-
+  const payoutData = useSelector(
+    (state: StorageProps) => state.userData.payoutDetails
+  )
   const {onPressItem, setSelectedTableRow, selectedOption} = props
+
+  const handleSelectRow = useCallback((tableBody: GetTradingCapitalProps) => {
+    setTradingCapitalData((prev) => {
+      const newData = prev.map((previousData) => {
+        if (previousData?.challenge_name === tableBody?.challenge_name) {
+          if (previousData?.checked) return previousData
+          setSelectedTableRow(previousData.id)
+          onPressItem({
+            amount: Utility.numberConversion(previousData.capital_fund),
+            capital: Utility.numberConversion(previousData.fee),
+            name: previousData.challenge_name,
+            type: previousData.step === 1 ? English.E32 : English.E34,
+          })
+          return {
+            ...previousData,
+            checked: true,
+          }
+        }
+        return {...previousData, checked: false}
+      })
+
+      return newData
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     setShowLoader(true)
@@ -35,10 +64,17 @@ const TradingCapitalContainer = (props: {
           ...item,
           checked: false,
         }))
+        if (payoutData) {
+          const selectedItems = response.find(
+            (item) => item.step === payoutData?.step
+          )
+          if (selectedItems) handleSelectRow(selectedItems)
+        }
         setTradingCapitalData(response)
       })
       .finally(() => setShowLoader(false))
-  }, [selectedOption])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <CreateChallengeCardLayout>
@@ -61,6 +97,9 @@ const TradingCapitalContainer = (props: {
             <tr
               key={`content-${tableBody?.id}`}
               className={`font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in-out ${tableBody?.checked ? 'bg-info-bg-color' : ''}`}
+              onClick={() => {
+                handleSelectRow(tableBody)
+              }}
             >
               <th
                 className="p-6 font-medium text-gray-900 whitespace-nowrap "
@@ -69,37 +108,6 @@ const TradingCapitalContainer = (props: {
                 <RadioInputContainer
                   checked={tableBody?.checked}
                   className="text-extra-dark-danger-color"
-                  onChange={(e) => {
-                    setTradingCapitalData((prev) => {
-                      const newData = prev.map((previousData) => {
-                        if (
-                          previousData?.challenge_name ===
-                          tableBody?.challenge_name
-                        ) {
-                          if (previousData?.checked) return previousData
-                          setSelectedTableRow(previousData.id)
-                          onPressItem({
-                            amount: Utility.numberConversion(
-                              previousData.capital_fund
-                            ),
-                            capital: Utility.numberConversion(previousData.fee),
-                            name: previousData.challenge_name,
-                            type:
-                              previousData.step === 1
-                                ? English.E32
-                                : English.E34,
-                          })
-                          return {
-                            ...previousData,
-                            checked: e.target.checked,
-                          }
-                        }
-                        return {...previousData, checked: false}
-                      })
-
-                      return newData
-                    })
-                  }}
                 />
               </th>
 

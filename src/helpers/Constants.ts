@@ -891,7 +891,7 @@ const Constants = {
     {content: [English.E349, `${English.E338}%`], showArrow: false},
     {content: [English.E350], showArrow: false},
     {content: [English.E339], showArrow: false},
-    {content: [English.E292], showArrow: false},
+    {content: [English.E298], showArrow: false},
   ],
 
   TransactionDetailsHistoryTableHeading: [
@@ -901,7 +901,7 @@ const Constants = {
     {content: [English.E351], showArrow: false},
     {content: [English.E105], showArrow: false},
     {content: [English.E353], showArrow: false},
-    {content: [English.E298], showArrow: false},
+    {content: [English.E339], showArrow: false},
   ],
   PlaceOrderTab: [
     {title: English.E290, img: ''},

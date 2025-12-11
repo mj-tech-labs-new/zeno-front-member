@@ -18,8 +18,10 @@ const EditStopLoss = (props: {
   closeModel: () => void
   apiMethod: Methodtype
   livePrice: number
+  symbol: string
 }) => {
-  const {item, closeModel, apiMethod, livePrice} = props
+  const {item, closeModel, apiMethod, livePrice, symbol} = props
+
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
       Pick<CommonBuyAndSellProp, 'take_profit'>
@@ -30,39 +32,58 @@ const EditStopLoss = (props: {
     if (item?.direction === 'buy' || item?.direction === 'sell') {
       const sl = stopLossData?.stop_loss?.[0]?.price
       const tp = stopLossData?.take_profit?.[0]?.price
-      if (sl === undefined || tp === undefined) {
+      if (sl === undefined && tp === undefined) {
         toast.error(English.E343)
         return
       }
 
       if (item?.direction === 'buy') {
-        if (sl != null && Number(sl) >= livePrice) {
+        if (Number(sl) >= livePrice) {
           toast.error(English.E296)
           return
         }
-        if (tp != null && Number(tp) <= livePrice) {
+        if (Number(tp) <= livePrice) {
           toast.error(English.E296)
           return
         }
       }
 
       if (item?.direction === 'sell') {
-        if (sl != null && Number(sl) <= livePrice) {
+        if (Number(sl) <= livePrice) {
           toast.error(English.E297)
           return
         }
-        if (tp != null && Number(tp) >= livePrice) {
+        if (Number(tp) >= livePrice) {
           toast.error(English.E297)
           return
         }
       }
     }
-    const payload = {
-      challenge_id: item?.challenge_id,
-      tx_hash: item?.tx_hash,
-      symbol: item?.symbol,
-      stop_loss: stopLossData?.stop_loss,
-      take_profit: stopLossData?.take_profit,
+    let payload: Record<string, any> = {
+      challenge_id: item?.challenge_id ?? '',
+      tx_hash: item?.tx_hash ?? '',
+      symbol: item?.symbol ?? '',
+    }
+
+    if (
+      item?.stop_loss?.length !== 1 &&
+      apiMethod === 'post' &&
+      stopLossData.stop_loss
+    ) {
+      payload = {...payload, stop_loss: stopLossData.stop_loss}
+    }
+    if (apiMethod === 'put') {
+      payload = {...payload, stop_loss: stopLossData.stop_loss}
+    }
+    if (
+      item?.take_profit?.length !== 1 &&
+      apiMethod === 'post' &&
+      stopLossData.stop_loss
+    ) {
+      payload = {...payload, take_profit: stopLossData.take_profit}
+    }
+    if (apiMethod === 'put') {
+      payload = {...payload, take_profit: stopLossData.take_profit}
     }
     APICall(
       apiMethod,
@@ -88,12 +109,19 @@ const EditStopLoss = (props: {
   }, [item])
 
   const handleDeleteOrder = useCallback(() => {
-    const payload = {
-      challenge_id: item?.challenge_id,
-      tx_hash: item?.tx_hash,
-      stop_loss_id: 1,
-      take_profit_id: 1,
+    let payload: Record<string, string | number> = {
+      challenge_id: item?.challenge_id ?? '',
+      tx_hash: item?.tx_hash ?? '',
     }
+
+    if (item?.stop_loss?.length === 1) {
+      payload = {...payload, stop_loss_id: 1}
+    }
+
+    if (item?.take_profit?.length === 1) {
+      payload = {...payload, take_profit_id: 1}
+    }
+
     APICall('delete', Endpoints.deleteStopLoss, payload)
       .then((res: any) => {
         if (res) {
@@ -106,14 +134,29 @@ const EditStopLoss = (props: {
       .finally(() => {
         closeModel()
       })
-  }, [closeModel, item?.challenge_id, item?.tx_hash])
+  }, [
+    closeModel,
+    item?.challenge_id,
+    item?.stop_loss?.length,
+    item?.take_profit?.length,
+    item?.tx_hash,
+  ])
   useEffect(() => {
     setStopLossValue(0)
   }, [])
   return (
     <div>
-      <div className="flex flex-col gap-6 ">
+      <div className="flex flex-col gap-6 py-6 ">
         <div>
+          <div className="flex justify-between items-center">
+            <div className="font-switzer text-primary-dark-blue-color font-medium">
+              {English.E293} :{' '}
+            </div>
+            <div className="text-primary-dark-blue-color font-normal">
+              {livePrice}
+              {` ${symbol.replace('USDT', '')}`}
+            </div>
+          </div>
           <StopLoss
             heading="Stop Loss"
             marketPrice={Number(item?.average_price)}
@@ -177,23 +220,20 @@ const EditStopLoss = (props: {
             }}
           />
         </div>
-        <div
-          className={apiMethod === 'put' ? 'flex justify-center gap-4 ' : ''}
-        >
+        <div className="flex justify-center gap-4 ">
           <CommonButton
-            className={`bg-chart-red-color text-primary-color !w-fit ${apiMethod === 'put' ? '' : 'mx-auto'} `}
+            className={`bg-chart-red-color text-primary-color !w-fit  `}
             onClick={handleUpdateOrder}
             singleLineContent={
               apiMethod === 'put' ? English.E333 : English.E341
             }
           />
-          {apiMethod === 'put' && (
-            <CommonButton
-              className="bg-extra-dark-danger-color text-primary-color !w-fit "
-              onClick={handleDeleteOrder}
-              singleLineContent={English.E342}
-            />
-          )}
+
+          <CommonButton
+            className="bg-extra-dark-danger-color text-primary-color !w-fit "
+            onClick={handleDeleteOrder}
+            singleLineContent={English.E342}
+          />
         </div>
       </div>
     </div>

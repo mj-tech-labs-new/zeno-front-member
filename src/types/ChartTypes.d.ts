@@ -177,7 +177,8 @@ export interface OrderBookObjectType {
   asks: number[][]
 }
 export interface EditStopLossModelProps
-  extends Pick<GeneralProps, 'singleLineContent'> {
+  extends Pick<GeneralProps, 'singleLineContent'>,
+    Pick<OpenPosition, 'symbol'> {
   item: (OpenPosition | PendingOrder) | null
   apiMethod?: Methodtype
 }

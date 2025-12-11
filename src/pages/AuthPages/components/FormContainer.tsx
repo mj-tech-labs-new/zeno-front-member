@@ -12,7 +12,6 @@ import {Link, useNavigate} from 'react-router-dom'
 
 import {CommonButton, InputContainer, Loader} from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
-import {createChallengeApi} from '@/pages/CreateChallenge/api/CreateChallengeApis'
 import {
   LoginApiProps,
   RegisterApiProps,
@@ -155,16 +154,7 @@ const FormContainer = (
               navigate('/dashboard')
               return
             }
-            createChallengeApi(userData.payoutDetails)
-              .then((res) => {
-                navigate('/payout-success', {
-                  state: {
-                    ...res[0],
-                    capital: userData.payoutDetails?.capital,
-                  },
-                })
-              })
-              .finally(() => {})
+            navigate('/')
           }
         })
         .catch(() => {

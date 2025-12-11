@@ -9,14 +9,14 @@ import {useChartProvider} from '../context/ChartProvider'
 import EditStopLoss from '../section/EditStopLoss'
 
 const EditStopLossModel = (props: EditStopLossModelProps) => {
-  const {singleLineContent, item, apiMethod} = props
+  const {singleLineContent, item, apiMethod, symbol} = props
   const {setChildContent, setModalProps} = useModalContext()
   const {livePrice} = useChartProvider()
   const onPressEdit = useCallback(() => {
     setModalProps({
       singleLineContent,
       className:
-        'w-fit  !rounded-lg !bg-text-info-dark-color [&<div<div]:!bg-primary-black/10 !px-3.5 !py-5 !border !border-solid !border-tertiary-color',
+        'w-fit  !rounded-lg !bg-text-info-dark-color [&div>h2]:!text-primary-dark-blue-color [&<div<div]:!bg-primary-black/10 !px-3.5 !py-5 !border !border-solid !border-tertiary-color',
       onPressButton() {
         setChildContent(null)
         setModalProps(null)
@@ -27,6 +27,7 @@ const EditStopLossModel = (props: EditStopLossModelProps) => {
         apiMethod={apiMethod ?? 'put'}
         item={item}
         livePrice={livePrice}
+        symbol={symbol}
         closeModel={() => {
           setChildContent(null)
           setModalProps(null)
@@ -40,6 +41,7 @@ const EditStopLossModel = (props: EditStopLossModelProps) => {
     setChildContent,
     setModalProps,
     singleLineContent,
+    symbol,
   ])
 
   return (

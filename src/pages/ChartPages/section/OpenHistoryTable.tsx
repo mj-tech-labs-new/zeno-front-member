@@ -87,106 +87,102 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
       <div
         className={`w-full flex items-center ${showHeader ? 'justify-between' : 'justify-end'} gap-5`}
       >
-        <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6 !text-center">
-          <CommonButton
-            className={`!py-1.5 !text-primary-color !font-medium !border-2 !border-neutral-secondary-color ${showTpSl ? '!bg-neutral-secondary-color' : ''}`}
-            singleLineContent={English.E298}
-            onClick={() =>
-              setShowTpSl((prev) => {
-                getOpenHistoryData(
-                  params.challengeId ?? '',
-                  1,
-                  '',
-                  '',
-                  'ASC',
-                  'created_at',
-                  !prev
-                )
-                return !prev
-              })
-            }
-          />
-          <DatePickerComponent
-            showIcon
-            className={`!py-5 !pl-2 !pr-2  flex items-center !bg-neutral-secondary-color !rounded-[4px] ${selectedDate?.date1 && selectedDate?.date2 ? '!w-55' : '!max-w-fit'}`}
-            dateFormate="dd/MM/yyyy"
-            minDate={selectedDate.date1 as unknown as Date}
-            selectedDate1={selectedDate?.date1 as unknown as Date}
-            selectedDate2={selectedDate?.date2}
-            onSelectDate={(data) => {
-              setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
-              const fromDate = dayjs(data?.[0]).format('YYYY-MM-DD')
-              const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
-
-              if (data?.[0] && data?.[1]) {
-                getOpenHistoryData(
-                  params?.challengeId ?? '',
-                  1,
-                  fromDate,
-                  toDate,
-                  orderType,
-                  'created_at',
-                  false
-                )
-              }
-            }}
-          />
-          {selectedDate?.date1 && selectedDate?.date2 && (
+        {openHistory && (
+          <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6 !text-center">
             <CommonButton
-              className="!w-fit !p-2 !text-13 [&>div]:size-3 !white_filter !text-primary-color !flex !flex-row-reverse "
-              imageUrl={Images.crossIcon}
-              singleLineContent="Clear"
-              onClick={() => {
-                setSelectedDate({
-                  date1: null,
-                  date2: null,
+              className={`!py-1.5 !text-primary-color !font-medium !border-2 !border-neutral-secondary-color ${showTpSl ? '!bg-neutral-secondary-color' : ''}`}
+              singleLineContent={English.E298}
+              onClick={() =>
+                setShowTpSl((prev) => {
+                  getOpenHistoryData(
+                    params.challengeId ?? '',
+                    1,
+                    '',
+                    '',
+                    'ASC',
+                    'created_at',
+                    !prev
+                  )
+                  return !prev
                 })
-                getOpenHistoryData(
-                  params?.challengeId ?? '',
-                  1,
-                  '',
-                  '',
-                  orderType,
-                  'created_at',
-                  showTpSl
-                )
+              }
+            />
+            <DatePickerComponent
+              showIcon
+              className={`!py-5 !pl-2 !pr-2  flex items-center !bg-neutral-secondary-color !rounded-[4px] ${selectedDate?.date1 && selectedDate?.date2 ? '!w-55' : '!max-w-fit'}`}
+              dateFormate="dd/MM/yyyy"
+              minDate={selectedDate.date1 as unknown as Date}
+              selectedDate1={selectedDate?.date1 as unknown as Date}
+              selectedDate2={selectedDate?.date2}
+              onSelectDate={(data) => {
+                setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
+                const fromDate = dayjs(data?.[0]).format('YYYY-MM-DD')
+                const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
+
+                if (data?.[0] && data?.[1]) {
+                  getOpenHistoryData(
+                    params?.challengeId ?? '',
+                    1,
+                    fromDate,
+                    toDate,
+                    orderType,
+                    'created_at',
+                    false
+                  )
+                }
               }}
             />
-          )}
-        </div>
+            {selectedDate?.date1 && selectedDate?.date2 && (
+              <CommonButton
+                className="!w-fit !p-2 !text-13 [&>div]:size-3 !white_filter !text-primary-color !flex !flex-row-reverse "
+                imageUrl={Images.crossIcon}
+                singleLineContent="Clear"
+                onClick={() => {
+                  setSelectedDate({
+                    date1: null,
+                    date2: null,
+                  })
+                  getOpenHistoryData(
+                    params?.challengeId ?? '',
+                    1,
+                    '',
+                    '',
+                    orderType,
+                    'created_at',
+                    showTpSl
+                  )
+                }}
+              />
+            )}
+          </div>
+        )}
       </div>
+      {!openHistory || openHistory?.length === 0 ? (
+        <div className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
+          <div className="py-8">{English.E356}</div>
+        </div>
+      ) : (
+        <CommonTableComponent
+          className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
+          imageUrl={Images.backArrow}
+          layoutClassName="!h-[500px] !overflow-y-auto no-scrollbar"
+          showLoader={showLoader}
+          tableHeading={Constants.OpenHistoryTableHeading}
+          ChangeOrder={() => {
+            getOpenHistoryData(
+              params?.challengeId ?? '',
+              1,
+              '',
+              '',
+              orderType === 'ASC' ? 'DESC' : 'ASC',
+              ' created_at',
+              showTpSl
+            )
 
-      <CommonTableComponent
-        className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
-        imageUrl={Images.backArrow}
-        layoutClassName="!h-[500px] !overflow-y-auto no-scrollbar"
-        showLoader={showLoader}
-        tableHeading={Constants.OpenHistoryTableHeading}
-        ChangeOrder={() => {
-          getOpenHistoryData(
-            params?.challengeId ?? '',
-            1,
-            '',
-            '',
-            orderType === 'ASC' ? 'DESC' : 'ASC',
-            ' created_at',
-            showTpSl
-          )
-
-          setOrderType((data) => (data === 'ASC' ? 'DESC' : 'ASC'))
-        }}
-      >
-        {!openHistory || openHistory?.length === 0 ? (
-          <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
-            <td
-              className="py-8"
-              colSpan={Constants.ClosedPNLTableHeading?.length || 1}
-            >
-              No Orders
-            </td>
-          </tr>
-        ) : (
-          openHistory?.map((tableBody) => {
+            setOrderType((data) => (data === 'ASC' ? 'DESC' : 'ASC'))
+          }}
+        >
+          {openHistory?.map((tableBody) => {
             const {
               average_trading_price,
               created_at,
@@ -272,9 +268,9 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                 </td>
               </tr>
             )
-          })
-        )}
-      </CommonTableComponent>
+          })}
+        </CommonTableComponent>
+      )}
       {paginationData?.totalPages && (
         <BasicPagination
           total={paginationData?.totalPages}

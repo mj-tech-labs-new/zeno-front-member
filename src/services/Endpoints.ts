@@ -39,6 +39,9 @@ const Endpoints = {
     `/users/order/closedPositionHistory?page=${page}&limit=${limit}`,
   transactionDetailHistory: (page: number, limit: number) =>
     `/users/order/transactionDetails?page=${page}&limit=${limit}`,
+  getPaymentQrCode: '/users/payment/getPaymentQr',
+  checkPayment: (transaction_id: number) =>
+    `/users/payment/checkPayment?transaction_id=${transaction_id}`,
 }
 
 export default Endpoints

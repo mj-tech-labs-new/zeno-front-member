@@ -22,6 +22,9 @@ const SocketEmitter = {
   margin_asset: 'trade_dashboard_socket_',
   challenge_passed: 'challenge_passed_',
   challenge_failed: 'challenge_failed_',
+  // challenge_payment_failed: 'challenge_payment_failed_',
+  // challenge_payment_success: 'challenge_payment_success_',
+  // challenge_payment_waiting: 'challenge_payment_waiting_',
 }
 
 export default SocketEmitter

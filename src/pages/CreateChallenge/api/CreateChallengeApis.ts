@@ -2,7 +2,7 @@ import {toast} from 'react-toastify'
 
 import {APICall, Endpoints} from '@/services'
 import {
-  CreateChallengePayload,
+  ChallengePaymentPayload,
   CreateChallengeProps,
   GetChallengeTypeProps,
   GetTradingCapitalProps,
@@ -42,21 +42,44 @@ const getTradingCapitalApi = async (selectedOption: number) =>
       })
   })
 
-const createChallengeApi = async (props: CreateChallengePayload) =>
-  new Promise<CreateChallengeProps[]>((resolve) => {
-    APICall('post', Endpoints.createChallenge, props)
+const getPaymentQrCode = async (props: ChallengePaymentPayload) =>
+  new Promise<CreateChallengeProps | null>((resolve) => {
+    APICall('post', Endpoints.getPaymentQrCode, props)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
-          resolve(res?.data?.allChallengeStage)
+          resolve(res?.data)
         } else {
-          resolve([])
+          resolve(null)
           toast.error(res?.message)
         }
       })
       .catch((error) => {
         toast.error(error?.data?.message)
-        resolve([])
+        resolve(null)
       })
   })
+const getCheckPaymentApi = async (
+  props: Pick<CreateChallengeProps, 'transaction_id'>
+) => {
+  const {transaction_id} = props
+  return new Promise<any>((resolve) => {
+    APICall('get', Endpoints.checkPayment(transaction_id))
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve(res)
+        }
+        resolve(null)
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message)
+        resolve(null)
+      })
+  })
+}
 
-export {createChallengeApi, getChallengeTypeApi, getTradingCapitalApi}
+export {
+  getChallengeTypeApi,
+  getCheckPaymentApi,
+  getPaymentQrCode,
+  getTradingCapitalApi,
+}

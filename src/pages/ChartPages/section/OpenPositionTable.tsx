@@ -112,7 +112,7 @@ const OpenPositionTable = (
               <span className="text-primary-color pb-0.5">{margin_mode}</span>
             </td>
             <td className="flex flex-col  pr-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
-              {tableBody?.take_profit?.[0]?.price &&
+              {tableBody?.take_profit?.[0]?.price ||
               tableBody?.stop_loss?.[0]?.price ? (
                 <div className="flex gap-3 items-center">
                   <div className="flex flex-col">
@@ -126,9 +126,20 @@ const OpenPositionTable = (
                   </div>
                   <div className="cursor-pointer">
                     <EditStopLossModel
-                      apiMethod="put"
                       item={tableBody}
-                      singleLineContent={English.E333}
+                      symbol={symbol}
+                      apiMethod={
+                        tableBody?.take_profit?.[0]?.price &&
+                        tableBody?.stop_loss?.[0]?.price
+                          ? 'put'
+                          : 'post'
+                      }
+                      singleLineContent={
+                        tableBody?.take_profit?.[0]?.price &&
+                        tableBody?.stop_loss?.[0]?.price
+                          ? English.E333
+                          : English.E341
+                      }
                     />
                   </div>
                 </div>
@@ -139,6 +150,7 @@ const OpenPositionTable = (
                     apiMethod="post"
                     item={tableBody}
                     singleLineContent={English.E341}
+                    symbol={symbol}
                   />
                 </div>
               )}

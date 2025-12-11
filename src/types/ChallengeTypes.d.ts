@@ -4,7 +4,8 @@ import {CommonBuyAndSellProp, OpenPosition} from './ChartTypes'
 import {CommonProps, GeneralProps, PaginationType} from './CommonTypes'
 import {CloseOrderType, Methodtype} from './UnionTypes'
 
-export interface ChallengePayoutObject {
+export interface ChallengePayoutObject
+  extends Partial<Pick<PayoutProps, 'status'>> {
   amount: string
   type: string
   name?: string
@@ -70,12 +71,17 @@ export interface CreateChallengeProps extends CommonProps {
   equity: number | null
   released_profit: number | null
   unreleased_profit: number | null
-  payment_status: number
+  payment_status: string
   challenge_type: string
   current_stage: null
   total_stage: number
   trading_day: number
   challenge_name: string
+  qrDataURL: string
+  wallet_address: string
+  status_message: string
+  challenge_fee: number
+  transaction_id: number
 }
 
 export type ChallengeInfoDashboardProps = CreateChallengeProps & {
@@ -89,9 +95,9 @@ export interface ChallengeInfoDashboardWithPaginationProps {
   pagination: PaginationType
 }
 
-export type CreateChallengePayload = Pick<
+export type ChallengePaymentPayload = Pick<
   CreateChallengeProps,
-  'challenge_plan_id' | 'total_stage'
+  'challenge_plan_id' | 'total_stage' | 'challenge_fee'
 > & {
   step: number
 }

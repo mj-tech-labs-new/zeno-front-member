@@ -67,7 +67,7 @@ const APICall = async (
         })
       )
       .catch((error) => {
-        if (error?.status === 401) {
+        if (error?.status === 401 && !Store.getState().userData.payoutDetails) {
           CommonFunction.addSliceData('logout', {})
           return
         }

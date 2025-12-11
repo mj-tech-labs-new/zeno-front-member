@@ -75,85 +75,82 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
       <div
         className={`w-full flex items-center ${showHeader ? 'justify-between' : 'justify-end'} gap-5`}
       >
-        <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6 !text-center">
-          <DatePickerComponent
-            showIcon
-            className={`!py-5 !pl-2 !pr-2  flex items-center !bg-neutral-secondary-color !rounded-[4px] ${selectedDate?.date1 && selectedDate?.date2 ? '!w-55' : '!max-w-fit'}`}
-            dateFormate="dd/MM/yyyy"
-            minDate={selectedDate.date1 as unknown as Date}
-            selectedDate1={selectedDate?.date1 as unknown as Date}
-            selectedDate2={selectedDate?.date2}
-            onSelectDate={(data) => {
-              setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
-              const fromDate = dayjs(data?.[0]).format('YYYY-MM-DD')
-              const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
+        {positionHistory && (
+          <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6 !text-center">
+            <DatePickerComponent
+              showIcon
+              className={`!py-5 !pl-2 !pr-2  flex items-center !bg-neutral-secondary-color !rounded-[4px] ${selectedDate?.date1 && selectedDate?.date2 ? '!w-55' : '!max-w-fit'}`}
+              dateFormate="dd/MM/yyyy"
+              minDate={selectedDate.date1 as unknown as Date}
+              selectedDate1={selectedDate?.date1 as unknown as Date}
+              selectedDate2={selectedDate?.date2}
+              onSelectDate={(data) => {
+                setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
+                const fromDate = dayjs(data?.[0]).format('YYYY-MM-DD')
+                const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
 
-              if (data?.[0] && data?.[1]) {
-                getPositionHistoryData(
-                  params?.challengeId ?? '',
-                  1,
-                  fromDate,
-                  toDate,
-                  orderType,
-                  'created_at'
-                )
-              }
-            }}
-          />
-          {selectedDate?.date1 && selectedDate?.date2 && (
-            <CommonButton
-              className="!w-fit !p-2 !text-13 [&>div]:size-3 !white_filter !text-primary-color !flex !flex-row-reverse "
-              imageUrl={Images.crossIcon}
-              singleLineContent="Clear"
-              onClick={() => {
-                setSelectedDate({
-                  date1: null,
-                  date2: null,
-                })
-                getPositionHistoryData(
-                  params?.challengeId ?? '',
-                  1,
-                  '',
-                  '',
-                  orderType,
-                  'created_at'
-                )
+                if (data?.[0] && data?.[1]) {
+                  getPositionHistoryData(
+                    params?.challengeId ?? '',
+                    1,
+                    fromDate,
+                    toDate,
+                    orderType,
+                    'created_at'
+                  )
+                }
               }}
             />
-          )}
-        </div>
+            {selectedDate?.date1 && selectedDate?.date2 && (
+              <CommonButton
+                className="!w-fit !p-2 !text-13 [&>div]:size-3 !white_filter !text-primary-color !flex !flex-row-reverse "
+                imageUrl={Images.crossIcon}
+                singleLineContent="Clear"
+                onClick={() => {
+                  setSelectedDate({
+                    date1: null,
+                    date2: null,
+                  })
+                  getPositionHistoryData(
+                    params?.challengeId ?? '',
+                    1,
+                    '',
+                    '',
+                    orderType,
+                    'created_at'
+                  )
+                }}
+              />
+            )}
+          </div>
+        )}
       </div>
 
-      <CommonTableComponent
-        className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0 "
-        imageUrl={Images.backArrow}
-        layoutClassName="!h-[500px] !overflow-y-auto no-scrollbar"
-        showLoader={showLoader}
-        tableHeading={Constants.PositionHistoryTableHeading}
-        ChangeOrder={() => {
-          getPositionHistoryData(
-            params?.challengeId ?? '',
-            1,
-            '',
-            '',
-            orderType === 'ASC' ? 'DESC' : 'ASC',
-            ' created_at'
-          )
+      {!positionHistory || positionHistory?.length === 0 ? (
+        <div className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
+          <div className="py-8">{English.E355}</div>
+        </div>
+      ) : (
+        <CommonTableComponent
+          className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0 "
+          imageUrl={Images.backArrow}
+          layoutClassName="!h-[500px] !overflow-y-auto no-scrollbar"
+          showLoader={showLoader}
+          tableHeading={Constants.PositionHistoryTableHeading}
+          ChangeOrder={() => {
+            getPositionHistoryData(
+              params?.challengeId ?? '',
+              1,
+              '',
+              '',
+              orderType === 'ASC' ? 'DESC' : 'ASC',
+              ' created_at'
+            )
 
-          setOrderType((data) => (data === 'ASC' ? 'DESC' : 'ASC'))
-        }}
-      >
-        {!positionHistory || positionHistory?.length === 0 ? (
-          <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
-            <td
-              className="py-8"
-              colSpan={Constants.ClosedPNLTableHeading?.length || 1}
-            >
-              No Orders
-            </td>
-          </tr>
-        ) : (
-          positionHistory?.map((tableBody) => {
+            setOrderType((data) => (data === 'ASC' ? 'DESC' : 'ASC'))
+          }}
+        >
+          {positionHistory?.map((tableBody) => {
             const {
               symbol,
               margin_mode,
@@ -243,9 +240,9 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
                 </td>
               </tr>
             )
-          })
-        )}
-      </CommonTableComponent>
+          })}
+        </CommonTableComponent>
+      )}
       {paginationData?.totalPages && (
         <BasicPagination
           total={paginationData?.totalPages}

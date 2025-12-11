@@ -355,6 +355,20 @@ const English = {
   E351: 'Final Price',
   E352: 'Rate',
   E353: 'Role',
+  E354: 'No TransactionDetails',
+  E355: 'No PositionHistory',
+  E356: 'No OpenHistory',
+  E357: 'Wallet Address ',
+  E358: 'Transfer Currency :',
+  E359: 'Network :',
+  E360: 'Amount to Pay :',
+  E361: 'Scan QR Code :',
+  E362: 'Important',
+  E363: 'Payment Instruction',
+  E364: 'Please Make sure to send the correct  amount using the correct network (BNB Smart Chain).Any transaction made with the wrong network or wrong amount will not be credited,and the funds cannot be recoverd.',
+  E365: 'BNB Smart Chain',
+  E366: 'Scan the Above QR Code using any crypto wallet.',
+  E367: 'Payment TimeOut!',
 }
 
 export default English

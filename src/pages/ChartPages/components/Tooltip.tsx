@@ -48,7 +48,7 @@ const Tooltip = () => {
   ])
   return (
     <React.Fragment>
-      <div className="relative flex gap-5 items-center -top-140 left-5 z-99">
+      <div className="relative font-switzer flex gap-5 items-center -top-140 left-5 z-99">
         <span className="text-primary-color p-0.5 px-4 rounded-md bg-neutral-active-color">
           {chartInfo?.fullSymbolName.replace('USDT', '')}
         </span>

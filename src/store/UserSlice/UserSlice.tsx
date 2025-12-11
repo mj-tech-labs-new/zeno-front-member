@@ -2,8 +2,8 @@ import {createSlice} from '@reduxjs/toolkit'
 
 // eslint-disable-next-line import-x/no-cycle
 import {
+  ChallengePaymentPayload,
   ChallengePayoutObject,
-  CreateChallengePayload,
 } from '@/types/ChallengeTypes'
 import {UserObjectType} from '@/types/CommonTypes'
 
@@ -14,7 +14,7 @@ export interface UserSliceInitialType {
     loggedIn: string | null
   }
   payoutDetails:
-    | (CreateChallengePayload & Pick<ChallengePayoutObject, 'capital'>)
+    | (ChallengePaymentPayload & Pick<ChallengePayoutObject, 'capital'>)
     | null
 }
 
