@@ -48,6 +48,7 @@ const loginApi = async (props: LoginApiProps) => {
           const newPayload = {
             token: res?.data?.token,
             userData: res?.data?.user,
+            loggedIn: Date.now(),
           }
 
           CommonFunction.addSliceData('addUserToken', newPayload)
@@ -73,6 +74,7 @@ const updateUserDataApi = async (props: UpdateApiProps) => {
           const newPayload = {
             token: Store.getState()?.userData?.user?.token,
             userData: res?.data?.user,
+            loggedIn: Store.getState()?.userData?.user?.loggedIn,
           }
 
           CommonFunction.addSliceData('addUserToken', newPayload)
@@ -154,6 +156,7 @@ const verifyOtpApi = async (props: VerifyOtpProps) => {
           const newPayload = {
             token: res?.data?.token,
             userData: res?.data?.user,
+            loggedIn: Date.now(),
           }
 
           CommonFunction.addSliceData('addUserToken', newPayload)
