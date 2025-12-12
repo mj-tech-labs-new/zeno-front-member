@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
@@ -68,10 +69,19 @@ const PaymentInstruction = (
       handleCheckPayment()
     }, 10000)
 
-    // eslint-disable-next-line consistent-return
-    return () => clearInterval(intervalId)
+    setTimeout(
+      async () => {
+        return (
+          clearInterval(intervalId),
+          CommonFunction.addSliceData('removePaymentDetails', {})
+        )
+      },
+      1000 * 60 * 10
+    )
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transaction_id])
+
   useEffect(() => {
     if (!transaction_id) return
     startTimer()

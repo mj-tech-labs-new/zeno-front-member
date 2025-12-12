@@ -89,7 +89,7 @@ const TradingCapitalContainer = (props: {
       })
       .finally(() => setShowLoader(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [selectedOption])
 
   return (
     <CreateChallengeCardLayout>
@@ -132,7 +132,7 @@ const TradingCapitalContainer = (props: {
 
               <td className="p-6 text-tertiary-color">
                 <span className="">
-                  ${Utility.numberConversion(tableBody?.fee)}
+                  ${Utility.removeDecimal(tableBody?.fee, 5)}
                 </span>
               </td>
 
