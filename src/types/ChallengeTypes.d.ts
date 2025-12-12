@@ -97,7 +97,7 @@ export interface ChallengeInfoDashboardWithPaginationProps {
 
 export type ChallengePaymentPayload = Pick<
   CreateChallengeProps,
-  'challenge_plan_id' | 'total_stage' | 'challenge_fee'
+  'challenge_plan_id' | 'total_stage'
 > & {
   step: number
 }

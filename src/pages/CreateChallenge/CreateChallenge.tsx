@@ -47,19 +47,22 @@ const CreateChallenge = () => {
       challenge_plan_id: selectedTableRow,
       step: selectedOption,
       total_stage: selectedOption === 1 ? 2 : 3,
-      challenge_fee: Number(payoutDetails?.capital),
-    }).then((res) => {
-      setShowLoader(false)
-      if (res) {
-        setPaymentDetails((prev) => ({
-          ...prev,
-          qrCode: res.qrDataURL,
-          wallet_address: res.wallet_address,
-          transactionId: res.transaction_id,
-        }))
-      }
     })
-  }, [payoutDetails?.capital, selectedOption, selectedTableRow])
+      .then((res) => {
+        setShowLoader(false)
+        if (res) {
+          setPaymentDetails((prev) => ({
+            ...prev,
+            qrCode: res.qrDataURL,
+            wallet_address: res.wallet_address,
+            transactionId: res.transaction_id,
+          }))
+        }
+      })
+      .finally(() => {
+        setShowLoader(false)
+      })
+  }, [selectedOption, selectedTableRow])
 
   useEffect(() => {
     if (!payoutData) return

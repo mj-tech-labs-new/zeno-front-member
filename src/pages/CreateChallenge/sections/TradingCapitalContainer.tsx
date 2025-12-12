@@ -65,10 +65,25 @@ const TradingCapitalContainer = (props: {
           checked: false,
         }))
         if (payoutData) {
-          const selectedItems = response.find(
-            (item) => item.step === payoutData?.step
+          const selectedItems = response?.find(
+            (item) => item.fee === Number(payoutData?.capital)
           )
+          const prevSelectedData = {...selectedItems, checked: true}
+          const changeResponse = response.map((item) =>
+            item.id === selectedItems?.id ? {...item, checked: true} : item
+          )
+          onPressItem({
+            amount: Utility.numberConversion(
+              prevSelectedData?.capital_fund ?? 0
+            ),
+            capital: Utility.numberConversion(prevSelectedData?.fee ?? 0),
+            name: prevSelectedData?.challenge_name,
+            type: prevSelectedData?.step === 1 ? English.E32 : English.E34,
+          })
           if (selectedItems) handleSelectRow(selectedItems)
+          setSelectedTableRow(selectedItems?.id ?? 0)
+          setTradingCapitalData(changeResponse)
+          return
         }
         setTradingCapitalData(response)
       })
@@ -96,7 +111,7 @@ const TradingCapitalContainer = (props: {
           {tradingCapitalData?.map((tableBody) => (
             <tr
               key={`content-${tableBody?.id}`}
-              className={`font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in-out ${tableBody?.checked ? 'bg-info-bg-color' : ''}`}
+              className={`cursor-pointer font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in-out ${tableBody?.checked ? 'bg-info-bg-color' : ''}`}
               onClick={() => {
                 handleSelectRow(tableBody)
               }}
@@ -107,7 +122,7 @@ const TradingCapitalContainer = (props: {
               >
                 <RadioInputContainer
                   checked={tableBody?.checked}
-                  className="text-extra-dark-danger-color"
+                  className="text-extra-dark-danger-color cursor-pointer"
                 />
               </th>
 
