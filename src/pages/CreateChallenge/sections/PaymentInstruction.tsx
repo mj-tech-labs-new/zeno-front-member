@@ -1,20 +1,20 @@
 /* eslint-disable arrow-body-style */
-import {useCallback, useEffect, useMemo, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {toast} from 'react-toastify'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import {English} from '@/helpers'
-import {CommonFunction} from '@/services'
-import {CreateChallengeProps} from '@/types/ChallengeTypes'
-import {CommonBuyAndSellProp} from '@/types/ChartTypes'
+import { English } from '@/helpers'
+import { CommonFunction } from '@/services'
+import { CreateChallengeProps } from '@/types/ChallengeTypes'
+import { CommonBuyAndSellProp } from '@/types/ChartTypes'
 
-import {getCheckPaymentApi} from '../api/CreateChallengeApis'
+import { getCheckPaymentApi } from '../api/CreateChallengeApis'
 
 const PaymentInstruction = (
   props: Pick<CommonBuyAndSellProp, 'usdt_price'> &
     Pick<CreateChallengeProps, 'transaction_id'>
 ) => {
-  const {usdt_price = 0, transaction_id} = props
+  const { usdt_price = 0, transaction_id } = props
   const [timer, setTimer] = useState(900)
   const navigate = useNavigate()
 
@@ -40,25 +40,26 @@ const PaymentInstruction = (
     return `${m}:${s}`
   }
 
-  const handleCheckPayment = useCallback(() => {
+  const handleCheckPayment = useCallback((intervalId: any) => {
     if (!transaction_id) return
-    getCheckPaymentApi({transaction_id})
+    getCheckPaymentApi({ transaction_id })
       .then((res) => {
         if (res?.data?.payment_status === 'paid') {
           toast.success(res?.message)
           CommonFunction.addSliceData('removePaymentDetails', {})
           navigate('/dashboard')
+          clearInterval(intervalId)
         }
       })
-      .finally(() => {})
+      .finally(() => { })
   }, [navigate, transaction_id])
 
   const PaymentDetails = useMemo(
     () => [
-      {title: English.E358, content: English.E60},
-      {title: English.E359, content: English.E365},
-      {title: English.E360, content: ''},
-      {title: English.E361, content: English.E366},
+      { title: English.E358, content: English.E60 },
+      { title: English.E359, content: English.E365 },
+      { title: English.E360, content: '' },
+      { title: English.E361, content: English.E366 },
     ],
     []
   )
@@ -66,7 +67,7 @@ const PaymentInstruction = (
   useEffect(() => {
     if (!transaction_id || timer === 0) return
     const intervalId = setInterval(() => {
-      handleCheckPayment()
+      handleCheckPayment(intervalId)
     }, 10000)
 
     setTimeout(
@@ -98,7 +99,7 @@ const PaymentInstruction = (
       </div>
       <div className="flex flex-col gap-2.5 justify-center items-center ">
         {PaymentDetails.map((item) => {
-          const {content, title} = item
+          const { content, title } = item
           return (
             <div key={`title_${title}`} className=" font-switzer flex gap-1.5">
               <div className=" text-text-info-color capitalize font-bold text-nowrap">
