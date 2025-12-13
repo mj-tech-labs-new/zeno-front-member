@@ -10,7 +10,7 @@ const CircularProgressBarComponent = (props: CircularProgressBarType) => {
   const {usedBalance, className = '', totalAmount} = props
 
   const percentage = useMemo(
-    () => ((usedBalance ?? 0) / Number(totalAmount)) * 100,
+    () => Math.ceil(((usedBalance ?? 0) / Number(totalAmount)) * 100),
     [totalAmount, usedBalance]
   )
 
