@@ -32,16 +32,16 @@ const EditStopLoss = (props: {
       const sl = stopLossData?.stop_loss?.[0]?.price
       const tp = stopLossData?.take_profit?.[0]?.price
 
-      if (type === 'stopLoss' && sl === 0) {
+      if (type === 'stopLoss' && (sl === 0 || !sl) && method === 'put') {
         toast.error(English.E343)
         return
       }
-      if (tp === 0 && type === 'takeProfit') {
+      if ((tp === 0 || !tp) && type === 'takeProfit' && method === 'put') {
         toast.error(English.E343)
         return
       }
 
-      if (tp === undefined || (sl === undefined && type === 'all')) {
+      if ((tp === 0 || sl === 0) && type === 'all') {
         toast.error(English.E343)
         return
       }
@@ -99,7 +99,7 @@ const EditStopLoss = (props: {
 
     APICall(
       type ? method : apiMethod,
-      apiMethod === 'put' ? Endpoints.updateOrder : Endpoints.addStopLoss,
+      method === 'put' ? Endpoints.updateOrder : Endpoints.addStopLoss,
       payload
     )
       .then((res: any) => {
