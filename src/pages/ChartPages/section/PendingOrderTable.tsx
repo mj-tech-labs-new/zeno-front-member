@@ -1,7 +1,10 @@
 import dayjs from 'dayjs'
+import {useCallback} from 'react'
+import {useParams} from 'react-router-dom'
 
 import {CommonCloseActionButton, CommonTableComponent} from '@/components'
 import {Constants, English, Utility} from '@/helpers'
+import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 import {CreateChallengeProps} from '@/types/ChallengeTypes'
 import {PendingOrder} from '@/types/ChartTypes'
 
@@ -15,7 +18,19 @@ const PendingOrderTable = (
   }
 ) => {
   const {challenge_id, pendingOrder, setPendingOrder} = props
-  const {livePrice} = useChartProvider()
+  const {livePrice, setGetChallengeByIdArray} = useChartProvider()
+
+  const params = useParams()
+
+  const handleGetChallengeById = useCallback(() => {
+    if (!params?.challengeId) {
+      return
+    }
+    getChallengeByIdApi({challenge_id: params?.challengeId}).then((res) => {
+      setGetChallengeByIdArray(res)
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params?.challengeId])
   return (
     <CommonTableComponent
       apiMethod="delete"
@@ -27,6 +42,7 @@ const PendingOrderTable = (
       tableHeading={Constants.PendingOrders}
       onPerformAction={(value) => {
         if (value) {
+          handleGetChallengeById()
           setPendingOrder([])
         }
       }}
