@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {useLocation, useNavigate} from 'react-router-dom'
 
@@ -17,8 +17,8 @@ import Payout from './sections/Payout'
 import TradingCapitalContainer from './sections/TradingCapitalContainer'
 
 const CreateChallenge = () => {
+  const mountRef = useRef(false)
   const location = useLocation()
-
   const userData = useSelector((state: StorageProps) => state.userData)
   const payoutData = useSelector(
     (state: StorageProps) => state.userData.payoutDetails
@@ -30,7 +30,7 @@ const CreateChallenge = () => {
     type: '---',
   })
   const [paymentDetails, setPaymentDetails] = useState<
-    Record<string, string | number>
+    Record<string, string | number | boolean>
   >({
     qrCode: '',
     wallet_address: '',
@@ -44,9 +44,9 @@ const CreateChallenge = () => {
   const handleGetPaymentQR = useCallback(() => {
     setShowLoader(true)
     getPaymentQrCode({
-      challenge_plan_id: selectedTableRow,
-      step: selectedOption,
-      total_stage: selectedOption === 1 ? 2 : 3,
+      challenge_plan_id: payoutData?.challenge_plan_id ?? selectedTableRow,
+      step: payoutData?.step ?? selectedOption,
+      total_stage: payoutData?.total_stage ?? (selectedOption === 1 ? 2 : 3),
     })
       .then((res) => {
         setShowLoader(false)
@@ -62,14 +62,34 @@ const CreateChallenge = () => {
       .finally(() => {
         setShowLoader(false)
       })
-  }, [selectedOption, selectedTableRow])
+  }, [payoutData, selectedOption, selectedTableRow])
 
   useEffect(() => {
     if (!payoutData) return
-
+    setSelectedOption(payoutData?.step)
     handleGetPaymentQR()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payoutData])
+
+  useEffect(() => {
+    if (!selectedOption) return
+    setPayoutDetails(() => ({
+      amount: '---',
+      capital: '---',
+      name: '---',
+      type: '---',
+    }))
+  }, [selectedOption])
+
+  useEffect(() => {
+    mountRef.current = true
+    return () => {
+      if (payoutData && userData?.user?.token) {
+        mountRef.current = true
+        CommonFunction.addSliceData('removePaymentDetails', {})
+      }
+    }
+  }, [payoutData, userData.user.token])
 
   return (
     <Layout2>
@@ -89,15 +109,19 @@ const CreateChallenge = () => {
           />
         </div>
         <div className="flex gap-4 flex-col justify-center lg:flex-row w-full">
-          <div className="w-full flex flex-col gap-4 lg:w-2/3">
+          <div
+            className={`w-full flex flex-col gap-4 lg:w-2/3 ${paymentDetails?.transactionId !== 0 ? '!pointer-events-none' : ''}`}
+          >
             <CreateChallengeContainer
               onPressStage={setSelectedOption}
               selectedOption={selectedOption}
             />
             <TradingCapitalContainer
-              onPressItem={setPayoutDetails}
               selectedOption={selectedOption}
               setSelectedTableRow={setSelectedTableRow}
+              onPressItem={(data) => {
+                setPayoutDetails(data)
+              }}
             />
           </div>
           <div
