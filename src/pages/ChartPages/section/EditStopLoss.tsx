@@ -171,120 +171,108 @@ const EditStopLoss = (props: {
     <div>
       <div className="flex flex-col gap-6 py-6 ">
         <div>
-          <div className="flex items-end justify-center  gap-2.5">
-            <StopLoss
-              heading="Stop Loss"
-              marketPrice={Number(item?.average_price)}
-              quantity={Number(item?.quantity)}
-              subHeading="Stop loss"
-              setStopLoss={(value) =>
-                setStopLossData((prev) => {
-                  const updated = [...(prev.stop_loss ?? [])]
+          {Array.from({length: 2}).map((__, index) => {
+            const stopLoss = index + 1
+            return (
+              <div
+                key={`tpsl_${stopLoss}`}
+                className="flex items-end justify-center  gap-2.5"
+              >
+                <StopLoss
+                  heading={stopLoss === 1 ? English.E292 : English.E368}
+                  marketPrice={Number(item?.average_price)}
+                  quantity={Number(item?.quantity)}
+                  subHeading={stopLoss === 1 ? English.E292 : English.E368}
+                  setStopLoss={(value) =>
+                    setStopLossData((prev) => {
+                      const updated = [
+                        ...(stopLoss === 1
+                          ? (prev.stop_loss ?? [])
+                          : (prev?.take_profit ?? [])),
+                      ]
 
-                  updated[0] = {
-                    ...updated[0],
-                    ...value.stop_loss?.[0],
-                    quantity: Number(
-                      Utility.removeDecimal(Number(item?.quantity ?? 0))
-                    ),
-                  }
+                      updated[0] = {
+                        ...updated[0],
+                        ...(stopLoss === 1
+                          ? value.stop_loss?.[0]
+                          : value.take_profit?.[0]),
+                        quantity: Number(
+                          Utility.removeDecimal(Number(item?.quantity ?? 0))
+                        ),
+                      }
 
-                  return {
-                    ...prev,
-                    stop_loss: updated,
+                      const stopLossValue = {
+                        ...prev,
+                        stop_loss: updated,
+                      }
+                      const takeProfitValue = {
+                        ...prev,
+                        take_profit: updated,
+                      }
+                      return stopLoss === 1 ? stopLossValue : takeProfitValue
+                    })
                   }
-                })
-              }
-              stopLoss={{
-                id: stopLossData?.stop_loss?.[0]?.id ?? 0,
-                price: stopLossData.stop_loss?.[0]?.price ?? 0,
-                quantity: stopLossData.stop_loss?.[0]?.quantity,
-                status: stopLossData.stop_loss?.[0]?.status,
-              }}
-            />
-            <div className="flex flex-col items-center">
-              {item?.stop_loss?.length === 1 && (
-                <div>
-                  <div
-                    onClick={async () =>
-                      handleUpdateOrder(
-                        'stopLoss',
-                        item?.stop_loss?.[0] === undefined ? 'post' : 'put'
-                      )
-                    }
-                  >
-                    <ImageComponent
-                      className="h-6 w-4"
-                      imageUrl={Images.editIcon}
-                    />
-                  </div>
-                  <div onClick={() => handleDeleteOrder('stopLoss')}>
-                    <ImageComponent
-                      className="h-6 w-5"
-                      imageUrl={Images.deleteIcon}
-                    />
-                  </div>
+                  stopLoss={{
+                    id:
+                      stopLoss === 1
+                        ? (stopLossData?.stop_loss?.[0]?.id ?? 0)
+                        : (stopLossData?.take_profit?.[0]?.id ?? 0),
+                    price:
+                      stopLoss === 1
+                        ? (stopLossData.stop_loss?.[0]?.price ?? 0)
+                        : (stopLossData?.take_profit?.[0]?.price ?? 0),
+                    quantity:
+                      stopLoss === 1
+                        ? stopLossData.stop_loss?.[0]?.quantity
+                        : stopLossData?.take_profit?.[0]?.quantity,
+                    status:
+                      stopLoss === 1
+                        ? stopLossData.stop_loss?.[0]?.status
+                        : stopLossData?.take_profit?.[0]?.status,
+                  }}
+                />
+                <div className="flex flex-col items-center">
+                  {(stopLoss === 1
+                    ? item?.stop_loss?.length === 1
+                    : item?.take_profit?.length === 1) && (
+                    <div>
+                      <div
+                        onClick={async () =>
+                          handleUpdateOrder(
+                            stopLoss === 1 ? 'stopLoss' : 'takeProfit',
+                            (
+                              stopLoss === 1
+                                ? !item?.stop_loss?.[0]
+                                : !item?.take_profit?.[0]
+                            )
+                              ? 'post'
+                              : 'put'
+                          )
+                        }
+                      >
+                        <ImageComponent
+                          className="h-6 w-4"
+                          imageUrl={Images.editIcon}
+                        />
+                      </div>
+                      <div
+                        onClick={() =>
+                          handleDeleteOrder(
+                            stopLoss === 1 ? 'stopLoss' : 'takeProfit'
+                          )
+                        }
+                      >
+                        <ImageComponent
+                          className="h-6 w-5"
+                          imageUrl={Images.deleteIcon}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-          <div className="flex items-end justify-center  gap-2.5">
-            <StopLoss
-              heading="Take Profit"
-              marketPrice={Number(item?.average_price)}
-              quantity={Number(item?.quantity)}
-              subHeading="Take Profit "
-              setStopLoss={(value) =>
-                setStopLossData((prev) => {
-                  const updated = [...(prev?.take_profit ?? [])]
-
-                  updated[0] = {
-                    ...updated[0],
-                    ...value?.take_profit?.[0],
-                    quantity: Number(
-                      Utility.removeDecimal(Number(item?.quantity ?? 0))
-                    ),
-                  }
-
-                  return {
-                    ...prev,
-                    take_profit: updated,
-                  }
-                })
-              }
-              stopLoss={{
-                id: stopLossData.take_profit?.[0]?.id ?? 0,
-                price: stopLossData.take_profit?.[0]?.price ?? 0,
-                quantity: stopLossData.take_profit?.[0]?.quantity ?? 0,
-                status: stopLossData.take_profit?.[0]?.status ?? '',
-              }}
-            />
-            <div className="flex flex-col items-center">
-              {item?.take_profit?.length === 1 && (
-                <div>
-                  <div
-                    onClick={async () => handleUpdateOrder('takeProfit', 'put')}
-                  >
-                    <ImageComponent
-                      className="h-6 w-4 "
-                      imageUrl={Images.editIcon}
-                    />
-                  </div>
-                  <div onClick={() => handleDeleteOrder('takeProfit')}>
-                    {' '}
-                    <ImageComponent
-                      className="h-6 w-5"
-                      imageUrl={Images.deleteIcon}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-            <div>
-              <div />
-              <div />
-            </div>
-          </div>
+              </div>
+            )
+          })}
         </div>
         <div className="flex justify-center gap-4 ">
           {Array.from({length: 2}).map((__, index) => (
