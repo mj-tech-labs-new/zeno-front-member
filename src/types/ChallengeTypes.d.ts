@@ -82,6 +82,11 @@ export interface CreateChallengeProps extends CommonProps {
   status_message: string
   challenge_fee: number
   transaction_id: number
+  max_daily_loss_amount: number
+  daily_drawdown: number
+  profit_target_amount: number
+  max_current_loss: number
+  max_total_loss: number
 }
 
 export type ChallengeInfoDashboardProps = CreateChallengeProps & {

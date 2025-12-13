@@ -148,6 +148,7 @@ const Images = {
   editIcon: new URL('../assets/svgs/editIcon.svg', import.meta.url).href,
   calendarIcon: new URL('../assets/svgs/calender-icon.svg', import.meta.url)
     .href,
+  deleteIcon: new URL('../assets/svgs/delete-icon.svg', import.meta.url).href,
 }
 
 export default Images

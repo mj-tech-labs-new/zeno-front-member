@@ -1,9 +1,14 @@
+import {useCallback} from 'react'
+import {useParams} from 'react-router-dom'
+
 import {CommonCloseActionButton, CommonTableComponent} from '@/components'
 import {Constants, English, Utility} from '@/helpers'
+import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 import {CreateChallengeProps} from '@/types/ChallengeTypes'
 import {OpenPosition} from '@/types/ChartTypes'
 
 import EditStopLossModel from '../components/EditStopLossModel'
+import {useChartProvider} from '../context/ChartProvider'
 
 const OpenPositionTable = (
   props: Pick<CreateChallengeProps, 'challenge_id'> & {
@@ -12,6 +17,18 @@ const OpenPositionTable = (
   }
 ) => {
   const {challenge_id, openPosition, setPosition} = props
+  const {setGetChallengeByIdArray} = useChartProvider()
+  const params = useParams()
+
+  const handleGetChallengeById = useCallback(() => {
+    if (!params?.challengeId) {
+      return
+    }
+    getChallengeByIdApi({challenge_id: params?.challengeId}).then((res) => {
+      setGetChallengeByIdArray(res)
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params?.challengeId])
   return (
     <CommonTableComponent
       apiMethod="put"
@@ -23,6 +40,7 @@ const OpenPositionTable = (
       tableHeading={Constants.Openposition}
       onPerformAction={(value) => {
         if (value) {
+          handleGetChallengeById()
           setPosition([])
         }
       }}

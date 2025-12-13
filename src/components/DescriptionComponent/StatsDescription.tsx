@@ -85,11 +85,12 @@ const StatsDescription = (props: StatsCardProps) => {
         <div className="flex flex-col gap-6">
           <p className="text-lg/6 text-tertiary-color font-normal capitalize">
             <span
-              className={
-                headingContent === English.E66 || headingContent === English.E68
+              className={`${
+                headingContent === English.E66
                   ? 'text-light-success-color'
                   : 'text-light-danger-color'
               }
+            ${headingContent === English.E68 && secondContent.toString().startsWith('-') ? 'text-light-danger-color' : 'text-light-success-color'}`}
             >
               {headingContent !== English.E66
                 ? Utility.numberConversion(secondContent)

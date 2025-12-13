@@ -40,18 +40,22 @@ const PaymentInstruction = (
     return `${m}:${s}`
   }
 
-  const handleCheckPayment = useCallback(() => {
-    if (!transaction_id) return
-    getCheckPaymentApi({transaction_id})
-      .then((res) => {
-        if (res?.data?.payment_status === 'paid') {
-          toast.success(res?.message)
-          CommonFunction.addSliceData('removePaymentDetails', {})
-          navigate('/dashboard')
-        }
-      })
-      .finally(() => {})
-  }, [navigate, transaction_id])
+  const handleCheckPayment = useCallback(
+    (intervalId: any) => {
+      if (!transaction_id) return
+      getCheckPaymentApi({transaction_id})
+        .then((res) => {
+          if (res?.data?.payment_status === 'paid') {
+            toast.success(res?.message)
+            CommonFunction.addSliceData('removePaymentDetails', {})
+            navigate('/dashboard')
+            clearInterval(intervalId)
+          }
+        })
+        .finally(() => {})
+    },
+    [navigate, transaction_id]
+  )
 
   const PaymentDetails = useMemo(
     () => [
@@ -66,7 +70,7 @@ const PaymentInstruction = (
   useEffect(() => {
     if (!transaction_id || timer === 0) return
     const intervalId = setInterval(() => {
-      handleCheckPayment()
+      handleCheckPayment(intervalId)
     }, 10000)
 
     setTimeout(

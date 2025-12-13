@@ -1,8 +1,8 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import {toast} from 'react-toastify'
 
-import {CommonButton} from '@/components'
-import {English, Utility} from '@/helpers'
+import {CommonButton, ImageComponent} from '@/components'
+import {English, Images, Utility} from '@/helpers'
 import {APICall, Endpoints} from '@/services'
 import {
   CommonBuyAndSellProp,
@@ -11,28 +11,37 @@ import {
 } from '@/types/ChartTypes'
 import {Methodtype} from '@/types/UnionTypes'
 
+import {useChartProvider} from '../context/ChartProvider'
 import StopLoss from './StopLoss'
 
 const EditStopLoss = (props: {
   item: (OpenPosition | PendingOrder) | null
   closeModel: () => void
   apiMethod: Methodtype
-  livePrice: number
-  symbol: string
 }) => {
-  const {item, closeModel, apiMethod, livePrice, symbol} = props
-
+  const {item, closeModel, apiMethod} = props
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
       Pick<CommonBuyAndSellProp, 'take_profit'>
   >({stop_loss: [], take_profit: []})
-  const [stopLossValue, setStopLossValue] = useState<number>(0)
+  const {livePrice} = useChartProvider()
+  const isItems = useRef(false)
 
-  const handleUpdateOrder = async () => {
+  const handleUpdateOrder = async (type: string, method: Methodtype) => {
     if (item?.direction === 'buy' || item?.direction === 'sell') {
       const sl = stopLossData?.stop_loss?.[0]?.price
       const tp = stopLossData?.take_profit?.[0]?.price
-      if (sl === undefined && tp === undefined) {
+
+      if (type === 'stopLoss' && sl === 0) {
+        toast.error(English.E343)
+        return
+      }
+      if (tp === 0 && type === 'takeProfit') {
+        toast.error(English.E343)
+        return
+      }
+
+      if (tp === undefined || (sl === undefined && type === 'all')) {
         toast.error(English.E343)
         return
       }
@@ -66,27 +75,30 @@ const EditStopLoss = (props: {
     }
 
     if (
+      type === 'all' &&
       item?.stop_loss?.length !== 1 &&
-      apiMethod === 'post' &&
       stopLossData.stop_loss
     ) {
       payload = {...payload, stop_loss: stopLossData.stop_loss}
     }
-    if (apiMethod === 'put') {
-      payload = {...payload, stop_loss: stopLossData.stop_loss}
-    }
+
     if (
+      type === 'all' &&
       item?.take_profit?.length !== 1 &&
-      apiMethod === 'post' &&
-      stopLossData.stop_loss
+      stopLossData.take_profit
     ) {
       payload = {...payload, take_profit: stopLossData.take_profit}
     }
-    if (apiMethod === 'put') {
+
+    if (type === 'stopLoss') {
+      payload = {...payload, stop_loss: stopLossData.stop_loss}
+    }
+    if (type === 'takeProfit') {
       payload = {...payload, take_profit: stopLossData.take_profit}
     }
+
     APICall(
-      apiMethod,
+      type ? method : apiMethod,
       apiMethod === 'put' ? Endpoints.updateOrder : Endpoints.addStopLoss,
       payload
     )
@@ -104,136 +116,190 @@ const EditStopLoss = (props: {
   }
 
   useEffect(() => {
-    if (!item) return
+    if (!item || isItems.current) return
+    isItems.current = true
     setStopLossData({stop_loss: item.stop_loss, take_profit: item.take_profit})
   }, [item])
 
-  const handleDeleteOrder = useCallback(() => {
-    let payload: Record<string, string | number> = {
-      challenge_id: item?.challenge_id ?? '',
-      tx_hash: item?.tx_hash ?? '',
-    }
+  const handleDeleteOrder = useCallback(
+    (type: string) => {
+      let payload: Record<string, string | number> = {
+        challenge_id: item?.challenge_id ?? '',
+        tx_hash: item?.tx_hash ?? '',
+      }
 
-    if (item?.stop_loss?.length === 1) {
-      payload = {...payload, stop_loss_id: 1}
-    }
-
-    if (item?.take_profit?.length === 1) {
-      payload = {...payload, take_profit_id: 1}
-    }
-
-    APICall('delete', Endpoints.deleteStopLoss, payload)
-      .then((res: any) => {
-        if (res) {
-          toast.success(res?.message)
+      if (type === 'all') {
+        if (item?.stop_loss?.length === 1) {
+          payload = {...payload, stop_loss_id: 1}
         }
-      })
-      .catch((error) => {
-        toast.error(error?.data?.message)
-      })
-      .finally(() => {
-        closeModel()
-      })
-  }, [
-    closeModel,
-    item?.challenge_id,
-    item?.stop_loss?.length,
-    item?.take_profit?.length,
-    item?.tx_hash,
-  ])
-  useEffect(() => {
-    setStopLossValue(0)
-  }, [])
+
+        if (item?.take_profit?.length === 1) {
+          payload = {...payload, take_profit_id: 1}
+        }
+      }
+      if (type === 'stopLoss' && item?.stop_loss?.length === 1) {
+        payload = {...payload, stop_loss_id: 1}
+      }
+
+      if (type === 'takeProfit' && item?.take_profit?.length === 1) {
+        payload = {...payload, take_profit_id: 1}
+      }
+
+      APICall('delete', Endpoints.deleteStopLoss, payload)
+        .then((res: any) => {
+          if (res) {
+            toast.success(res?.message)
+          }
+        })
+        .catch((error) => {
+          toast.error(error?.data?.message)
+        })
+        .finally(() => {
+          closeModel()
+        })
+    },
+    [
+      closeModel,
+      item?.challenge_id,
+      item?.stop_loss?.length,
+      item?.take_profit?.length,
+      item?.tx_hash,
+    ]
+  )
+
   return (
     <div>
       <div className="flex flex-col gap-6 py-6 ">
         <div>
-          <div className="flex justify-between items-center">
-            <div className="font-switzer text-primary-dark-blue-color font-medium">
-              {English.E293} :{' '}
-            </div>
-            <div className="text-primary-dark-blue-color font-normal">
-              {livePrice}
-              {` ${symbol.replace('USDT', '')}`}
+          <div className="flex items-end justify-center  gap-2.5">
+            <StopLoss
+              heading="Stop Loss"
+              marketPrice={Number(item?.average_price)}
+              quantity={Number(item?.quantity)}
+              subHeading="Stop loss"
+              setStopLoss={(value) =>
+                setStopLossData((prev) => {
+                  const updated = [...(prev.stop_loss ?? [])]
+
+                  updated[0] = {
+                    ...updated[0],
+                    ...value.stop_loss?.[0],
+                    quantity: Number(
+                      Utility.removeDecimal(Number(item?.quantity ?? 0))
+                    ),
+                  }
+
+                  return {
+                    ...prev,
+                    stop_loss: updated,
+                  }
+                })
+              }
+              stopLoss={{
+                id: stopLossData?.stop_loss?.[0]?.id ?? 0,
+                price: stopLossData.stop_loss?.[0]?.price ?? 0,
+                quantity: stopLossData.stop_loss?.[0]?.quantity,
+                status: stopLossData.stop_loss?.[0]?.status,
+              }}
+            />
+            <div className="flex flex-col items-center">
+              {item?.stop_loss?.length === 1 && (
+                <div>
+                  <div
+                    onClick={async () =>
+                      handleUpdateOrder(
+                        'stopLoss',
+                        item?.stop_loss?.[0] === undefined ? 'post' : 'put'
+                      )
+                    }
+                  >
+                    <ImageComponent
+                      className="h-6 w-4"
+                      imageUrl={Images.editIcon}
+                    />
+                  </div>
+                  <div onClick={() => handleDeleteOrder('stopLoss')}>
+                    <ImageComponent
+                      className="h-6 w-5"
+                      imageUrl={Images.deleteIcon}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          <StopLoss
-            heading="Stop Loss"
-            marketPrice={Number(item?.average_price)}
-            quantity={Number(item?.quantity)}
-            resetValue={stopLossValue}
-            subHeading="Stop loss"
-            setStopLoss={(value) =>
-              setStopLossData((prev) => {
-                const updated = [...(prev.stop_loss ?? [])]
+          <div className="flex items-end justify-center  gap-2.5">
+            <StopLoss
+              heading="Take Profit"
+              marketPrice={Number(item?.average_price)}
+              quantity={Number(item?.quantity)}
+              subHeading="Take Profit "
+              setStopLoss={(value) =>
+                setStopLossData((prev) => {
+                  const updated = [...(prev?.take_profit ?? [])]
 
-                updated[0] = {
-                  ...updated[0],
-                  ...value.stop_loss?.[0],
-                  quantity: Number(
-                    Utility.removeDecimal(Number(item?.quantity ?? 0))
-                  ),
-                }
+                  updated[0] = {
+                    ...updated[0],
+                    ...value?.take_profit?.[0],
+                    quantity: Number(
+                      Utility.removeDecimal(Number(item?.quantity ?? 0))
+                    ),
+                  }
 
-                return {
-                  ...prev,
-                  stop_loss: updated,
-                }
-              })
-            }
-            stopLoss={{
-              id: stopLossData?.stop_loss?.[0]?.id ?? 0,
-              price: stopLossData.stop_loss?.[0]?.price ?? 0,
-              quantity: stopLossData.stop_loss?.[0]?.quantity,
-              status: stopLossData.stop_loss?.[0]?.status,
-            }}
-          />
-          <StopLoss
-            heading="Take Profit"
-            marketPrice={Number(item?.average_price)}
-            quantity={Number(item?.quantity)}
-            resetValue={stopLossValue}
-            subHeading="Take Profit "
-            setStopLoss={(value) =>
-              setStopLossData((prev) => {
-                const updated = [...(prev?.take_profit ?? [])]
-
-                updated[0] = {
-                  ...updated[0],
-                  ...value?.take_profit?.[0],
-                  quantity: Number(
-                    Utility.removeDecimal(Number(item?.quantity ?? 0))
-                  ),
-                }
-
-                return {
-                  ...prev,
-                  take_profit: updated,
-                }
-              })
-            }
-            stopLoss={{
-              id: stopLossData.take_profit?.[0]?.id ?? 0,
-              price: stopLossData.take_profit?.[0]?.price ?? 0,
-              quantity: stopLossData.take_profit?.[0]?.quantity ?? 0,
-              status: stopLossData.take_profit?.[0]?.status ?? '',
-            }}
-          />
+                  return {
+                    ...prev,
+                    take_profit: updated,
+                  }
+                })
+              }
+              stopLoss={{
+                id: stopLossData.take_profit?.[0]?.id ?? 0,
+                price: stopLossData.take_profit?.[0]?.price ?? 0,
+                quantity: stopLossData.take_profit?.[0]?.quantity ?? 0,
+                status: stopLossData.take_profit?.[0]?.status ?? '',
+              }}
+            />
+            <div className="flex flex-col items-center">
+              {item?.take_profit?.length === 1 && (
+                <div>
+                  <div
+                    onClick={async () => handleUpdateOrder('takeProfit', 'put')}
+                  >
+                    <ImageComponent
+                      className="h-6 w-4 "
+                      imageUrl={Images.editIcon}
+                    />
+                  </div>
+                  <div onClick={() => handleDeleteOrder('takeProfit')}>
+                    {' '}
+                    <ImageComponent
+                      className="h-6 w-5"
+                      imageUrl={Images.deleteIcon}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+            <div>
+              <div />
+              <div />
+            </div>
+          </div>
         </div>
         <div className="flex justify-center gap-4 ">
-          <CommonButton
-            className={`bg-chart-red-color text-primary-color !w-fit  `}
-            onClick={handleUpdateOrder}
-            singleLineContent={
-              apiMethod === 'put' ? English.E333 : English.E341
-            }
-          />
-
-          <CommonButton
-            className="bg-extra-dark-danger-color text-primary-color !w-fit "
-            onClick={handleDeleteOrder}
-            singleLineContent={English.E342}
-          />
+          {Array.from({length: 2}).map((__, index) => (
+            <CommonButton
+              key={`index_${index + 1}`}
+              singleLineContent={index + 1 === 1 ? English.E341 : English.E342}
+              className={`font-semibold text-sm ${index + 1 === 1 ? 'bg-chart-red-color ' : 'bg-extra-dark-danger-color'}
+                   ${index + 1 === 1 && item?.stop_loss?.length === 1 && item?.take_profit?.length === 1 ? 'bg-chart-red-color/50 text-primary-color/50 pointer-events-none' : ''} text-primary-color !w-fit `}
+              onClick={async () =>
+                index + 1 === 1
+                  ? handleUpdateOrder('all', 'post')
+                  : handleDeleteOrder('all')
+              }
+            />
+          ))}
         </div>
       </div>
     </div>

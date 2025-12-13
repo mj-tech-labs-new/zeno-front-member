@@ -40,18 +40,36 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       },
       {
         title: English.E68,
-        secondValue: socketData?.total_available_profit,
-        firstValue: socketData?.profit_target_amount ?? 0,
+        secondValue:
+          socketData?.total_available_profit ??
+          getChallengeByIdArray?.[0]?.released_profit ??
+          0,
+        firstValue:
+          socketData?.profit_target_amount ??
+          getChallengeByIdArray?.[0]?.profit_target_amount ??
+          0,
       },
       {
         title: English.E69,
-        secodValue: socketData?.daily_drawdown ?? 0,
-        firstValue: socketData?.max_daily_loss_amount ?? 0,
+        secodValue:
+          socketData?.daily_drawdown ??
+          getChallengeByIdArray?.[0]?.daily_drawdown ??
+          0,
+        firstValue:
+          socketData?.max_daily_loss_amount ??
+          getChallengeByIdArray?.[0]?.max_daily_loss_amount ??
+          0,
       },
       {
         title: English.E70,
-        secodValue: socketData?.max_current_loss ?? 0,
-        firstValue: socketData?.max_total_loss ?? 0,
+        secodValue:
+          socketData?.max_current_loss ??
+          getChallengeByIdArray?.[0]?.max_current_loss ??
+          0,
+        firstValue:
+          socketData?.max_total_loss ??
+          getChallengeByIdArray?.[0]?.max_total_loss ??
+          0,
       },
     ],
     [
@@ -164,7 +182,9 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
                           ? Math.abs(socketData?.daily_drawdown ?? 0)
                           : index === 3
                             ? Math.abs(socketData?.max_current_loss ?? 0)
-                            : (secondValue ?? 0)
+                            : (secondValue ??
+                              getChallengeByIdArray?.[0]?.released_profit ??
+                              0)
                       }
                     />
                   </ChallengeCardLayout>
