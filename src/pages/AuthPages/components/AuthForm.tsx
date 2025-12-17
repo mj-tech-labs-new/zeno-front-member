@@ -26,7 +26,7 @@ const AuthForm = (props: {type: AuthType}) => {
         />
         <div className="flex flex-col gap-10 sm:gap-8 w-full">
           <div
-            className={`flex flex-col  w-full px-6 pt-6 ${type === 'signUpType' && isShow ? 'pb-2  gap-[20px]' : ' pb-7  gap-[60px]'}`}
+            className={`flex flex-col  w-full px-6 pt-6 ${type === 'signUpType' && isShow ? 'pb-2  gap-[20px]' : '  gap-8'}`}
           >
             <div className="flex flex-col gap-2 sm:gap-3 w-full">
               <HeadingComponent
@@ -68,7 +68,7 @@ const AuthForm = (props: {type: AuthType}) => {
           </div>
 
           <Link
-            className="font-normal text-tertiary-color text-base/6 text-center w-full"
+            className="font-normal text-tertiary-color text-base/6 text-center w-full pb-4"
             to={type === 'loginType' ? '/sign-up' : '/login'}
           >
             {type === 'loginType' ? English.E9 : English.E13}{' '}

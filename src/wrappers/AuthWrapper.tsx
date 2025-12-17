@@ -13,10 +13,7 @@ const AuthWrapper = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const location = useLocation()
   // const locationData = useMemo(() => location.state: StorageProps, [])
 
-  const publicRoutes = useMemo(
-    () => ['/login', '/sign-up', '/forgot-password'],
-    []
-  )
+  const publicRoutes = useMemo(() => ['/login', '/forgot-password'], [])
 
   useEffect(() => {
     const user = Data?.user?.token
@@ -34,8 +31,10 @@ const AuthWrapper = (props: Required<Pick<GeneralProps, 'children'>>) => {
         setStatus(false)
         return
       }
-
-      if (!publicRoutes.includes(currentPath)) {
+      if (
+        !publicRoutes.includes(currentPath) &&
+        !currentPath.startsWith('/sign-up')
+      ) {
         navigate('/login', {replace: true})
       }
 
