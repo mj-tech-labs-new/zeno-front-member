@@ -13,11 +13,14 @@ import {
 } from '@/types/apiTypes/AuthApiPayloadType'
 
 const registerApi = async (props: RegisterApiProps) => {
-  const payload = {
+  let payload: Record<string, number | string> = {
     name: props?.name,
     email: props?.email,
     password: props?.password,
     user_signup_type: props?.user_signup_type,
+  }
+  if (props?.referral_code !== '' && props?.referral_code) {
+    payload = {...payload, referral_code: props?.referral_code}
   }
   const header = {Authorization: `${props?.token}`}
   return new Promise<string | null>((resolve) => {
