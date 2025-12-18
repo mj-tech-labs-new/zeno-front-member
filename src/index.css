@@ -387,11 +387,6 @@
     }
   }
 
-  /* Chart CSS To Override  */
-  #tv-attr-logo {
-    display: none !important;
-  }
-
   .animating_line {
     position: relative;
   }
