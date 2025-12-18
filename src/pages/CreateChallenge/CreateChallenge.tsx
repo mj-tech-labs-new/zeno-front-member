@@ -89,7 +89,7 @@ const CreateChallenge = () => {
         CommonFunction.addSliceData('removePaymentDetails', {})
       }
     }
-  }, [payoutData, userData.user.token])
+  }, [payoutData, userData?.user?.token])
 
   return (
     <Layout2>
