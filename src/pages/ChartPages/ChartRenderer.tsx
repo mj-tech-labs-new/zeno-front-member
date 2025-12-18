@@ -53,6 +53,8 @@ const ChartRenderer = () => {
           </div>
           <div className="relative h-[563px] w-full overflow-hidden ">
             <ChartGraphs />
+            {/* <ExponentialIndicators />
+            <MovingAverageIndicator /> */}
             <Tooltip />
             {!isLoadingCandles && <TrendLines />}
           </div>

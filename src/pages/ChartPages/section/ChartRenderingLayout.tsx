@@ -1,7 +1,6 @@
 import {useEffect} from 'react'
 import {useParams} from 'react-router-dom'
 
-import {Loader} from '@/components'
 import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 
 import ChartRenderer from '../ChartRenderer'
@@ -12,8 +11,7 @@ import Trades from './Trades'
 import TradesInfo from './TradesInfo'
 
 const ChartRenderingLayout = () => {
-  const {isLoadingCandles, setChallengeId, setGetChallengeByIdArray} =
-    useChartProvider()
+  const {setChallengeId, setGetChallengeByIdArray} = useChartProvider()
   const params = useParams()
   useEffect(() => {
     if (!params?.challengeId) {
@@ -36,7 +34,6 @@ const ChartRenderingLayout = () => {
       className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1 "
       id="chartRendering"
     >
-      <Loader ref={(ref) => ref?.showLoader(isLoadingCandles)} />
       <ChartHeader />
       <div className="flex flex-col gap-1 flex-1 w-full ">
         <div className="flex flex-col lg:flex-row">
