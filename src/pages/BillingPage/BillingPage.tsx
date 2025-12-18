@@ -82,6 +82,7 @@ const BillingPage = () => {
               challenge_plan,
               challenge_fee,
               challenge_type,
+              txHash,
               payment_status,
             } = tableBody
             return (
@@ -110,9 +111,7 @@ const BillingPage = () => {
                 <td className="p-6 text-secondary-light-color">
                   {payment_status === 'paid' ? 'Success' : 'Failed'}
                 </td>
-                <td className="p-6 text-secondary-light-color">
-                  {challenge_id}
-                </td>
+                <td className="p-6 text-secondary-light-color">{txHash}</td>
                 <td>
                   <DownloadButton
                     challenge_id={challenge_id}

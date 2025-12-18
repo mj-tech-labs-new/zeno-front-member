@@ -255,6 +255,7 @@ export interface GetBillingProps
   challenge_plan: string
   challenge_fee: string
   transaction_id?: string
+  txHash: string
 }
 
 export interface GetBillingWithPaginationProps {
