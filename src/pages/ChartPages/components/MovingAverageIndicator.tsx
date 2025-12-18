@@ -6,7 +6,13 @@ import {CandleObjectType} from '@/types/ChartTypes'
 import {useChartProvider} from '../context/ChartProvider'
 
 const MovingAverageIndicator = () => {
-  const {totalCandleData, chartObjectRef, isLoadingCandles} = useChartProvider()
+  const {
+    totalCandleData,
+    chartObjectRef,
+    isLoadingCandles,
+    isLastCandle,
+    isCallingCurrent,
+  } = useChartProvider()
 
   const calculateMovingAverageSeriesData = useCallback(
     (data: CandleObjectType[]) => {
@@ -45,7 +51,14 @@ const MovingAverageIndicator = () => {
 
   useEffect(() => {
     const chartObj = chartObjectRef.current
-    if (!chartObj || !totalCandleData.length || isLoadingCandles) return
+    if (
+      !chartObj ||
+      !totalCandleData.length ||
+      isLoadingCandles ||
+      isLastCandle.current ||
+      isCallingCurrent.current
+    )
+      return
 
     const maData = calculateMovingAverageSeriesData(totalCandleData)
 

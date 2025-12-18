@@ -6,7 +6,13 @@ import {CandleObjectType} from '@/types/ChartTypes'
 import {useChartProvider} from '../context/ChartProvider'
 
 const ExponentialIndicators = () => {
-  const {totalCandleData, chartObjectRef, isLoadingCandles} = useChartProvider()
+  const {
+    totalCandleData,
+    chartObjectRef,
+    isLoadingCandles,
+    isCallingCurrent,
+    isLastCandle,
+  } = useChartProvider()
 
   // const ema = useCallback(
   //   (data: CandleObjectType[], period: number) => {
@@ -80,7 +86,14 @@ const ExponentialIndicators = () => {
 
   useEffect(() => {
     const chartObj = chartObjectRef.current
-    if (!chartObj || !totalCandleData.length || isLoadingCandles) return
+    if (
+      !chartObj ||
+      !totalCandleData.length ||
+      isLoadingCandles ||
+      isCallingCurrent.current ||
+      isLastCandle.current
+    )
+      return
 
     const emaData = ema(totalCandleData)
 

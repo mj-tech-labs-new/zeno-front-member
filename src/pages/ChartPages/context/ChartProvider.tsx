@@ -223,6 +223,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
         timeframe: selectedIndex,
         limit,
       }
+
       APICall('get', Endpoints.candleHistory(tokenName), {}, paramsPayload)
         .then((res: any) => {
           isCallingCurrent.current = false
