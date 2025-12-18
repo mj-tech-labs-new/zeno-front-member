@@ -1,4 +1,4 @@
-import {forwardRef, useCallback, useEffect, useRef} from 'react'
+import {forwardRef, useCallback, useEffect, useMemo, useRef} from 'react'
 
 import {RangeSelectorProps} from '@/types/ComponentTypes'
 
@@ -9,11 +9,12 @@ const RangeSelector = forwardRef<HTMLDivElement, RangeSelectorProps>(
       rangeClassname = '',
       setRangeValue,
       rangeValue,
-      sliderWidth = 225,
     } = props
 
     const isDrawingRange = useRef(false)
     const sliderRef = useRef<HTMLDivElement | null>(null)
+    const containerSliderRef = useRef<HTMLDivElement | null>(null)
+    const sliderWidthRef = useRef(0)
 
     const updateValueFromPosition = useCallback(
       (clientX: number) => {
@@ -21,11 +22,12 @@ const RangeSelector = forwardRef<HTMLDivElement, RangeSelectorProps>(
 
         if (!rect) return
         const x = clientX - rect.left
-        if (x > sliderWidth || x < 0) return
-        const newValue = Math.round((x / sliderWidth) * 100)
+        if (x > sliderWidthRef.current || x < 0) return
+
+        const newValue = Math.round((x / sliderWidthRef.current) * 100)
         setRangeValue(Math.min(100, Math.max(0, newValue)))
       },
-      [setRangeValue, sliderWidth]
+      [setRangeValue]
     )
 
     const handleMouseDown = useCallback(
@@ -47,8 +49,9 @@ const RangeSelector = forwardRef<HTMLDivElement, RangeSelectorProps>(
     }
 
     useEffect(() => {
-      if (sliderRef.current) {
-        sliderRef.current.style.width = `${sliderWidth}px`
+      if (sliderRef.current && containerSliderRef.current) {
+        sliderRef.current.style.width = `${containerSliderRef.current.clientWidth}px`
+        sliderWidthRef.current = containerSliderRef.current.clientWidth
       }
       if (isDrawingRange.current) {
         window.addEventListener('mousemove', handleMouseMove)
@@ -66,39 +69,45 @@ const RangeSelector = forwardRef<HTMLDivElement, RangeSelectorProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isDrawingRange.current])
 
-    const handlePosition = (rangeValue / 100) * sliderWidth
+    const handlePosition = useMemo(
+      () => (rangeValue / 100) * sliderWidthRef.current,
+      [rangeValue]
+    )
 
     return (
-      <div
-        className={`flex flex-col items-center relative select-none ${className}`}
-      >
+      <div className="px-4">
         <div
-          ref={sliderRef ?? ref}
-          className="absolute h-1 rounded-sm bg-gray-800 cursor-pointer"
-          onMouseDown={handleMouseDown}
+          ref={containerSliderRef}
+          className={`flex flex-col items-center relative select-none ${className}`}
         >
-          <div className="absolute  h-full w-full flex justify-between ">
-            {Array.from({length: 5}).map((_, index) => (
-              <div
-                key={`line_${index.toString()}`}
-                className="block flex-col h-full items-center gap-7 justify-center"
-              >
-                <div className="w-1   h-full bg-neutral-primary-color" />
-                <p className="text-white text-xs absolute mt-1.5">
-                  {index * 25}
-                </p>
-              </div>
-            ))}
-          </div>
           <div
-            className={`absolute  h-full rounded-sm bg-gray-500 ${rangeClassname} `}
-            style={{width: `${handlePosition}px`}}
-          />
-          <div
-            className="relative -top-[8px] bg-neutral-primary-color h-5 w-5 rounded-full flex items-center justify-center"
-            style={{left: `${handlePosition - 8}px`}}
+            ref={sliderRef ?? ref}
+            className="absolute h-1 rounded-sm bg-gray-800 cursor-pointer"
+            onMouseDown={handleMouseDown}
           >
-            <div className=" w-3 h-3  rounded-full bg-primary-color cursor-grab" />
+            <div className="absolute left-0 h-full w-full flex justify-between ">
+              {Array.from({length: 5}).map((_, index) => (
+                <div
+                  key={`line_${index.toString()}`}
+                  className="block relative flex-col h-full items-center gap-7 justify-center"
+                >
+                  <div className="w-1   h-full bg-neutral-primary-color" />
+                  <p className="text-white text-[10px] absolute left-1/2 top-1.5 -translate-x-1/2">
+                    {index * 25}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div
+              className={`absolute  h-full rounded-sm bg-gray-500 ${rangeClassname} `}
+              style={{width: `${handlePosition}px`}}
+            />
+            <div
+              className="relative -top-[8px] bg-neutral-primary-color h-5 w-5 rounded-full flex items-center justify-center"
+              style={{left: `${handlePosition - 4}px`}}
+            >
+              <div className=" w-3 h-3  rounded-full bg-primary-color cursor-grab" />
+            </div>
           </div>
         </div>
       </div>

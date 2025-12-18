@@ -155,7 +155,6 @@ const FormContainer = (
       }
       loginApi(payload as unknown as LoginApiProps)
         .then((response) => {
-          loaderRef.current?.showLoader(false)
           if (response) {
             if (!userData.payoutDetails) {
               navigate('/dashboard')
@@ -164,7 +163,8 @@ const FormContainer = (
             navigate('/')
           }
         })
-        .catch(() => {
+        .catch(() => {})
+        .finally(() => {
           loaderRef.current?.showLoader(false)
         })
 
