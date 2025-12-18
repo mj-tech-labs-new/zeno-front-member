@@ -104,7 +104,7 @@ const RangeSelector = forwardRef<HTMLDivElement, RangeSelectorProps>(
             />
             <div
               className="relative -top-[8px] bg-neutral-primary-color h-5 w-5 rounded-full flex items-center justify-center"
-              style={{left: `${handlePosition - 4}px`}}
+              style={{left: `${handlePosition - 12}px`}}
             >
               <div className=" w-3 h-3  rounded-full bg-primary-color cursor-grab" />
             </div>

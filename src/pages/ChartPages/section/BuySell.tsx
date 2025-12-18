@@ -113,6 +113,7 @@ const BuySell = (props: BuyOrSelProps) => {
       if (name === 'amount') {
         setRangeValue(0)
       }
+
       setInputValues((prev) => ({
         ...prev,
         [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
@@ -131,54 +132,19 @@ const BuySell = (props: BuyOrSelProps) => {
   }, [selectedLeverage])
 
   useEffect(() => {
-    let totalStrFinal
-    const priceStr = inputValues.price
-    const priceBigInt = priceStr.includes('.')
-      ? BigInt(priceStr.replace('.', ''))
-      : BigInt(priceStr)
-    const amountStr = inputValues.amount ?? '0'
-    const amountBigInt = amountStr.includes('.')
-      ? BigInt(amountStr?.replace('.', '') ?? '0')
-      : BigInt(amountStr ?? '0')
-    const leverageBigInt = BigInt(
-      selectedLeverage?.title.toString().replace('X', ' ') ?? 1
-    )
-    const totalStr = ((priceBigInt * amountBigInt) / leverageBigInt).toString()
-
-    if (!priceStr.includes('.') && !amountStr.includes('.')) {
-      totalStrFinal = totalStr // for int
-    } else {
-      const decimalPlacesPrice = priceStr.includes('.')
-        ? priceStr.length - priceStr.indexOf('.') - 1
-        : 0
-      const decimalPlacesAmount = amountStr.includes('.')
-        ? amountStr.length - amountStr.indexOf('.') - 1
-        : 0
-
-      const indexTotal =
-        totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
-
-      const totalStrPrecise =
-        totalStr.slice(0, indexTotal) +
-        '.' +
-        totalStr.slice(indexTotal, indexTotal + 2)
-
-      totalStrFinal = totalStrPrecise // for float
-    }
-
     if (isLoadingCandles || !socketRef.current) return
     setInputValues((prev) => ({
       ...prev,
       price: livePrice?.toString() ?? '0',
-      total: Number(inputValues?.total) === 0 ? '0' : totalStrFinal,
     }))
   }, [
     inputValues.amount,
     inputValues.price,
-    inputValues?.total,
+    inputValues.total,
     isLoadingCandles,
     leverage,
     livePrice,
+    rangeValue,
     selectedLeverage?.title,
     selectedToken,
     socketRef,
@@ -249,16 +215,14 @@ const BuySell = (props: BuyOrSelProps) => {
                   const tokenValue = Number(amountRef.current) * percentValue
                   const newAmount = tokenValue / livePrice
                   setInputValues((prev) => {
-                    const price = Number(prev.price)
-
                     const Leverage = Number(selectedLeverage?.title)
 
-                    const totalValue = (newAmount * price) / Leverage
+                    const totalValue = (newAmount * livePrice) / Leverage
                     return {
                       ...prev,
                       amount: Utility.removeDecimal(newAmount).toString(),
                       total: totalValue
-                        ? totalValue.toFixed(3).toString()
+                        ? totalValue.toFixed(2).toString()
                         : '0',
                     }
                   })
@@ -270,7 +234,8 @@ const BuySell = (props: BuyOrSelProps) => {
         )
       })}
 
-      {Number(inputValues.total) > getChallengeByIdArray?.[0]?.current_usdt && (
+      {Number(Number(inputValues.total).toFixed(2)) >
+        getChallengeByIdArray?.[0]?.current_usdt && (
         <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
           {English.E279}
         </span>
