@@ -22,7 +22,7 @@ const HomePage = () => {
   useEffect(() => {
     const currentDate = dayjs()
     const loggedInDate = userData?.loggedIn as unknown as Date
-    if (currentDate.diff(loggedInDate, 'days') >= 1) {
+    if (currentDate.diff(loggedInDate, 'days') >= 1 || !loggedInDate) {
       CommonFunction.addSliceData('logout', {})
     }
   }, [userData?.loggedIn])
