@@ -11,6 +11,7 @@ import {
   OrderHistoryApiResponse,
   PositionHistoryApiProps,
   PositionHistoryApiResponse,
+  ReverceOrderApiProps,
   TransactionDetailsApiProps,
   TransactionDetailsHistoryResponse,
 } from '@/types/ChartTypes'
@@ -194,12 +195,33 @@ const TransactionDetailsHistoryApi = async (
   })
 }
 
+const ReverceOrderApi = async (props: ReverceOrderApiProps) => {
+  const queryPayload = {
+    method: props?.method,
+    tx_hash: props?.tx_hash,
+    challenge_id: props?.challenge_id,
+  }
+  return new Promise<any>((resolve) => {
+    APICall('post', Endpoints.reverseOrder, {}, queryPayload)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          toast.success(res?.message)
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message)
+        resolve(null)
+      })
+  })
+}
+
 const chartPageApi = {
   buyOrSellApi,
   closeOrderApi,
   OpenHistoryApi,
   PositionHistoryApi,
   TransactionDetailsHistoryApi,
+  ReverceOrderApi,
 }
 
 export default chartPageApi

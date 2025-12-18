@@ -8,6 +8,7 @@ import {CreateChallengeProps} from '@/types/ChallengeTypes'
 import {OpenPosition} from '@/types/ChartTypes'
 
 import EditStopLossModel from '../components/EditStopLossModel'
+import ReverseOrder from '../components/ReverseOrder'
 import {useChartProvider} from '../context/ChartProvider'
 
 const OpenPositionTable = (
@@ -29,6 +30,7 @@ const OpenPositionTable = (
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.challengeId])
+
   return (
     <CommonTableComponent
       apiMethod="put"
@@ -182,7 +184,7 @@ const OpenPositionTable = (
                 {Utility.removeDecimal(return_on_equity, 3)})
               </span>
             </th>
-            <td className="pr-6 py-4 text-left !whitespace-nowrap">
+            <td className="pr-6 py-4 flex gap-4 text-left !whitespace-nowrap">
               <CommonCloseActionButton
                 apiMethod="put"
                 challenge_id={challenge_id}
@@ -193,6 +195,11 @@ const OpenPositionTable = (
                     setPosition([])
                   }
                 }}
+              />
+
+              <ReverseOrder
+                challenge_id={tableBody?.challenge_id}
+                tx_hash={tableBody?.tx_hash}
               />
             </td>
           </tr>

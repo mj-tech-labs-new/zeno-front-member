@@ -42,6 +42,7 @@ const Endpoints = {
   getPaymentQrCode: '/users/payment/getPaymentQr',
   checkPayment: (transaction_id: number) =>
     `/users/payment/checkPayment?transaction_id=${transaction_id}`,
+  reverseOrder: `/users/order/reverceOrder`,
 }
 
 export default Endpoints

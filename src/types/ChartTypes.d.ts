@@ -244,3 +244,8 @@ export interface TransactionDetailsHistoryResponse {
   data: TransactionDetailHistory[]
   page: PaginationType
 }
+
+export interface ReverceOrderApiProps
+  extends Pick<OpenPosition, 'tx_hash' | 'challenge_id'> {
+  method?: string
+}

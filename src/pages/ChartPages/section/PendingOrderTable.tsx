@@ -9,6 +9,7 @@ import {CreateChallengeProps} from '@/types/ChallengeTypes'
 import {PendingOrder} from '@/types/ChartTypes'
 
 import EditStopLossModel from '../components/EditStopLossModel'
+import ReverseOrder from '../components/ReverseOrder'
 import {useChartProvider} from '../context/ChartProvider'
 
 const PendingOrderTable = (
@@ -164,7 +165,7 @@ const PendingOrderTable = (
                 </div>
               )}
             </td>
-            <td className="pr-6 py-4 text-left !whitespace-nowrap">
+            <td className="pr-6 py-4 flex  gap-4 text-left !whitespace-nowrap">
               <CommonCloseActionButton
                 apiMethod="delete"
                 challenge_id={challenge_id}
@@ -175,6 +176,10 @@ const PendingOrderTable = (
                     setPendingOrder([])
                   }
                 }}
+              />
+              <ReverseOrder
+                challenge_id={tableBody?.challenge_id}
+                tx_hash={tableBody?.tx_hash}
               />
             </td>
           </tr>

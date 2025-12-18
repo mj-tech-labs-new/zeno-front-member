@@ -70,6 +70,7 @@
   --landing-page-landing-page-carousel-divider-bg: #afb1a1;
   --landing-page-landing-page-carousel-border: #22170b;
   --light-grey-btn-color: #030302;
+  --accents-yellow-color: #ffcc00;
   --font-switzer: 'Switzer', sans-serif;
   --font-inter: 'Poppins', sans-serif;
   --font-bureau: 'Bureau', sans-serif;
@@ -159,6 +160,7 @@
   --color-landing-page-bg-darker-gray-color: var(
     --landing-page-bg-darker-gray-color
   );
+  --color-accents-yellow: var(--accents-yellow-color);
   --color-image-bg-color: var(--image-bg-color);
   --color-feature-card-bg-color: var(--feature-card-bg-color);
   --color-landing-page-freedom-clarity-growth: var(

@@ -370,6 +370,7 @@ const English = {
   E366: 'Scan the Above QR Code using any crypto wallet.',
   E367: 'Payment TimeOut!',
   E368: 'Take Profit',
+  E369: 'Reverse',
 }
 
 export default English

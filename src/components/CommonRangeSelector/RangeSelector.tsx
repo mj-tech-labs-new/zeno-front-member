@@ -21,7 +21,7 @@ const RangeSelector = forwardRef<HTMLDivElement, RangeSelectorProps>(
 
         if (!rect) return
         const x = clientX - rect.left
-
+        if (x > sliderWidth || x < 0) return
         const newValue = Math.round((x / sliderWidth) * 100)
         setRangeValue(Math.min(100, Math.max(0, newValue)))
       },
@@ -77,7 +77,7 @@ const RangeSelector = forwardRef<HTMLDivElement, RangeSelectorProps>(
           className="absolute h-1 rounded-sm bg-gray-800 cursor-pointer"
           onMouseDown={handleMouseDown}
         >
-          <div className="absolute left-0 h-full w-full flex justify-between ">
+          <div className="absolute  h-full w-full flex justify-between ">
             {Array.from({length: 5}).map((_, index) => (
               <div
                 key={`line_${index.toString()}`}
