@@ -91,7 +91,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
       {isDropDownOpen ? (
         <div
           ref={dropDownStatsRef}
-          className={`fixed bg-chart-dropdown-bg-color shadow-md z-20 rounded-lg overflow-y-auto h-56 !w-40 ${layoutClassName}`}
+          className={`fixed bg-chart-dropdown-bg-color shadow-md z-20 rounded-lg overflow-y-auto h-56  ${layoutClassName}`}
         >
           {dropDownData?.map((data) => {
             const {title, img = ''} = data

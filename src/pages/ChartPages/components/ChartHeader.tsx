@@ -46,11 +46,11 @@ const ChartHeader = () => {
                   ) : (
                     <DropDown
                       showArrows
-                      className="max-h-52 border-none !p-0  "
+                      className=" border-none !p-0  "
                       dropDownData={TokenArray}
                       elementId={['chartRendering']}
                       headingClassName="hover:!bg-transparent !text-2xl !font-semibold !font-bureau !leading-8 !text-primary-color"
-                      layoutClassName="!font-semibold !leading-8 "
+                      layoutClassName="!font-semibold left-0! !leading-8 h-[calc(100vh-200px)]! w-[500px]! "
                       onSelectValue={(item) => {
                         setSelectedToken((data) => {
                           if (data !== item.title) {
@@ -78,9 +78,12 @@ const ChartHeader = () => {
                 </div>
               </div>
             )}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-0.5">
               <span className="text-chart-red-color text-2xl !leading-8 font-semibold">
                 {livePrice} {English.E60}
+              </span>
+              <span className="text-primary-color font-medium leading-tight">
+                $ {livePrice}
               </span>
             </div>
           </div>

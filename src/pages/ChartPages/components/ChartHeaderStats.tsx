@@ -131,7 +131,7 @@ const ChartHeaderStats = () => {
               <span>{content}</span>
             </div>
             <p
-              className={`text-sm !leading-6 font-medium ${index !== 3 ? (textContent?.priceDiff?.toString()?.startsWith('-') ? 'text-chart-red-color' : 'text-chart-green-color') : 'text-chart-text-primary-color'}`}
+              className={`text-sm !leading-6 font-medium ${index === 0 ? (textContent?.priceDiff?.toString()?.startsWith('-') ? 'text-chart-red-color' : 'text-chart-green-color') : 'text-chart-text-primary-color'}`}
             >
               <span>
                 {content === English.E122

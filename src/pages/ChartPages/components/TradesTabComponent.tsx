@@ -1,24 +1,22 @@
 /* eslint-disable consistent-return */
 import _ from 'lodash'
-import { Fragment, memo, useEffect, useMemo, useRef, useState } from 'react'
+import {Fragment, memo, useEffect, useMemo, useRef, useState} from 'react'
 
-import { BasicSkeleton } from '@/components'
-import { English, Utility } from '@/helpers'
-import { ChartSwitchProps, OrderBookObjectType } from '@/types/ChartTypes'
+import {BasicSkeleton} from '@/components'
+import {English, Utility} from '@/helpers'
+import {ChartSwitchProps, OrderBookObjectType} from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 
 const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
-  const { isLoadingCandles, chartInfo, livePrice } = useChartProvider()
+  const {isLoadingCandles, chartInfo, livePrice} = useChartProvider()
 
-  const { activeType } = props
+  const {activeType} = props
   const [isLoadingOrderBook, setIsLoadingOrderBook] = useState(true)
   const [bookings, setBookings] = useState<OrderBookObjectType | null>(null)
   const webSocketRef = useRef<WebSocket | null>(null)
 
-
   const tradesToMap = useMemo(() => {
-
     const buyOrders = bookings?.asks?.slice(0, 6)?.map((item) => ({
       price: item[0],
       amount: item[1],
@@ -54,7 +52,6 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       maxBuy: Math.max(...finalAmountToBuy),
     }
   }, [bookings?.asks, bookings?.bids])
-
 
   useEffect(() => {
     if (isLoadingCandles || !chartInfo?.fullSymbolName) return
@@ -108,7 +105,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       </div>
       {isLoadingOrderBook && !isLoadingCandles ? (
         <div className="space-y-4">
-          {Array.from({ length: 6 }).map((__, index) => (
+          {Array.from({length: 6}).map((__, index) => (
             <div
               key={`order_loading_${index.toString()}`}
               className="h-7 w-full mt-5"
@@ -119,7 +116,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
         </div>
       ) : (
         tradesToMap.map((trade, tradeIndex) => {
-          const { amount, price, type, total } = trade
+          const {amount, price, type, total} = trade
           const amountToDivide =
             type === 'buy' ? maxNumber.maxBuy : maxNumber.maxBid
           return (

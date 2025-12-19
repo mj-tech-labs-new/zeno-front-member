@@ -61,7 +61,13 @@ const Ma30Indicators = () => {
   }, [chartObjectRef, isCallingCurrent, isLoadingCandles])
 
   useEffect(() => {
-    if (!ma30Ref.current || !totalCandleData || !isCallingCurrent || isLoadingCandles) return
+    if (
+      !ma30Ref.current ||
+      !totalCandleData ||
+      !isCallingCurrent ||
+      isLoadingCandles
+    )
+      return
 
     const ma = ma30(totalCandleData)
     ma30Ref.current.setData(ma)
