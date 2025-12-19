@@ -29,6 +29,7 @@ import {toast} from 'react-toastify'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {SocketEmitter} from '@/helpers'
 import {APICall, Endpoints} from '@/services'
+import {Store} from '@/store'
 import {ChallengeStageType, GetChallengeByIdType} from '@/types/ChallengeTypes'
 import {
   CandleObjectType,
@@ -184,7 +185,9 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [otherLoading, setOtherLoading] = useState<OtherLoaderType>({
     isDropdownLoading: true,
   })
-  const [selectedIndex, setSelectedIndex] = useState<ChartTimePeriodType>('1m')
+  const [selectedIndex, setSelectedIndex] = useState<ChartTimePeriodType>(
+    Store.getState()?.chartData?.frame ?? '1m'
+  )
   const [selectedTool, setSelectedTool] = useState<ChartShapesType | null>(
     'cursor'
   )
@@ -220,7 +223,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       }
       isCallingCurrent.current = true
       const paramsPayload = {
-        timeframe: selectedIndex,
+        timeframe: selectedIndex ?? Store.getState()?.chartData?.frame,
         limit,
       }
 

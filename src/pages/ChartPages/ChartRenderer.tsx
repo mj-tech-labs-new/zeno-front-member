@@ -1,4 +1,5 @@
 import {Constants, English} from '@/helpers'
+import {CommonFunction} from '@/services'
 import {ChartTimePeriodType} from '@/types/UnionTypes'
 
 import ChartShapes from './components/ChartShapes'
@@ -19,6 +20,7 @@ const ChartRenderer = () => {
     isLoadingCandles,
     currnetLimit,
   } = useChartProvider()
+
   return (
     <div className="h-full bg-chart-layout w-full  lg:w-[calc(100vw-500px)]">
       <div className="flex flex-col lg:flex-row gap-1 w-full">
@@ -42,6 +44,10 @@ const ChartRenderer = () => {
                         currnetLimit.current = 200
                         if (selectedIndex === key) return
                         setSelectedIndex(key as ChartTimePeriodType)
+                        const payload = {
+                          frame: key,
+                        }
+                        CommonFunction.addSliceData('addTimeFrame', payload)
                       }}
                     >
                       {content}

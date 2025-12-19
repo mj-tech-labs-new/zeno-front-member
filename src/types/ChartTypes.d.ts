@@ -9,6 +9,7 @@ import {
   GetClosedPnlDetailsPayloadProps,
   GetTradingCapitalProps,
 } from './ChallengeTypes'
+// eslint-disable-next-line import-x/no-cycle
 import {CommonProps, GeneralProps, PaginationType} from './CommonTypes'
 import {ChartShapesType, Methodtype, TradingSortingType} from './UnionTypes'
 
@@ -249,3 +250,8 @@ export interface ReverceOrderApiProps
   extends Pick<OpenPosition, 'tx_hash' | 'challenge_id'> {
   method?: string
 }
+
+export type EditPriceProps = Pick<
+  PendingOrder,
+  'challenge_id' | 'submitted_price' | 'symbol' | 'direction' | 'tx_hash'
+>

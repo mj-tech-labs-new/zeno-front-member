@@ -27,6 +27,7 @@ export type SliceDataType =
   | 'logout'
   | 'addPaymentDetails'
   | 'removePaymentDetails'
+  | 'addTimeFrame'
 export type TabComponentType = 'lineType' | 'buttonType'
 export type TradingSortingType = 'buy_sell_type' | 'buy_type' | 'sell_type'
 export type ListingComponentsType = 'normal_list_type' | 'multi_list_type'

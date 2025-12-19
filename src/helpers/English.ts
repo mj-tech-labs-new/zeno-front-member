@@ -59,8 +59,8 @@ const English = {
   E58: 'Current',
   E59: 'Initial Capital',
   E60: 'USDT',
-  E61: 'Released Profit',
-  E62: 'Unreleased Profit',
+  E61: 'Realised Profit',
+  E62: 'Unrealised Profit',
   E63: 'Equity',
   E64: 'Trading Objective',
   E65: 'Trading Statistics',
@@ -371,6 +371,8 @@ const English = {
   E367: 'Payment TimeOut!',
   E368: 'Take Profit',
   E369: 'Reverse',
+  E370: 'Please Enter Proper Price',
+  E371: 'Edit Price',
 }
 
 export default English

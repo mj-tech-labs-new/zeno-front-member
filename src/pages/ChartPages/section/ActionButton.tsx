@@ -1,8 +1,8 @@
-import {memo, useEffect, useRef} from 'react'
+import {memo, useEffect, useRef, useState} from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
 import {toast} from 'react-toastify'
 
-import {CommonButton} from '@/components'
+import {CommonButton, Loader} from '@/components'
 import {Constants, English} from '@/helpers'
 import {CommonBuyAndSellProp} from '@/types/ChartTypes'
 
@@ -23,6 +23,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     checked = false,
     margin_mode,
   } = props
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate()
   const amountRef = useRef(0)
@@ -38,6 +39,25 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
   const handleButtonClick = (orderSide: string) => {
     if (!params?.challengeId) return
     if (checked) setChecked(false)
+
+    if (order_type === 'limit') {
+      const enterPrice = price
+      if (orderSide === 'buy' || orderSide === 'sell') {
+        if (orderSide === 'buy') {
+          if (enterPrice >= livePrice) {
+            toast.error(English.E370)
+            return
+          }
+        }
+        if (orderSide === 'sell') {
+          if (enterPrice <= livePrice) {
+            toast.error(English.E370)
+            return
+          }
+        }
+      }
+    }
+
     if (orderSide === 'buy' || orderSide === 'sell') {
       const sl = stop_loss?.[0]?.price
       const tp = take_profit?.[0]?.price
@@ -64,6 +84,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
         }
       }
     }
+    setIsLoading(true)
     chartPageApi
       .buyOrSellApi({
         symbol: chartInfo?.fullSymbolName,
@@ -102,6 +123,9 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
         })
         toast.success(English.E280)
       })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   useEffect(() => {
@@ -110,7 +134,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
 
   return (
     <div className="flex flex-1 gap-3">
-      {' '}
+      <Loader ref={(ref) => ref?.showLoader(isLoading)} />
       {Constants?.BuySellActionButtons?.[activeIndex].map((item) => {
         const {name, text} = item
         return (

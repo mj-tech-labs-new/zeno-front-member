@@ -8,6 +8,7 @@ import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashb
 import {CreateChallengeProps} from '@/types/ChallengeTypes'
 import {PendingOrder} from '@/types/ChartTypes'
 
+import EditLimitPriceModel from '../components/EditLimitPriceModel'
 import EditStopLossModel from '../components/EditStopLossModel'
 import ReverseOrder from '../components/ReverseOrder'
 import {useChartProvider} from '../context/ChartProvider'
@@ -57,6 +58,7 @@ const PendingOrderTable = (
           quantity,
           submitted_price,
           position_margin,
+          tx_hash,
           margin_mode,
         } = tableBody
         const directionCaseInsensitive = direction.toLowerCase()
@@ -111,8 +113,21 @@ const PendingOrderTable = (
               </span>
             </td>
 
-            <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-              {submitted_price ? Utility.removeDecimal(submitted_price) : '---'}
+            <td className="pr-6 py-4 flex gap-3 text-left text-chart-text-primary-color !whitespace-nowrap">
+              <div>
+                {submitted_price
+                  ? Utility.removeDecimal(submitted_price)
+                  : '---'}
+              </div>
+              <div className="cursor-pointer">
+                <EditLimitPriceModel
+                  challenge_id={challenge_id}
+                  direction={direction}
+                  submitted_price={submitted_price}
+                  symbol={symbol}
+                  tx_hash={tx_hash}
+                />
+              </div>
             </td>
 
             <td
