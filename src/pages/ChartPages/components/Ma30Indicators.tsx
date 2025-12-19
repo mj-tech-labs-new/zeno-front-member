@@ -47,6 +47,7 @@ const Ma30Indicators = () => {
     ma30Ref.current = chartObj.addSeries(LineSeries, {
       color: '#965fc4',
       lineWidth: 1,
+      priceLineVisible: false,
     })
 
     // eslint-disable-next-line consistent-return

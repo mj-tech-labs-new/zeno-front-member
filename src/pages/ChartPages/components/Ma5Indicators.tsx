@@ -47,6 +47,7 @@ const Ma5Indicators = () => {
     ma5Ref.current = chartObj.addSeries(LineSeries, {
       color: '#2962FF',
       lineWidth: 1,
+      priceLineVisible: false,
     })
 
     // eslint-disable-next-line consistent-return
