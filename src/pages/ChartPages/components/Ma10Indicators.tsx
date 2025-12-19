@@ -49,6 +49,7 @@ const Ma10Indicators = () => {
       color: '#f7931a',
       lineWidth: 1,
       priceLineVisible: false,
+      lastValueVisible: false,
     })
 
     // eslint-disable-next-line consistent-return

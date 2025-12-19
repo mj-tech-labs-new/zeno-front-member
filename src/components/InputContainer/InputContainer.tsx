@@ -33,7 +33,7 @@ const InputContainer = forwardRef<HTMLInputElement, InputContainerProps>(
         >
           <input
             ref={ref}
-            className="focus:outline-0 visited:outline-0 h-[60px] items-center px-4 focus-within:outline-0 active:outline-0 text-secondary-light-color placeholder:text-secondary-light-color w-full"
+            className="focus:outline-0 visited:outline-0 h-[60px] items-center px-4 focus-within:outline-0 active:outline-0 text-secondary-light-color w-full "
             {...rest}
           />
           {imageUrl !== '' && (
