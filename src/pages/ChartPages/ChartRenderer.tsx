@@ -2,8 +2,9 @@ import {Constants, English} from '@/helpers'
 import {ChartTimePeriodType} from '@/types/UnionTypes'
 
 import ChartShapes from './components/ChartShapes'
-import ExponentialIndicators from './components/ExponentialIndicators'
-import MovingAverageIndicator from './components/MovingAverageIndicator'
+import Ma5Indicators from './components/Ma5Indicators'
+import Ma10Indicators from './components/Ma10Indicators'
+import Ma30Indicators from './components/Ma30Indicators'
 import Tooltip from './components/Tooltip'
 import TrendLines from './components/TrendLines'
 import {useChartProvider} from './context/ChartProvider'
@@ -55,8 +56,9 @@ const ChartRenderer = () => {
           </div>
           <div className="relative h-[563px] w-full overflow-hidden ">
             <ChartGraphs />
-            <MovingAverageIndicator />
-            <ExponentialIndicators />
+            <Ma5Indicators />
+            <Ma10Indicators />
+            <Ma30Indicators />
             <Tooltip />
             {!isLoadingCandles && <TrendLines />}
           </div>

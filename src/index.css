@@ -46,6 +46,8 @@
   --neutral-tertiary-color: #e6e8ec;
   --neutral-active-color: #353945;
   --primary-dark-blue-color: #3772ff;
+  --blue-line-color: #2962ff;
+  --purpol-line-color: #965fc4;
   --chart-green-color: #00c076;
   --chart-red-color: #ff6838;
   --chart-layout-bg: #17181b;
@@ -152,6 +154,9 @@
   --color-linear-gr-bg4-color: var(--linear-gr-bg4-color);
   --color-widget-primary-bg-color: var(--widget-primary-bg-color);
   --color-landing-page-gray-color: var(--landing-page-gray-color);
+  --color-blue-line-color: var(--blue-line-color);
+  --color-purpol-line-color: var(--purpol-line-color);
+
   --color-landing-page-secondary-gray-color: var(
     --landing-page-secondary-gray-color
   );
