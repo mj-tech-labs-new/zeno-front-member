@@ -160,19 +160,16 @@ const Limit = (props: BuyOrSelProps) => {
       </div>
 
       {Constants.BuySellInputArray.Limit.map((item, index) => {
-        const {name, placeHolder, label, textContent} = item
+        const {name, label, textContent} = item
         const priceValue = inputValues?.[name as keyof typeof inputValues]
         return (
           <div key={`name_${name}`}>
             <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
               <div className="flex justify-between gap-2">
-                <span className="shrink-0 text-light-neutral-color text-sm !leading-6 font-medium capitalize">
-                  {label}
-                </span>
                 <div className="w-full gap-2.5 flex items-center">
                   <InputContainer
                     layoutClassName="!w-full"
-                    placeholder={name === 'price' ? placeHolder : ''}
+                    placeholder={label}
                     value={priceValue}
                     className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
               [&>input]:!text-chart-text-primary-color [&>input]:!text-sm [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium"

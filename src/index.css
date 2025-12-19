@@ -219,6 +219,10 @@
     border: none;
     border-collapse: collapse; /* Ensures no space between cells */
   }
+  input::placeholder {
+    color: var(--neutral-primary-color) !important;
+    text-align: left !important;
+  }
   [type='radio'] {
     appearance: none;
     border: 2px solid var(--checkbox-border-color);
