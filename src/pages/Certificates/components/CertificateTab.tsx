@@ -112,10 +112,14 @@ const CertificateTab = (props: CertificateTableProps) => {
                     {dayjs(created_at).format('YYYY-MM-DD')}
                   </td>
                   <td className="p-6  text-secondary-light-color cursor-pointer ">
-                    <DownloadButton
-                      challenge_id={challenge_id ?? ''}
-                      singleLineContent={English.E99}
-                    />
+                    {status === 'Passed' ? (
+                      <DownloadButton
+                        challenge_id={challenge_id ?? ''}
+                        singleLineContent={English.E99}
+                      />
+                    ) : (
+                      '---'
+                    )}
                   </td>
                 </tr>
               )

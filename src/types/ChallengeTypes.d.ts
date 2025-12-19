@@ -89,11 +89,18 @@ export interface CreateChallengeProps extends CommonProps {
   max_total_loss: number
 }
 
-export type ChallengeInfoDashboardProps = CreateChallengeProps & {
-  wallet_amount: number
-  current_usdt: number
-  min_trading_day: number | null
-}
+export type ChallengeInfoDashboardProps = CreateChallengeProps &
+  Pick<
+    ChallengeDataSocketType,
+    | 'max_total_loss'
+    | 'max_current_loss'
+    | 'profit_target_amount'
+    | 'released_profit'
+  > & {
+    wallet_amount: number
+    current_usdt: number
+    min_trading_day: number | null
+  }
 
 export interface ChallengeInfoDashboardWithPaginationProps {
   data: ChallengeInfoDashboardProps[]

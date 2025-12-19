@@ -104,7 +104,11 @@ const Dashboard = () => {
                       className="!w-full !h-[604px] !rounded-2xl"
                     />
                   ) : (
-                    <ChallengeDetailCard key={item.id} item={item} />
+                    <ChallengeDetailCard
+                      key={item.id}
+                      item={item}
+                      showLoader={showLoader}
+                    />
                   )
                 )}
               </div>

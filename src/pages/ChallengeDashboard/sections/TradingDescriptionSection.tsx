@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import {memo, useEffect, useMemo, useState} from 'react'
 
 import {BasicSkeleton, HeadingComponent, StatsDescription} from '@/components'
@@ -14,22 +15,9 @@ import {useChallengeProvider} from '../context/ChallengeDashboardProvider'
 const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
   const {type, className, layoutClassName} = props
   const [socketData, setSocketData] = useState<ChallengeDataSocketType>()
-  const [isLoadingSocket, setIsLoadingSocket] = useState(true)
   const {getChallengeByIdArray, tradingStatistics, challengeId, showLoader} =
     useChallengeProvider()
   const {socketRef} = useSocketProvider()
-  useEffect(() => {
-    if (showLoader || !socketRef.current || !challengeId) return
-    if (!showLoader) {
-      setIsLoadingSocket(false)
-      socketRef.current?.on(
-        `${SocketEmitter.DashboardEmitter.challenge_dashboard_socket}_${challengeId}`,
-        (data) => {
-          setSocketData(data?.data)
-        }
-      )
-    }
-  }, [challengeId, showLoader, socketRef])
 
   const tradingObjectiveArray = useMemo(
     () => [
@@ -148,6 +136,20 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
     ]
   )
 
+  useEffect(() => {
+    const socket = socketRef.current
+    if (showLoader || !socket || !challengeId) return
+    socket?.on(
+      `${SocketEmitter.DashboardEmitter.challenge_dashboard_socket}_${challengeId}`,
+      (data) => {
+        setSocketData(data?.data)
+      }
+    )
+    return () => {
+      socket?.off()
+    }
+  }, [challengeId, showLoader, socketRef])
+
   return (
     <div className={`space-y-6 ${layoutClassName}`}>
       {type !== English.E257 && (
@@ -158,7 +160,7 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
         />
       )}
 
-      {isLoadingSocket ? (
+      {showLoader ? (
         <div
           className={`grid ${type === English.E257 ? 'grid-cols-1' : 'grid-cols-4'}`}
         >

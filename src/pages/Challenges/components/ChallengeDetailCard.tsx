@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import {useMemo} from 'react'
+import {useEffect, useMemo, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 
 import {
@@ -8,12 +8,22 @@ import {
   ImageComponent,
   StatsDescription,
 } from '@/components'
-import {English, Images, Utility} from '@/helpers'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
+import {English, Images, SocketEmitter, Utility} from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
-import {ChallengeInfoDashboardProps} from '@/types/ChallengeTypes'
+import {
+  ChallengeDataSocketType,
+  ChallengeInfoDashboardProps,
+} from '@/types/ChallengeTypes'
 
-const ChallengeDetailCard = (props: {item: ChallengeInfoDashboardProps}) => {
-  const {item} = props
+const ChallengeDetailCard = (props: {
+  item: ChallengeInfoDashboardProps
+  showLoader: boolean
+}) => {
+  const {item, showLoader} = props
+  const [socketData, setSocketData] = useState<ChallengeDataSocketType>()
+  const {socketRef} = useSocketProvider()
+
   const navigate = useNavigate()
   const initialAmount = useMemo(() => {
     const firstNumber = Utility.numberConversion(item?.initial_capital ?? 0)
@@ -35,15 +45,43 @@ const ChallengeDetailCard = (props: {item: ChallengeInfoDashboardProps}) => {
     }
   }, [item?.current_usdt])
 
-  const requiredItem = {
-    Status: item?.status,
-    'Current balance': `${currentAmount.firstNumber}.${currentAmount.secondNumber} USDT`,
-    'Minimum Trading Days': `${item?.min_trading_day ?? '---'} Days`,
-    Challenge: item?.challenge_type,
-    'Trading type': 'Futures',
-    'Drawdown type': 'Trailing',
-    'Challenge type': item?.challenge_name,
-  }
+  const requiredItem = useMemo(
+    () => ({
+      Status: item?.status,
+      'Current balance': `${currentAmount.firstNumber}.${currentAmount.secondNumber} USDT`,
+      'Minimum Trading Days': `${item?.min_trading_day ?? '---'} Days`,
+      Challenge: item?.challenge_type,
+      'Trading type': 'Futures',
+      'Drawdown type': 'Trailing',
+      'Challenge type': item?.challenge_name,
+    }),
+    [
+      currentAmount.firstNumber,
+      currentAmount.secondNumber,
+      item?.challenge_name,
+      item?.challenge_type,
+      item?.min_trading_day,
+      item?.status,
+    ]
+  )
+
+  useEffect(() => {
+    const socket = socketRef.current
+    if (showLoader || !socket || !item?.challenge_id) return
+    if (!showLoader) {
+      socket?.on(
+        `${SocketEmitter.DashboardEmitter.challenge_dashboard_socket}_${item?.challenge_id}`,
+        (data) => {
+          setSocketData(data?.data)
+        }
+      )
+    }
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      socket?.off()
+    }
+  }, [item?.challenge_id, showLoader, socketRef])
 
   return (
     <ChallengeCardLayout>
@@ -82,18 +120,28 @@ const ChallengeDetailCard = (props: {item: ChallengeInfoDashboardProps}) => {
               className="grey__filter"
               headingContent={English.E68}
               infoContent="Content!!!"
-              initialContent={500}
-              secondContent={0}
               type="lossProgressType"
+              initialContent={
+                item?.profit_target_amount ??
+                socketData?.profit_target_amount ??
+                0
+              }
+              secondContent={
+                item?.released_profit ?? socketData?.total_available_profit ?? 0
+              }
             />
             <div className="w-[1px] min-h-full bg-landing-page-trading-rules-para-text" />
             <StatsDescription
               className="grey__filter"
               headingContent={English.E70}
               infoContent="Content!!!"
-              initialContent={-1000}
-              secondContent={0}
               type="lossProgressType"
+              initialContent={
+                item?.max_total_loss ?? socketData?.max_daily_loss_amount ?? 0
+              }
+              secondContent={
+                item?.max_current_loss ?? socketData?.max_current_loss ?? 0
+              }
             />
           </div>
         </div>

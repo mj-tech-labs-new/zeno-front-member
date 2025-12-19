@@ -90,7 +90,7 @@ const StatsDescription = (props: StatsCardProps) => {
                   ? 'text-light-success-color'
                   : 'text-light-danger-color'
               }
-            ${headingContent === English.E68 && secondContent.toString().startsWith('-') ? 'text-light-danger-color' : 'text-light-success-color'}`}
+            ${secondContent.toString().startsWith('-') ? 'text-light-danger-color' : 'text-light-success-color'}`}
             >
               {headingContent !== English.E66
                 ? Utility.numberConversion(secondContent)
