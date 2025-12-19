@@ -1,10 +1,11 @@
-import {forwardRef, memo, useEffect, useRef, useState} from 'react'
+import React, {forwardRef, memo, useEffect, useRef, useState} from 'react'
 
 import {Images} from '@/helpers'
 import {useClickOutside} from '@/hooks'
 import {DropDownProps} from '@/types/ComponentTypes'
 
 import ImageComponent from '../ImageComponent/ImageComponent'
+import SearchComponent from '../SearchComponent/SearchComponent'
 
 const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
   const {
@@ -16,8 +17,13 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
     headingClassName = '',
     showArrows = true,
     elementId = [],
+    isSearchType = false,
+    searchValue = '',
+    setSearchValue,
+    onPressSearch,
   } = props
   const mainDivRef = useRef<HTMLDivElement | null>(null)
+  const searchRef = useRef<HTMLDivElement | null>(null)
   const dropDownStatsRef = useRef<HTMLDivElement | null>(null)
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
 
@@ -38,7 +44,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
   }, [dropDownData?.length, isDropDownOpen])
 
   useClickOutside({
-    refs: [mainDivRef],
+    refs: [mainDivRef, searchRef],
     onClickOutside() {
       setIsDropDownOpen(false)
     },
@@ -64,59 +70,78 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
   }, [elementId, isDropDownOpen])
 
   return (
-    <div
-      ref={mainDivRef ?? ref}
-      className={`pl-4 pr-3 py-3 border-2 border-neutral-secondary-color !z-100 rounded-lg cursor-pointer ${className}`}
-      onClick={() => {
-        setIsDropDownOpen((data) => !data)
-      }}
-    >
-      <div className="flex justify-between items-center gap-1">
-        <span
-          className={`text-tertiary-color text-sm font-normal hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out  ${headingClassName}`}
-        >
-          {selectedValue?.title}
-        </span>
-        {selectedValue?.img && selectedValue?.img !== '' ? (
-          <ImageComponent className="w-5 h-5" imageUrl={selectedValue.img} />
-        ) : null}
+    <React.Fragment>
+      <div
+        ref={mainDivRef ?? ref}
+        className={`pl-4 pr-3 py-3 border-2 border-neutral-secondary-color !z-100 rounded-lg cursor-pointer ${className}`}
+        onClick={() => {
+          setIsDropDownOpen((data) => !data)
+        }}
+      >
+        <div className="flex justify-between items-center gap-1">
+          <span
+            className={`text-tertiary-color text-sm font-normal hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out  ${headingClassName}`}
+          >
+            {selectedValue?.title}
+          </span>
+          {selectedValue?.img && selectedValue?.img !== '' ? (
+            <ImageComponent className="w-5 h-5" imageUrl={selectedValue.img} />
+          ) : null}
 
-        {showArrows && (
-          <ImageComponent
-            className={`${isDropDownOpen ? 'rotate-180' : ''} transition-all duration-200 ease-in-out`}
-            imageUrl={Images.dropdownArrow}
-          />
-        )}
+          {showArrows && (
+            <ImageComponent
+              className={`${isDropDownOpen ? 'rotate-180' : ''} transition-all duration-200 ease-in-out`}
+              imageUrl={Images.dropdownArrow}
+            />
+          )}
+        </div>
       </div>
       {isDropDownOpen ? (
         <div
           ref={dropDownStatsRef}
-          className={`fixed bg-chart-dropdown-bg-color shadow-md z-20 rounded-lg overflow-y-auto h-56  ${layoutClassName}`}
+          className={`fixed bg-chart-dropdown-bg-color shadow-md z-[999] rounded-lg  h-56  ${layoutClassName}`}
         >
-          {dropDownData?.map((data) => {
-            const {title, img = ''} = data
-            return (
-              <div
-                key={title}
-                className="flex items-center gap-1"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onSelectValue(data)
-                  setIsDropDownOpen((prev) => !prev)
+          {isSearchType && (
+            <div className="p-2">
+              <SearchComponent
+                ref={searchRef}
+                showCross
+                onPressSearch={onPressSearch}
+                searchValue={searchValue}
+                setSearchValue={(value) => {
+                  setSearchValue?.(value)
                 }}
-              >
-                <span className="text-tertiary-color text-sm font-normal p-3  w-full hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out">
-                  {title}
-                </span>
-                {img !== '' && (
-                  <ImageComponent className="w-5 h-5" imageUrl={img} />
-                )}
-              </div>
-            )
-          })}
+              />
+            </div>
+          )}
+          <div
+            className={` overflow-y-auto ${isSearchType ? 'h-[calc(100%-40px)]' : 'h-full'}`}
+          >
+            {dropDownData?.map((data) => {
+              const {title, img = ''} = data
+              return (
+                <div
+                  key={title}
+                  className="flex items-center gap-1"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onSelectValue(data)
+                    setIsDropDownOpen((prev) => !prev)
+                  }}
+                >
+                  <span className="text-tertiary-color text-sm font-normal p-3  w-full hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out">
+                    {title}
+                  </span>
+                  {img !== '' && (
+                    <ImageComponent className="w-5 h-5" imageUrl={img} />
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
       ) : null}
-    </div>
+    </React.Fragment>
   )
 })
 

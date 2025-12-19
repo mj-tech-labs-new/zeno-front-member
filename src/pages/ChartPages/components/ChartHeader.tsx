@@ -45,12 +45,14 @@ const ChartHeader = () => {
                     <BasicSkeleton className="rounded-lg !h-11" />
                   ) : (
                     <DropDown
+                      isSearchType
                       showArrows
-                      className=" border-none !p-0  "
+                      className=" border-none !p-0"
                       dropDownData={TokenArray}
                       elementId={['chartRendering']}
                       headingClassName="hover:!bg-transparent !text-2xl !font-semibold !font-bureau !leading-8 !text-primary-color"
                       layoutClassName="!font-semibold left-0! !leading-8 h-[calc(100vh-200px)]! w-[500px]! "
+                      onPressSearch={() => {}}
                       onSelectValue={(item) => {
                         setSelectedToken((data) => {
                           if (data !== item.title) {

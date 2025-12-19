@@ -14,6 +14,7 @@ const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
       imageUrl,
       imageType = 'normal_type',
       imageRelatedText = '',
+      onPressItem,
     } = props
     const [imageContent, setImageContent] = useState('')
     useEffect(() => {
@@ -38,7 +39,9 @@ const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
         <div
           ref={ref}
           className={`overflow-hidden ${className}`}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation()
+            onPressItem?.()
             if (imageUrl === Images.copy) {
               toast.info(English.E232)
               window.navigator.clipboard.writeText(imageRelatedText)

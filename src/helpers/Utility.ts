@@ -10,6 +10,13 @@ const numberConversion = (content: number) => {
   }).format(content)
 }
 
+const trimMultipleSpaces = (content: string, noSpacing?: boolean) => {
+  if (noSpacing) {
+    return content.trim().replace(/\s+/g, '')
+  }
+  return content.trim().replace(/\s+/g, ' ')
+}
+
 const isValidEmail = (content: string) => {
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   return regex.test(content)
@@ -61,7 +68,17 @@ const isPasswordValid = (value: string) => {
   return regex.test(value)
 }
 
+const largeNumberNotationConversion = (content: number) => {
+  const newIntlNumber = new Intl.NumberFormat('en', {
+    notation: 'compact',
+    compactDisplay: 'short',
+    maximumSignificantDigits: 3,
+  })
+  return newIntlNumber.format(content)
+}
+
 const Utility = {
+  trimMultipleSpaces,
   colorGeneratorUtility,
   ScrollToSectionUtility,
   validFloatNumber,
@@ -72,6 +89,7 @@ const Utility = {
   isValidNumber,
   convertScientificToNormalNum,
   isPasswordValid,
+  largeNumberNotationConversion,
 }
 
 export default Utility

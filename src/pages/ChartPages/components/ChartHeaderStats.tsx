@@ -53,7 +53,9 @@ const ChartHeaderStats = () => {
   )
   const volumeAmount = useMemo(
     () => ({
-      priceDiff: chartSocketData?.volume ? `${chartSocketData?.volume}` : '---',
+      priceDiff: chartSocketData?.volume
+        ? `${Number(Utility.largeNumberNotationConversion(chartSocketData?.volume))}`
+        : '---',
     }),
     [chartSocketData?.volume]
   )

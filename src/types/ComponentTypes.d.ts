@@ -17,7 +17,10 @@ import {
   TabComponentType,
 } from './UnionTypes'
 
-export type ImageComponentProps = Pick<GeneralProps, 'className'> &
+export type ImageComponentProps = Pick<
+  GeneralProps,
+  'className' | 'onPressItem'
+> &
   Required<Pick<GeneralProps, 'imageUrl'>> & {imageType?: ImageType} & {
     imageRelatedText?: string
   }
@@ -73,14 +76,30 @@ export interface StatsCardProps
   type: string
 }
 
+export interface SearchComponentProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    Pick<GeneralProps, 'className' | 'layoutClassName'> {
+  searchValue: string
+  setSearchValue: (value: string) => void
+  onPressSearch?: (value: string) => void
+  showCross?: boolean
+}
+
 export interface DropDownProps
   extends Pick<GeneralProps, 'className' | 'layoutClassName'>,
-    Pick<CommonTableComponentProps, 'showArrows'> {
+    Pick<CommonTableComponentProps, 'showArrows'>,
+    Partial<
+      Pick<
+        SearchComponentProps,
+        'searchValue' | 'setSearchValue' | 'onPressSearch'
+      >
+    > {
   dropDownData: DropDownObjectType[]
   selectedValue: DropDownObjectType
   headingClassName?: string
   onSelectValue: (data: DropDownObjectType) => void
   elementId?: string[]
+  isSearchType?: boolean
 }
 
 export interface MaxOpenAndMarginProps {
