@@ -1,13 +1,13 @@
 /* eslint-disable no-plusplus */
-import {LineSeries, Time, WhitespaceData} from 'lightweight-charts'
-import {useCallback, useEffect, useRef} from 'react'
+import { LineSeries, Time, WhitespaceData } from 'lightweight-charts'
+import { useCallback, useEffect, useRef } from 'react'
 
-import {CandleObjectType} from '@/types/ChartTypes'
+import { CandleObjectType } from '@/types/ChartTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
 const Ma10Indicators = () => {
-  const {totalCandleData, chartObjectRef, isCallingCurrent, isLoadingCandles} =
+  const { totalCandleData, chartObjectRef, isCallingCurrent, isLoadingCandles } =
     useChartProvider()
   const ma10Ref = useRef<any>(null)
 
@@ -16,14 +16,14 @@ const Ma10Indicators = () => {
   const ma10 = useCallback((candleData: CandleObjectType[]) => {
     if (candleData.length === 0) return []
 
-    const result: (WhitespaceData | {time: Time; value: number})[] = []
+    const result: (WhitespaceData | { time: Time; value: number })[] = []
 
     for (let i = 0; i < candleData.length; i++) {
       const time = (new Date(candleData[i].close_time_iso).getTime() /
         1000) as Time
 
       if (i < period - 1) {
-        result.push({time}) // whitespace
+        result.push({ time }) // whitespace
         // eslint-disable-next-line no-continue
         continue
       }
@@ -61,7 +61,7 @@ const Ma10Indicators = () => {
   }, [chartObjectRef, isCallingCurrent, isLoadingCandles])
 
   useEffect(() => {
-    if (!ma10Ref.current || !totalCandleData) return
+    if (!ma10Ref.current || !totalCandleData || !isCallingCurrent || isLoadingCandles) return
 
     const ma = ma10(totalCandleData)
     ma10Ref.current.setData(ma)
