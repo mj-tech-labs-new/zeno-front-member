@@ -122,12 +122,12 @@ const ChallengeDetailCard = (props: {
               infoContent="Content!!!"
               type="lossProgressType"
               initialContent={
-                item?.profit_target_amount ??
                 socketData?.profit_target_amount ??
+                item?.profit_target_amount ??
                 0
               }
               secondContent={
-                item?.released_profit ?? socketData?.total_available_profit ?? 0
+                socketData?.total_available_profit ?? item?.released_profit ?? 0
               }
             />
             <div className="w-[1px] min-h-full bg-landing-page-trading-rules-para-text" />
@@ -137,10 +137,10 @@ const ChallengeDetailCard = (props: {
               infoContent="Content!!!"
               type="lossProgressType"
               initialContent={
-                item?.max_total_loss ?? socketData?.max_daily_loss_amount ?? 0
+                socketData?.max_daily_loss_amount ?? item?.max_total_loss ?? 0
               }
               secondContent={
-                item?.max_current_loss ?? socketData?.max_current_loss ?? 0
+                socketData?.max_current_loss ?? item?.max_current_loss ?? 0
               }
             />
           </div>

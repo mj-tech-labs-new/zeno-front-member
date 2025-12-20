@@ -1,6 +1,6 @@
 import {forwardRef, memo} from 'react'
 
-import {Images, Utility} from '@/helpers'
+import {Images} from '@/helpers'
 import {SearchComponentProps} from '@/types/ComponentTypes'
 
 import ImageComponent from '../ImageComponent/ImageComponent'
@@ -32,7 +32,11 @@ const SearchComponent = forwardRef<HTMLDivElement, SearchComponentProps>(
           className={`h-full w-full outline-none focus:outline-none active:outline-none  ${layoutClassName}`}
           value={searchValue}
           onChange={(e) => {
-            Utility.trimMultipleSpaces(e.target.value)
+            e.stopPropagation()
+            setSearchValue(e.target.value)
+          }}
+          onClick={(e) => {
+            e.stopPropagation()
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {

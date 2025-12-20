@@ -1,6 +1,6 @@
-import React, {forwardRef, memo, useEffect, useRef, useState} from 'react'
+import {forwardRef, memo, useEffect, useRef, useState} from 'react'
 
-import {Images} from '@/helpers'
+import {English, Images} from '@/helpers'
 import {useClickOutside} from '@/hooks'
 import {DropDownProps} from '@/types/ComponentTypes'
 
@@ -70,31 +70,31 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
   }, [elementId, isDropDownOpen])
 
   return (
-    <React.Fragment>
-      <div
-        ref={mainDivRef ?? ref}
-        className={`pl-4 pr-3 py-3 border-2 border-neutral-secondary-color !z-100 rounded-lg cursor-pointer ${className}`}
-        onClick={() => {
-          setIsDropDownOpen((data) => !data)
-        }}
-      >
-        <div className="flex justify-between items-center gap-1">
-          <span
-            className={`text-tertiary-color text-sm font-normal hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out  ${headingClassName}`}
-          >
-            {selectedValue?.title}
-          </span>
-          {selectedValue?.img && selectedValue?.img !== '' ? (
-            <ImageComponent className="w-5 h-5" imageUrl={selectedValue.img} />
-          ) : null}
+    <div
+      ref={mainDivRef ?? ref}
+      className={`pl-4 pr-3 py-3 border-2 border-neutral-secondary-color !z-100 rounded-lg cursor-pointer ${className}`}
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        setIsDropDownOpen((data) => !data)
+      }}
+    >
+      <div className="flex justify-between items-center gap-1">
+        <span
+          className={`text-tertiary-color text-sm font-normal hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out  ${headingClassName}`}
+        >
+          {selectedValue?.title}
+        </span>
+        {selectedValue?.img && selectedValue?.img !== '' ? (
+          <ImageComponent className="w-5 h-5" imageUrl={selectedValue.img} />
+        ) : null}
 
-          {showArrows && (
-            <ImageComponent
-              className={`${isDropDownOpen ? 'rotate-180' : ''} transition-all duration-200 ease-in-out`}
-              imageUrl={Images.dropdownArrow}
-            />
-          )}
-        </div>
+        {showArrows && (
+          <ImageComponent
+            className={`${isDropDownOpen ? 'rotate-180' : ''} transition-all duration-200 ease-in-out`}
+            imageUrl={Images.dropdownArrow}
+          />
+        )}
       </div>
       {isDropDownOpen ? (
         <div
@@ -107,6 +107,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
                 ref={searchRef}
                 showCross
                 onPressSearch={onPressSearch}
+                placeholder={English.E372}
                 searchValue={searchValue}
                 setSearchValue={(value) => {
                   setSearchValue?.(value)
@@ -141,7 +142,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
           </div>
         </div>
       ) : null}
-    </React.Fragment>
+    </div>
   )
 })
 

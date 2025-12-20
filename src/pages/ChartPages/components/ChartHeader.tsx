@@ -1,7 +1,8 @@
-import {memo, useMemo} from 'react'
+import {memo, useEffect, useMemo, useRef, useState} from 'react'
 
 import {BasicSkeleton, DropDown, ImageComponent} from '@/components'
-import {English, Images} from '@/helpers'
+import {English, Images, Utility} from '@/helpers'
+import {useDebounce} from '@/hooks'
 
 import {useChartProvider} from '../context/ChartProvider'
 import ChartHeaderStats from './ChartHeaderStats'
@@ -18,7 +19,10 @@ const ChartHeader = () => {
     totalCandlesCount,
     livePrice,
   } = useChartProvider()
-  const isMatch = Object.values(tokenList ?? {}).includes(selectedToken)
+  const isMatch = useMemo(
+    () => Object.values(tokenList ?? {}).includes(selectedToken),
+    [selectedToken, tokenList]
+  )
   const TokenArray = useMemo(
     () =>
       Object.entries(tokenList ?? [])?.map(([_, value]) => ({
@@ -26,6 +30,30 @@ const ChartHeader = () => {
       })),
     [tokenList]
   )
+  const [tokenArray, setTokenArray] = useState(TokenArray)
+  const tokenArrayRef = useRef(TokenArray)
+  const [searchValue, setSearchValue] = useState('')
+  const debouncedValue = useDebounce(searchValue)
+
+  useEffect(() => {
+    if (debouncedValue === '') {
+      setTokenArray(tokenArrayRef.current)
+      return
+    }
+    setTokenArray(() => {
+      const filteredArray = tokenArrayRef.current.filter((tokenItem) =>
+        tokenItem.title
+          .toLowerCase()
+          .includes(Utility.trimMultipleSpaces(debouncedValue.toLowerCase()))
+      )
+      return filteredArray
+    })
+  }, [debouncedValue])
+
+  useEffect(() => {
+    setTokenArray(TokenArray)
+    tokenArrayRef.current = TokenArray
+  }, [TokenArray])
 
   return (
     <div className="py-5 px-6 bg-chart-layout-bg rounded">
@@ -48,11 +76,14 @@ const ChartHeader = () => {
                       isSearchType
                       showArrows
                       className=" border-none !p-0"
-                      dropDownData={TokenArray}
+                      dropDownData={tokenArray}
                       elementId={['chartRendering']}
                       headingClassName="hover:!bg-transparent !text-2xl !font-semibold !font-bureau !leading-8 !text-primary-color"
                       layoutClassName="!font-semibold left-0! !leading-8 h-[calc(100vh-200px)]! w-[500px]! "
-                      onPressSearch={() => {}}
+                      searchValue={searchValue}
+                      onPressSearch={(value) => {
+                        setSearchValue(value)
+                      }}
                       onSelectValue={(item) => {
                         setSelectedToken((data) => {
                           if (data !== item.title) {
@@ -67,6 +98,9 @@ const ChartHeader = () => {
                         title: isMatch
                           ? `${chartInfo?.fullSymbolName?.split('USDT')?.[0]} / ${English.E60}`
                           : selectedToken,
+                      }}
+                      setSearchValue={(value) => {
+                        setSearchValue(value)
                       }}
                     />
                   )}

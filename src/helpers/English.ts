@@ -373,7 +373,7 @@ const English = {
   E369: 'Reverse',
   E370: 'Please Enter Proper Price',
   E371: 'Edit Price',
-  E372: 'Search',
+  E372: 'Search...',
 }
 
 export default English
