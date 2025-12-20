@@ -34,11 +34,12 @@ const BuySell = (props: BuyOrSelProps) => {
     selectedToken,
     tokenList,
     getChallengeByIdArray,
-
+    chartInfo,
     currentStageArray,
     livePrice,
     selectedLeverage,
   } = useChartProvider()
+  const [amountPriceType, setAmountPriceType] = useState('')
   const {socketRef} = useSocketProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
@@ -174,6 +175,11 @@ const BuySell = (props: BuyOrSelProps) => {
     amountRef.current = getChallengeByIdArray?.[0]?.current_usdt ?? 0
   }, [getChallengeByIdArray])
 
+  useEffect(() => {
+    if (!chartInfo?.symbol) return
+    setAmountPriceType(chartInfo?.symbol)
+  }, [chartInfo?.symbol])
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between gap-4">
@@ -222,6 +228,7 @@ const BuySell = (props: BuyOrSelProps) => {
                       <div className="flex gap-1.5 items-center">
                         <SelecAmountModel
                           index={index}
+                          symbol={amountPriceType}
                           onModelClose={() => {
                             setInputValues({
                               amount: '',

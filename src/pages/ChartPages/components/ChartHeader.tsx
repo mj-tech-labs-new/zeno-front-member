@@ -3,6 +3,7 @@ import {memo, useEffect, useMemo, useRef, useState} from 'react'
 import {BasicSkeleton, DropDown, ImageComponent} from '@/components'
 import {English, Images, Utility} from '@/helpers'
 import {useDebounce} from '@/hooks'
+import {CommonFunction} from '@/services'
 
 import {useChartProvider} from '../context/ChartProvider'
 import ChartHeaderStats from './ChartHeaderStats'
@@ -10,9 +11,9 @@ import ChartHeaderStats from './ChartHeaderStats'
 const ChartHeader = () => {
   const {
     chartInfo,
-    isLoadingCandles,
     selectedToken,
     setSelectedToken,
+    isLoadingCandles,
     otherLoading,
     tokenList,
     isLastCandle,
@@ -55,6 +56,10 @@ const ChartHeader = () => {
     tokenArrayRef.current = TokenArray
   }, [TokenArray])
 
+  useEffect(() => {
+    if (!chartInfo?.symbol) return
+    CommonFunction.addSliceData('addAmountType', {amount: chartInfo.symbol})
+  }, [chartInfo?.symbol])
   return (
     <div className="py-5 px-6 bg-chart-layout-bg rounded">
       <div className="space-y-5">
