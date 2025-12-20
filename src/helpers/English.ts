@@ -373,7 +373,13 @@ const English = {
   E369: 'Reverse',
   E370: 'Please Enter Proper Price',
   E371: 'Edit Price',
-  E372: 'Search...',
+  E372: 'Search',
+  E373: 'BTC',
+  E374: 'Please enter your order quantity in BTC',
+  E375: 'When the cost value of the transaction in used, the cost of opening  a position does not change according to the leverage. ',
+  E376: 'Select Option',
+  E377: 'Ok',
+  E378: 'Cancel',
 }
 
 export default English

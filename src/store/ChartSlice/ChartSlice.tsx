@@ -11,11 +11,13 @@ interface ShapeMap {
 export interface ChartInitialPropsType {
   totalShapes: Record<string, Partial<ShapeMap>>
   frame: ChartTimePeriodType | null
+  amountType: string
 }
 
 const initialState: ChartInitialPropsType = {
   totalShapes: {},
   frame: '1m',
+  amountType: 'USDT',
 }
 
 const ChartSlice = createSlice({
@@ -39,8 +41,21 @@ const ChartSlice = createSlice({
     removeFrame: (state) => {
       state.frame = null
     },
+    addAmountType: (state, action) => {
+      const {amount} = action.payload
+      state.amountType = amount
+    },
+    removeAmountType: (state) => {
+      state.amountType = ''
+    },
   },
 })
 
-export const {addShapes, addFrame, removeFrame} = ChartSlice.actions
+export const {
+  addShapes,
+  addFrame,
+  removeFrame,
+  addAmountType,
+  removeAmountType,
+} = ChartSlice.actions
 export default ChartSlice.reducer

@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {toast} from 'react-toastify'
 
 import {CommonButton, ImageComponent, InputContainer} from '@/components'
@@ -12,7 +12,7 @@ import {useChartProvider} from '../context/ChartProvider'
 
 const EditLimitPriceModel = (props: EditPriceProps) => {
   const {challenge_id, submitted_price, symbol, direction, tx_hash} = props
-  const price = useRef<number | null>(null)
+  const priceRef = useRef<number | null>(null)
   const [inputValues, setInputValues] = useState({
     entryprice: submitted_price.toString(),
   })
@@ -26,13 +26,17 @@ const EditLimitPriceModel = (props: EditPriceProps) => {
       order_type: 'limit',
       order_side: direction,
       tx_hash,
-      usdt_price: inputValues.entryprice,
+      symbol,
+      usdt_price: Number(inputValues.entryprice),
     }
 
     APICall('put', Endpoints.updateOrder, payload)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           setIsModelOpen(false)
+          toast.success(res?.message)
+        } else {
+          toast.error(res?.message)
         }
       })
       .catch((e) => {
@@ -41,7 +45,12 @@ const EditLimitPriceModel = (props: EditPriceProps) => {
       .finally(() => {
         loaderRef.current?.showLoader(false)
       })
-  }, [challenge_id, direction, inputValues.entryprice, tx_hash])
+  }, [challenge_id, direction, inputValues.entryprice, symbol, tx_hash])
+
+  useEffect(() => {
+    if (!submitted_price) return
+    priceRef.current = submitted_price
+  }, [submitted_price])
   return (
     <React.Fragment>
       {isModelOpen && (
@@ -89,7 +98,7 @@ const EditLimitPriceModel = (props: EditPriceProps) => {
                 </div>
               </div>
               <CommonButton
-                className={`font-semibold text-sm bg-chart-red-color w-fit! mx-auto ${inputValues.entryprice === price.current?.toString() || inputValues.entryprice === '' ? 'bg-chart-red-color/50 text-primary-color/50 pointer-events-none' : ''}`}
+                className={`font-semibold text-sm bg-chart-red-color w-fit! mx-auto ${inputValues.entryprice === priceRef.current?.toString() || inputValues.entryprice === '' ? 'bg-chart-red-color/50 text-primary-color/50 pointer-events-none' : ''}`}
                 singleLineContent={English.E371}
                 onClick={(e) => {
                   e.stopPropagation()
@@ -100,9 +109,12 @@ const EditLimitPriceModel = (props: EditPriceProps) => {
           </div>
         </ModalComponent>
       )}
-      <div onClick={() => setIsModelOpen(true)}>
-        <ImageComponent className="h-3.5 w-3.5" imageUrl={Images.editIcon} />
-      </div>
+
+      <ImageComponent
+        className="h-3.5 w-3.5"
+        imageUrl={Images.editIcon}
+        onPressItem={() => setIsModelOpen(true)}
+      />
     </React.Fragment>
   )
 }

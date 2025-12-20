@@ -18,9 +18,11 @@ import {
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {Constants, English, Images, Utility} from '@/helpers'
+import {Store} from '@/store'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
+import SelecAmountModel from '../components/SelecAmountModel'
 import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
@@ -32,7 +34,7 @@ const BuySell = (props: BuyOrSelProps) => {
     selectedToken,
     tokenList,
     getChallengeByIdArray,
-    chartInfo,
+
     currentStageArray,
     livePrice,
     selectedLeverage,
@@ -60,67 +62,84 @@ const BuySell = (props: BuyOrSelProps) => {
 
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
-      let totalStrFinal
-      const priceStr = inputValues.price
-      const priceBigInt = priceStr.includes('.')
-        ? BigInt(priceStr.replace('.', ''))
-        : BigInt(priceStr)
+      const AmountType = Store.getState().chartData.amountType
 
-      const amountStr = value ?? '0'
-      const amountBigInt = amountStr.includes('.')
-        ? BigInt(amountStr.replace('.', '') ?? '0')
-        : BigInt(amountStr ?? '0')
+      if (AmountType === 'BTC') {
+        let totalStrFinal
 
-      const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
+        const priceStr = inputValues.price
+        const priceBigInt = priceStr.includes('.')
+          ? BigInt(priceStr.replace('.', ''))
+          : BigInt(priceStr)
 
-      const totalStr = (
-        (priceBigInt * amountBigInt) /
-        leverageBigInt
-      ).toString()
+        const amountStr = value ?? '0'
+        const amountBigInt = amountStr.includes('.')
+          ? BigInt(amountStr.replace('.', '') ?? '0')
+          : BigInt(amountStr ?? '0')
 
-      if (!priceStr.includes('.') && !amountStr.includes('.')) {
-        totalStrFinal = totalStr // for int
-      } else {
-        const decimalPlacesPrice = priceStr.includes('.')
-          ? priceStr.length - priceStr.indexOf('.') - 1
-          : 0
-        const decimalPlacesAmount = amountStr.includes('.')
-          ? amountStr.length - amountStr.indexOf('.') - 1
-          : 0
+        const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
 
-        const indexTotal =
-          totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
+        const totalStr = (
+          (priceBigInt * amountBigInt) /
+          leverageBigInt
+        ).toString()
 
-        totalStrFinal = totalStr
+        if (!priceStr.includes('.') && !amountStr.includes('.')) {
+          totalStrFinal = totalStr // for int
+        } else {
+          const decimalPlacesPrice = priceStr.includes('.')
+            ? priceStr.length - priceStr.indexOf('.') - 1
+            : 0
+          const decimalPlacesAmount = amountStr.includes('.')
+            ? amountStr.length - amountStr.indexOf('.') - 1
+            : 0
 
-        if (totalStr !== '0') {
-          let totalStrPrecise =
-            (totalStr.slice(0, indexTotal) ?? '0') +
-            '.' +
-            (totalStr.slice(indexTotal, indexTotal + 2) ?? '0')
+          const indexTotal =
+            totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
 
-          if (totalStrPrecise.startsWith('.')) {
-            const updatedTotal = '0' + totalStrPrecise
-            totalStrPrecise = updatedTotal
+          totalStrFinal = totalStr
+
+          if (totalStr !== '0') {
+            let totalStrPrecise =
+              (totalStr.slice(0, indexTotal) ?? '0') +
+              '.' +
+              (totalStr.slice(indexTotal, indexTotal + 2) ?? '0')
+
+            if (totalStrPrecise.startsWith('.')) {
+              const updatedTotal = '0' + totalStrPrecise
+              totalStrPrecise = updatedTotal
+            }
+
+            totalStrFinal = totalStrPrecise
           }
 
-          totalStrFinal = totalStrPrecise
+          if (totalStr === '0') totalStrFinal = totalStr
         }
+        setInputValues((prev) => ({
+          ...prev,
+          [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
+          total: Utility.validPointValue(
+            Utility.validFloatNumber(totalStrFinal)
+          ),
+        }))
+      } else {
+        const decimals = Number(value) <= 500 ? 6 : 2
+        const totalBtc = Number(value) / livePrice
 
-        if (totalStr === '0') totalStrFinal = totalStr
+        setInputValues((prev) => ({
+          ...prev,
+          [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
+          total: Utility.validPointValue(
+            Utility.validFloatNumber(totalBtc.toFixed(decimals).toString())
+          ),
+        }))
       }
 
       if (name === 'amount') {
         setRangeValue(0)
       }
-
-      setInputValues((prev) => ({
-        ...prev,
-        [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
-        total: Utility.validPointValue(Utility.validFloatNumber(totalStrFinal)),
-      }))
     },
-    [inputValues.price, selectedLeverage?.title]
+    [inputValues.price, livePrice, selectedLeverage?.title]
   )
 
   useEffect(() => {
@@ -171,7 +190,7 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
-        const {name, placeHolder, textContent} = item
+        const {name, placeHolder} = item
 
         return (
           <div key={`name_${name}`} className="!mb-3">
@@ -196,9 +215,24 @@ const BuySell = (props: BuyOrSelProps) => {
                   {name === 'amount' && (
                     <div className="w-[1px] bg-primary-dark-blue-color h-full" />
                   )}
-                  <span className="text-neutral-primary-color font-medium text-sm !leading-6">
-                    {index === 0 && textContent}
-                    {index === 1 && chartInfo?.fullSymbolName.split('USDT')}
+                  <span
+                    className={`text-neutral-primary-color font-medium text-sm !leading-6 cursor-pointer ${index === 2 ? 'pointer-events-none' : ''}`}
+                  >
+                    {(index === 1 || index === 2) && (
+                      <div className="flex gap-1.5 items-center">
+                        <SelecAmountModel
+                          index={index}
+                          onModelClose={() => {
+                            setInputValues({
+                              amount: '',
+                              total: '',
+                              price: '',
+                            })
+                            setRangeValue(0)
+                          }}
+                        />
+                      </div>
+                    )}
                   </span>
                 </div>
               </div>
@@ -209,18 +243,27 @@ const BuySell = (props: BuyOrSelProps) => {
                 rangeValue={rangeValue}
                 setRangeValue={(value) => {
                   const percentValue = value === 0 ? 0 : value / 100
+                  const AmountType = Store.getState().chartData.amountType
+
                   const tokenValue = Number(amountRef.current) * percentValue
                   const newAmount = tokenValue / livePrice
                   setInputValues((prev) => {
                     const Leverage = Number(selectedLeverage?.title)
-
                     const totalValue = (newAmount * livePrice) / Leverage
+                    const UsdtPrice = Number(amountRef.current) * percentValue
+                    const totalBtc = UsdtPrice / livePrice
                     return {
                       ...prev,
-                      amount: Utility.removeDecimal(newAmount).toString(),
-                      total: totalValue
-                        ? totalValue.toFixed(2).toString()
-                        : '0',
+                      amount:
+                        AmountType === 'USDT'
+                          ? Utility.removeDecimal(UsdtPrice, 2).toString()
+                          : Utility.removeDecimal(newAmount).toString(),
+                      total:
+                        AmountType === 'USDT'
+                          ? totalBtc.toFixed(2).toString()
+                          : totalValue
+                            ? totalValue.toFixed(2).toString()
+                            : '0',
                     }
                   })
                   setRangeValue(value)
@@ -246,11 +289,15 @@ const BuySell = (props: BuyOrSelProps) => {
           margin_mode={margin_mode}
           order_type="market"
           price={Number(inputValues?.price)}
-          quantity={Number(inputValues?.amount)}
           setChecked={setChecked}
           stop_loss={stopLossData?.stop_loss}
           take_profit={stopLossData?.take_profit}
           total={Number(inputValues?.total)}
+          quantity={
+            Store.getState().chartData.amountType === 'BTC'
+              ? Number(inputValues.amount)
+              : Number(inputValues.total)
+          }
           setInputValues={() => {
             setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
           }}

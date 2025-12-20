@@ -907,6 +907,10 @@ const Constants = {
     {title: English.E290, img: ''},
     {title: English.E131, img: ''},
   ],
+  MarketAmountType: [
+    {heading: English.E373, content: English.E374},
+    {heading: English.E60, content: English.E375},
+  ],
 }
 
 export default Constants

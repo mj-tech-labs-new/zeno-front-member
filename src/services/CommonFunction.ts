@@ -1,5 +1,9 @@
 import {addToken, PersistStorage, removeToken, Store} from '@/store'
-import {addFrame, removeFrame} from '@/store/ChartSlice/ChartSlice'
+import {
+  addAmountType,
+  addFrame,
+  removeFrame,
+} from '@/store/ChartSlice/ChartSlice'
 import {
   addPaymentDetails,
   removePaymentDetails,
@@ -26,6 +30,16 @@ const addSliceData = async (type: SliceDataType, payload: any) =>
     }
     if (type === 'addTimeFrame') {
       Store.dispatch(addFrame(payload))
+      resolve(true)
+      return
+    }
+    if (type === 'addAmountType') {
+      Store.dispatch(addAmountType(payload))
+      resolve(true)
+      return
+    }
+    if (type === 'removeAmountType') {
+      Store.dispatch(addAmountType(payload))
       resolve(true)
       return
     }

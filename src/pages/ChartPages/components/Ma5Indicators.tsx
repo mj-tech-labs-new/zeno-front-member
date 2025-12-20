@@ -7,10 +7,15 @@ import {CandleObjectType} from '@/types/ChartTypes'
 import {useChartProvider} from '../context/ChartProvider'
 
 const Ma5Indicators = () => {
-  const {totalCandleData, chartObjectRef, isCallingCurrent, isLoadingCandles} =
-    useChartProvider()
+  const {
+    totalCandleData,
+    chartObjectRef,
+    isCallingCurrent,
+    isLoadingCandles,
+    isLastCandle,
+    singleCandleData,
+  } = useChartProvider()
   const ma5Ref = useRef<any>(null)
-
   const period = 5
   const ma5 = useCallback((candleData: CandleObjectType[]) => {
     if (candleData.length === 0) return []
@@ -40,6 +45,25 @@ const Ma5Indicators = () => {
 
     return result
   }, [])
+
+  const calculateLatestMA5 = (
+    candleData: CandleObjectType[]
+  ): {time: Time; value: number} | null => {
+    if (candleData.length < period) return null
+
+    const lastIndex = candleData.length - 1
+    let sum = 0
+
+    for (let i = lastIndex - period + 1; i <= lastIndex; i++) {
+      sum += Number(candleData[i].close)
+    }
+
+    return {
+      time: (new Date(candleData[lastIndex].close_time_iso).getTime() /
+        1000) as Time,
+      value: sum / period,
+    }
+  }
 
   useEffect(() => {
     const chartObj = chartObjectRef.current
@@ -73,6 +97,15 @@ const Ma5Indicators = () => {
     ma5Ref.current.setData(ma)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalCandleData])
+
+  useEffect(() => {
+    if (!ma5Ref.current || !singleCandleData.current || !isLastCandle.current)
+      return
+    const newMa5 = calculateLatestMA5(
+      singleCandleData.current as unknown as any
+    )
+    ma5Ref.current.update(newMa5)
+  }, [isLastCandle, singleCandleData])
 
   return null
 }
