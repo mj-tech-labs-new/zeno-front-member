@@ -16,6 +16,7 @@ const ChartHeaderStats = () => {
     setChartSocketData,
     chartSocketData,
     chartInfo,
+    livePrice,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
 
@@ -59,6 +60,17 @@ const ChartHeaderStats = () => {
     }),
     [chartSocketData?.volume]
   )
+  const usdtAmount = useMemo(
+    () => ({
+      priceDiff:
+        livePrice && volumeAmount?.priceDiff
+          ? Utility.largeNumberNotationConversion(
+              (livePrice ?? 0) * Number(volumeAmount?.priceDiff ?? 0)
+            )
+          : '---',
+    }),
+    [livePrice, volumeAmount?.priceDiff]
+  )
 
   const ConstantMapData = useMemo(
     () => [
@@ -79,11 +91,23 @@ const ChartHeaderStats = () => {
       },
       {
         img: Images.barChart,
-        content: English.E122,
+        content: `${English.E122} (${chartInfo?.symbol})`,
         textContent: volumeAmount,
       },
+      {
+        img: Images.dollar,
+        content: `${English.E373}  (${English.E60})`,
+        textContent: usdtAmount,
+      },
     ],
-    [highestAmount, lowestAmount, observedChange, volumeAmount]
+    [
+      chartInfo?.symbol,
+      highestAmount,
+      lowestAmount,
+      observedChange,
+      usdtAmount,
+      volumeAmount,
+    ]
   )
 
   useEffect(() => {
@@ -117,31 +141,33 @@ const ChartHeaderStats = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoadingCandles, selectedIndex, selectedToken, socketRef, tokenList])
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 w-full lg:w-[60%] gap-6">
+    <div className="flex  w-full  gap-6">
       {ConstantMapData?.map((item, index) => {
         const {content, img, textContent} = item
         return (
           <div
             key={content}
-            className={`lg:pr-[21px] xl:pr-[42px]  flex flex-col gap-1 ${index !== 3 ? 'border-r border-r-solid border-neutral-secondary-color' : ''}`}
+            className="lg:pr-[21px] xl:pr-[42px]  flex flex-col gap-1 border-r border-r-solid border-neutral-secondary-color last:border-none"
           >
             <div className="flex items-center gap-1 text-neutral-primary-color text-xs !leading-5 font-normal ">
               <ImageComponent
-                className={`grey__filter ${index === 0 || index === 3 ? 'w-3' : 'w-2'}${index === 2 ? 'rotate-180' : ''}`}
+                className={`grey__filter shrink-0 ${index === 2 ? '[&>img]:rotate-180' : ''}`}
                 imageUrl={img}
               />
-              <span>{content}</span>
+              <span className="whitespace-nowrap">{content}</span>
             </div>
             <p
               className={`text-sm !leading-6 font-medium ${index === 0 ? (textContent?.priceDiff?.toString()?.startsWith('-') ? 'text-chart-red-color' : 'text-chart-green-color') : 'text-chart-text-primary-color'}`}
             >
-              <span>
-                {content === English.E122
-                  ? `${textContent?.priceDiff}k  ${chartInfo?.symbol}`
+              <span className="whitespace-nowrap">
+                {content.includes(English.E122)
+                  ? `${textContent?.priceDiff}K  ${chartInfo?.symbol}`
                   : textContent?.priceDiff}{' '}
               </span>
               {index !== 3 && (
-                <span>{(textContent as any)?.percentageDiff}</span>
+                <span className="whitespace-nowrap">
+                  {(textContent as any)?.percentageDiff}
+                </span>
               )}
             </p>
           </div>

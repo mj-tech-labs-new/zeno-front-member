@@ -69,10 +69,11 @@ const isPasswordValid = (value: string) => {
 }
 
 const largeNumberNotationConversion = (content: number) => {
-  const newIntlNumber = new Intl.NumberFormat('en', {
+  const newIntlNumber = new Intl.NumberFormat('en-US', {
     notation: 'compact',
     compactDisplay: 'short',
-    maximumSignificantDigits: 3,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   })
   return newIntlNumber.format(content)
 }

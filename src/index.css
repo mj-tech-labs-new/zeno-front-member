@@ -508,8 +508,9 @@
     overflow-x: auto;
   }
 
-  #table::-webkit-scrollbar {
-    height: 8px;
+  #table::-webkit-scrollbar,
+  .floating__container::-webkit-scrollbar {
+    height: 4px;
   }
   .react-datepicker__input-container {
     display: flex !important;

@@ -58,8 +58,8 @@ const ChartHeader = () => {
   return (
     <div className="py-5 px-6 bg-chart-layout-bg rounded">
       <div className="space-y-5">
-        <div className="flex flex-col lg:flex-row w-full  gap-8 lg:gap-5">
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 w-[40%]">
+        <div className="flex flex-row w-full  gap-10 overflow-x-auto floating__container">
+          <div className="flex flex-row gap-4 lg:gap-8 whitespace-nowrap">
             {chartInfo && (
               <div className="flex flex-col justify-center ">
                 <div className="max-w-60 flex items-center gap-1 ">

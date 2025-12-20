@@ -5,14 +5,18 @@ import {useModalContext} from '@/components/Modal/context/ModalContextProvider'
 import {English, Images} from '@/helpers'
 import {Store} from '@/store'
 
+import {useChartProvider} from '../context/ChartProvider'
 import AmountTypeSelectComponent from './AmountTypeSelectComponent'
 
 const SelecAmountModel = (props: {onModelClose: () => void; index: number}) => {
   const {onModelClose, index} = props
   const {setChildContent, setModalProps} = useModalContext()
+  const {chartInfo} = useChartProvider()
+
   const onPressAmount = useCallback(() => {
     setChildContent(
       <AmountTypeSelectComponent
+        symbol={chartInfo?.symbol ?? ''}
         onPressButton={() => {
           setChildContent(null)
           setModalProps(null)
@@ -40,9 +44,9 @@ const SelecAmountModel = (props: {onModelClose: () => void; index: number}) => {
     >
       {index === 1
         ? Store.getState().chartData.amountType
-        : Store.getState().chartData.amountType === 'BTC'
-          ? English.E60
-          : English.E373}
+        : Store.getState().chartData.amountType === 'USDT'
+          ? chartInfo?.symbol
+          : English.E60}
       {index === 1 && (
         <ImageComponent className="h-4! w-4!" imageUrl={Images.dropdownArrow} />
       )}

@@ -64,7 +64,7 @@ const BuySell = (props: BuyOrSelProps) => {
     (name: keyof typeof inputValues, value: string) => {
       const AmountType = Store.getState().chartData.amountType
 
-      if (AmountType === 'BTC') {
+      if (AmountType !== 'USDT') {
         let totalStrFinal
 
         const priceStr = inputValues.price
@@ -294,9 +294,9 @@ const BuySell = (props: BuyOrSelProps) => {
           take_profit={stopLossData?.take_profit}
           total={Number(inputValues?.total)}
           quantity={
-            Store.getState().chartData.amountType === 'BTC'
-              ? Number(inputValues.amount)
-              : Number(inputValues.total)
+            Store.getState().chartData.amountType === 'USDT'
+              ? Number(inputValues.total)
+              : Number(inputValues.amount)
           }
           setInputValues={() => {
             setInputValues((prev) => ({...prev, amount: '0', price: '0'}))

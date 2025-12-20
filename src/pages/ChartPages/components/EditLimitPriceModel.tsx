@@ -109,11 +109,12 @@ const EditLimitPriceModel = (props: EditPriceProps) => {
           </div>
         </ModalComponent>
       )}
-
       <ImageComponent
         className="h-3.5 w-3.5"
         imageUrl={Images.editIcon}
-        onPressItem={() => setIsModelOpen(true)}
+        onPressItem={() => {
+          setIsModelOpen(true)
+        }}
       />
     </React.Fragment>
   )
