@@ -116,7 +116,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
             </div>
           )}
           <div
-            className={` overflow-y-auto ${isSearchType ? 'h-[calc(100%-40px)]' : 'h-full'}`}
+            className={` overflow-y-auto bg-chart-dropdown-bg-color shadow-md z-[999] ${isSearchType ? 'h-[calc(100%-40px)]' : 'h-full'}`}
           >
             {dropDownData?.map((data) => {
               const {title, img = ''} = data
