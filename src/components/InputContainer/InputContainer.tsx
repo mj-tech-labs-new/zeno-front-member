@@ -37,12 +37,13 @@ const InputContainer = forwardRef<HTMLInputElement, InputContainerProps>(
             {...rest}
           />
           {imageUrl !== '' && (
-            <span
-              className="cursor-pointer inline-block mr-4"
-              onClick={() => onPressIcon?.()}
-            >
-              <ImageComponent className="w-6 h-6 " imageUrl={imageUrl} />
-            </span>
+            <ImageComponent
+              className="w-6 h-6 cursor-pointer inline-block mr-4 "
+              imageUrl={imageUrl}
+              onPressItem={() => {
+                onPressIcon?.()
+              }}
+            />
           )}
         </div>
         {error !== '' && (

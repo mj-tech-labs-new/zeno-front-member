@@ -236,8 +236,10 @@ const EditStopLoss = (props: {
                     ? item?.stop_loss?.length === 1
                     : item?.take_profit?.length === 1) && (
                     <div>
-                      <div
-                        onClick={async () =>
+                      <ImageComponent
+                        className="h-6 w-4"
+                        imageUrl={Images.editIcon}
+                        onPressItem={async () =>
                           handleUpdateOrder(
                             stopLoss === 1 ? 'stopLoss' : 'takeProfit',
                             (
@@ -249,24 +251,16 @@ const EditStopLoss = (props: {
                               : 'put'
                           )
                         }
-                      >
-                        <ImageComponent
-                          className="h-6 w-4"
-                          imageUrl={Images.editIcon}
-                        />
-                      </div>
-                      <div
-                        onClick={() =>
+                      />
+                      <ImageComponent
+                        className="h-6 w-5"
+                        imageUrl={Images.deleteIcon}
+                        onPressItem={() =>
                           handleDeleteOrder(
                             stopLoss === 1 ? 'stopLoss' : 'takeProfit'
                           )
                         }
-                      >
-                        <ImageComponent
-                          className="h-6 w-5"
-                          imageUrl={Images.deleteIcon}
-                        />
-                      </div>
+                      />
                     </div>
                   )}
                 </div>

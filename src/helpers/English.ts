@@ -119,7 +119,7 @@ const English = {
   E119: '24h change',
   E120: '24h high',
   E121: '24h low',
-  E122: '24h volume',
+  E122: '24h Volume',
   E123: '1H',
   E124: '4H',
   E125: '1D',
@@ -374,6 +374,7 @@ const English = {
   E370: 'Please Enter Proper Price',
   E371: 'Edit Price',
   E372: 'Search...',
+  E374: '24h Amount',
 }
 
 export default English

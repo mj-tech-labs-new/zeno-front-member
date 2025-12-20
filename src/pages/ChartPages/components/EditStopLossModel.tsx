@@ -42,9 +42,13 @@ const EditStopLossModel = (props: EditStopLossModelProps) => {
           />
         </ModalComponent>
       )}
-      <div onClick={() => setIsModelOpen(true)}>
-        <ImageComponent className="h-3.5 w-3.5" imageUrl={Images.editIcon} />
-      </div>
+      <ImageComponent
+        className="h-3.5 w-3.5"
+        imageUrl={Images.editIcon}
+        onPressItem={() => {
+          setIsModelOpen(true)
+        }}
+      />
     </React.Fragment>
   )
 }
