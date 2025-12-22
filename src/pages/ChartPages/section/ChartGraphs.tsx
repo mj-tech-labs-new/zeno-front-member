@@ -28,6 +28,7 @@ const ChartGraphs = () => {
     currnetLimit,
     isCallingCurrent,
     singleCandleData,
+    setLiveCandle,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
   const calculateDataAndUpdateChart = useCallback(
@@ -133,6 +134,7 @@ const ChartGraphs = () => {
           return
         const {open, high, low, close, volume, close_time_iso} = chartSocketData
         singleCandleData.current = chartSocketData
+        setLiveCandle(chartSocketData)
         const currentCandle = {
           close: Number(close),
           high: Number(high),
@@ -150,6 +152,7 @@ const ChartGraphs = () => {
         volumeSeriesRef.current.update(currentCandleVolume)
       }
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     tokenList,
     chartAreaRef,

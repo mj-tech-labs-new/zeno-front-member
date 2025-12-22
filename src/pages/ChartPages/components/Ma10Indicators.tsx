@@ -7,30 +7,35 @@ import {CandleObjectType} from '@/types/ChartTypes'
 import {useChartProvider} from '../context/ChartProvider'
 
 const Ma10Indicators = () => {
-  const {totalCandleData, chartObjectRef, isCallingCurrent, isLoadingCandles} =
-    useChartProvider()
-  const ma10Ref = useRef<any>(null)
+  const {
+    totalCandleData,
+    chartObjectRef,
+    isCallingCurrent,
+    isLoadingCandles,
+    liveCandle,
+  } = useChartProvider()
 
+  const ma10Ref = useRef<any>(null)
   const period = 10
 
-  const ma10 = useCallback((candleData: CandleObjectType[]) => {
-    if (candleData.length === 0) return []
+  // Buffer for rolling MA
+  const bufferRef = useRef<CandleObjectType[]>([])
 
+  const calculateMA10 = useCallback((data: CandleObjectType[]) => {
     const result: (WhitespaceData | {time: Time; value: number})[] = []
 
-    for (let i = 0; i < candleData.length; i++) {
-      const time = (new Date(candleData[i].close_time_iso).getTime() /
-        1000) as Time
+    for (let i = 0; i < data.length; i++) {
+      const time = (new Date(data[i].close_time_iso).getTime() / 1000) as Time
 
       if (i < period - 1) {
-        result.push({time}) // whitespace
+        result.push({time})
         // eslint-disable-next-line no-continue
         continue
       }
 
       let sum = 0
       for (let j = i - period + 1; j <= i; j++) {
-        sum += Number(candleData[j].close)
+        sum += Number(data[j].close)
       }
 
       result.push({
@@ -45,6 +50,7 @@ const Ma10Indicators = () => {
   useEffect(() => {
     const chartObj = chartObjectRef.current
     if (!chartObj || isCallingCurrent.current || isLoadingCandles) return
+
     ma10Ref.current = chartObj.addSeries(LineSeries, {
       color: '#f7931a',
       lineWidth: 1,
@@ -62,18 +68,38 @@ const Ma10Indicators = () => {
   }, [chartObjectRef, isCallingCurrent, isLoadingCandles])
 
   useEffect(() => {
-    if (
-      !ma10Ref.current ||
-      !totalCandleData ||
-      !isCallingCurrent ||
-      isLoadingCandles
-    )
-      return
+    if (!ma10Ref.current || isLoadingCandles) return
 
-    const ma = ma10(totalCandleData)
-    ma10Ref.current.setData(ma)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalCandleData])
+    const maData = calculateMA10(totalCandleData)
+    ma10Ref.current.setData(maData)
+
+    bufferRef.current = totalCandleData.slice(-period)
+  }, [totalCandleData, calculateMA10, isLoadingCandles])
+
+  useEffect(() => {
+    if (!ma10Ref.current || !liveCandle) return
+
+    const last = bufferRef.current.at(-1)
+
+    if (last && last.close_time_iso === liveCandle.close_time_iso) {
+      bufferRef.current[bufferRef.current.length - 1] = liveCandle
+    } else {
+      bufferRef.current.push(liveCandle)
+
+      if (bufferRef.current.length > period) {
+        bufferRef.current.shift()
+      }
+    }
+
+    if (bufferRef.current.length < period) return
+
+    const sum = bufferRef.current.reduce((acc, c) => acc + Number(c.close), 0)
+
+    ma10Ref.current.update({
+      time: (new Date(liveCandle.close_time_iso).getTime() / 1000) as Time,
+      value: sum / period,
+    })
+  }, [liveCandle])
 
   return null
 }
