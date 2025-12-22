@@ -2,7 +2,7 @@ import {useCallback, useEffect, useRef, useState} from 'react'
 import {toast} from 'react-toastify'
 
 import {CommonButton, ImageComponent} from '@/components'
-import {English, Images, Utility} from '@/helpers'
+import {English, Images} from '@/helpers'
 import {APICall, Endpoints} from '@/services'
 import {
   CommonBuyAndSellProp,
@@ -196,9 +196,7 @@ const EditStopLoss = (props: {
                         ...(stopLoss === 1
                           ? value.stop_loss?.[0]
                           : value.take_profit?.[0]),
-                        quantity: Number(
-                          Utility.removeDecimal(Number(item?.quantity ?? 0))
-                        ),
+                        quantity: Number(item?.quantity ?? 0),
                       }
 
                       const stopLossValue = {
@@ -221,10 +219,7 @@ const EditStopLoss = (props: {
                       stopLoss === 1
                         ? (stopLossData.stop_loss?.[0]?.price ?? 0)
                         : (stopLossData?.take_profit?.[0]?.price ?? 0),
-                    quantity:
-                      stopLoss === 1
-                        ? stopLossData.stop_loss?.[0]?.quantity
-                        : stopLossData?.take_profit?.[0]?.quantity,
+                    quantity: stopLoss === 1 ? item?.quantity : item?.quantity,
                     status:
                       stopLoss === 1
                         ? stopLossData.stop_loss?.[0]?.status
@@ -237,7 +232,7 @@ const EditStopLoss = (props: {
                     : item?.take_profit?.length === 1) && (
                     <div>
                       <ImageComponent
-                        className="h-6 w-4"
+                        className="h-6 w-4 cursor-pointer"
                         imageUrl={Images.editIcon}
                         onPressItem={async () =>
                           handleUpdateOrder(
@@ -253,7 +248,7 @@ const EditStopLoss = (props: {
                         }
                       />
                       <ImageComponent
-                        className="h-6 w-5"
+                        className="h-6 w-5 cursor-pointer "
                         imageUrl={Images.deleteIcon}
                         onPressItem={() =>
                           handleDeleteOrder(

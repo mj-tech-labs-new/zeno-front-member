@@ -55,7 +55,7 @@ const English = {
   E54: 'View Dashboard',
   E55: 'Zeno Challenger',
   E56: 'Trade',
-  E57: 'Current Status',
+  E57: 'Dashboard',
   E58: 'Current',
   E59: 'Initial Capital',
   E60: 'USDT',

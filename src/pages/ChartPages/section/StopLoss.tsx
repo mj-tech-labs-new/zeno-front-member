@@ -45,17 +45,18 @@ const StopLoss = (props: CommonStopLossProp) => {
   }, [])
 
   useEffect(() => {
-    if (!stopLoss) return
+    if (!stopLoss || !quantity) return
     setInputValues(() => [
       {
-        id: stopLoss.id,
-        marketprice: stopLoss.price,
+        id: stopLoss?.id,
+        marketprice: stopLoss?.price,
+        quantity,
         status: 'unused',
       },
     ])
-  }, [stopLoss])
+  }, [quantity, stopLoss])
   return (
-    <div>
+    <div className="!w-fit">
       <div className="flex flex-col gap-3 ">
         <div className="flex justify-between gap-2 w-full items-center mt-3 mx-0.5">
           <div className="flex gap-3">
@@ -73,9 +74,9 @@ const StopLoss = (props: CommonStopLossProp) => {
               <div className="flex flex-col gap-3">
                 <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
                   <div className="flex justify-between gap-2">
-                    <div className="w-full gap-2.5 flex justify-between items-center">
+                    <div className="w-fit gap-2.5 flex justify-between items-center">
                       <InputContainer
-                        layoutClassName="!w-full"
+                        layoutClassName="!w-fit"
                         placeholder={English.E6.replace('password', '')}
                         readOnly={!marketPrice || !quantity}
                         className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
@@ -92,7 +93,7 @@ const StopLoss = (props: CommonStopLossProp) => {
 
                       <div className="w-[1px] bg-primary-dark-blue-color h-full" />
 
-                      <span className="text-neutral-primary-color font-medium text-sm !leading-6 ">
+                      <span className="text-neutral-primary-color font-medium text-sm !leading-6 !w-fit">
                         {English.E60}
                       </span>
                     </div>

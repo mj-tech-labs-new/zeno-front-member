@@ -119,7 +119,7 @@ const PendingOrderTable = (
                   ? Utility.removeDecimal(submitted_price)
                   : '---'}
               </div>
-              <div className="cursor-pointer">
+              <div>
                 <EditLimitPriceModel
                   challenge_id={challenge_id}
                   direction={direction}
@@ -149,7 +149,7 @@ const PendingOrderTable = (
                       {tableBody?.stop_loss?.[0]?.price ?? '--'}
                     </span>
                   </div>
-                  <div className="cursor-pointer">
+                  <div className="">
                     <EditStopLossModel
                       item={{...tableBody, average_price: livePrice}}
                       symbol={symbol}
@@ -169,7 +169,7 @@ const PendingOrderTable = (
                   </div>
                 </div>
               ) : (
-                <div className="cursor-pointer flex gap-2 ">
+                <div className=" flex gap-2 ">
                   --{' '}
                   <EditStopLossModel
                     apiMethod="post"
