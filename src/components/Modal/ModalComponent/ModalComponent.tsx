@@ -1,5 +1,5 @@
-import CommonButton from '@/components/CommonButton/CommonButton'
 import HeadingComponent from '@/components/HeadingComponent/HeadingComponent'
+import ImageComponent from '@/components/ImageComponent/ImageComponent'
 import {Images} from '@/helpers'
 import {ModalComponentProps} from '@/types/ComponentTypes'
 
@@ -16,7 +16,7 @@ const ModalComponent = (props: ModalComponentProps) => {
       <div
         className={`absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-primary-color p-5 rounded-md max-h-screen max-w-[90vw] ${className}`}
       >
-        <div className="flex items-center">
+        <div className="flex items-center ">
           {singleLineContent && (
             <HeadingComponent
               className="!text-2xl font-bold"
@@ -25,13 +25,11 @@ const ModalComponent = (props: ModalComponentProps) => {
             />
           )}
           {showCross && (
-            <CommonButton
+            <ImageComponent
               imageUrl={Images.crossIcon}
-              singleLineContent=""
-              className="!w-fit !ml-auto !cursor-pointer [&>div>img]:w-5 [&>div>img]:white_filter
+              className="!w-fit !ml-auto !cursor-pointer [&>img]:w-5 [&>img]:white_filter
             "
-              onClick={(e) => {
-                e.stopPropagation()
+              onPressItem={() => {
                 if (onPressButton) {
                   onPressButton(false)
                 }

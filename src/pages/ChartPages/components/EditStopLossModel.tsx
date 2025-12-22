@@ -17,7 +17,7 @@ const EditStopLossModel = (props: EditStopLossModelProps) => {
     <React.Fragment>
       {isModelOpen && (
         <ModalComponent
-          className="w-fit  !rounded-lg !bg-text-info-dark-color [&div>h2]:!text-primary-dark-blue-color [&<div<div]:!bg-primary-black/10 !px-3.5 !py-5 !border !border-solid !border-tertiary-color"
+          className="w-[360px]  !rounded-lg !bg-text-info-dark-color [&div>h2]:!text-primary-dark-blue-color [&<div<div]:!bg-primary-black/10 !px-3.5 !py-5 !border !border-solid !border-tertiary-color"
           singleLineContent={singleLineContent}
           onPressButton={() => {
             setIsModelOpen(false)

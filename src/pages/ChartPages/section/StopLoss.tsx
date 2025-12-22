@@ -56,7 +56,7 @@ const StopLoss = (props: CommonStopLossProp) => {
   }, [stopLoss])
   return (
     <div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 ">
         <div className="flex justify-between gap-2 w-full items-center mt-3 mx-0.5">
           <div className="flex gap-3">
             <div className="text-base !leading-8 text-chart-text-primary-color font-semibold">
@@ -74,29 +74,25 @@ const StopLoss = (props: CommonStopLossProp) => {
                 <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
                   <div className="flex justify-between gap-2">
                     <div className="w-full gap-2.5 flex justify-between items-center">
-                      <div className="flex items-center w-[calc(100%-105px)]">
-                        <span className="shrink-0 text-light-neutral-color text-sm !leading-6 font-medium capitalize">
-                          {English.E293}
-                        </span>
-                        <InputContainer
-                          layoutClassName="!w-full"
-                          readOnly={!marketPrice || !quantity}
-                          className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
+                      <InputContainer
+                        layoutClassName="!w-full"
+                        placeholder={English.E6.replace('password', '')}
+                        readOnly={!marketPrice || !quantity}
+                        className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
   [&>input]:!text-chart-text-primary-color [&>input]:!text-sm 
   [&>input]:placeholder:!text-chart-text-primary-color 
-  [&>input]:!w-full !leading-6 !font-medium"
-                          onChange={(e) =>
-                            handleInputChange('marketprice', e.target.value)
-                          }
-                          value={
-                            inputItem?.marketprice?.toString() ?? marketPrice
-                          }
-                        />
-                      </div>
+  [&>input]:!w-fit !leading-6 !font-medium"
+                        onChange={(e) =>
+                          handleInputChange('marketprice', e.target.value)
+                        }
+                        value={
+                          inputItem?.marketprice?.toString() ?? marketPrice
+                        }
+                      />
 
                       <div className="w-[1px] bg-primary-dark-blue-color h-full" />
 
-                      <span className="text-neutral-primary-color font-medium text-sm !leading-6 w-[105px]">
+                      <span className="text-neutral-primary-color font-medium text-sm !leading-6 ">
                         {English.E60}
                       </span>
                     </div>

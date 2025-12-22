@@ -142,7 +142,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
             key={name}
             onClick={() => handleButtonClick(name)}
             singleLineContent={text}
-            className={`${name === 'buy' ? 'medium-success-btn-type' : 'bg-chart-red-color !py-4 !px-3'}  !rounded-full !font-bold !text-chart-text-primary-color 
+            className={`flex-1 ${name === 'buy' ? 'medium-success-btn-type' : 'bg-chart-red-color !py-4 !px-3'}  !rounded-full !font-bold !text-chart-text-primary-color 
             ${price !== 0 && quantity !== 0 ? '!pointer-events-auto' : '!pointer-events-none !opacity-50'}
             ${Number(total?.toFixed(2)) < getChallengeByIdArray?.[0]?.current_usdt ? '!pointer-events-auto' : '!pointer-events-none !opacity-50'}`}
           />

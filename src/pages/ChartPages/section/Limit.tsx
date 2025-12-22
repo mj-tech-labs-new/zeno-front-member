@@ -237,7 +237,7 @@ const Limit = (props: BuyOrSelProps) => {
       {checked && <Divider className="!bg-chart-secondary-bg-color !my-1" />}
 
       {checked && (
-        <div className="flex flex-col">
+        <div className="flex flex-col ">
           <StopLoss
             heading="Stop Loss"
             marketPrice={Number(inputValues.entryprice)}

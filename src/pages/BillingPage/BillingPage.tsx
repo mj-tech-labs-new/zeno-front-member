@@ -10,7 +10,7 @@ import {
   HeadingComponent,
   Loader,
 } from '@/components'
-import {Constants, English} from '@/helpers'
+import {Constants, English, Images} from '@/helpers'
 import {APICall, Endpoints} from '@/services'
 import {
   GetBillingProps,
@@ -116,7 +116,7 @@ const BillingPage = () => {
                   <DownloadButton
                     challenge_id={challenge_id}
                     className="p-6"
-                    singleLineContent={English.E99}
+                    imageUrl={Images.pdfIcon}
                   />
                 </td>
               </tr>
