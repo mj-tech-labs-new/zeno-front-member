@@ -38,6 +38,7 @@ import {
   ChartSocketHeaderProps,
   DrawingData,
   LivePriceSocketType,
+  TokenDetails,
 } from '@/types/ChartTypes'
 import {DropDownObjectType, GeneralProps} from '@/types/CommonTypes'
 import {ChartShapesType, ChartTimePeriodType} from '@/types/UnionTypes'
@@ -89,10 +90,10 @@ const ChartContext = createContext<{
   chartSocketData: ChartSocketHeaderProps | null
   selectedIndex: ChartTimePeriodType | null
   setSelectedIndex: Dispatch<SetStateAction<ChartTimePeriodType>>
-  selectedToken: string
-  setSelectedToken: Dispatch<SetStateAction<string>>
-  tokenList: Record<string, string> | null
-  setTokenList: Dispatch<SetStateAction<Record<string, string> | null>>
+  selectedToken: TokenDetails | null
+  setSelectedToken: Dispatch<SetStateAction<TokenDetails | null>>
+  tokenList: TokenDetails[] | null
+  setTokenList: Dispatch<SetStateAction<TokenDetails[] | null>>
   setOtherLoading: Dispatch<SetStateAction<OtherLoaderType>>
   otherLoading: OtherLoaderType
   getCandleHistory: (tokenName: string, limit: number) => void
@@ -141,7 +142,7 @@ const ChartContext = createContext<{
   setOtherLoading: () => {},
   tokenList: null,
   setTokenList: () => {},
-  selectedToken: 'Bitcoin',
+  selectedToken: null,
   setSelectedToken: () => {},
   selectedIndex: '1m',
   setSelectedIndex: () => {},
@@ -198,10 +199,8 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const chartObjectRef = useRef<IChartApi | null>(null)
   const [totalShapes, setTotalShapes] = useState<DrawingData[]>([])
   const currnetLimit = useRef(100)
-  const [tokenList, setTokenList] = useState<Record<string, string> | null>(
-    null
-  )
-  const [selectedToken, setSelectedToken] = useState('Bitcoin')
+  const [tokenList, setTokenList] = useState<TokenDetails[] | null>(null)
+  const [selectedToken, setSelectedToken] = useState<TokenDetails | null>(null)
   const chartAreaRef =
     useRef<
       ISeriesApi<
@@ -376,7 +375,8 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     APICall('get', Endpoints.suppportedToken)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
-          setTokenList(res?.data?.Tokens)
+          setTokenList(res?.data?.allTokens)
+          setSelectedToken(res?.data?.allTokens?.[0] ?? null)
         } else {
           toast.error(res?.message)
         }
@@ -391,13 +391,13 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
 
   useEffect(() => {
     if (selectedIndex) {
-      const tokenToUse = Object.entries(tokenList ?? {}).find(
-        ([_, value]) => value === selectedToken
+      const tokenToUse = tokenList?.find(
+        (item) => item?.token_symbol === selectedToken?.token_symbol
       )
       setIsLoadingCandles(true)
       setTotalCandleData([])
       getCandleHistory(
-        tokenToUse ? tokenToUse?.[0] : 'BTC',
+        tokenToUse ? tokenToUse?.token_symbol : 'BONK',
         currnetLimit.current
       )
     }
@@ -415,11 +415,13 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     if (isLoadingCandles || !socket) return
     socket.on(SocketEmitter.Emitter.live_prices, (data) => {
       const tokenPrices = data?.data?.prices
-      const findTokenName = Object.entries(tokenList ?? {}).find(
-        ([_, value]) => value === selectedToken
+      const findTokenName = tokenList?.find(
+        (item) => item?.token_symbol === selectedToken?.token_symbol
       )
+
       if (!findTokenName) return
-      const priceData: LivePriceSocketType = tokenPrices?.[findTokenName[0]]
+      const priceData: LivePriceSocketType =
+        tokenPrices?.[findTokenName?.token_symbol]
       setLivePrice(priceData?.price)
     })
   }, [isLoadingCandles, selectedToken, socketRef, tokenList])

@@ -255,3 +255,10 @@ export type EditPriceProps = Pick<
   PendingOrder,
   'challenge_id' | 'submitted_price' | 'symbol' | 'direction' | 'tx_hash'
 >
+
+export interface TokenDetails extends Pick<DrawingData, 'id'> {
+  token_name: string
+  token_image_url: string
+  token_symbol: string
+  binance_socket_url: string
+}

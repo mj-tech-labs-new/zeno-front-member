@@ -119,12 +119,12 @@ const ChartGraphs = () => {
         selectedIndex as keyof typeof SocketEmitter.Emitter
       ],
       (data) => {
-        const findTokenName = Object.entries(tokenList ?? {}).find(
-          ([_, value]) => value === selectedToken
+        const findTokenName = tokenList?.find(
+          (item) => item?.token_symbol === selectedToken?.token_symbol
         )
         if (!findTokenName) return
         const chartSocketData: CandleObjectType =
-          data?.data?.candles?.[findTokenName?.[0]]
+          data?.data?.candles?.[findTokenName?.token_symbol]
         if (
           !chartSocketData ||
           !chartAreaRef.current ||
@@ -173,11 +173,11 @@ const ChartGraphs = () => {
 
       if (firstVisibleBar < 0) {
         currnetLimit.current += 100
-        const tokenToUse = Object.entries(tokenList ?? {}).find(
-          ([_, value]) => value === selectedToken
+        const tokenToUse = tokenList?.find(
+          (item) => item?.token_symbol === selectedToken?.token_symbol
         )
         getCandleHistory(
-          tokenToUse ? tokenToUse?.[0] : 'BTC',
+          tokenToUse?.token_symbol ?? 'BONK',
           currnetLimit.current
         )
       }
