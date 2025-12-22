@@ -105,10 +105,14 @@ const ChartContext = createContext<{
   isDrawing: RefObject<boolean>
   tempShape: DrawingData | null
   setTempShape: Dispatch<SetStateAction<DrawingData | null>>
+  setLiveCandle: Dispatch<SetStateAction<CandleObjectType | null>>
+  liveCandle: CandleObjectType | null
   totalShapes: DrawingData[]
   setTotalShapes: Dispatch<SetStateAction<DrawingData[]>>
   singleCandleData: RefObject<ChartObjectProps | null>
 }>({
+  liveCandle: null,
+  setLiveCandle: () => {},
   chartSocketData: null,
   setChartSocketData: () => {},
   leverageValueArray: [],
@@ -177,6 +181,8 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [currentStageArray, setCurrentStageArray] = useState<
     ChallengeStageType[]
   >([])
+  const [liveCandle, setLiveCandle] = useState<CandleObjectType | null>(null)
+
   const singleCandleData = useRef<ChartObjectProps | null>(null)
   const [chartSocketData, setChartSocketData] =
     useState<ChartSocketHeaderProps | null>(null)
@@ -337,37 +343,33 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       setCurrentStageArray,
       challengeId,
       singleCandleData,
+      setLiveCandle,
+      liveCandle,
     }),
     [
       chartSocketData,
       leverageValueArray,
-      setLeverageValueArray,
       selectedLeverage,
-      setSelectedLeverage,
       handleCommonMouseDown,
       handleCommonMouseUp,
       totalShapes,
       tempShape,
-      isDrawing,
       enableChartActions,
       disableChartActions,
       livePrice,
-      setLivePrice,
-      getChallengeByIdArray,
-      setGetChallengeByIdArray,
-      currentStageArray,
-      setCurrentStageArray,
       getCandleHistory,
       otherLoading,
       tokenList,
+      selectedToken,
       chartInfo,
+      totalCandleData,
+      selectedTool,
       isLoadingCandles,
       selectedIndex,
-      selectedToken,
-      selectedTool,
-      totalCandleData,
+      getChallengeByIdArray,
+      currentStageArray,
       challengeId,
-      singleCandleData,
+      liveCandle,
     ]
   )
 

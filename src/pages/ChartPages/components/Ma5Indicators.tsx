@@ -14,27 +14,30 @@ const Ma5Indicators = () => {
     isLoadingCandles,
     isLastCandle,
     singleCandleData,
+    liveCandle,
   } = useChartProvider()
+
   const ma5Ref = useRef<any>(null)
   const period = 5
-  const ma5 = useCallback((candleData: CandleObjectType[]) => {
-    if (candleData.length === 0) return []
 
+  // Buffer to keep last N candles
+  const bufferRef = useRef<CandleObjectType[]>([])
+
+  const calculateMA5 = useCallback((data: CandleObjectType[]) => {
     const result: (WhitespaceData | {time: Time; value: number})[] = []
 
-    for (let i = 0; i < candleData.length; i++) {
-      const time = (new Date(candleData[i].close_time_iso).getTime() /
-        1000) as Time
+    for (let i = 0; i < data.length; i++) {
+      const time = (new Date(data[i].close_time_iso).getTime() / 1000) as Time
 
       if (i < period - 1) {
-        result.push({time}) // whitespace
+        result.push({time})
         // eslint-disable-next-line no-continue
         continue
       }
 
       let sum = 0
       for (let j = i - period + 1; j <= i; j++) {
-        sum += Number(candleData[j].close)
+        sum += Number(data[j].close)
       }
 
       result.push({
@@ -68,6 +71,7 @@ const Ma5Indicators = () => {
   useEffect(() => {
     const chartObj = chartObjectRef.current
     if (!chartObj || isCallingCurrent.current || isLoadingCandles) return
+
     ma5Ref.current = chartObj.addSeries(LineSeries, {
       color: '#2962FF',
       lineWidth: 1,
@@ -85,18 +89,38 @@ const Ma5Indicators = () => {
   }, [chartObjectRef, isCallingCurrent, isLoadingCandles])
 
   useEffect(() => {
-    if (
-      !ma5Ref.current ||
-      !totalCandleData ||
-      !isCallingCurrent ||
-      isLoadingCandles
-    )
-      return
+    if (!ma5Ref.current || isLoadingCandles) return
 
-    const ma = ma5(totalCandleData)
-    ma5Ref.current.setData(ma)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalCandleData])
+    const maData = calculateMA5(totalCandleData)
+    ma5Ref.current.setData(maData)
+
+    bufferRef.current = totalCandleData.slice(-period)
+  }, [totalCandleData, calculateMA5, isLoadingCandles])
+
+  useEffect(() => {
+    if (!ma5Ref.current || !liveCandle) return
+
+    const last = bufferRef.current.at(-1)
+
+    if (last && last.close_time_iso === liveCandle.close_time_iso) {
+      bufferRef.current[bufferRef.current.length - 1] = liveCandle
+    } else {
+      bufferRef.current.push(liveCandle)
+
+      if (bufferRef.current.length > period) {
+        bufferRef.current.shift()
+      }
+    }
+
+    if (bufferRef.current.length < period) return
+
+    const sum = bufferRef.current.reduce((acc, c) => acc + Number(c.close), 0)
+
+    ma5Ref.current.update({
+      time: (new Date(liveCandle.close_time_iso).getTime() / 1000) as Time,
+      value: sum / period,
+    })
+  }, [liveCandle])
 
   useEffect(() => {
     if (!ma5Ref.current || !singleCandleData.current || !isLastCandle.current)
