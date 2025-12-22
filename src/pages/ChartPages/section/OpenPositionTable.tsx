@@ -144,7 +144,7 @@ const OpenPositionTable = (
                       {tableBody?.stop_loss?.[0]?.price ?? '--'}
                     </span>
                   </div>
-                  <div className="cursor-pointer">
+                  <div>
                     <EditStopLossModel
                       item={tableBody}
                       symbol={symbol}
@@ -164,7 +164,7 @@ const OpenPositionTable = (
                   </div>
                 </div>
               ) : (
-                <div className="cursor-pointer flex gap-2 ">
+                <div className=" flex gap-2 ">
                   --{' '}
                   <EditStopLossModel
                     apiMethod="post"

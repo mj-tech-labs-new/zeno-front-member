@@ -181,7 +181,7 @@ const BuySell = (props: BuyOrSelProps) => {
   }, [chartInfo?.symbol])
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-4">
         <span className="text-base !leading-8 text-chart-text-primary-color font-semibold ">
           {English.E130}
@@ -325,7 +325,7 @@ const BuySell = (props: BuyOrSelProps) => {
       {checked && <Divider className="!bg-chart-secondary-bg-color !my-1" />}
 
       {checked && (
-        <div className="flex flex-col">
+        <div className="flex flex-col max-w-[350px]">
           <StopLoss
             heading="Stop Loss"
             marketPrice={Number(inputValues.price)}

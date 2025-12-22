@@ -22,7 +22,7 @@ const ChartRenderer = () => {
   } = useChartProvider()
 
   return (
-    <div className="h-full bg-chart-layout w-full  lg:w-[calc(100vw-500px)]">
+    <div className="h-full bg-chart-layout w-full  lg:w-[calc(100vw-500px)] flex-1">
       <div className="flex flex-col lg:flex-row gap-1 w-full">
         <ChartShapes />
         <div className="flex-1">

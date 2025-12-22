@@ -110,7 +110,7 @@ const EditLimitPriceModel = (props: EditPriceProps) => {
         </ModalComponent>
       )}
       <ImageComponent
-        className="h-3.5 w-3.5"
+        className="h-3.5 w-3.5 cursor-pointer"
         imageUrl={Images.editIcon}
         onPressItem={() => {
           setIsModelOpen(true)
