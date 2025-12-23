@@ -135,7 +135,7 @@ const ChartHeader = () => {
               </div>
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-chart-red-color text-2xl !leading-8 font-semibold">
+              <span className="text-chart-red-color text-2xl !leading-8 font-semibold w-44">
                 {livePrice} {English.E60}
               </span>
               <span className="text-primary-color font-medium leading-tight">

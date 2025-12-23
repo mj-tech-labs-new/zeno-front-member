@@ -7,7 +7,7 @@ import {
   CommonTableComponent,
   DownloadButton,
 } from '@/components'
-import {Constants, English, Utility} from '@/helpers'
+import {Constants, English, Images, Utility} from '@/helpers'
 import {APICall, Endpoints} from '@/services'
 import {
   CertificateTableProps,
@@ -103,10 +103,10 @@ const CertificateTab = (props: CertificateTableProps) => {
                   <td className="p-6 text-secondary-light-color">
                     {`${Utility.numberConversion(Number(trading_capital))} ${English.E60}`}
                   </td>
-                  <td className="p-6 text-secondary-light-color">
-                    {status === 'Profit Target'
-                      ? `🎯 ${status}`
-                      : `✅ ${status}`}
+                  <td
+                    className={`p-6 text-secondary-light-color  ${status === 'Profit Target' ? '' : '!text-chart-green-color'}`}
+                  >
+                    {status === 'Profit Target' ? status : status}
                   </td>
                   <td className="p-6 text-secondary-light-color">
                     {dayjs(created_at).format('YYYY-MM-DD')}
@@ -115,7 +115,7 @@ const CertificateTab = (props: CertificateTableProps) => {
                     {status === 'Passed' ? (
                       <DownloadButton
                         challenge_id={challenge_id ?? ''}
-                        singleLineContent={English.E99}
+                        imageUrl={Images.pdfIcon}
                       />
                     ) : (
                       '---'
