@@ -55,7 +55,6 @@ const Ma30Indicators = () => {
     const lastIndex = candleData.length - 1
     let sum = 0
 
-     
     for (let i = lastIndex - period + 1; i <= lastIndex; i++) {
       sum += Number(candleData[i].close)
     }
