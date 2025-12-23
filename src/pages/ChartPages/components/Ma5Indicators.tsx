@@ -123,10 +123,10 @@ const Ma5Indicators = () => {
   }, [liveCandle])
 
   useEffect(() => {
-    if (!ma5Ref.current || !singleCandleData.current || !isLastCandle.current)
+    if (!ma5Ref.current || !singleCandleData?.current || !isLastCandle?.current)
       return
     const newMa5 = calculateLatestMA5(
-      singleCandleData.current as unknown as any
+      singleCandleData?.current as unknown as any
     )
     ma5Ref.current.update(newMa5)
   }, [isLastCandle, singleCandleData])

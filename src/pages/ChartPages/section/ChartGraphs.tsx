@@ -114,7 +114,7 @@ const ChartGraphs = () => {
   }, [isLoadingCandles])
 
   useEffect(() => {
-    if (isLoadingCandles || !socketRef.current) return
+    if (isLoadingCandles || !socketRef?.current) return
     socketRef.current.on(
       SocketEmitter.Emitter[
         selectedIndex as keyof typeof SocketEmitter.Emitter
@@ -148,8 +148,8 @@ const ChartGraphs = () => {
           color: Number(close) > Number(open) ? '#31413C' : '#4A2C25',
         }
         if (!currentCandle || !currentCandleVolume) return
-        chartAreaRef.current.update(currentCandle)
-        volumeSeriesRef.current.update(currentCandleVolume)
+        chartAreaRef?.current?.update(currentCandle)
+        volumeSeriesRef?.current?.update(currentCandleVolume)
       }
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -180,7 +180,7 @@ const ChartGraphs = () => {
           (item) => item?.token_symbol === selectedToken?.token_symbol
         )
         getCandleHistory(
-          tokenToUse?.token_symbol ?? 'BONK',
+          tokenToUse?.token_symbol ?? 'BTC',
           currnetLimit.current
         )
       }

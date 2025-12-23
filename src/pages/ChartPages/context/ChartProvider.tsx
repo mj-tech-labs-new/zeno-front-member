@@ -378,7 +378,10 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           setTokenList(res?.data?.allTokens)
-          setSelectedToken(res?.data?.allTokens?.[0] ?? null)
+          const btc = res?.data?.allTokens?.find(
+            (item: TokenDetails) => item?.token_symbol === 'BTC'
+          )
+          setSelectedToken(btc ?? null)
         } else {
           toast.error(res?.message)
         }
@@ -399,7 +402,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       setIsLoadingCandles(true)
       setTotalCandleData([])
       getCandleHistory(
-        tokenToUse ? tokenToUse?.token_symbol : 'BONK',
+        tokenToUse ? tokenToUse?.token_symbol : 'BTC',
         currnetLimit.current
       )
     }

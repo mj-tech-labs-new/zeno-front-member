@@ -19,7 +19,7 @@ const initialState: ChartInitialPropsType = {
   totalShapes: {},
   frame: '1m',
   amountType: 'USDT',
-  selectedToken: 'BONK',
+  selectedToken: 'BTC',
 }
 
 const ChartSlice = createSlice({

@@ -33,7 +33,7 @@ const ChartHeader = () => {
     () =>
       Object.entries(tokenList ?? [])?.map(([_, value]) => ({
         title: value?.token_symbol,
-        img: `${import.meta.env.VITE_API_BASE_URL}${value?.token_image_url.replace('/home/bhavesh/Documents/zeno/backend/server/', '')}`,
+        img: `${import.meta.env.VITE_API_BASE_URL}${value?.token_image_url}`,
       })),
     [tokenList]
   )
@@ -76,7 +76,7 @@ const ChartHeader = () => {
                 <span>
                   <ImageComponent
                     className="w-6 h-6 "
-                    imageUrl={`${import.meta.env.VITE_API_BASE_URL}${selectedToken?.token_image_url.replace('/home/bhavesh/Documents/zeno/backend/server/', '')}`}
+                    imageUrl={`${import.meta.env.VITE_API_BASE_URL}${selectedToken?.token_image_url}`}
                   />
                 </span>
                 {otherLoading.isDropdownLoading && !isLoadingCandles ? (
