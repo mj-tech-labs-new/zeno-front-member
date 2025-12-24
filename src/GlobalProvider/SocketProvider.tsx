@@ -23,11 +23,16 @@ const SocketProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
 
   useEffect(() => {
     if (socketRef.current) return
-    socketRef.current = io(import.meta.env.VITE_API_BASE_URL, {
-      extraHeaders: {
-        token: `Bearer ${UserData?.token ?? ''}`,
-      },
-    })
+    socketRef.current = io(
+      process.env.NODE_ENV !== 'production'
+        ? import.meta.env.VITE_API_BASE_URL_LOCAL
+        : import.meta.env.VITE_API_BASE_URL_PRODUCTION,
+      {
+        extraHeaders: {
+          token: `Bearer ${UserData?.token ?? ''}`,
+        },
+      }
+    )
   }, [UserData?.token])
 
   const defaultValue = useMemo(
