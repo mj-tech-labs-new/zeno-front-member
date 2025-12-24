@@ -32,7 +32,7 @@ const ChartHeader = () => {
   const TokenArray = useMemo(
     () =>
       Object.entries(tokenList ?? [])?.map(([_, value]) => ({
-        title: value?.token_symbol,
+        title: `${value?.token_symbol}${English.E60}`,
         img: `${import.meta.env.VITE_API_BASE_URL}${value?.token_image_url}`,
       })),
     [tokenList]
@@ -100,14 +100,16 @@ const ChartHeader = () => {
                         if (data?.token_symbol !== item?.title) {
                           CommonFunction.addSliceData('removeCoinToken', '')
                           CommonFunction.addSliceData('addCoinToken', {
-                            token: item?.title,
+                            token: item?.title?.replace('USDT', ''),
                           })
                           CommonFunction.addSliceData('addAmountType', {
                             amount: chartInfo?.symbol,
                           })
                           isLastCandle.current = false
                           const matchCoin = tokenList?.find(
-                            (token) => token.token_symbol === item?.title
+                            (token) =>
+                              token.token_symbol ===
+                              item?.title?.replace('USDT', '')
                           )
                           totalCandlesCount.current = 0
                           return matchCoin ?? null

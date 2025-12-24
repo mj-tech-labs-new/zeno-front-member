@@ -248,6 +248,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
               count: res?.data?.count,
               fullSymbolName: res?.data?.data?.[0]?.symbol,
             })
+
             setTotalCandleData(res?.data?.data)
           } else {
             toast.error(res?.data?.message)
@@ -400,15 +401,12 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
         (item) => item?.token_symbol === selectedToken?.token_symbol
       )
       setIsLoadingCandles(true)
-      setTotalCandleData([])
-      getCandleHistory(
-        tokenToUse ? tokenToUse?.token_symbol : 'BTC',
-        currnetLimit.current
-      )
+      socketRef?.current?.off()
+      getCandleHistory(tokenToUse?.token_symbol ?? 'BTC', currnetLimit.current)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIndex, selectedToken])
+  }, [selectedIndex, selectedToken, tokenList])
 
   useEffect(() => {
     getTokenList()

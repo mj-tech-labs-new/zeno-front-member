@@ -50,7 +50,7 @@ const Tooltip = () => {
     <React.Fragment>
       <div className="relative font-switzer flex gap-5 items-center -top-140 left-5 z-99">
         <span className="text-primary-color p-0.5 px-4 rounded-md bg-neutral-active-color">
-          {chartInfo?.fullSymbolName.replace('USDT', '')}
+          {chartInfo?.fullSymbolName?.replace('USDT', '')}
         </span>
         <span className="text-primary-color text-[15px]">
           O{' '}
@@ -62,7 +62,7 @@ const Tooltip = () => {
                 : 'text-dark-danger-color'
             }
           >
-            {candleStickData?.open ?? singleCandleData.current?.open}
+            {candleStickData?.open ?? singleCandleData?.current?.open}
           </span>{' '}
         </span>
         <span className="text-primary-color text-[15px]">

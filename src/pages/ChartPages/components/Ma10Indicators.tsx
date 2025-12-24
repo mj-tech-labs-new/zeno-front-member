@@ -117,20 +117,16 @@ const Ma10Indicators = () => {
     const sum = bufferRef.current.reduce((acc, c) => acc + Number(c.close), 0)
 
     ma10Ref.current.update({
-      time: (new Date(liveCandle?.close_time_iso).getTime() / 1000) as Time,
+      time: (new Date(liveCandle.close_time_iso).getTime() / 1000) as Time,
       value: sum / period,
     })
   }, [liveCandle])
 
   useEffect(() => {
-    if (
-      !ma10Ref.current ||
-      !singleCandleData?.current ||
-      !isLastCandle?.current
-    )
+    if (!ma10Ref.current || !singleCandleData.current || !isLastCandle.current)
       return
     const newMa5 = calculateLatestMA10(
-      singleCandleData?.current as unknown as any
+      singleCandleData.current as unknown as any
     )
     ma10Ref.current.update(newMa5)
   }, [isLastCandle, singleCandleData])
