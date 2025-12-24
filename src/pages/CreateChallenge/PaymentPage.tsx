@@ -78,12 +78,10 @@ const PaymentPage = () => {
     }, 10000)
 
     setTimeout(
-      async () =>
-         
-        (
-          clearInterval(intervalId),
-          CommonFunction.addSliceData('removePaymentDetails', {})
-        ),
+      async () => (
+        clearInterval(intervalId),
+        CommonFunction.addSliceData('removePaymentDetails', {})
+      ),
       1000 * 60 * 10
     )
 
