@@ -19,10 +19,10 @@ const SearchComponent = forwardRef<HTMLDivElement, SearchComponentProps>(
     return (
       <div
         ref={ref}
-        className={`flex h-10 justify-between items-center px-4 gap-5 bg-chart-layout-bg text-secondary-light-color w-full border border-neutral-secondary-color rounded-md ${className}`}
+        className={`flex h-10 border border-solid border-accents-yellow justify-between items-center px-4 gap-5 bg-chart-layout-bg text-secondary-light-color w-full rounded-md ${className}`}
       >
         <ImageComponent
-          className="size-5"
+          className="size-5 shrink-0"
           imageUrl={Images.searchIcon}
           onPressItem={() => {
             onPressSearch?.(searchValue)
@@ -48,7 +48,7 @@ const SearchComponent = forwardRef<HTMLDivElement, SearchComponentProps>(
 
         {showCross && searchValue !== '' && (
           <ImageComponent
-            className="[&>img]:white_filter"
+            className="[&>img]:white_filter shrink-0"
             imageUrl={Images.crossIcon}
             onPressItem={() => {
               setSearchValue('')

@@ -17,6 +17,7 @@ const ChartHeaderStats = () => {
     chartSocketData,
     chartInfo,
     livePrice,
+    setTotalTokenData,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
 
@@ -137,6 +138,7 @@ const ChartHeaderStats = () => {
           open: prev?.open === open ? prev.open : open,
           volume: prev?.volume === volume ? prev.volume : volume,
         }))
+        setTotalTokenData(data?.data?.candles)
       }
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
