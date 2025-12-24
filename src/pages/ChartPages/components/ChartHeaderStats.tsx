@@ -24,7 +24,7 @@ const ChartHeaderStats = () => {
     () => ({
       priceDiff: chartSocketData?.changeAmount ?? '---',
       percentageDiff: chartSocketData?.change
-        ? `${Number(chartSocketData?.change).toFixed(2)}%`
+        ? `${Number(chartSocketData?.change ?? 0).toFixed(2)}%`
         : '---',
     }),
     [chartSocketData?.change, chartSocketData?.changeAmount]
@@ -54,22 +54,23 @@ const ChartHeaderStats = () => {
   )
   const volumeAmount = useMemo(
     () => ({
-      priceDiff: chartSocketData
-        ? `${Number(Utility.largeNumberNotationConversion(chartSocketData ? chartSocketData?.volume : 1))}`
+      priceDiff: chartSocketData?.volume
+        ? Utility.largeNumberNotationConversion(chartSocketData?.volume ?? 1)
         : '---',
     }),
     [chartSocketData]
   )
+
   const usdtAmount = useMemo(
     () => ({
       priceDiff:
         livePrice && volumeAmount?.priceDiff
           ? Utility.largeNumberNotationConversion(
-              (livePrice ?? 0) * Number(volumeAmount?.priceDiff ?? 0)
+              (livePrice ?? 0) * Number(chartSocketData?.volume ?? 1)
             )
           : '---',
     }),
-    [livePrice, volumeAmount?.priceDiff]
+    [chartSocketData?.volume, livePrice, volumeAmount?.priceDiff]
   )
 
   const ConstantMapData = useMemo(
@@ -92,12 +93,12 @@ const ChartHeaderStats = () => {
       {
         img: Images.barChart,
         content: `${English.E122} (${chartInfo?.symbol})`,
-        textContent: volumeAmount,
+        textContent: volumeAmount ?? 0,
       },
       {
         img: Images.dollar,
         content: `${English.E373}  (${English.E60})`,
-        textContent: usdtAmount,
+        textContent: usdtAmount ?? 1,
       },
     ],
     [
@@ -161,8 +162,8 @@ const ChartHeaderStats = () => {
             >
               <span className="whitespace-nowrap">
                 {content.includes(English.E122)
-                  ? `${textContent?.priceDiff}${textContent?.priceDiff ? 'K' : ''}  ${chartInfo?.symbol ?? ''}`
-                  : textContent?.priceDiff}{' '}
+                  ? `${textContent?.priceDiff ?? '0.00'}${textContent?.priceDiff ? '' : ''}  ${chartInfo?.symbol ?? ''}`
+                  : (textContent?.priceDiff ?? '0.00')}{' '}
               </span>
               {index !== 3 && (
                 <span className="whitespace-nowrap">
