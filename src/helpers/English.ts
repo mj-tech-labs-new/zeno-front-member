@@ -380,6 +380,13 @@ const English = {
   E376: 'Select Option',
   E377: 'Ok',
   E378: 'Cancel',
+  E379: 'USDT-BEP20 Wallet Address',
+  E380: 'Payment ID',
+  E381: 'Order ID',
+  E382: 'Exchange Rate',
+  E383: 'Status',
+  E384: 'Check Status',
+  E385: '1 USD = 1 USD',
 }
 
 export default English

@@ -24,6 +24,16 @@ export type ImageComponentProps = Pick<
   Required<Pick<GeneralProps, 'imageUrl'>> & {imageType?: ImageType} & {
     imageRelatedText?: string
   }
+
+export type CopyClipBoardProps = Pick<
+  GeneralProps,
+  'className' | 'onPressItem'
+> &
+  Required<Pick<GeneralProps, 'imageUrl'>> & {imageType?: ImageType} & {
+    imageRelatedText?: string
+    type: string
+  }
+
 export interface RangeSelectorProps extends Pick<GeneralProps, 'className'> {
   rangeValue: number
   setRangeValue: (arg: number) => void

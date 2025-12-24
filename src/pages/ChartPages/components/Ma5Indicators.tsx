@@ -70,7 +70,13 @@ const Ma5Indicators = () => {
 
   useEffect(() => {
     const chartObj = chartObjectRef.current
-    if (!chartObj || isCallingCurrent.current || isLoadingCandles) return
+    if (
+      !chartObj ||
+      isCallingCurrent.current ||
+      isLoadingCandles ||
+      !totalCandleData
+    )
+      return
 
     ma5Ref.current = chartObj.addSeries(LineSeries, {
       color: '#2962FF',
@@ -86,7 +92,7 @@ const Ma5Indicators = () => {
         ma5Ref.current = null
       }
     }
-  }, [chartObjectRef, isCallingCurrent, isLoadingCandles])
+  }, [chartObjectRef, isCallingCurrent, isLoadingCandles, totalCandleData])
 
   useEffect(() => {
     if (!ma5Ref.current || isLoadingCandles) return
@@ -95,7 +101,8 @@ const Ma5Indicators = () => {
     ma5Ref.current.setData(maData)
 
     bufferRef.current = totalCandleData.slice(-period)
-  }, [totalCandleData, calculateMA5, isLoadingCandles])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalCandleData, isLoadingCandles])
 
   useEffect(() => {
     if (!ma5Ref.current || !liveCandle) return

@@ -151,6 +151,8 @@ const Images = {
   deleteIcon: new URL('../assets/svgs/delete-icon.svg', import.meta.url).href,
   searchIcon: new URL('../assets/svgs/search.svg', import.meta.url).href,
   pdfIcon: new URL('../assets/svgs/pdf-file.svg', import.meta.url).href,
+  reloadIcon: new URL('../assets/svgs/reload-svgrepo-com.svg', import.meta.url)
+    .href,
 }
 
 export default Images

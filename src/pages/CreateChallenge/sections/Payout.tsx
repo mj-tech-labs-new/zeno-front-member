@@ -2,20 +2,13 @@ import {useMemo} from 'react'
 
 import {CommonButton, Divider, HeadingComponent} from '@/components'
 import {English} from '@/helpers'
-import {
-  ChallengePayoutObject,
-  CreateChallengeProps,
-} from '@/types/ChallengeTypes'
+import {ChallengePayoutObject} from '@/types/ChallengeTypes'
 import {GeneralProps} from '@/types/CommonTypes'
 
 const Payout = (
-  props: ChallengePayoutObject &
-    Required<
-      Pick<GeneralProps, 'onPressItem'> &
-        Pick<CreateChallengeProps, 'transaction_id'>
-    >
+  props: ChallengePayoutObject & Required<Pick<GeneralProps, 'onPressItem'>>
 ) => {
-  const {amount, capital, name, type, onPressItem, transaction_id} = props
+  const {amount, capital, name, type, onPressItem} = props
   const payoutDetails = useMemo(
     () => ({
       [English.E27]: type,
@@ -67,35 +60,34 @@ const Payout = (
           ))}
       </div>
       <Divider />
-      {transaction_id === 0 && (
-        <div className="flex flex-col gap-3">
-          {amount !== '---' && (
-            <div className="flex flex-col gap-2">
-              <HeadingComponent
-                className="!text-base/6 text-secondary-dark-color font-semibold"
-                singleLineContent={English.E42}
-              />
-              <div className="flex flex-col gap-1">
-                {challengesArray?.map((text) => (
-                  <p
-                    key={text}
-                    className="font-medium text-sm/6 text-landing-page-trading-rules-para-text"
-                  >
-                    {text}
-                  </p>
-                ))}
-              </div>
+
+      <div className="flex flex-col gap-3">
+        {amount !== '---' && (
+          <div className="flex flex-col gap-2">
+            <HeadingComponent
+              className="!text-base/6 text-secondary-dark-color font-semibold"
+              singleLineContent={English.E42}
+            />
+            <div className="flex flex-col gap-1">
+              {challengesArray?.map((text) => (
+                <p
+                  key={text}
+                  className="font-medium text-sm/6 text-landing-page-trading-rules-para-text"
+                >
+                  {text}
+                </p>
+              ))}
             </div>
-          )}
-          <CommonButton
-            className={`${amount === '---' ? 'grey-disabled-btn-type pointer-events-none' : 'dark-danger-btn-type'} font-medium`}
-            singleLineContent={English.E47}
-            onClick={() => {
-              onPressItem()
-            }}
-          />
-        </div>
-      )}
+          </div>
+        )}
+        <CommonButton
+          className={`${amount === '---' ? 'grey-disabled-btn-type pointer-events-none' : 'dark-danger-btn-type'} font-medium`}
+          singleLineContent={English.E47}
+          onClick={() => {
+            onPressItem()
+          }}
+        />
+      </div>
     </div>
   )
 }

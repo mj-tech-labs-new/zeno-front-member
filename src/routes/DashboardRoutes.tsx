@@ -119,7 +119,7 @@ const DashboardRoutes = [
   />,
   <Route
     key="payout-success"
-    path="/payout-success"
+    path="/payout"
     element={
       <UserWrapper>
         <PayoutSuccessPage />

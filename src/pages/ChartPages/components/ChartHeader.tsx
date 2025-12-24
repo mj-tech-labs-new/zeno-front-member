@@ -28,12 +28,11 @@ const ChartHeader = () => {
       ),
     [selectedToken, tokenList]
   )
-
   const TokenArray = useMemo(
     () =>
       Object.entries(tokenList ?? [])?.map(([_, value]) => ({
         title: `${value?.token_symbol}${English.E60}`,
-        img: `${import.meta.env.VITE_API_BASE_URL}${value?.token_image_url}`,
+        img: `${import.meta.env.VITE_API_BASE_URL_PRODUCTION}${value?.token_image_url?.replace('/home/ubuntu/backend/', '')}`,
       })),
     [tokenList]
   )
@@ -76,7 +75,7 @@ const ChartHeader = () => {
                 <span>
                   <ImageComponent
                     className="w-6 h-6 "
-                    imageUrl={`${import.meta.env.VITE_API_BASE_URL}${selectedToken?.token_image_url}`}
+                    imageUrl={`${import.meta.env.VITE_API_BASE_URL_PRODUCTION}${selectedToken?.token_image_url?.replace('/home/ubuntu/backend/', '')}`}
                   />
                 </span>
                 {otherLoading.isDropdownLoading && !isLoadingCandles ? (

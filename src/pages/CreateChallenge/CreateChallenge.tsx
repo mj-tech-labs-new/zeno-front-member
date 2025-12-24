@@ -11,8 +11,6 @@ import {StorageProps} from '@/types/CommonTypes'
 
 import {getPaymentQrCode} from './api/CreateChallengeApis'
 import CreateChallengeContainer from './sections/CreateChallengeContainer'
-import PaymentDetails from './sections/PaymentDetails'
-import PaymentInstruction from './sections/PaymentInstruction'
 import Payout from './sections/Payout'
 import TradingCapitalContainer from './sections/TradingCapitalContainer'
 
@@ -57,12 +55,25 @@ const CreateChallenge = () => {
             wallet_address: res.wallet_address,
             transactionId: res.transaction_id,
           }))
+          const paymentData = {
+            data: res,
+            capital: payoutDetails?.capital,
+          }
+          navigate('/payout', {state: paymentData})
         }
       })
       .finally(() => {
         setShowLoader(false)
       })
-  }, [payoutData, selectedOption, selectedTableRow])
+  }, [
+    navigate,
+    payoutData?.challenge_plan_id,
+    payoutData?.step,
+    payoutData?.total_stage,
+    payoutDetails?.capital,
+    selectedOption,
+    selectedTableRow,
+  ])
 
   useEffect(() => {
     if (!payoutData) return
@@ -146,35 +157,7 @@ const CreateChallenge = () => {
                 }
                 handleGetPaymentQR()
               }}
-              transaction_id={
-                paymentDetails?.transactionId as unknown as number
-              }
             />
-            {paymentDetails?.qrCode !== '' && (
-              <div>
-                <PaymentDetails
-                  qrDataURL={paymentDetails?.qrCode as unknown as string}
-                  status_message={
-                    paymentDetails?.status_message as unknown as string
-                  }
-                  wallet_address={
-                    paymentDetails?.wallet_address as unknown as string
-                  }
-                />
-                <div>
-                  <PaymentInstruction
-                    transaction_id={
-                      paymentDetails?.transactionId as unknown as number
-                    }
-                    usdt_price={Number(
-                      payoutDetails?.capital !== '---'
-                        ? payoutDetails?.capital
-                        : payoutData?.capital
-                    )}
-                  />
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

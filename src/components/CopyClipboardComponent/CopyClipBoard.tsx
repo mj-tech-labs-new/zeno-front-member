@@ -2,11 +2,11 @@ import {forwardRef, useEffect, useState} from 'react'
 import {toast} from 'react-toastify'
 
 import {English, Images} from '@/helpers'
-import {ImageComponentProps} from '@/types/ComponentTypes'
+import {CopyClipBoardProps} from '@/types/ComponentTypes'
 
 import BasicSkeleton from '../SkeletonComponents/BasicSkeleton'
 
-const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
+const CopyClipBoard = forwardRef<HTMLDivElement, CopyClipBoardProps>(
   (props, ref) => {
     const [isLoading, setIsLoading] = useState(true)
     const {
@@ -15,6 +15,7 @@ const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
       imageType = 'normal_type',
       imageRelatedText = '',
       onPressItem,
+      type,
     } = props
     const [imageContent, setImageContent] = useState('')
 
@@ -36,10 +37,10 @@ const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
     }, [imageType, imageUrl])
 
     return (
-      imageContent !== '' && (
+      type !== '' && (
         <div
           ref={ref}
-          className={`overflow-hidden ${className}`}
+          className={` ${className}`}
           onClick={(e) => {
             e.stopPropagation()
             onPressItem?.()
@@ -51,6 +52,8 @@ const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
         >
           {isLoading ? (
             <BasicSkeleton />
+          ) : type === 'text' ? (
+            <div>{imageRelatedText}</div>
           ) : (
             <img
               alt="error-icon"
@@ -64,4 +67,4 @@ const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
   }
 )
 
-export default ImageComponent
+export default CopyClipBoard

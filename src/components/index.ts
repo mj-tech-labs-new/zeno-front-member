@@ -10,6 +10,7 @@ import DownloadButton from './CommonButton/DownloadButton'
 import DropDown from './CommonDropDown/DropDown'
 import RangeSelector from './CommonRangeSelector/RangeSelector'
 import CommonTableComponent from './CommonTableComponent/CommonTableComponent'
+import CopyClipBoard from './CopyClipboardComponent/CopyClipBoard'
 import DatePickerComponent from './DatePicker/DatePickerComponent'
 import DescriptionComponent from './DescriptionComponent/DescriptionComponent'
 import StatsDescription from './DescriptionComponent/StatsDescription'
@@ -48,6 +49,7 @@ export {
   CommonButton,
   CommonCloseActionButton,
   CommonTableComponent,
+  CopyClipBoard,
   DatePickerComponent,
   DescriptionComponent,
   Divider,

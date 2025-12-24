@@ -68,7 +68,13 @@ const Ma30Indicators = () => {
 
   useEffect(() => {
     const chartObj = chartObjectRef?.current
-    if (!chartObj || isCallingCurrent?.current || isLoadingCandles) return
+    if (
+      !chartObj ||
+      isCallingCurrent?.current ||
+      isLoadingCandles ||
+      !totalCandleData
+    )
+      return
 
     ma30Ref.current = chartObj?.addSeries(LineSeries, {
       color: '#965fc4',
@@ -84,7 +90,7 @@ const Ma30Indicators = () => {
         ma30Ref.current = null
       }
     }
-  }, [chartObjectRef, isCallingCurrent, isLoadingCandles])
+  }, [chartObjectRef, isCallingCurrent, isLoadingCandles, totalCandleData])
 
   useEffect(() => {
     if (!ma30Ref.current || isLoadingCandles) return
@@ -93,7 +99,8 @@ const Ma30Indicators = () => {
     ma30Ref.current.setData(maData)
 
     bufferRef.current = totalCandleData?.slice(-period)
-  }, [totalCandleData, calculateMA30, isLoadingCandles])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalCandleData, isLoadingCandles])
 
   useEffect(() => {
     if (!ma30Ref?.current || !liveCandle) return

@@ -24,7 +24,7 @@ const SocketProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   useEffect(() => {
     if (socketRef.current) return
     socketRef.current = io(
-      process.env.NODE_ENV !== 'production'
+      process.env.NODE_ENV === 'production'
         ? import.meta.env.VITE_API_BASE_URL_LOCAL
         : import.meta.env.VITE_API_BASE_URL_PRODUCTION,
       {
