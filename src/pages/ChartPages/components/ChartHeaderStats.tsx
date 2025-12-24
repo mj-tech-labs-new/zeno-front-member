@@ -54,11 +54,11 @@ const ChartHeaderStats = () => {
   )
   const volumeAmount = useMemo(
     () => ({
-      priceDiff: chartSocketData?.volume
-        ? `${Number(Utility.largeNumberNotationConversion(chartSocketData?.volume))}`
+      priceDiff: chartSocketData
+        ? `${Number(Utility.largeNumberNotationConversion(chartSocketData ? chartSocketData?.volume : 1))}`
         : '---',
     }),
-    [chartSocketData?.volume]
+    [chartSocketData]
   )
   const usdtAmount = useMemo(
     () => ({
@@ -117,12 +117,12 @@ const ChartHeaderStats = () => {
         selectedIndex as keyof typeof SocketEmitter.Emitter
       ],
       (data) => {
-        const findTokenName = Object.entries(tokenList ?? {}).find(
-          ([_, value]) => value === selectedToken
+        const findTokenName = tokenList?.find(
+          (item) => item?.token_symbol === selectedToken?.token_symbol
         )
         if (!findTokenName) return
         const chartData: CandleObjectType =
-          data?.data?.candles?.[findTokenName?.[0]]
+          data?.data?.candles?.[findTokenName?.token_symbol]
         if (!chartData) return
         const {change, changeAmount, open, high, low, volume} = chartData
         setChartSocketData((prev) => ({
@@ -161,7 +161,7 @@ const ChartHeaderStats = () => {
             >
               <span className="whitespace-nowrap">
                 {content.includes(English.E122)
-                  ? `${textContent?.priceDiff}K  ${chartInfo?.symbol}`
+                  ? `${textContent?.priceDiff}${textContent?.priceDiff ? 'K' : ''}  ${chartInfo?.symbol ?? ''}`
                   : textContent?.priceDiff}{' '}
               </span>
               {index !== 3 && (

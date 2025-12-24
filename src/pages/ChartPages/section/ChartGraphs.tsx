@@ -114,18 +114,18 @@ const ChartGraphs = () => {
   }, [isLoadingCandles])
 
   useEffect(() => {
-    if (isLoadingCandles || !socketRef.current) return
+    if (isLoadingCandles || !socketRef?.current) return
     socketRef.current.on(
       SocketEmitter.Emitter[
         selectedIndex as keyof typeof SocketEmitter.Emitter
       ],
       (data) => {
-        const findTokenName = Object.entries(tokenList ?? {}).find(
-          ([_, value]) => value === selectedToken
+        const findTokenName = tokenList?.find(
+          (item) => item?.token_symbol === selectedToken?.token_symbol
         )
         if (!findTokenName) return
         const chartSocketData: CandleObjectType =
-          data?.data?.candles?.[findTokenName?.[0]]
+          data?.data?.candles?.[findTokenName?.token_symbol]
         if (
           !chartSocketData ||
           !chartAreaRef.current ||
@@ -148,8 +148,8 @@ const ChartGraphs = () => {
           color: Number(close) > Number(open) ? '#31413C' : '#4A2C25',
         }
         if (!currentCandle || !currentCandleVolume) return
-        chartAreaRef.current.update(currentCandle)
-        volumeSeriesRef.current.update(currentCandleVolume)
+        chartAreaRef?.current?.update(currentCandle)
+        volumeSeriesRef?.current?.update(currentCandleVolume)
       }
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -176,11 +176,12 @@ const ChartGraphs = () => {
 
       if (firstVisibleBar < 0) {
         currnetLimit.current += 100
-        const tokenToUse = Object.entries(tokenList ?? {}).find(
-          ([_, value]) => value === selectedToken
+        const tokenToUse = tokenList?.find(
+          (item) => item?.token_symbol === selectedToken?.token_symbol
         )
+
         getCandleHistory(
-          tokenToUse ? tokenToUse?.[0] : 'BTC',
+          tokenToUse?.token_symbol ?? 'BTC',
           currnetLimit.current
         )
       }

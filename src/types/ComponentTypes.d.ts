@@ -100,6 +100,7 @@ export interface DropDownProps
   onSelectValue: (data: DropDownObjectType) => void
   elementId?: string[]
   isSearchType?: boolean
+  titleClassname?: string
 }
 
 export interface MaxOpenAndMarginProps {

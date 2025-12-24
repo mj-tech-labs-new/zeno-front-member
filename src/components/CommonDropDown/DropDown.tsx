@@ -21,6 +21,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
     searchValue = '',
     setSearchValue,
     onPressSearch,
+    titleClassname,
   } = props
   const mainDivRef = useRef<HTMLDivElement | null>(null)
   const searchRef = useRef<HTMLDivElement | null>(null)
@@ -42,7 +43,6 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
     dropDownStatsRef.current.style.left = `${left}px`
     dropDownStatsRef.current.style.width = `${width}px`
   }, [dropDownData?.length, isDropDownOpen])
-
   useClickOutside({
     refs: [mainDivRef, searchRef],
     onClickOutside() {
@@ -123,19 +123,21 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
               return (
                 <div
                   key={title}
-                  className="flex items-center gap-1"
+                  className="flex items-center px-4 gap-1.5"
                   onClick={(e) => {
                     e.stopPropagation()
                     onSelectValue(data)
                     setIsDropDownOpen((prev) => !prev)
                   }}
                 >
-                  <span className="text-tertiary-color text-sm font-normal p-3  w-full hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out">
-                    {title}
-                  </span>
                   {img !== '' && (
                     <ImageComponent className="w-5 h-5" imageUrl={img} />
                   )}
+                  <span
+                    className={`text-tertiary-color text-sm font-normal p-3  w-full hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out ${titleClassname}`}
+                  >
+                    {title}
+                  </span>
                 </div>
               )
             })}
