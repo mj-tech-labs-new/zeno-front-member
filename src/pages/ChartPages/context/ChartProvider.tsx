@@ -111,7 +111,13 @@ const ChartContext = createContext<{
   totalShapes: DrawingData[]
   setTotalShapes: Dispatch<SetStateAction<DrawingData[]>>
   singleCandleData: RefObject<ChartObjectProps | null>
+  totalTokenData: Record<string, CandleObjectType> | null
+  setTotalTokenData: Dispatch<
+    SetStateAction<Record<string, CandleObjectType> | null>
+  >
 }>({
+  totalTokenData: null,
+  setTotalTokenData: () => {},
   liveCandle: null,
   setLiveCandle: () => {},
   chartSocketData: null,
@@ -169,6 +175,10 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [leverageValueArray, setLeverageValueArray] = useState<
     DropDownObjectType[]
   >([])
+  const [totalTokenData, setTotalTokenData] = useState<Record<
+    string,
+    CandleObjectType
+  > | null>(null)
   const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
   const {socketRef} = useSocketProvider()
   const [challengeId, setChallengeId] = useState<null | string>(null)
@@ -294,6 +304,8 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
 
   const defaultValue = useMemo(
     () => ({
+      totalTokenData,
+      setTotalTokenData,
       chartSocketData,
       setChartSocketData,
       setChallengeId,
@@ -347,6 +359,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       liveCandle,
     }),
     [
+      totalTokenData,
       chartSocketData,
       leverageValueArray,
       selectedLeverage,

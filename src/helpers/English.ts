@@ -387,6 +387,8 @@ const English = {
   E383: 'Status',
   E384: 'Check Status',
   E385: '1 USD = 1 USD',
+  E386: 'Markets',
+  E387: 'Last Price',
 }
 
 export default English
