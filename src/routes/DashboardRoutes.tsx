@@ -14,6 +14,7 @@ import {
   ProfilePage,
 } from '@/pages'
 import ChallengeDashboardProvider from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
+import PaymentPage from '@/pages/CreateChallenge/PaymentPage'
 import PayoutSuccessPage from '@/pages/CreateChallenge/PayoutSuccessPage'
 import DashboardProvider from '@/pages/Dashboard/context/DashboardProvider'
 import UserWrapper from '@/wrappers/UserWrapper'
@@ -118,8 +119,17 @@ const DashboardRoutes = [
     }
   />,
   <Route
+    key="payment-details"
+    path="/payment-screen"
+    element={
+      <UserWrapper>
+        <PaymentPage />
+      </UserWrapper>
+    }
+  />,
+  <Route
     key="payout-success"
-    path="/payout"
+    path="/payout-success"
     element={
       <UserWrapper>
         <PayoutSuccessPage />

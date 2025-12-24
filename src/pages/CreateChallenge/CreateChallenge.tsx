@@ -58,8 +58,11 @@ const CreateChallenge = () => {
           const paymentData = {
             data: res,
             capital: payoutDetails?.capital,
+            amount: payoutDetails?.amount,
+            step: payoutDetails?.type,
+            status: '',
           }
-          navigate('/payout', {state: paymentData})
+          navigate('/payment-screen', {state: paymentData})
         }
       })
       .finally(() => {
@@ -70,7 +73,9 @@ const CreateChallenge = () => {
     payoutData?.challenge_plan_id,
     payoutData?.step,
     payoutData?.total_stage,
+    payoutDetails?.amount,
     payoutDetails?.capital,
+    payoutDetails?.type,
     selectedOption,
     selectedTableRow,
   ])
