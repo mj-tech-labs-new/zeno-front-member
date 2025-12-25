@@ -106,7 +106,7 @@ const TokenDropdown = () => {
             <p className="text-right">{English.E387}</p>
             <p className="text-right">{English.E119}</p>
           </div>
-          <div className="mt-5 ">
+          <div className="mt-5 h-full">
             <div className="overflow-y-auto h-[calc(100%-80px)]">
               {tokenArray?.map((item) => {
                 const {id, token_image_url, token_symbol} = item

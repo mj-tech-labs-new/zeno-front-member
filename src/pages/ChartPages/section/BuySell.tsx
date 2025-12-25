@@ -65,7 +65,7 @@ const BuySell = (props: BuyOrSelProps) => {
     (name: keyof typeof inputValues, value: string) => {
       const AmountType = Store.getState().chartData.amountType
 
-      if (AmountType !== 'USDT') {
+      if (AmountType !== 'USDT' || leverage) {
         let totalStrFinal
 
         const priceStr = inputValues.price
@@ -78,7 +78,9 @@ const BuySell = (props: BuyOrSelProps) => {
           ? BigInt(amountStr.replace('.', '') ?? '0')
           : BigInt(amountStr ?? '0')
 
-        const leverageBigInt = BigInt(selectedLeverage?.title.toString() ?? 1)
+        const leverageBigInt = BigInt(
+          selectedLeverage?.title.toString()?.replace('X', '') ?? 1
+        )
 
         const totalStr = (
           (priceBigInt * amountBigInt) /
@@ -100,7 +102,7 @@ const BuySell = (props: BuyOrSelProps) => {
 
           totalStrFinal = totalStr
 
-          if (totalStr !== '0') {
+          if (totalStr !== '0' || leverage) {
             let totalStrPrecise =
               (totalStr.slice(0, indexTotal) ?? '0') +
               '.' +
@@ -140,7 +142,7 @@ const BuySell = (props: BuyOrSelProps) => {
         setRangeValue(0)
       }
     },
-    [inputValues.price, livePrice, selectedLeverage?.title]
+    [inputValues.price, leverage, livePrice, selectedLeverage?.title]
   )
 
   useEffect(() => {
@@ -255,7 +257,9 @@ const BuySell = (props: BuyOrSelProps) => {
                   const tokenValue = Number(amountRef.current) * percentValue
                   const newAmount = tokenValue / livePrice
                   setInputValues((prev) => {
-                    const Leverage = Number(selectedLeverage?.title)
+                    const Leverage = Number(
+                      selectedLeverage?.title.toString()?.replace('X', '')
+                    )
                     const totalValue = (newAmount * livePrice) / Leverage
                     const UsdtPrice = Number(amountRef.current) * percentValue
                     const totalBtc = UsdtPrice / livePrice
