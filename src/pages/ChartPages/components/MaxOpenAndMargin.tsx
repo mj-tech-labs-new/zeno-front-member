@@ -101,7 +101,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                       )
                   : totalNum > 1
                     ? totalStr
-                    : Utility.removeDecimal(totalNum, 2)}{' '}
+                    : Utility.removeDecimal(totalNum ?? 0, 2)}{' '}
                 {English.E60}
               </span>
             </div>

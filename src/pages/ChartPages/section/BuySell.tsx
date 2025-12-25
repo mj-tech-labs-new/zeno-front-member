@@ -126,14 +126,13 @@ const BuySell = (props: BuyOrSelProps) => {
           ),
         }))
       } else {
-        const decimals = Number(value) <= 500 ? 6 : 2
         const totalBtc = Number(value) / livePrice
 
         setInputValues((prev) => ({
           ...prev,
           [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
           total: Utility.validPointValue(
-            Utility.validFloatNumber(totalBtc.toFixed(decimals).toString())
+            Utility.validFloatNumber(totalBtc.toFixed(8).toString())
           ),
         }))
       }
@@ -181,6 +180,18 @@ const BuySell = (props: BuyOrSelProps) => {
     if (!chartInfo?.symbol) return
     setAmountPriceType(chartInfo?.symbol)
   }, [chartInfo?.symbol])
+
+  useEffect(
+    () => () => {
+      setInputValues(() => ({
+        price: '',
+        amount: '',
+        total: '',
+      }))
+      setRangeValue(0)
+    },
+    [selectedToken]
+  )
 
   return (
     <div className="flex flex-col gap-2">
@@ -267,13 +278,13 @@ const BuySell = (props: BuyOrSelProps) => {
                       ...prev,
                       amount:
                         AmountType === 'USDT'
-                          ? Utility.removeDecimal(UsdtPrice, 2).toString()
+                          ? Utility.removeDecimal(UsdtPrice, 8).toString()
                           : Utility.removeDecimal(newAmount).toString(),
                       total:
                         AmountType === 'USDT'
-                          ? totalBtc.toFixed(2).toString()
+                          ? totalBtc.toFixed(8).toString()
                           : totalValue
-                            ? totalValue.toFixed(2).toString()
+                            ? totalValue.toFixed(8).toString()
                             : '0',
                     }
                   })

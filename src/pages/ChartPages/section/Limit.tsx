@@ -138,11 +138,20 @@ const Limit = (props: BuyOrSelProps) => {
       setTotal(
         (parseFloat(inputValues?.entryprice) *
           parseFloat(inputValues?.quantity)) /
-          Number(selectedLeverage?.title)
+          Number(selectedLeverage?.title?.toString()?.replace('X', ''))
       )
     }
   }, [getChallengeByIdArray, inputValues, selectedLeverage?.title, total])
 
+  useEffect(
+    () => () => {
+      setInputValues(() => ({
+        entryprice: '',
+        quantity: '',
+      }))
+    },
+    [selectedToken]
+  )
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-4">
@@ -209,13 +218,11 @@ const Limit = (props: BuyOrSelProps) => {
           margin_mode={margin_mode}
           order_type="limit"
           price={Number(inputValues?.entryprice)}
+          quantity={Number(Number(inputValues?.quantity))}
           setChecked={setChecked}
           stop_loss={stopLossData?.stop_loss}
           take_profit={stopLossData?.take_profit}
           total={total}
-          quantity={Number(
-            Utility.removeDecimal(Number(inputValues?.quantity))
-          )}
           setInputValues={() => {
             setInputValues({entryprice: '0', quantity: '0'})
             setStopLossValue(0)

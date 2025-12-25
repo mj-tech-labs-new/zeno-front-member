@@ -10,7 +10,6 @@ import {PendingOrder} from '@/types/ChartTypes'
 
 import EditLimitPriceModel from '../components/EditLimitPriceModel'
 import EditStopLossModel from '../components/EditStopLossModel'
-import ReverseOrder from '../components/ReverseOrder'
 import {useChartProvider} from '../context/ChartProvider'
 
 const PendingOrderTable = (
@@ -192,10 +191,10 @@ const PendingOrderTable = (
                   }
                 }}
               />
-              <ReverseOrder
+              {/* <ReverseOrder
                 challenge_id={tableBody?.challenge_id}
                 tx_hash={tableBody?.tx_hash}
-              />
+              /> */}
             </td>
           </tr>
         )
