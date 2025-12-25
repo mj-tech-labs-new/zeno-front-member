@@ -114,33 +114,28 @@ const ChartHeaderStats = () => {
 
   useEffect(() => {
     if (!socketRef.current || isLoadingCandles) return
-    socketRef.current.on(
-      SocketEmitter.Emitter[
-        selectedIndex as keyof typeof SocketEmitter.Emitter
-      ],
-      (data) => {
-        const findTokenName = tokenList?.find(
-          (item) => item?.token_symbol === selectedToken?.token_symbol
-        )
-        if (!findTokenName) return
-        const chartData: CandleObjectType =
-          data?.data?.candles?.[findTokenName?.token_symbol]
-        if (!chartData) return
-        const {change, changeAmount, open, high, low, volume} = chartData
-        setChartSocketData((prev) => ({
-          change: prev?.change === change ? prev.change : change,
-          changeAmount:
-            prev?.changeAmount === changeAmount
-              ? prev.changeAmount
-              : changeAmount,
-          high: prev?.high === high ? prev.high : high,
-          low: prev?.low === low ? prev.low : low,
-          open: prev?.open === open ? prev.open : open,
-          volume: prev?.volume === volume ? prev.volume : volume,
-        }))
-        setTotalTokenData(data?.data?.candles)
-      }
-    )
+    socketRef.current.on(SocketEmitter.Emitter['1d'], (data) => {
+      const findTokenName = tokenList?.find(
+        (item) => item?.token_symbol === selectedToken?.token_symbol
+      )
+      if (!findTokenName) return
+      const chartData: CandleObjectType =
+        data?.data?.candles?.[findTokenName?.token_symbol]
+      if (!chartData) return
+      const {change, changeAmount, open, high, low, volume} = chartData
+      setChartSocketData((prev) => ({
+        change: prev?.change === change ? prev.change : change,
+        changeAmount:
+          prev?.changeAmount === changeAmount
+            ? prev.changeAmount
+            : changeAmount,
+        high: prev?.high === high ? prev.high : high,
+        low: prev?.low === low ? prev.low : low,
+        open: prev?.open === open ? prev.open : open,
+        volume: prev?.volume === volume ? prev.volume : volume,
+      }))
+      setTotalTokenData(data?.data?.candles)
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoadingCandles, selectedIndex, selectedToken, socketRef, tokenList])
   return (
