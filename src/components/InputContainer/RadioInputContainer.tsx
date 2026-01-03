@@ -7,9 +7,7 @@ const RadioInputContainer = (
 ) => {
   const {className, ...rest} = props
 
-  return <input
-type="radio" {...rest}
-className={`${className}`} />
+  return <input type="radio" {...rest} className={`${className}`} />
 }
 
 export default memo(RadioInputContainer)

@@ -25,6 +25,7 @@
   --extra-light-success-color: #6ce9a6;
   --medium-success-color: #12b76a;
   --extra-dark-success-color: #28513e;
+  --light-gray-color: #808080;
   --light-danger-color: #f04438;
   --dark-danger-color: #cc2929;
   --extra-dark-danger-color: #ff0000;
@@ -103,6 +104,7 @@
 }
 
 @theme {
+  --color-light-gray-color: var(--light-gray-color);
   --color-dark-black-color: var(--dark-black-color);
   --color-light-gr1: var(--light-gr1);
   --color-light-gr2: var(--light-gr2);
@@ -597,6 +599,10 @@
 @utility grey__filter {
   filter: brightness(0) saturate(100%) invert(56%) sepia(0%) saturate(991%)
     hue-rotate(141deg) brightness(95%) contrast(82%);
+}
+@utility info__bg__filter {
+  filter: brightness(0) saturate(100%) invert(13%) sepia(7%) saturate(12%)
+    hue-rotate(353deg) brightness(90%) contrast(94%);
 }
 @utility green_filter {
   filter: brightness(0) saturate(100%) invert(74%) sepia(12%) saturate(1617%)

@@ -58,9 +58,7 @@ const BrandingComponent = () => {
         />
       </div>
 
-      <Marquee
-gradient gradientColor="#F7F6F5"
-gradientWidth={200} loop={0}>
+      <Marquee gradient gradientColor="#F7F6F5" gradientWidth={200} loop={0}>
         <div className="flex gap-4">
           {Constants.brandImages.map((item) => (
             <ImageComponent

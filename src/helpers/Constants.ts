@@ -930,9 +930,18 @@ const Constants = {
     },
   ],
   WhyChoose: [
-    {img: Images.techIcon, title: English.E401, content: English.E402},
-    {img: Images.globIcon, title: English.E403, content: English.E404},
-    {img: Images.withdrawSystem, title: English.E405, content: English.E406},
+    {
+      title: English.E401,
+      content: English.E402,
+    },
+    {
+      title: English.E403,
+      content: English.E404,
+    },
+    {
+      title: English.E405,
+      content: English.E406,
+    },
   ],
   Testimonals: [
     {
@@ -972,7 +981,7 @@ const Constants = {
     {
       amount: '$3,460',
       name: 'Emre Yilmaz',
-      flag: Images.chinaFlag,
+      flag: Images.turkeyFlag,
       heading: 'Payout Certificate',
       details: [
         {
@@ -989,7 +998,7 @@ const Constants = {
     {
       amount: '$3,150',
       name: 'James Wilkinson',
-      flag: Images.chinaFlag,
+      flag: Images.ukIcon,
       heading: 'Payout Certificate',
       details: [
         {
@@ -1006,7 +1015,7 @@ const Constants = {
     {
       amount: '$980',
       name: 'Nguyen Minh Tuan',
-      flag: Images.chinaFlag,
+      flag: Images.vietnamFlag,
       heading: 'Payout Certificate',
       details: [
         {
@@ -1023,7 +1032,7 @@ const Constants = {
     {
       amount: '$1,750',
       name: 'Rizky Pratama',
-      flag: Images.chinaFlag,
+      flag: Images.Indonesia,
       heading: 'Payout Certificate',
       details: [
         {
@@ -1040,7 +1049,7 @@ const Constants = {
     {
       amount: '$450',
       name: 'Suman Adhikari',
-      flag: Images.chinaFlag,
+      flag: Images.nepalIcon,
       heading: 'Payout Certificate',
       details: [
         {
@@ -1057,7 +1066,7 @@ const Constants = {
     {
       amount: '$3,320',
       name: 'Lukas Schneider',
-      flag: Images.chinaFlag,
+      flag: Images.germanyIcon,
       heading: 'Payout Certificate',
       details: [
         {
@@ -1084,6 +1093,33 @@ const Constants = {
       content: 'Follow us on',
       boldText: 'TELEGRAM',
       link: '#',
+    },
+  ],
+  Talks: [
+    {content: 'What is a trading challenge?'},
+    {
+      content:
+        'A simulated evaluation where traders demonstrate consistency, discipline, and risk management to qualify for a funded Zeno trading account.',
+    },
+    {content: 'Can I trade any strategy or style I prefer?'},
+    {
+      content:
+        'Yes. You can trade your own strategy, whether it’s scalping, day trading, or swing trading. The only requirement is to follow Zeno’s risk and drawdown rules.',
+    },
+    {content: 'Do I risk my own money?'},
+    {
+      content:
+        'No. You never risk your own trading capital. The only cost is the challenge fee. All trading is done in a simulated environment with virtual funds.',
+    },
+    {content: 'What happens after I pass the challenge?'},
+    {
+      content:
+        'Once you pass all required stages, you receive access to a funded Zeno account. You can then trade and earn real profits, with payouts based on your performance.',
+    },
+    {content: 'How long do I get to complete the challenge?'},
+    {
+      content:
+        'There is no fixed time limit. You can take as long as needed, as long as you meet the minimum trading day requirements and follow the rules.',
     },
   ],
 }

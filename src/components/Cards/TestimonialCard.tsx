@@ -21,8 +21,8 @@ const TestimonialCard = (props: TestimonialCardProps) => {
             />
             <LogoComponent />
           </div>
-          <div className="flex  items-center gap-3">
-            <ImageComponent className="size-[22px]" imageUrl={flag} />
+          <div className="flex  items-center">
+            <ImageComponent className="[&>img]:size-12!" imageUrl={flag} />
             <span className="text-primary-color text-lg/6 font-normal font-geist">
               {secondaryContent}
             </span>

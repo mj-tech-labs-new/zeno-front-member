@@ -148,20 +148,20 @@ const CreateChallenge = () => {
               capital={payoutDetails?.capital}
               name={payoutDetails?.name}
               type={payoutDetails?.type}
-              onPressItem={() => {
-                if (!userData?.user?.token) {
-                  CommonFunction.addSliceData('addPaymentDetails', {
-                    challenge_plan_id: selectedTableRow,
-                    step: selectedOption,
-                    total_stage: selectedOption === 1 ? 2 : 3,
-                    capital: payoutDetails?.capital,
-                  }).then(() => {
-                    navigate('/login')
-                  })
-                  return
-                }
-                handleGetPaymentQR()
-              }}
+              // onPressItem={() => {
+              //   if (!userData?.user?.token) {
+              //     CommonFunction.addSliceData('addPaymentDetails', {
+              //       challenge_plan_id: selectedTableRow,
+              //       step: selectedOption,
+              //       total_stage: selectedOption === 1 ? 2 : 3,
+              //       capital: payoutDetails?.capital,
+              //     }).then(() => {
+              //       navigate('/login')
+              //     })
+              //     return
+              //   }
+              //   handleGetPaymentQR()
+              // }}
             />
           </div>
         </div>

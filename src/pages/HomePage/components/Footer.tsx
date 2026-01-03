@@ -2,7 +2,7 @@ import {HeadingComponent, ImageComponent, LogoComponent} from '@/components'
 import {Constants, English, Images} from '@/helpers'
 
 const Footer = () => (
-  <footer className="bg-black text-primary-color">
+  <footer className="bg-black text-primary-color xl:max-w-6xl">
     <div className="px-4 lg:px-[52px] pt-[67px] pb-16 lg:pb-24 flex flex-col lg:flex-row gap-16">
       <div className="flex lg:flex-col items-start gap-6 lg:gap-12 lg:w-1/2">
         <LogoComponent />

@@ -416,6 +416,8 @@ const English = {
   E412: 'Verified Traders Payout',
   E413: 'Join Greatest Traders',
   E414: 'Join our community channels and connect with traders.',
+  E415: 'Disclaimer',
+  E416: "Here's a general no responsibility disclaimer template to help you get started: The information provided on this website is for general informational purposes only. [Business Name] assumes no responsibility for errors or omissions in the content or for any actions taken based on the information provided.",
 }
 
 export default English

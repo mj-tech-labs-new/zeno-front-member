@@ -177,9 +177,19 @@ const Images = {
   botIcon: new URL('../assets/static_assets/bot.png', import.meta.url).href,
   flame: new URL('../assets/static_assets/flame.png', import.meta.url).href,
   heroImg2: new URL('../assets/static_assets/hero_2.png', import.meta.url).href,
-  indiaFlag: new URL('../assets/svgs/indiaFlag.svg', import.meta.url).href,
-  chinaFlag: new URL('../assets/svgs/china.svg', import.meta.url).href,
-  ukIcon: new URL('../assets/svgs/uk.svg', import.meta.url).href,
+  indiaFlag: new URL('../assets/static_assets/India.png', import.meta.url).href,
+  turkeyFlag: new URL(
+    '../assets/static_assets/turkey_flag.png',
+    import.meta.url
+  ).href,
+  Indonesia: new URL('../assets/static_assets/indonesia.png', import.meta.url)
+    .href,
+  vietnamFlag: new URL('../assets/static_assets/Vietnam.png', import.meta.url)
+    .href,
+  nepalIcon: new URL('../assets/static_assets/Nepal.png', import.meta.url).href,
+  ukIcon: new URL('../assets/static_assets/UK.png', import.meta.url).href,
+  germanyIcon: new URL('../assets/static_assets/Germany.png', import.meta.url)
+    .href,
   twitterIcon: new URL('../assets/svgs/twitter.svg', import.meta.url).href,
   telegramIcon: new URL('../assets/svgs/telegram.svg', import.meta.url).href,
 }
