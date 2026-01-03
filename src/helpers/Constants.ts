@@ -572,28 +572,16 @@ const Constants = {
 
   QA: [
     {
-      que: 'What is a trading challenge?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed. Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
+      que: 'Challenge',
+      ans: 'Prove your trading skills by following clear rules and reaching profit targets without risking personal capital.',
     },
     {
-      que: 'Can I trade any strategy or style I prefer?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
+      que: 'Funding',
+      ans: 'Get access to firm trading capital based on your selected plan and performance, with clearly defined risk rules and capital scaling opportunities.',
     },
     {
-      que: 'Do I risk my own money?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
-    },
-    {
-      que: 'What happens after I pass the challenge?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
-    },
-    {
-      que: 'How long do I get to complete the challenge?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
-    },
-    {
-      que: 'How is V7 Go different from V7 Darwin?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
+      que: 'Rewards',
+      ans: 'Trade with firm capital and earn up to 90% profit share, with transparent withdrawal rules and clearly defined payout conditions.',
     },
   ],
 
@@ -622,12 +610,10 @@ const Constants = {
     },
   ],
   brandImages: [
-    Images.ablCorporation,
-    Images.alp4,
-    Images.mercedez,
-    Images.sony,
-    Images.roche,
-    Images.paige,
+    Images.tradingView,
+    Images.aws,
+    Images.cloudFlare,
+    Images.solana,
   ],
 
   featuresParagraphContent1: [
@@ -910,6 +896,43 @@ const Constants = {
   MarketAmountType: [
     {heading: English.E373, content: English.E374},
     {heading: English.E60, content: English.E375},
+  ],
+  WhyContactUs: [
+    {
+      img: Images.crossHair,
+      title: English.E388,
+      content: English.E389,
+    },
+    {
+      img: Images.timeIcon,
+      title: English.E164,
+      content: English.E391,
+    },
+    {
+      img: Images.battleIcon,
+      title: English.E392,
+      content: English.E393,
+    },
+    {
+      img: Images.riskIcon,
+      title: English.E394,
+      content: English.E395,
+    },
+    {
+      img: Images.withdrawalsIcon,
+      title: English.E396,
+      content: English.E397,
+    },
+    {
+      img: Images.airDropIcon,
+      title: English.E398,
+      content: English.E399,
+    },
+  ],
+  WhyChoose: [
+    {img: Images.techIcon, title: English.E401, content: English.E402},
+    {img: Images.globIcon, title: English.E403, content: English.E404},
+    {img: Images.withdrawSystem, title: English.E405, content: English.E406},
   ],
 }
 

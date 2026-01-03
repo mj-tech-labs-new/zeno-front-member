@@ -5,7 +5,7 @@ import StepComponent from './StepComponent'
 
 const TradingRules = () => (
   <div className="bg-marquee-gradient-bg lg:pt-[123px] lg:pb-[101px] pb-[50px] pt-16 space-y-[34px] px-4 lg:px-13 lg:space-y-[88px]">
-    <div className="flex gap-5 font-[430] w-full">
+    <div className="flex gap-5  w-full">
       <div className="hidden lg:flex lg:w-[213px] max-h-fit items-center *:h-fit sticky top-[64px]  gap-3">
         <ListingComponent type="multi_list_type" />
         <HeadingComponent
@@ -30,7 +30,7 @@ const TradingRules = () => (
             />
           </div>
         </div>
-        <StepComponent />
+        <StepComponent selectedIndex={0} />
       </div>
     </div>
   </div>

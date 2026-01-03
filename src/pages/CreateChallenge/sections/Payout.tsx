@@ -1,14 +1,16 @@
 import {useMemo} from 'react'
 
-import {CommonButton, Divider, HeadingComponent} from '@/components'
-import {English} from '@/helpers'
+import {
+  CommonButton,
+  Divider,
+  HeadingComponent,
+  ImageComponent,
+} from '@/components'
+import {English, Images} from '@/helpers'
 import {ChallengePayoutObject} from '@/types/ChallengeTypes'
-import {GeneralProps} from '@/types/CommonTypes'
 
-const Payout = (
-  props: ChallengePayoutObject & Required<Pick<GeneralProps, 'onPressItem'>>
-) => {
-  const {amount, capital, name, type, onPressItem} = props
+const Payout = (props: ChallengePayoutObject) => {
+  const {amount, capital, name, type} = props
   const payoutDetails = useMemo(
     () => ({
       [English.E27]: type,
@@ -18,16 +20,20 @@ const Payout = (
     [amount, name, type]
   )
 
-  const challengesArray = useMemo(
-    () => [English.E43, English.E44, English.E45, English.E46],
-    []
-  )
+  // const challengesArray = useMemo(
+  //   () => [English.E43, English.E44, English.E45, English.E46],
+  //   []
+  // )
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 shrink-0  bg-primary-color p-6  rounded-[16px] sticky top-0 h-fit max-w-full  lg:w-fit lg:max-w-[385px]">
+      <ImageComponent
+        className="size-full md:size-56 md:mx-auto lg:size-full"
+        imageUrl={Images.botIcon}
+      />
       <div className="flex flex-col gap-4">
         <HeadingComponent
-          className="text-base/6 font-medium text-secondary-dark-color"
+          className="text-base/6 font-medium text-secondary-dark-color font-geist!"
           singleLineContent={English.E41}
         />
 
@@ -59,35 +65,13 @@ const Payout = (
             </div>
           ))}
       </div>
-      <Divider />
-
-      <div className="flex flex-col gap-3">
-        {amount !== '---' && (
-          <div className="flex flex-col gap-2">
-            <HeadingComponent
-              className="!text-base/6 text-secondary-dark-color font-semibold"
-              singleLineContent={English.E42}
-            />
-            <div className="flex flex-col gap-1">
-              {challengesArray?.map((text) => (
-                <p
-                  key={text}
-                  className="font-medium text-sm/6 text-landing-page-trading-rules-para-text"
-                >
-                  {text}
-                </p>
-              ))}
-            </div>
-          </div>
-        )}
-        <CommonButton
-          className={`${amount === '---' ? 'grey-disabled-btn-type pointer-events-none' : 'dark-danger-btn-type'} font-medium`}
-          singleLineContent={English.E47}
-          onClick={() => {
-            onPressItem()
-          }}
-        />
-      </div>
+      <CommonButton
+        className={`${amount === '---' || amount === '0.00' ? 'grey-disabled-btn-type pointer-events-none' : 'dark-danger-btn-type'} font-medium rounded-[8px]!`}
+        singleLineContent={English.E47}
+        onClick={() => {
+          // onPressItem()
+        }}
+      />
     </div>
   )
 }

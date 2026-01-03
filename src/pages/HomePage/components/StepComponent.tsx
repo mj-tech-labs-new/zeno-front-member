@@ -1,102 +1,93 @@
-import {useMemo, useState} from 'react'
+import {useMemo} from 'react'
 
-import {CommonTableComponent, TabComponent} from '@/components'
-import {Constants, English} from '@/helpers'
+import CommonTableComponent from '@/components/CommonTableComponent/CommonTableComponent'
+import {English} from '@/helpers'
+import {SimpleTabProps} from '@/types/ComponentTypes'
 
-const StepComponent = () => {
-  const [activeIndex, setActiveIndex] = useState(0)
+const StepComponent = (props: Pick<SimpleTabProps, 'selectedIndex'>) => {
+  const {selectedIndex} = props
   const stepTableHeading = useMemo(() => {
     const defaultArray = [
-      {content: [' '], showArrow: false},
+      {content: [English.E36], showArrow: false},
       {content: [English.E224], showArrow: false},
       {content: [English.E226], showArrow: false},
     ]
 
-    if (activeIndex === 1) {
+    if (selectedIndex === 1) {
       defaultArray.splice(2, 0, {content: [English.E225], showArrow: false})
     }
 
     return defaultArray
-  }, [activeIndex])
+  }, [selectedIndex])
 
   const stepBodyContent = useMemo(
     () => [
       {
         name: 'Profit Target',
-        itemContent1: activeIndex === 0 ? '15%' : '8%',
-        itemContent2: activeIndex === 0 ? '' : '5%',
+        itemContent1: selectedIndex === 0 ? '15%' : '8%',
+        itemContent2: selectedIndex === 0 ? '' : '5%',
         bodyContent: 'Unlimited',
       },
       {
         name: 'Max Daily Loss',
-        itemContent1: activeIndex === 0 ? '4%' : '5%',
-        itemContent2: activeIndex === 0 ? '' : '5%',
+        itemContent1: selectedIndex === 0 ? '4%' : '5%',
+        itemContent2: selectedIndex === 0 ? '' : '5%',
         bodyContent: '5%',
       },
       {
         name: 'Max total loss',
-        itemContent1: activeIndex === 0 ? '8%' : '10%',
-        itemContent2: activeIndex === 0 ? '' : '8%',
+        itemContent1: selectedIndex === 0 ? '8%' : '10%',
+        itemContent2: selectedIndex === 0 ? '' : '8%',
         bodyContent: '8%',
       },
       {
         name: 'Minimum trading days',
-        itemContent1: activeIndex === 0 ? '10%' : '5%',
-        itemContent2: activeIndex === 0 ? '' : '5%',
+        itemContent1: selectedIndex === 0 ? '10%' : '5%',
+        itemContent2: selectedIndex === 0 ? '' : '5%',
         bodyContent: 'unlimited',
       },
     ],
-    [activeIndex]
+    [selectedIndex]
   )
 
   return (
-    <TabComponent
-      activeIndex={activeIndex}
-      className="!gap-6 !text-xl lg:!text-[28px] !leading-[38px] !pb-0"
-      headingData={Constants.StepComponentHeading}
-      isDividerType={false}
-      layoutClassName="font-bureau !text-extra-dark-danger-color !border-extra-dark-danger-color"
-      setActiveIndex={setActiveIndex}
-      type="lineType"
-    >
-      <div>
-        <div className="flex flex-col w-full">
-          <CommonTableComponent
-            className="whitespace-nowrap *:!font-helvetica !border-none "
-            layoutClassName="!border-none !rounded-none"
-            showArrows={false}
-            tableHeading={stepTableHeading}
-          >
-            {stepBodyContent?.map((tableBody) => {
-              const {name, itemContent1, itemContent2, bodyContent} = tableBody
-              return (
-                <tr
-                  key={`TableRow-${name}`}
-                  className="font-normal bg-info-bg-color border-b border-landing-page-trading-rules-para-text  text-sm/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:p-6 *:text-secondary-light-color "
-                >
-                  <td className="!text-tertiary-color capitalize w-[240px]">
-                    {name}
+    <div>
+      <div className="flex flex-col w-full">
+        <CommonTableComponent
+          className="whitespace-nowrap"
+          layoutClassName="border border-solid border-landing-page-trading-rules-para-text *:font-geist!"
+          showArrows={false}
+          tableHeading={stepTableHeading}
+        >
+          {stepBodyContent?.map((tableBody) => {
+            const {name, itemContent1, itemContent2, bodyContent} = tableBody
+            return (
+              <tr
+                key={`TableRow-${name}`}
+                className=" border-b border-landing-page-trading-rules-para-text  text-base/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:px-6 *:py-4 *:text-secondary-light-color "
+              >
+                <td className="!text-tertiary-color capitalize w-[240px]">
+                  {name}
+                </td>
+                <td className="p-6 text-secondary-light-color w-[186px] ">
+                  {itemContent1}
+                </td>
+                {selectedIndex === 0 ? (
+                  ''
+                ) : (
+                  <td className="p-6 text-secondary-light-color  w-[186px]">
+                    {itemContent2}
                   </td>
-                  <td className="p-6 text-secondary-light-color w-[186px] ">
-                    {itemContent1}
-                  </td>
-                  {activeIndex === 0 ? (
-                    ''
-                  ) : (
-                    <td className="p-6 text-secondary-light-color  w-[186px]">
-                      {itemContent2}
-                    </td>
-                  )}
-                  <td className="p-6 text-secondary-light-color">
-                    {bodyContent}
-                  </td>
-                </tr>
-              )
-            })}
-          </CommonTableComponent>
-        </div>
+                )}
+                <td className="p-6 text-secondary-light-color">
+                  {bodyContent}
+                </td>
+              </tr>
+            )
+          })}
+        </CommonTableComponent>
       </div>
-    </TabComponent>
+    </div>
   )
 }
 

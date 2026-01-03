@@ -50,7 +50,10 @@ export type InputContainerProps = InputHTMLAttributes<HTMLInputElement> &
 
 export type CommonButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   Required<Pick<GeneralProps, 'singleLineContent'>> &
-  Pick<GeneralProps, 'className' | 'imageUrl'>
+  Pick<GeneralProps, 'className' | 'imageUrl'> & {
+    isAnimatedType?: boolean
+    // isLeftAnimatedType?: boolean
+  }
 
 export type HeadingComponentProps = Pick<GeneralProps, 'className'> &
   Required<Pick<GeneralProps, 'singleLineContent'>> & {
@@ -67,8 +70,14 @@ export type CreatChallengeCardType = Pick<
 export type AccordianPropsType = Required<
   Pick<GeneralProps, 'multilineContent'>
 > &
-  Pick<GeneralProps, 'className' | 'singleLineContent' | 'layoutClassName'> & {
+  Pick<
+    GeneralProps,
+    'className' | 'singleLineContent' | 'layoutClassName' | 'onPressItem'
+  > & {
     isDirectType?: boolean
+    isLineType?: boolean
+    isNotCloseType?: boolean
+    isOpen?: boolean
   }
 
 export type CircularProgressBarType = {
@@ -235,4 +244,15 @@ export interface DashboardTableComponentProps
     >,
     Pick<DropDownProps, 'headingClassName'> {
   data: []
+}
+
+type NavItemsProps = Pick<GeneralProps, 'className' | 'layoutClassName'> & {
+  showLogo?: boolean
+  animationClass?: string
+  onPressItem?: (value: string) => void
+}
+export interface SimpleTabProps extends Pick<GeneralProps, 'className'> {
+  tabArray: {content: string; labelText?: string}[]
+  selectedIndex: number
+  onPressIndex: (index: number) => void
 }

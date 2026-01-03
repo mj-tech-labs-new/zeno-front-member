@@ -2,7 +2,8 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
 import {GoBackComponent, ModalContextProvider} from './components'
 import LazyLoader from './LazyLoader'
-import {HomePage} from './pages'
+import HomePage from './pages/NewHomePage/HomePage'
+// import {HomePage} from './pages'
 import {AuthRoutes} from './routes'
 import DashboardRoutes from './routes/DashboardRoutes'
 

@@ -1,7 +1,6 @@
-import {memo, useRef, useState} from 'react'
+import {memo} from 'react'
 
 import {Images} from '@/helpers'
-import {useClickOutside} from '@/hooks'
 import {AccordianPropsType} from '@/types/ComponentTypes'
 
 import CommonButton from '../CommonButton/CommonButton'
@@ -13,40 +12,43 @@ const Accordian = (props: AccordianPropsType) => {
     className = '',
     isDirectType = false,
     layoutClassName = '',
+    onPressItem,
+    isLineType = false,
+    isNotCloseType = true,
+    isOpen = true,
   } = props
-  const accordianDivRef = useRef<HTMLDivElement>(null)
-  const [isAccordianOpen, setIsAccordianOpen] = useState(isDirectType || false)
-
-  useClickOutside({
-    refs: [accordianDivRef],
-    onClickOutside() {
-      if (isDirectType) return
-      setIsAccordianOpen(false)
-    },
-  })
 
   return (
     <div
-      ref={accordianDivRef}
-      className={`flex ${isDirectType && 'gap-5 items-start justify-between'} ${layoutClassName}`}
+      className={`flex ${isDirectType && 'gap-5 items-start justify-between'}  ${layoutClassName}`}
       onClick={() => {
-        if (isDirectType) return
-        setIsAccordianOpen((data) => !data)
+        if (isLineType && onPressItem && !isOpen) {
+          onPressItem()
+        }
       }}
     >
       <div
-        className={`${multilineContent?.length > 0 && isAccordianOpen ? 'flex flex-col gap-0.5' : ''} : ${className}`}
+        className={`${multilineContent?.length > 0 && isOpen ? 'flex flex-col gap-0.5 pointer-events-none' : 'pointer-events-auto cursor-pointer'} : ${className}`}
       >
-        <p className="text-tertiary-color font-normal text-sm/5">
-          {singleLineContent}
-        </p>
         <div
-          className={`overflow-y-auto no-scrollbar transition-all duration-300 ease-in-out ${isAccordianOpen ? 'max-h-56 opacity-100 mt-5' : 'max-h-0 opacity-0 mt-0'}`}
+          className={`flex gap-5 items-center relative pb-4 ${isLineType ? 'pt-4 border-t border-solid border-primary-black/10' : ''} ${isOpen ? 'animating_line' : ''}`}
+        >
+          {isLineType && (
+            <span
+              className={`block size-1.5 rounded-full ${!isOpen ? 'bg-secondary-light-color' : 'bg-extra-dark-danger-color'}`}
+            />
+          )}
+          <p className="text-primary-black font-semibold font-geist! text-lg/7">
+            {singleLineContent}
+          </p>
+        </div>
+        <div
+          className={`overflow-y-auto no-scrollbar transition-all duration-300 ease-in-out ${isOpen ? 'max-h-56 opacity-100' : 'max-h-0 opacity-0 mt-0'}`}
         >
           {multilineContent?.map((item) => (
             <p
               key={item}
-              className="text-secondary-light-color font-normal text-sm/5"
+              className="text-primary-black/50 font-normal font-geist! text-base/6"
             >
               {item}
             </p>
@@ -54,9 +56,9 @@ const Accordian = (props: AccordianPropsType) => {
         </div>
       </div>
 
-      {!isDirectType && (
+      {!isDirectType && isNotCloseType && (
         <CommonButton
-          className={`!w-fit !p-0 [&>div]:size-3 !mb-auto  transition-transform duration-300 ease-in-out ${isAccordianOpen && 'rotate-45'}`}
+          className={`!w-fit !p-0 [&>div]:size-3 !mb-auto  transition-transform duration-300 ease-in-out ${isOpen && 'rotate-45'}`}
           imageUrl={Images.plusIcon}
           singleLineContent=""
         />
