@@ -934,6 +934,158 @@ const Constants = {
     {img: Images.globIcon, title: English.E403, content: English.E404},
     {img: Images.withdrawSystem, title: English.E405, content: English.E406},
   ],
+  Testimonals: [
+    {
+      amount: '$1,280',
+      name: 'Rohit Kulkarni',
+      flag: Images.indiaFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Rohit Kulkarni',
+          key: 'Name',
+        },
+        {
+          value: '16 Dec 2025',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$2,940',
+      name: 'Ankit Sharma',
+      flag: Images.indiaFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Ankit Sharma',
+          key: 'Name',
+        },
+        {
+          value: '08 Jan 2026',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$3,460',
+      name: 'Emre Yilmaz',
+      flag: Images.chinaFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Emre Yilmaz',
+          key: 'Name',
+        },
+        {
+          value: '21 Dec 2025',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$3,150',
+      name: 'James Wilkinson',
+      flag: Images.chinaFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'James Wilkinson',
+          key: 'Name',
+        },
+        {
+          value: '12 Jan 2026',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$980',
+      name: 'Nguyen Minh Tuan',
+      flag: Images.chinaFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Nguyen Minh Tuan',
+          key: 'Name',
+        },
+        {
+          value: '27 Dec 2025',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$1,750',
+      name: 'Rizky Pratama',
+      flag: Images.chinaFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Rizky Pratama',
+          key: 'Name',
+        },
+        {
+          value: '04 Jan 2026',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$450',
+      name: 'Suman Adhikari',
+      flag: Images.chinaFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Suman Adhikari',
+          key: 'Name',
+        },
+        {
+          value: '09 Jan 2026',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$3,320',
+      name: 'Lukas Schneider',
+      flag: Images.chinaFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Lukas Schneider',
+          key: 'Name',
+        },
+        {
+          value: '14 Jan 2026',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+  ],
+  LinkToFollow: [
+    {
+      icon: Images.twitterIcon,
+      content: 'Follow us on',
+      boldText: 'X',
+      link: '#',
+    },
+    {
+      icon: Images.telegramIcon,
+      content: 'Follow us on',
+      boldText: 'TELEGRAM',
+      link: '#',
+    },
+  ],
 }
 
 export default Constants

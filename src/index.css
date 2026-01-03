@@ -77,6 +77,7 @@
   --light-gr2: #f6ece6;
   --light-gr3: #ede5ef;
   --light-grey-btn-color: #030302;
+  --dark-black-color: #191919;
   --accents-yellow-color: #ffcc00;
   --font-switzer: 'Switzer', sans-serif;
   --font-inter: 'Poppins', sans-serif;
@@ -102,6 +103,7 @@
 }
 
 @theme {
+  --color-dark-black-color: var(--dark-black-color);
   --color-light-gr1: var(--light-gr1);
   --color-light-gr2: var(--light-gr2);
   --color-light-gr3: var(--light-gr3);
@@ -238,6 +240,12 @@
   input::placeholder {
     color: var(--neutral-primary-color) !important;
     text-align: left !important;
+  }
+  .hero2_section {
+    background-image: url('./assets/static_assets/hero_2.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
   }
   [type='radio'] {
     appearance: none;

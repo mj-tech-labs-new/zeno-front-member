@@ -256,3 +256,10 @@ export interface SimpleTabProps extends Pick<GeneralProps, 'className'> {
   selectedIndex: number
   onPressIndex: (index: number) => void
 }
+export interface TestimonialCardProps {
+  initialContent: string
+  secondaryContent: string
+  headingContent: string
+  flag: string
+  details: {value: string; key: string}[]
+}

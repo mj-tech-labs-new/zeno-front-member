@@ -413,6 +413,9 @@ const English = {
   E409: 'Follow Zeno’s transparent trading rules to qualify for and maintain your funded account. These rules are designed to build discipline, protect capital, and help serious traders achieve long-term success with professional funding.',
   E410: 'Steps',
   E411: 'Trading Rules',
+  E412: 'Verified Traders Payout',
+  E413: 'Join Greatest Traders',
+  E414: 'Join our community channels and connect with traders.',
 }
 
 export default English

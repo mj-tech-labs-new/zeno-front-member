@@ -175,6 +175,13 @@ const Images = {
     import.meta.url
   ).href,
   botIcon: new URL('../assets/static_assets/bot.png', import.meta.url).href,
+  flame: new URL('../assets/static_assets/flame.png', import.meta.url).href,
+  heroImg2: new URL('../assets/static_assets/hero_2.png', import.meta.url).href,
+  indiaFlag: new URL('../assets/svgs/indiaFlag.svg', import.meta.url).href,
+  chinaFlag: new URL('../assets/svgs/china.svg', import.meta.url).href,
+  ukIcon: new URL('../assets/svgs/uk.svg', import.meta.url).href,
+  twitterIcon: new URL('../assets/svgs/twitter.svg', import.meta.url).href,
+  telegramIcon: new URL('../assets/svgs/telegram.svg', import.meta.url).href,
 }
 
 export default Images
