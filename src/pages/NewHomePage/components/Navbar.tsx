@@ -21,9 +21,9 @@ const Navbar = () => {
 
   return (
     <div
-      className={`fixed inset-0 h-[96px] flex items-center bg-primary-black w-full border-b border-solid transition__utility ${isScrolled ? 'border-dark-color1' : 'border-transparent'}`}
+      className={`fixed inset-0 h-[96px] z-99999 flex items-center justify-between bg-primary-black w-screen border-b border-solid ${isScrolled ? 'border-dark-color1' : 'border-transparent'}`}
     >
-      <div className="flex lg:hidden w-full items-center justify-between h-full px-8">
+      <div className="flex lg:hidden items-center justify-between h-full w-[calc(100%-32px)] mx-auto">
         <LogoComponent
           layoutClassName="block lg:hidden"
           singleLineContent="Zeno Trader"

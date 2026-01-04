@@ -13,7 +13,7 @@ const SimpleTab = (props: SimpleTabProps) => {
 
   return (
     <div
-      className={`flex items-center flex-wrap gap-x-2 ${filterType ? 'gap-y-10' : 'gap-y-2'} ${className}`}
+      className={`flex items-center flex-nowrap overflow-x-auto floating__container gap-x-2 ${filterType ? 'gap-y-10' : 'gap-y-2'} ${className}`}
     >
       {tabArray?.map((item, index) => {
         const {content, labelText = ''} = item

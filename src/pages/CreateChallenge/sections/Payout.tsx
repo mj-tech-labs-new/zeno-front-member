@@ -26,10 +26,10 @@ const Payout = (props: ChallengePayoutObject) => {
   // )
 
   return (
-    <div className="flex flex-col gap-4 shrink-0  bg-primary-color p-6  rounded-[16px] sticky top-0 h-fit max-w-full  lg:w-fit lg:max-w-[385px]">
+    <div className="flex flex-col gap-4 shrink-0  bg-primary-color p-6  rounded-[16px] sticky top-[96px] h-fit max-w-full  lg:w-full lg:max-w-[385px]">
       <ImageComponent
         className="size-full md:size-56 md:mx-auto lg:size-full"
-        imageUrl={Images.botIcon}
+        imageUrl={Images.character1}
       />
       <div className="flex flex-col gap-4">
         <HeadingComponent

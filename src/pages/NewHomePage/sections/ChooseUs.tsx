@@ -43,16 +43,15 @@ const ChooseUs = () => {
 
     gsap.fromTo(
       boxes,
-      {opacity: 0, y: 30},
+      {opacity: 0},
       {
         opacity: 1,
-        y: 0,
         ease: 'power3.out',
         stagger: 0.2,
         scrollTrigger: {
           trigger: boxes[0] as Element,
           start: 'top 80%',
-          end: 'bottom 60%',
+          end: '+=30%',
           scrub: 1,
         },
       }
@@ -60,7 +59,7 @@ const ChooseUs = () => {
   }, [])
 
   return (
-    <div className="pb-[120px] pt-[144px] px-5  xl:px-0 xl:max-w-6xl mx-auto space-y-10">
+    <div className="py-12 md:py-28 lg:pb-[120px] lg:pt-[144px] px-5  xl:px-0 xl:max-w-6xl mx-auto space-y-10">
       <WordSplit singleLineContent={English.E407} />
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
         {Constants.WhyChoose.map((item, index) => {

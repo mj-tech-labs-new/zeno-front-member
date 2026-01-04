@@ -4,7 +4,7 @@ import {DescriptionComponent, ImageComponent} from '@/components'
 import {Constants} from '@/helpers'
 
 const BrandingSection = () => (
-  <div className="pb-[152px] max-w-3xl mx-auto space-y-10">
+  <div className="pb-12 md:pb-28 lg:pb-[152px] max-w-3xl mx-auto space-y-10">
     <DescriptionComponent
       isAnimationType
       className="w-fit! mx-auto text-primary-color!"

@@ -28,7 +28,10 @@ const Steps = (props: StepsProps) => {
         const {capital_fund} = item
         return {
           content: `$${Utility.numberConversion(capital_fund)}`,
-          labelText: index === 3 ? 'Most Popular' : '',
+          labelText:
+            index === (totalContent && totalContent.length - 2)
+              ? 'Most Popular'
+              : '',
         }
       }),
     [totalContent]

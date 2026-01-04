@@ -263,3 +263,10 @@ export interface TestimonialCardProps {
   flag: string
   details: {value: string; key: string}[]
 }
+export interface TraderCardsProps extends Pick<GeneralProps, 'className'> {
+  mainTitle: string
+  description: string
+  secondaryDesc: string
+  details: string[]
+  mainImg: string
+}

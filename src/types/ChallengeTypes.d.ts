@@ -58,6 +58,7 @@ export interface GetTradingCapitalProps extends CommonProps {
   fee: number
   capital_fund: number
   step: number
+  img?: string
   checked?: boolean
 }
 

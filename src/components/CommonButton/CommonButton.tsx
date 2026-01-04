@@ -24,6 +24,9 @@ const CommonButton = (props: CommonButtonProps) => {
       timeLine.to('#animated__btn', {
         opacity: 1,
         duration: 0.08,
+        stagger: {
+          each: 0.02,
+        },
       })
     }
   }, [])

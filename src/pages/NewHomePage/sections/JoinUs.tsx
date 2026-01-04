@@ -4,7 +4,8 @@ import {ImageComponent, OpacityContainer, WordSplit} from '@/components'
 import {Constants, English} from '@/helpers'
 
 const JoinUs = () => (
-  <div className="xl:max-w-6xl w-full min-h-[630px] h-full mx-auto relative hero2_section">
+  <div className="xl:max-w-6xl w-full min-h-[630px] h-full mx-auto relative">
+    <div className="absolute hero2_section inset-0 -z-10 w-full h-[360px] md:h-full top-1/2 -translate-y-1/2" />
     <div className="lg:max-w-[730px] lg:mx-auto w-[98%] flex flex-col gap-4 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-center">
       <WordSplit
         className="text-4xl  lg:text-7xl xl:text-[88px]/[92px]"
@@ -16,7 +17,7 @@ const JoinUs = () => (
         </p>
       </OpacityContainer>
 
-      <div className="gap-4  flex flex-col md:flex-row md:items-center w-fit mx-auto mt-12">
+      <div className="gap-4  flex flex-col md:flex-row md:items-center w-fit mx-auto mt-2 sm:mt-12">
         {Constants.LinkToFollow.map((items) => {
           const {boldText, content, icon, link} = items
           return (

@@ -1,3 +1,5 @@
+import {useGSAP} from '@gsap/react'
+import gsap from 'gsap'
 import {forwardRef, useMemo} from 'react'
 
 import {CommonButton, LogoComponent} from '@/components'
@@ -19,10 +21,31 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
     ],
     []
   )
+
+  useGSAP(() => {
+    gsap.fromTo(
+      '.nav__item',
+      {
+        opacity: 0,
+        y: 10,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: {
+          each: 0.2,
+          grid: 'auto',
+          ease: 'power2.inOut',
+        },
+        ease: 'power3.in',
+      }
+    )
+  })
+
   return (
     <div
       ref={ref}
-      className={` ${className} hidden items-center justify-between gap-4 xl:gap-8 h-full w-full px-8 lg:flex`}
+      className={`${className} hidden items-center justify-between gap-4 xl:gap-8 h-full w-full px-8 lg:flex`}
       id="nav__item__parent"
     >
       <div className="flex items-center gap-7 xl:gap-14">
@@ -31,7 +54,7 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
           return (
             <div
               key={content}
-              className={`text-lg/5 font-normal text-tertiary-color hover:text-primary-color transition__utility opacity-0 stagger_item  cursor-pointer ${animationClass}`}
+              className={`text-lg/5 font-normal text-tertiary-color hover:text-primary-color nav__item  cursor-pointer ${animationClass}`}
               onClick={(e) => {
                 e.stopPropagation()
                 onPressItem?.(content)
@@ -47,7 +70,8 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
         {['Login', 'Start Your Challenge']?.map((item, index) => (
           <CommonButton
             key={item}
-            className={`w-fit! text-base/5! font-medium! stagger_item opacity-0 ${index === 0 ? 'text-tertiary-color! hover:text-primary-color! transition-all duration-500 ease-in' : 'white__primary_btn'}`}
+            isAnimatedType
+            className={`w-fit! text-base/5! font-medium! ${index === 0 ? 'text-tertiary-color! hover:text-primary-color! transition-all duration-500 ease-in' : 'white__primary_btn'}`}
             singleLineContent={item}
           />
         ))}

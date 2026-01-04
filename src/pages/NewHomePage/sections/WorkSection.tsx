@@ -32,7 +32,7 @@ const WorkSection = () => {
   return (
     <div
       ref={sectionRef}
-      className="py-[120px] xl:pl-[370px] px-5 lg:pr-0 h-full bg-linear-to-r from-light-gr1 via-light-gr2 to-light-gr3"
+      className="py-12 md:py-28 xl:py-[120px] xl:pl-[370px] px-5 lg:pr-0 h-full bg-linear-to-r from-light-gr1 via-light-gr2 to-light-gr3"
     >
       <div className="flex flex-col lg:flex-row gap-2">
         <div className="flex flex-col justify-between">

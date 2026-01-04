@@ -1,72 +1,64 @@
 import {useGSAP} from '@gsap/react'
 import gsap from 'gsap'
-import {ScrollTrigger} from 'gsap/ScrollTrigger'
+import {ScrollSmoother} from 'gsap/all'
+import _ScrollTrigger, {ScrollTrigger} from 'gsap/ScrollTrigger'
 import {useRef} from 'react'
 
-import {ImageComponent} from '@/components'
-import {Images} from '@/helpers'
+import TradersCard from '@/components/Cards/TradersCard'
+import {Constants} from '@/helpers'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
 
 const Stacking = () => {
-  const containerRef = useRef<HTMLDivElement | null>(null)
-
-  const ImagesArray = [
-    Images.fullDashboard,
-    Images.fundNWithdraw,
-    Images.carouselImg,
-    Images.realTimeDashboard,
-  ]
+  const containerRef = useRef(null)
+  const wrapperRef = useRef<HTMLDivElement | null>(null)
 
   useGSAP(
     () => {
-      const cards = gsap.utils.toArray<HTMLElement>('.imgWrapper')
+      const cards = gsap.utils.toArray('.card')
 
-      gsap.set(cards, {
-        opacity: 0,
-        scale: 0.9,
-        y: 200,
-      })
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          pin: true,
-          start: 'top top',
-          end: () => `+=${cards.length * window.innerHeight}`, // 👈 100vh per card
-          scrub: 1.2,
-        },
-        defaults: {ease: 'power3.inOut'},
-      })
-
-      cards.forEach((card, i) => {
-        tl.to(
-          card,
-          {
-            opacity: 1,
-            scale: 1,
-            y: i * -18,
-            rotate: i * -2,
-            zIndex: i + 1,
-            duration: 1,
+      cards.forEach((card, index) => {
+        gsap.to(card as any, {
+          scrollTrigger: {
+            trigger: card as any,
+            start: () => `top bottom-=100`,
+            end: () => `top top+=40`,
+            scrub: true,
+            invalidateOnRefresh: true,
           },
-          i
-        )
+          ease: 'none',
+          endTrigger: containerRef.current,
+          end: 'bottom top',
+          scale: () => 1 - (cards.length - index) * 0.025,
+        })
+        ScrollTrigger.create({
+          trigger: card as any,
+          start: 'top top',
+          pin: true,
+          pinSpacing: false,
+          endTrigger: containerRef.current,
+          end: 'bottom top',
+          id: 'pin',
+          invalidateOnRefresh: true,
+        })
       })
     },
     {scope: containerRef}
   )
 
   return (
-    <div ref={containerRef} className="relative h-[450px] w-full">
-      {ImagesArray.map((item, index) => (
-        <div
-          key={index}
-          className="absolute inset-0 flex items-center justify-center"
-        >
-          <ImageComponent className="size-64 imgWrapper" imageUrl={item} />
-        </div>
-      ))}
+    <div ref={wrapperRef} className="">
+      <div ref={containerRef} className="flex flex-col">
+        {Constants.StackingCard.map((item, index) => (
+          <TradersCard
+            {...item}
+            key={item.mainTitle}
+            className={
+              index === 0 ? 'top-10' : index === 2 ? 'top-12' : 'top-14'
+            }
+          />
+        ))}
+      </div>
     </div>
   )
 }

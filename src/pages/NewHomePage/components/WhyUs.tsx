@@ -28,7 +28,7 @@ const WhyUsCard = memo((props: WhyUsCardProps) => {
 })
 
 const WhyUs = () => (
-  <div className="pt-[120px] pb-[152px] ">
+  <div className="lg:pt-[120px] lg:pb-[152px] py-12 md:py-28">
     <div className=" px-5 xl:px-0 max-w-6xl mx-auto space-y-20">
       <WordSplit singleLineContent={English.E390} />
 
@@ -36,7 +36,9 @@ const WhyUs = () => (
         {Constants.WhyContactUs.map((item) => {
           const {content, img, title} = item
           return (
-            <WhyUsCard key={title} content={content} img={img} title={title} />
+            <WhyUsCard
+key={title} content={content}
+img={img} title={title} />
           )
         })}
       </div>

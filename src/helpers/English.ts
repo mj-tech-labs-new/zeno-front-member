@@ -417,7 +417,9 @@ const English = {
   E413: 'Join Greatest Traders',
   E414: 'Join our community channels and connect with traders.',
   E415: 'Disclaimer',
-  E416: "Here's a general no responsibility disclaimer template to help you get started: The information provided on this website is for general informational purposes only. [Business Name] assumes no responsibility for errors or omissions in the content or for any actions taken based on the information provided.",
+  E416: 'Zeno Traders operates exclusively in a simulated trading environment. All accounts, challenges, and programs use virtual funds only and do not involve real capital or live market trading. Zeno Traders is not a broker, dealer, custodian, or investment advisor, and does not accept deposits or provide investment services. All content and services are for educational and evaluation purposes only and should not be considered financial advice. Program fees are participation fees used for operational costs and are not investments or deposits. Trading leveraged products involves significant risk. Past performance is not indicative of future results. Services may not be available in all jurisdictions.',
+  E417: 'You ask questions,',
+  E418: 'we answer them',
 }
 
 export default English

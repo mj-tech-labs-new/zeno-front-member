@@ -1122,6 +1122,106 @@ const Constants = {
         'There is no fixed time limit. You can take as long as needed, as long as you meet the minimum trading day requirements and follow the rules.',
     },
   ],
+  StackingCard: [
+    {
+      mainTitle: 'Manage all challenges from one place',
+      description:
+        'View all your active, failed, and expired challenges at a glance. Track progress, monitor risk limits, and jump straight into trading or analysis.',
+      secondaryDesc: 'Everything, clearly organized',
+      details: [
+        'Ongoing Challenge Overview',
+        'Profit & Loss Limits',
+        'Rule Compliance Status',
+        'One-Click Trade Access',
+        'Challenge Lifecycle Tracking',
+      ],
+      mainImg: Images.mainItem,
+    },
+    {
+      mainTitle: 'Monitor your challenge with absolute clarity',
+      description:
+        'Track every stage of your Zeno challenge from a single, unified dashboard. See your capital usage, profit targets, drawdowns, and trading days in real time.',
+      secondaryDesc: 'Everything, clearly organized',
+      details: [
+        'Live Challenge Status',
+        'Real-Time Capital Usage',
+        'Profit & Drawdown Tracking',
+        'Stage Progress Monitoring',
+        'Rule-Based Evaluation',
+      ],
+      mainImg: Images.heroImage,
+    },
+    {
+      mainTitle: 'Professional-grade trading tool.',
+      description:
+        'Execute trades in a real-market environment with institutional-grade tools. Analyze price action, manage positions, and control risk in real time.',
+      secondaryDesc: 'Everything, clearly organized',
+      details: [
+        'Advanced Charting Tools',
+        'Real-Time Order Book',
+        'Isolated & Cross Margin',
+        'Instant Order Execution',
+        'Risk-Controlled Trading',
+      ],
+      mainImg: Images.chart,
+    },
+  ],
+  AllPlans: [
+    {
+      id: 1,
+      step: 1,
+      challenge_name: 'Initiater',
+      plan_status: 1,
+      fee: 69,
+      capital_fund: 5000,
+      img: Images.character1,
+    },
+    {
+      id: 2,
+      step: 1,
+      challenge_name: 'Challenger',
+      plan_status: 1,
+      fee: 99,
+      capital_fund: 10000,
+      img: Images.character2,
+    },
+    {
+      id: 3,
+      step: 1,
+      challenge_name: 'Strategist',
+      plan_status: 1,
+      fee: 25000,
+      capital_fund: 25000,
+      img: Images.character3,
+    },
+    {
+      id: 4,
+      step: 1,
+      challenge_name: 'Expert',
+      plan_status: 1,
+      fee: 50000,
+      capital_fund: 50000,
+      img: Images.character4,
+    },
+    {
+      id: 5,
+      step: 1,
+      challenge_name: 'Champion',
+      plan_status: 1,
+      fee: 100000,
+      capital_fund: 100000,
+      img: Images.character5,
+    },
+    {
+      id: 6,
+      step: 1,
+      challenge_name: 'Grandmaster',
+      plan_status: 1,
+      fee: 200000,
+      capital_fund: 200000,
+      img: Images.character5,
+    },
+  ],
 }
 
 export default Constants

@@ -7,20 +7,18 @@ const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null)
 
   return (
-    <div className="h-screen pt-[96px] w-full flex items-center justify-center relative">
-      <div className="h-screen w-full absolute -z-10 inset-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          aria-label="video"
-          className=""
-          controls={false}
-        >
-          <source src="src\assets\static_assets\video_2.mp4" type="video/mp4" />
-        </video>
-      </div>
+    <div className="h-[calc(100vh-95.2px)]  w-full flex items-center justify-center relative">
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        muted
+        aria-label="video"
+        className="w-screen left-1/2 -translate-x-1/2 object-cover top-[96px] h-full absolute -z-10"
+        controls={false}
+      >
+        <source src="src\assets\static_assets\video_2.mp4" type="video/mp4" />
+      </video>
       <div className="space-y-8">
         <div className="max-w-full px-5 md:max-w-3xl lg:px-0 w-full mx-auto space-y-5">
           <div
@@ -56,7 +54,7 @@ const HeroSection = () => {
             ]}
           />
         </div>
-        <div className="flex items-center gap-2 justify-center z-10">
+        <div className="flex flex-col md:flex-row items-center gap-2 justify-center z-10">
           <CommonButton
             isAnimatedType
             className="white__primary_btn"
@@ -65,7 +63,7 @@ const HeroSection = () => {
           <CommonButton
             isAnimatedType
             className="gray__outlined_btn"
-            singleLineContent="Get Funded"
+            singleLineContent="View Rules"
           />
         </div>
       </div>

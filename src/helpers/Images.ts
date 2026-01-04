@@ -5,6 +5,8 @@ const Images = {
   heroImage: new URL('../assets/static_assets/hero_image.png', import.meta.url)
     .href,
   dashboard: new URL('../assets/svgs/dashboard.svg', import.meta.url).href,
+  mainItem: new URL('../assets/static_assets/main_item.png', import.meta.url)
+    .href,
   certificates: new URL('../assets/svgs/certificates.svg', import.meta.url)
     .href,
   backArrow: new URL('../assets/svgs/backarrow.svg', import.meta.url).href,
@@ -190,8 +192,33 @@ const Images = {
   ukIcon: new URL('../assets/static_assets/UK.png', import.meta.url).href,
   germanyIcon: new URL('../assets/static_assets/Germany.png', import.meta.url)
     .href,
+  chart: new URL('../assets/static_assets/chart.png', import.meta.url).href,
   twitterIcon: new URL('../assets/svgs/twitter.svg', import.meta.url).href,
   telegramIcon: new URL('../assets/svgs/telegram.svg', import.meta.url).href,
+  character1: new URL(
+    '../assets/static_assets/character_1.jpg',
+    import.meta.url
+  ).href,
+  character2: new URL(
+    '../assets/static_assets/character_2.jpg',
+    import.meta.url
+  ).href,
+  character3: new URL(
+    '../assets/static_assets/character_3.jpg',
+    import.meta.url
+  ).href,
+  character4: new URL(
+    '../assets/static_assets/character_4.jpg',
+    import.meta.url
+  ).href,
+  character5: new URL(
+    '../assets/static_assets/character_5.jpg',
+    import.meta.url
+  ).href,
+  character6: new URL(
+    '../assets/static_assets/character_6.jpg',
+    import.meta.url
+  ).href,
 }
 
 export default Images
