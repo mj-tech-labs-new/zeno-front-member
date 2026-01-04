@@ -4,11 +4,13 @@ import {CommonBuyAndSellProp, OpenPosition} from './ChartTypes'
 import {CommonProps, GeneralProps, PaginationType} from './CommonTypes'
 import {CloseOrderType, Methodtype} from './UnionTypes'
 
-export interface ChallengePayoutObject {
+export interface ChallengePayoutObject
+  extends Partial<Pick<PayoutProps, 'status'>> {
   amount: string
   type: string
   name?: string
   capital: string
+  plan_icon_url?: string
 }
 
 export interface ChallengeCardObjectType {
@@ -57,7 +59,9 @@ export interface GetTradingCapitalProps extends CommonProps {
   fee: number
   capital_fund: number
   step: number
+  img?: string
   checked?: boolean
+  plan_icon_url?: string
 }
 
 export interface CreateChallengeProps extends CommonProps {
@@ -70,26 +74,43 @@ export interface CreateChallengeProps extends CommonProps {
   equity: number | null
   released_profit: number | null
   unreleased_profit: number | null
-  payment_status: number
+  payment_status: string
   challenge_type: string
   current_stage: null
   total_stage: number
   trading_day: number
   challenge_name: string
+  qrDataURL: string
+  wallet_address: string
+  status_message: string
+  challenge_fee: number
+  transaction_id: number
+  max_daily_loss_amount: number
+  daily_drawdown: number
+  profit_target_amount: number
+  max_current_loss: number
+  max_total_loss: number
 }
 
-export type ChallengeInfoDashboardProps = CreateChallengeProps & {
-  wallet_amount: number
-  current_usdt: number
-  min_trading_day: number | null
-}
+export type ChallengeInfoDashboardProps = CreateChallengeProps &
+  Pick<
+    ChallengeDataSocketType,
+    | 'max_total_loss'
+    | 'max_current_loss'
+    | 'profit_target_amount'
+    | 'released_profit'
+  > & {
+    wallet_amount: number
+    current_usdt: number
+    min_trading_day: number | null
+  }
 
 export interface ChallengeInfoDashboardWithPaginationProps {
   data: ChallengeInfoDashboardProps[]
   pagination: PaginationType
 }
 
-export type CreateChallengePayload = Pick<
+export type ChallengePaymentPayload = Pick<
   CreateChallengeProps,
   'challenge_plan_id' | 'total_stage'
 > & {
@@ -244,6 +265,7 @@ export interface GetBillingProps
   challenge_plan: string
   challenge_fee: string
   transaction_id?: string
+  txHash: string
 }
 
 export interface GetBillingWithPaginationProps {

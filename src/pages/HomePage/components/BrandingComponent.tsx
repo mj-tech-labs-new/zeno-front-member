@@ -54,7 +54,7 @@ const BrandingComponent = () => {
 
         <ImageComponent
           className="mt-14 lg:mt-[93px]"
-          imageUrl={Images.fullDashboardCropped}
+          imageUrl={Images.fullDashboard}
         />
       </div>
 

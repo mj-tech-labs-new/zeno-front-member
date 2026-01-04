@@ -353,7 +353,7 @@ const Constants = {
         payoutId: 'P-2025-001',
         date: '2025-09-05',
         amount: '10000',
-        status: '✅ Paid',
+        status: 'Paid',
         method: 'USDT (Wallet)',
         transactionId: '0x93f...a82c',
       },
@@ -361,7 +361,7 @@ const Constants = {
         payoutId: 'P-2025-002',
         date: '2025-08-20',
         amount: '25000',
-        status: '✅ Paid',
+        status: 'Paid',
         method: 'USDT (Wallet)',
         transactionId: '0x93f...a82c',
       },
@@ -406,7 +406,7 @@ const Constants = {
       {content: [English.E105], showArrow: false},
       {content: [English.E52], showArrow: false},
       {content: [English.E108], showArrow: false},
-      {content: [English.E99], showArrow: false},
+      {content: [English.E111.replace('ID', '')], showArrow: false},
     ],
   },
   ChallengesTabContent: [
@@ -496,7 +496,9 @@ const Constants = {
   tradesHeadingTypes: [
     {title: English.E142},
     {title: English.E143},
+    {title: English.E344},
     {title: English.E144},
+    {title: English.E345},
   ],
   orderMarginMode: [{title: English.E139}, {title: English.E329}],
   trades: [
@@ -570,28 +572,16 @@ const Constants = {
 
   QA: [
     {
-      que: 'What is a trading challenge?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed. Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
+      que: 'Challenge',
+      ans: 'Prove your trading skills by following clear rules and reaching profit targets without risking personal capital.',
     },
     {
-      que: 'Can I trade any strategy or style I prefer?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
+      que: 'Funding',
+      ans: 'Get access to firm trading capital based on your selected plan and performance, with clearly defined risk rules and capital scaling opportunities.',
     },
     {
-      que: 'Do I risk my own money?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
-    },
-    {
-      que: 'What happens after I pass the challenge?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
-    },
-    {
-      que: 'How long do I get to complete the challenge?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
-    },
-    {
-      que: 'How is V7 Go different from V7 Darwin?',
-      ans: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime neque dolore esse ipsam culpa, qui accusantium veniam quis? Vitae similique adipisci consectetur ad in nam quisquam fugit non id earum eligendi, aliquam consequuntur quod dolor inventore. Reprehenderit, itaque minima quidem veniam voluptates atque culpa voluptatibus sequi, facilis, dicta nam sed.',
+      que: 'Rewards',
+      ans: 'Trade with firm capital and earn up to 90% profit share, with transparent withdrawal rules and clearly defined payout conditions.',
     },
   ],
 
@@ -620,12 +610,10 @@ const Constants = {
     },
   ],
   brandImages: [
-    Images.ablCorporation,
-    Images.alp4,
-    Images.mercedez,
-    Images.sony,
-    Images.roche,
-    Images.paige,
+    Images.tradingView,
+    Images.aws,
+    Images.cloudFlare,
+    Images.solana,
   ],
 
   featuresParagraphContent1: [
@@ -869,7 +857,7 @@ const Constants = {
     {content: [English.E285], showArrow: false},
     {content: [English.E286], showArrow: false},
   ],
-  OrderHistoryTableHeading: [
+  OpenHistoryTableHeading: [
     {content: [English.E275], showArrow: false},
     {content: [English.E334], showArrow: false},
     {content: [English.E270], showArrow: false},
@@ -880,9 +868,359 @@ const Constants = {
     {content: [English.E340], showArrow: false},
     {content: [English.E52], showArrow: false},
   ],
+  PositionHistoryTableHeading: [
+    {content: [English.E275], showArrow: false},
+    {content: [English.E346], showArrow: false},
+    {content: [English.E347], showArrow: false},
+    {content: [English.E270], showArrow: false},
+    {content: [English.E335, English.E348], showArrow: false},
+    {content: [English.E349, `${English.E338}%`], showArrow: false},
+    {content: [English.E350], showArrow: false},
+    {content: [English.E339], showArrow: false},
+    {content: [English.E298], showArrow: false},
+  ],
+
+  TransactionDetailsHistoryTableHeading: [
+    {content: [English.E275], showArrow: false},
+    {content: [English.E334], showArrow: false},
+    {content: [English.E270], showArrow: false},
+    {content: [English.E351], showArrow: false},
+    {content: [English.E105], showArrow: false},
+    {content: [English.E353], showArrow: false},
+    {content: [English.E339], showArrow: false},
+  ],
   PlaceOrderTab: [
     {title: English.E290, img: ''},
     {title: English.E131, img: ''},
+  ],
+  MarketAmountType: [
+    {heading: English.E373, content: English.E374},
+    {heading: English.E60, content: English.E375},
+  ],
+  WhyContactUs: [
+    {
+      img: Images.crossHair,
+      title: English.E388,
+      content: English.E389,
+    },
+    {
+      img: Images.timeIcon,
+      title: English.E164,
+      content: English.E391,
+    },
+    {
+      img: Images.battleIcon,
+      title: English.E392,
+      content: English.E393,
+    },
+    {
+      img: Images.riskIcon,
+      title: English.E394,
+      content: English.E395,
+    },
+    {
+      img: Images.withdrawalsIcon,
+      title: English.E396,
+      content: English.E397,
+    },
+    {
+      img: Images.airDropIcon,
+      title: English.E398,
+      content: English.E399,
+    },
+  ],
+  WhyChoose: [
+    {
+      title: English.E401,
+      content: English.E402,
+    },
+    {
+      title: English.E403,
+      content: English.E404,
+    },
+    {
+      title: English.E405,
+      content: English.E406,
+    },
+  ],
+  Testimonals: [
+    {
+      amount: '$1,280',
+      name: 'Rohit Kulkarni',
+      flag: Images.indiaFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Rohit Kulkarni',
+          key: 'Name',
+        },
+        {
+          value: '16 Dec 2025',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$2,940',
+      name: 'Ankit Sharma',
+      flag: Images.indiaFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Ankit Sharma',
+          key: 'Name',
+        },
+        {
+          value: '08 Jan 2026',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$3,460',
+      name: 'Emre Yilmaz',
+      flag: Images.turkeyFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Emre Yilmaz',
+          key: 'Name',
+        },
+        {
+          value: '21 Dec 2025',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$3,150',
+      name: 'James Wilkinson',
+      flag: Images.ukIcon,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'James Wilkinson',
+          key: 'Name',
+        },
+        {
+          value: '12 Jan 2026',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$980',
+      name: 'Nguyen Minh Tuan',
+      flag: Images.vietnamFlag,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Nguyen Minh Tuan',
+          key: 'Name',
+        },
+        {
+          value: '27 Dec 2025',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$1,750',
+      name: 'Rizky Pratama',
+      flag: Images.Indonesia,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Rizky Pratama',
+          key: 'Name',
+        },
+        {
+          value: '04 Jan 2026',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$450',
+      name: 'Suman Adhikari',
+      flag: Images.nepalIcon,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Suman Adhikari',
+          key: 'Name',
+        },
+        {
+          value: '09 Jan 2026',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+    {
+      amount: '$3,320',
+      name: 'Lukas Schneider',
+      flag: Images.germanyIcon,
+      heading: 'Payout Certificate',
+      details: [
+        {
+          value: 'Lukas Schneider',
+          key: 'Name',
+        },
+        {
+          value: '14 Jan 2026',
+          key: 'Date',
+        },
+        {value: 'Powered by', key: 'Zeno Traders'},
+      ],
+    },
+  ],
+  LinkToFollow: [
+    {
+      icon: Images.twitterIcon,
+      content: 'Follow us on',
+      boldText: 'X',
+      link: '#',
+    },
+    {
+      icon: Images.telegramIcon,
+      content: 'Follow us on',
+      boldText: 'TELEGRAM',
+      link: '#',
+    },
+  ],
+  Talks: [
+    {content: 'What is a trading challenge?'},
+    {
+      content:
+        'A simulated evaluation where traders demonstrate consistency, discipline, and risk management to qualify for a funded Zeno trading account.',
+    },
+    {content: 'Can I trade any strategy or style I prefer?'},
+    {
+      content:
+        'Yes. You can trade your own strategy, whether it’s scalping, day trading, or swing trading. The only requirement is to follow Zeno’s risk and drawdown rules.',
+    },
+    {content: 'Do I risk my own money?'},
+    {
+      content:
+        'No. You never risk your own trading capital. The only cost is the challenge fee. All trading is done in a simulated environment with virtual funds.',
+    },
+    {content: 'What happens after I pass the challenge?'},
+    {
+      content:
+        'Once you pass all required stages, you receive access to a funded Zeno account. You can then trade and earn real profits, with payouts based on your performance.',
+    },
+    {content: 'How long do I get to complete the challenge?'},
+    {
+      content:
+        'There is no fixed time limit. You can take as long as needed, as long as you meet the minimum trading day requirements and follow the rules.',
+    },
+  ],
+  StackingCard: [
+    {
+      mainTitle: 'Manage all challenges from one place',
+      description:
+        'View all your active, failed, and expired challenges at a glance. Track progress, monitor risk limits, and jump straight into trading or analysis.',
+      secondaryDesc: 'Everything, clearly organized',
+      details: [
+        'Ongoing Challenge Overview',
+        'Profit & Loss Limits',
+        'Rule Compliance Status',
+        'One-Click Trade Access',
+        'Challenge Lifecycle Tracking',
+      ],
+      mainImg: Images.mainItem,
+    },
+    {
+      mainTitle: 'Monitor your challenge with absolute clarity',
+      description:
+        'Track every stage of your Zeno challenge from a single, unified dashboard. See your capital usage, profit targets, drawdowns, and trading days in real time.',
+      secondaryDesc: 'Everything, clearly organized',
+      details: [
+        'Live Challenge Status',
+        'Real-Time Capital Usage',
+        'Profit & Drawdown Tracking',
+        'Stage Progress Monitoring',
+        'Rule-Based Evaluation',
+      ],
+      mainImg: Images.heroImage,
+    },
+    {
+      mainTitle: 'Professional-grade trading tool.',
+      description:
+        'Execute trades in a real-market environment with institutional-grade tools. Analyze price action, manage positions, and control risk in real time.',
+      secondaryDesc: 'Everything, clearly organized',
+      details: [
+        'Advanced Charting Tools',
+        'Real-Time Order Book',
+        'Isolated & Cross Margin',
+        'Instant Order Execution',
+        'Risk-Controlled Trading',
+      ],
+      mainImg: Images.chart,
+    },
+  ],
+  AllPlans: [
+    {
+      id: 1,
+      step: 1,
+      challenge_name: 'Initiater',
+      plan_status: 1,
+      fee: 69,
+      capital_fund: 5000,
+      img: Images.character1,
+    },
+    {
+      id: 2,
+      step: 1,
+      challenge_name: 'Challenger',
+      plan_status: 1,
+      fee: 99,
+      capital_fund: 10000,
+      img: Images.character2,
+    },
+    {
+      id: 3,
+      step: 1,
+      challenge_name: 'Strategist',
+      plan_status: 1,
+      fee: 25000,
+      capital_fund: 25000,
+      img: Images.character3,
+    },
+    {
+      id: 4,
+      step: 1,
+      challenge_name: 'Expert',
+      plan_status: 1,
+      fee: 50000,
+      capital_fund: 50000,
+      img: Images.character4,
+    },
+    {
+      id: 5,
+      step: 1,
+      challenge_name: 'Champion',
+      plan_status: 1,
+      fee: 100000,
+      capital_fund: 100000,
+      img: Images.character5,
+    },
+    {
+      id: 6,
+      step: 1,
+      challenge_name: 'Grandmaster',
+      plan_status: 1,
+      fee: 200000,
+      capital_fund: 200000,
+      img: Images.character5,
+    },
   ],
 }
 

@@ -5,6 +5,8 @@ const Images = {
   heroImage: new URL('../assets/static_assets/hero_image.png', import.meta.url)
     .href,
   dashboard: new URL('../assets/svgs/dashboard.svg', import.meta.url).href,
+  mainItem: new URL('../assets/static_assets/main_item.png', import.meta.url)
+    .href,
   certificates: new URL('../assets/svgs/certificates.svg', import.meta.url)
     .href,
   backArrow: new URL('../assets/svgs/backarrow.svg', import.meta.url).href,
@@ -16,6 +18,7 @@ const Images = {
   menu: new URL('../assets/svgs/menu.svg', import.meta.url).href,
   cup: new URL('../assets/static_assets/cup.png', import.meta.url).href,
   dollar: new URL('../assets/svgs/dollar.svg', import.meta.url).href,
+  smallArrow: new URL('../assets/svgs/small_arrow.svg', import.meta.url).href,
   sharpArrow: new URL('../assets/svgs/sharpArrow.svg', import.meta.url).href,
   barChart: new URL('../assets/svgs/bar_chart.svg', import.meta.url).href,
   walletImg: new URL('../assets/svgs/wallet.svg', import.meta.url).href,
@@ -26,12 +29,11 @@ const Images = {
   multiRange: new URL('../assets/svgs/multi_range.svg', import.meta.url).href,
   range: new URL('../assets/svgs/range.svg', import.meta.url).href,
   brands: new URL('../assets/svgs/brands.svg', import.meta.url).href,
-  fullDashboard: new URL('../assets/svgs/full_dashboard.svg', import.meta.url)
-    .href,
-  fullDashboardCropped: new URL(
-    '../assets/static_assets/full-dashboard.png',
+  fullDashboard: new URL(
+    '../assets/static_assets/fullDashboard.png',
     import.meta.url
   ).href,
+  price: new URL('../assets/static_assets/price.png', import.meta.url).href,
   chooseType: new URL('../assets/svgs/choose_type.svg', import.meta.url).href,
   tradeNTrack: new URL('../assets/svgs/trade_n_track.svg', import.meta.url)
     .href,
@@ -148,6 +150,75 @@ const Images = {
   editIcon: new URL('../assets/svgs/editIcon.svg', import.meta.url).href,
   calendarIcon: new URL('../assets/svgs/calender-icon.svg', import.meta.url)
     .href,
+  deleteIcon: new URL('../assets/svgs/delete-icon.svg', import.meta.url).href,
+  searchIcon: new URL('../assets/svgs/search.svg', import.meta.url).href,
+  pdfIcon: new URL('../assets/svgs/pdf-file.svg', import.meta.url).href,
+  reloadIcon: new URL('../assets/svgs/reload-svgrepo-com.svg', import.meta.url)
+    .href,
+  tradingView: new URL(
+    '../assets/static_assets/tradingView.png',
+    import.meta.url
+  ).href,
+  aws: new URL('../assets/static_assets/aws.png', import.meta.url).href,
+  cloudFlare: new URL('../assets/static_assets/cloudFlare.png', import.meta.url)
+    .href,
+  solana: new URL('../assets/static_assets/solana.png', import.meta.url).href,
+  crossHair: new URL('../assets/svgs/crosshair.svg', import.meta.url).href,
+  timeIcon: new URL('../assets/svgs/time.svg', import.meta.url).href,
+  battleIcon: new URL('../assets/svgs/battle.svg', import.meta.url).href,
+  riskIcon: new URL('../assets/svgs/risk.svg', import.meta.url).href,
+  withdrawalsIcon: new URL('../assets/svgs/withdrawals.svg', import.meta.url)
+    .href,
+  airDropIcon: new URL('../assets/svgs/airdrop.svg', import.meta.url).href,
+  techIcon: new URL('../assets/static_assets/tech.png', import.meta.url).href,
+  globIcon: new URL('../assets/static_assets/glob.png', import.meta.url).href,
+  withdrawSystem: new URL(
+    '../assets/static_assets/withdrawSystem.png',
+    import.meta.url
+  ).href,
+  botIcon: new URL('../assets/static_assets/bot.png', import.meta.url).href,
+  flame: new URL('../assets/static_assets/flame.png', import.meta.url).href,
+  heroImg2: new URL('../assets/static_assets/hero_2.png', import.meta.url).href,
+  indiaFlag: new URL('../assets/static_assets/India.png', import.meta.url).href,
+  turkeyFlag: new URL(
+    '../assets/static_assets/turkey_flag.png',
+    import.meta.url
+  ).href,
+  Indonesia: new URL('../assets/static_assets/indonesia.png', import.meta.url)
+    .href,
+  vietnamFlag: new URL('../assets/static_assets/Vietnam.png', import.meta.url)
+    .href,
+  nepalIcon: new URL('../assets/static_assets/Nepal.png', import.meta.url).href,
+  ukIcon: new URL('../assets/static_assets/UK.png', import.meta.url).href,
+  germanyIcon: new URL('../assets/static_assets/Germany.png', import.meta.url)
+    .href,
+  chart: new URL('../assets/static_assets/chart.png', import.meta.url).href,
+  twitterIcon: new URL('../assets/svgs/twitter.svg', import.meta.url).href,
+  telegramIcon: new URL('../assets/svgs/telegram.svg', import.meta.url).href,
+  character1: new URL(
+    '../assets/static_assets/character_1.jpg',
+    import.meta.url
+  ).href,
+  character2: new URL(
+    '../assets/static_assets/character_2.jpg',
+    import.meta.url
+  ).href,
+  character3: new URL(
+    '../assets/static_assets/character_3.jpg',
+    import.meta.url
+  ).href,
+  character4: new URL(
+    '../assets/static_assets/character_4.jpg',
+    import.meta.url
+  ).href,
+  character5: new URL(
+    '../assets/static_assets/character_5.jpg',
+    import.meta.url
+  ).href,
+  character6: new URL(
+    '../assets/static_assets/character_6.jpg',
+    import.meta.url
+  ).href,
 }
 
 export default Images

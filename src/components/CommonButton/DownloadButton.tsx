@@ -6,12 +6,15 @@ import {APICall, Endpoints} from '@/services'
 import {BuyOrSellApiProps} from '@/types/ChallengeTypes'
 import {GeneralProps} from '@/types/CommonTypes'
 
+import ImageComponent from '../ImageComponent/ImageComponent'
+
 const DownloadButton = (
-  props: Required<Pick<GeneralProps, 'singleLineContent'>> &
+  props: Pick<GeneralProps, 'singleLineContent'> &
     Pick<GeneralProps, 'className'> &
-    Pick<BuyOrSellApiProps, 'challenge_id'>
+    Pick<BuyOrSellApiProps, 'challenge_id'> &
+    Pick<GeneralProps, 'imageUrl'>
 ) => {
-  const {singleLineContent, className = '', challenge_id} = props
+  const {singleLineContent = '', className = '', challenge_id, imageUrl} = props
 
   const downloadCertificateApi = async () => {
     const payload = {challenge_id}
@@ -112,11 +115,14 @@ const DownloadButton = (
 
   return (
     <button
-      className={`text-secondary-light-color cursor-pointer ${className}`}
+      className={`text-secondary-light-color cursor-pointer  ${className}`}
       onClick={downloadCertificateApi}
       type="button"
     >
-      {singleLineContent}
+      {singleLineContent !== '' && singleLineContent}
+      {imageUrl !== '' && (
+        <ImageComponent className="h-6 w-6" imageUrl={imageUrl ?? ''} />
+      )}
     </button>
   )
 }

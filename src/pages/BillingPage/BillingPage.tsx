@@ -10,7 +10,7 @@ import {
   HeadingComponent,
   Loader,
 } from '@/components'
-import {Constants, English} from '@/helpers'
+import {Constants, English, Images} from '@/helpers'
 import {APICall, Endpoints} from '@/services'
 import {
   GetBillingProps,
@@ -82,6 +82,7 @@ const BillingPage = () => {
               challenge_plan,
               challenge_fee,
               challenge_type,
+              txHash,
               payment_status,
             } = tableBody
             return (
@@ -108,16 +109,14 @@ const BillingPage = () => {
                   {challenge_fee}
                 </td>
                 <td className="p-6 text-secondary-light-color">
-                  {payment_status === 0 ? 'Success' : 'Failed'}
+                  {payment_status === 'paid' ? 'Success' : 'Failed'}
                 </td>
-                <td className="p-6 text-secondary-light-color">
-                  {challenge_id}
-                </td>
+                <td className="p-6 text-secondary-light-color">{txHash}</td>
                 <td>
                   <DownloadButton
                     challenge_id={challenge_id}
                     className="p-6"
-                    singleLineContent={English.E99}
+                    imageUrl={Images.pdfIcon}
                   />
                 </td>
               </tr>

@@ -1,10 +1,14 @@
 import dayjs from 'dayjs'
+import {useCallback} from 'react'
+import {useParams} from 'react-router-dom'
 
 import {CommonCloseActionButton, CommonTableComponent} from '@/components'
 import {Constants, English, Utility} from '@/helpers'
+import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 import {CreateChallengeProps} from '@/types/ChallengeTypes'
 import {PendingOrder} from '@/types/ChartTypes'
 
+import EditLimitPriceModel from '../components/EditLimitPriceModel'
 import EditStopLossModel from '../components/EditStopLossModel'
 import {useChartProvider} from '../context/ChartProvider'
 
@@ -15,18 +19,31 @@ const PendingOrderTable = (
   }
 ) => {
   const {challenge_id, pendingOrder, setPendingOrder} = props
-  const {livePrice} = useChartProvider()
+  const {livePrice, setGetChallengeByIdArray} = useChartProvider()
+
+  const params = useParams()
+
+  const handleGetChallengeById = useCallback(() => {
+    if (!params?.challengeId) {
+      return
+    }
+    getChallengeByIdApi({challenge_id: params?.challengeId}).then((res) => {
+      setGetChallengeByIdArray(res)
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params?.challengeId])
   return (
     <CommonTableComponent
       apiMethod="delete"
       className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
       extraProp={{challenge_id}}
       headingClassName="justify-start !whitespace-nowrap "
-      layoutClassName="!border-none"
+      layoutClassName="!border-none !h-[500px] !overflow-y-auto no-scrollbar"
       showArrows={false}
       tableHeading={Constants.PendingOrders}
       onPerformAction={(value) => {
         if (value) {
+          handleGetChallengeById()
           setPendingOrder([])
         }
       }}
@@ -40,6 +57,7 @@ const PendingOrderTable = (
           quantity,
           submitted_price,
           position_margin,
+          tx_hash,
           margin_mode,
         } = tableBody
         const directionCaseInsensitive = direction.toLowerCase()
@@ -94,8 +112,21 @@ const PendingOrderTable = (
               </span>
             </td>
 
-            <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-              {submitted_price ? Utility.removeDecimal(submitted_price) : '---'}
+            <td className="pr-6 py-4 flex gap-3 text-left text-chart-text-primary-color !whitespace-nowrap">
+              <div>
+                {submitted_price
+                  ? Utility.removeDecimal(submitted_price)
+                  : '---'}
+              </div>
+              <div>
+                <EditLimitPriceModel
+                  challenge_id={challenge_id}
+                  direction={direction}
+                  submitted_price={submitted_price}
+                  symbol={symbol}
+                  tx_hash={tx_hash}
+                />
+              </div>
             </td>
 
             <td
@@ -105,7 +136,7 @@ const PendingOrderTable = (
             </td>
 
             <td className=" pr-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
-              {tableBody?.take_profit?.[0]?.price &&
+              {tableBody?.take_profit?.[0]?.price ||
               tableBody?.stop_loss?.[0]?.price ? (
                 <div className="flex gap-3 items-center">
                   <div className="flex flex-col">
@@ -117,25 +148,38 @@ const PendingOrderTable = (
                       {tableBody?.stop_loss?.[0]?.price ?? '--'}
                     </span>
                   </div>
-                  <div className="cursor-pointer">
+                  <div className="">
                     <EditStopLossModel
                       item={{...tableBody, average_price: livePrice}}
-                      singleLineContent={English.E333}
+                      symbol={symbol}
+                      apiMethod={
+                        tableBody?.take_profit?.[0]?.price &&
+                        tableBody?.stop_loss?.[0]?.price
+                          ? 'put'
+                          : 'post'
+                      }
+                      singleLineContent={
+                        tableBody?.take_profit?.[0]?.price &&
+                        tableBody?.stop_loss?.[0]?.price
+                          ? English.E333
+                          : English.E341
+                      }
                     />
                   </div>
                 </div>
               ) : (
-                <div className="cursor-pointer flex gap-2 ">
+                <div className=" flex gap-2 ">
                   --{' '}
                   <EditStopLossModel
                     apiMethod="post"
                     item={{...tableBody, average_price: livePrice}}
                     singleLineContent={English.E341}
+                    symbol={symbol}
                   />
                 </div>
               )}
             </td>
-            <td className="pr-6 py-4 text-left !whitespace-nowrap">
+            <td className="pr-6 py-4 flex  gap-4 text-left !whitespace-nowrap">
               <CommonCloseActionButton
                 apiMethod="delete"
                 challenge_id={challenge_id}
@@ -147,6 +191,10 @@ const PendingOrderTable = (
                   }
                 }}
               />
+              {/* <ReverseOrder
+                challenge_id={tableBody?.challenge_id}
+                tx_hash={tableBody?.tx_hash}
+              /> */}
             </td>
           </tr>
         )

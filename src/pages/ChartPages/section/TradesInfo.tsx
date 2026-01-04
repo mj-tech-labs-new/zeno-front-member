@@ -7,9 +7,11 @@ import {Constants, SocketEmitter, Utility} from '@/helpers'
 import {OpenPosition, PendingOrder} from '@/types/ChartTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
+import OpenHistoryTable from './OpenHistoryTable'
 import OpenPositionTable from './OpenPositionTable'
-import OrderHistoryTable from './OrderHistoryTable'
 import PendingOrderTable from './PendingOrderTable'
+import PositionHistoryTable from './PositionHistoryTable'
+import TransactionDetailsTable from './TransactionDetailsTable'
 
 const TradesInfo = (props: {challengeId: string}) => {
   const {challengeId} = props
@@ -115,7 +117,11 @@ const TradesInfo = (props: {challengeId: string}) => {
           )
         }}
       >
-        {activeIndex !== 2 && currentData.length === 0 && !isLoadingCandles ? (
+        {activeIndex !== 2 &&
+        activeIndex !== 3 &&
+        activeIndex !== 4 &&
+        currentData.length === 0 &&
+        !isLoadingCandles ? (
           <span className="font-medium text-chart-text-primary-color text-center !whitespace-nowrap">
             No Orders
           </span>
@@ -135,8 +141,12 @@ const TradesInfo = (props: {challengeId: string}) => {
                 pendingOrder={pendingOrder}
                 setPendingOrder={setPendingOrder}
               />
+            ) : activeIndex === 2 ? (
+              <OpenHistoryTable showHeader />
+            ) : activeIndex === 3 ? (
+              <PositionHistoryTable showHeader />
             ) : (
-              <OrderHistoryTable showHeader />
+              <TransactionDetailsTable showHeader />
             )}
           </React.Fragment>
         )}

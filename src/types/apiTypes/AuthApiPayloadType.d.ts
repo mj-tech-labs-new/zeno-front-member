@@ -3,6 +3,7 @@ export interface RegisterApiProps extends Pick<VerifyOtpProps, 'token'> {
   name: string
   email: string
   password: string
+  referral_code?: null | string
 }
 
 export type LoginApiProps = Pick<
@@ -17,6 +18,8 @@ export type UpdateApiProps = Pick<
 
 export type GetUserApiProps = Omit<RegisterApiProps, 'user_signup_type'> & {
   profilePic: string | null
+  isMarketer: number
+  referral_code: null | string
 }
 
 export interface forgotPasswordApiProps

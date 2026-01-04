@@ -45,7 +45,7 @@ const Chart = () => {
   return (
     <ChartProvider>
       <div className="h-screen w-screen">
-        <div className="flex gap-5 p-6">
+        <div className="flex gap-5 p-6 items-center">
           <GoBackButton className="!h-4" />
           <LogoComponent
             className="!w-4"

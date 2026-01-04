@@ -6,7 +6,10 @@ import {Methodtype} from '@/types/UnionTypes'
 import CommonFunction from './CommonFunction'
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL:
+    process.env.NODE_ENV === 'production'
+      ? import.meta.env.VITE_API_BASE_URL_LOCAL
+      : import.meta.env.VITE_API_BASE_URL_PRODUCTION,
 })
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -66,10 +69,19 @@ const APICall = async (
           statusCode: res?.data?.code,
         })
       )
+      // eslint-disable-next-line consistent-return
       .catch((error) => {
-        if (error?.status === 401) {
+        if (error?.status === 401 && !Store.getState().userData.payoutDetails) {
           CommonFunction.addSliceData('logout', {})
-          return
+          const errorData = {
+            ...error,
+            status: 401,
+            data: {
+              message: error?.response?.data?.message,
+            },
+          }
+          // eslint-disable-next-line no-void
+          return void reject(errorData ?? errorData?.response)
         }
         if (
           error.status === 422 ||
@@ -95,7 +107,7 @@ const APICall = async (
               message: 'Backend Team is Resolving the Issue, Stay Tuned....',
             },
           }
-          // eslint-disable-next-line no-void, consistent-return
+          // eslint-disable-next-line no-void
           return void reject(errorData ?? errorData?.response)
         }
       })

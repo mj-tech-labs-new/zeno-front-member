@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import {memo, useEffect, useMemo, useState} from 'react'
 
 import {BasicSkeleton, HeadingComponent, StatsDescription} from '@/components'
@@ -14,22 +15,9 @@ import {useChallengeProvider} from '../context/ChallengeDashboardProvider'
 const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
   const {type, className, layoutClassName} = props
   const [socketData, setSocketData] = useState<ChallengeDataSocketType>()
-  const [isLoadingSocket, setIsLoadingSocket] = useState(true)
   const {getChallengeByIdArray, tradingStatistics, challengeId, showLoader} =
     useChallengeProvider()
   const {socketRef} = useSocketProvider()
-  useEffect(() => {
-    if (showLoader || !socketRef.current || !challengeId) return
-    if (!showLoader) {
-      setIsLoadingSocket(false)
-      socketRef.current?.on(
-        `${SocketEmitter.DashboardEmitter.challenge_dashboard_socket}_${challengeId}`,
-        (data) => {
-          setSocketData(data?.data)
-        }
-      )
-    }
-  }, [challengeId, showLoader, socketRef])
 
   const tradingObjectiveArray = useMemo(
     () => [
@@ -40,18 +28,36 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       },
       {
         title: English.E68,
-        secondValue: socketData?.total_available_profit,
-        firstValue: socketData?.profit_target_amount ?? 0,
+        secondValue:
+          socketData?.total_available_profit ??
+          getChallengeByIdArray?.[0]?.released_profit ??
+          0,
+        firstValue:
+          socketData?.profit_target_amount ??
+          getChallengeByIdArray?.[0]?.profit_target_amount ??
+          0,
       },
       {
         title: English.E69,
-        secodValue: socketData?.daily_drawdown ?? 0,
-        firstValue: socketData?.max_daily_loss_amount ?? 0,
+        secodValue:
+          socketData?.daily_drawdown ??
+          getChallengeByIdArray?.[0]?.daily_drawdown ??
+          0,
+        firstValue:
+          socketData?.max_daily_loss_amount ??
+          getChallengeByIdArray?.[0]?.max_daily_loss_amount ??
+          0,
       },
       {
         title: English.E70,
-        secodValue: socketData?.max_current_loss ?? 0,
-        firstValue: socketData?.max_total_loss ?? 0,
+        secodValue:
+          socketData?.max_current_loss ??
+          getChallengeByIdArray?.[0]?.max_current_loss ??
+          0,
+        firstValue:
+          socketData?.max_total_loss ??
+          getChallengeByIdArray?.[0]?.max_total_loss ??
+          0,
       },
     ],
     [
@@ -130,6 +136,20 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
     ]
   )
 
+  useEffect(() => {
+    const socket = socketRef.current
+    if (showLoader || !socket || !challengeId) return
+    socket?.on(
+      `${SocketEmitter.DashboardEmitter.challenge_dashboard_socket}_${challengeId}`,
+      (data) => {
+        setSocketData(data?.data)
+      }
+    )
+    return () => {
+      socket?.off()
+    }
+  }, [challengeId, showLoader, socketRef])
+
   return (
     <div className={`space-y-6 ${layoutClassName}`}>
       {type !== English.E257 && (
@@ -140,7 +160,7 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
         />
       )}
 
-      {isLoadingSocket ? (
+      {showLoader ? (
         <div
           className={`grid ${type === English.E257 ? 'grid-cols-1' : 'grid-cols-4'}`}
         >
@@ -164,7 +184,9 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
                           ? Math.abs(socketData?.daily_drawdown ?? 0)
                           : index === 3
                             ? Math.abs(socketData?.max_current_loss ?? 0)
-                            : (secondValue ?? 0)
+                            : (secondValue ??
+                              getChallengeByIdArray?.[0]?.released_profit ??
+                              0)
                       }
                     />
                   </ChallengeCardLayout>

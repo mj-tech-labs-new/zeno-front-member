@@ -5,6 +5,7 @@
   --inactive-color: #8f8f8f;
   --secondary-light-color: #868686;
   --secondary-dark-color: #0e0e0e;
+  --dark-color1: #232323;
   --tertiary-color: #e5e5e5;
   --quadraple-color: #eaeaea;
   --text-info-color: #717680;
@@ -24,9 +25,11 @@
   --extra-light-success-color: #6ce9a6;
   --medium-success-color: #12b76a;
   --extra-dark-success-color: #28513e;
+  --light-gray-color: #808080;
   --light-danger-color: #f04438;
   --dark-danger-color: #cc2929;
   --extra-dark-danger-color: #ff0000;
+  --dark-red-color: #f94646;
   --primary-green: #34c759;
   --primary-border-color: #262626;
   --secondary-border-color: #262729;
@@ -46,6 +49,8 @@
   --neutral-tertiary-color: #e6e8ec;
   --neutral-active-color: #353945;
   --primary-dark-blue-color: #3772ff;
+  --blue-line-color: #2962ff;
+  --purpol-line-color: #965fc4;
   --chart-green-color: #00c076;
   --chart-red-color: #ff6838;
   --chart-layout-bg: #17181b;
@@ -69,13 +74,20 @@
   --landing-page-trading-rules-para-text: #3e3e3e;
   --landing-page-landing-page-carousel-divider-bg: #afb1a1;
   --landing-page-landing-page-carousel-border: #22170b;
+  --light-gr1: #f2efea;
+  --light-gr2: #f6ece6;
+  --light-gr3: #ede5ef;
   --light-grey-btn-color: #030302;
+  --dark-black-color: #191919;
+  --dark-gray-bg: #1a1a1a;
+  --accents-yellow-color: #ffcc00;
   --font-switzer: 'Switzer', sans-serif;
   --font-inter: 'Poppins', sans-serif;
   --font-bureau: 'Bureau', sans-serif;
   --font-helvetica: 'Helvetica Neue', sans-serif;
   --font-dmsans: 'DM Sans', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
+  --font-geist: 'Geist', sans-serif;
 }
 
 @font-face {
@@ -93,6 +105,14 @@
 }
 
 @theme {
+  --color-dark-gray-bg: var(--dark-gray-bg);
+  --color-light-gray-color: var(--light-gray-color);
+  --color-dark-black-color: var(--dark-black-color);
+  --color-light-gr1: var(--light-gr1);
+  --color-light-gr2: var(--light-gr2);
+  --color-light-gr3: var(--light-gr3);
+  --font-geist: var(--font-geist);
+  --color-dark-red-color: var(--dark-red-color);
   --color-inactive-bullets-color: var(--inactive-bullets-color);
   --color-light-grey-btn-color: var(--light-grey-btn-color);
   --color-primary-black: var(--primary-black);
@@ -151,6 +171,9 @@
   --color-linear-gr-bg4-color: var(--linear-gr-bg4-color);
   --color-widget-primary-bg-color: var(--widget-primary-bg-color);
   --color-landing-page-gray-color: var(--landing-page-gray-color);
+  --color-blue-line-color: var(--blue-line-color);
+  --color-purpol-line-color: var(--purpol-line-color);
+  --color-dark-color1: var(--dark-color1);
   --color-landing-page-secondary-gray-color: var(
     --landing-page-secondary-gray-color
   );
@@ -159,6 +182,7 @@
   --color-landing-page-bg-darker-gray-color: var(
     --landing-page-bg-darker-gray-color
   );
+  --color-accents-yellow: var(--accents-yellow-color);
   --color-image-bg-color: var(--image-bg-color);
   --color-feature-card-bg-color: var(--feature-card-bg-color);
   --color-landing-page-freedom-clarity-growth: var(
@@ -195,12 +219,17 @@
 }
 
 @layer base {
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
   body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: var(--font-switzer);
-    background-color: var(--text-info-dark-color);
+    background-color: var(--primary-black);
     overflow-x: hidden;
   }
   button {
@@ -211,6 +240,17 @@
   td {
     border: none;
     border-collapse: collapse; /* Ensures no space between cells */
+  }
+  input::placeholder {
+    color: var(--neutral-primary-color) !important;
+    text-align: left !important;
+  }
+  .hero2_section {
+    background-image: url('./assets/static_assets/hero_2.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    box-shadow: inset 50px 20px 20px 20px #000000;
+    background-size: contain;
   }
   [type='radio'] {
     appearance: none;
@@ -385,22 +425,13 @@
     }
   }
 
-  /* Chart CSS To Override  */
-  #tv-attr-logo {
-    display: none !important;
-  }
-
-  .animating_line {
-    position: relative;
-  }
   .animating_line::after {
     position: absolute;
     content: '';
     background: var(--extra-dark-danger-color);
-    height: 1px;
+    height: 4px;
     width: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     -webkit-animation: 5s animating_lines ease-in-out infinite;
     animation: 5s animating_lines ease-in-out infinite;
   }
@@ -502,8 +533,9 @@
     overflow-x: auto;
   }
 
-  #table::-webkit-scrollbar {
-    height: 8px;
+  #table::-webkit-scrollbar,
+  .floating__container::-webkit-scrollbar {
+    height: 4px;
   }
   .react-datepicker__input-container {
     display: flex !important;
@@ -560,10 +592,20 @@
 @utility black-secondary-btn-type {
   @apply bg-landing-page-bg-darker-gray-color !text-primary-color !py-2 !px-4;
 }
+@utility white__primary_btn {
+  @apply bg-primary-color! text-primary-black! text-base/6 font-medium rounded-full! w-fit!;
+}
+@utility gray__outlined_btn {
+  @apply bg-transparent! border border-solid border-primary-color/15 rounded-full! text-primary-color! w-fit!;
+}
 
 @utility grey__filter {
   filter: brightness(0) saturate(100%) invert(56%) sepia(0%) saturate(991%)
     hue-rotate(141deg) brightness(95%) contrast(82%);
+}
+@utility info__bg__filter {
+  filter: brightness(0) saturate(100%) invert(13%) sepia(7%) saturate(12%)
+    hue-rotate(353deg) brightness(90%) contrast(94%);
 }
 @utility green_filter {
   filter: brightness(0) saturate(100%) invert(74%) sepia(12%) saturate(1617%)
@@ -580,4 +622,7 @@
 @utility white_filter {
   filter: brightness(0) saturate(100%) invert(88%) sepia(81%) saturate(0%)
     hue-rotate(156deg) brightness(103%) contrast(80%);
+}
+@utility transition__utility {
+  @apply transition-all duration-500 ease-in;
 }

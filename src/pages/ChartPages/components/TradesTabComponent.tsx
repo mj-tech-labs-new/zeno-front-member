@@ -15,6 +15,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
   const [isLoadingOrderBook, setIsLoadingOrderBook] = useState(true)
   const [bookings, setBookings] = useState<OrderBookObjectType | null>(null)
   const webSocketRef = useRef<WebSocket | null>(null)
+
   const tradesToMap = useMemo(() => {
     const buyOrders = bookings?.asks?.slice(0, 6)?.map((item) => ({
       price: item[0],
@@ -22,6 +23,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       total: item[0] * item[1],
       type: 'buy',
     }))
+
     const sortedBuyOrder = _.orderBy(buyOrders, ['total'], ['asc'])
     const sellOrders = bookings?.bids?.slice(0, 6)?.map((item) => ({
       price: item[0],
@@ -29,6 +31,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       total: item[0] * item[1],
       type: 'sell',
     }))
+
     const sortedSellOrder = _.orderBy(sellOrders, ['total'], ['desc'])
     return activeType === 'buy_sell_type'
       ? [...(sortedBuyOrder ?? []), ...(sellOrders ?? [])]
@@ -49,6 +52,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
       maxBuy: Math.max(...finalAmountToBuy),
     }
   }, [bookings?.asks, bookings?.bids])
+
   useEffect(() => {
     if (isLoadingCandles || !chartInfo?.fullSymbolName) return
     const SYMBOL = chartInfo?.fullSymbolName

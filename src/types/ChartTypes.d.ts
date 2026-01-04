@@ -3,10 +3,13 @@ import {Dispatch, SetStateAction} from 'react'
 
 // eslint-disable-next-line import-x/no-cycle
 import {
+  BuyOrSellApiProps,
+  ClosedPnlDataResponsePayload,
   CreateChallengeProps,
   GetClosedPnlDetailsPayloadProps,
   GetTradingCapitalProps,
 } from './ChallengeTypes'
+// eslint-disable-next-line import-x/no-cycle
 import {CommonProps, GeneralProps, PaginationType} from './CommonTypes'
 import {ChartShapesType, Methodtype, TradingSortingType} from './UnionTypes'
 
@@ -175,7 +178,8 @@ export interface OrderBookObjectType {
   asks: number[][]
 }
 export interface EditStopLossModelProps
-  extends Pick<GeneralProps, 'singleLineContent'> {
+  extends Pick<GeneralProps, 'singleLineContent'>,
+    Pick<OpenPosition, 'symbol'> {
   item: (OpenPosition | PendingOrder) | null
   apiMethod?: Methodtype
 }
@@ -183,9 +187,14 @@ export interface EditStopLossModelProps
 export interface OrderHistoryApiProps extends GetClosedPnlDetailsPayloadProps {
   tp_sl?: boolean
 }
+export type PositionHistoryApiProps = OrderHistoryApiProps
+export type TransactionDetailsApiProps = Pick<
+  OrderHistoryApiProps,
+  'challenge_id' | 'fromDate' | 'order_type' | 'order_value' | 'page' | 'toDate'
+>
 
 export interface OrderHistory
-  extends Pick<OpenPosition, 'symbol' | 'status' | 'margin_mode'>,
+  extends Pick<OpenPosition, 'symbol' | 'status' | 'margin_mode' | 'quantity'>,
     Pick<CommonProps, 'created_at'>,
     Pick<GetTradingCapitalProps, 'fee'>,
     Pick<CommonBuyAndSellProp, 'leverage'> {
@@ -197,8 +206,59 @@ export interface OrderHistory
   order_value: number
   order_price_1: string
   order_price_2: string
+  commission_price?: number
 }
 export interface OrderHistoryApiResponse {
   data: OrderHistory[]
   page: PaginationType
+}
+
+export interface PositionHistory
+  extends Pick<OrderHistory, 'symbol' | 'margin_mode' | 'side' | 'fee'>,
+    Pick<CandleObjectType, 'open_time' | 'close_time'>,
+    Pick<OpenPosition, 'quantity' | 'realized_pnl' | 'leverage'>,
+    Pick<OrderHistoryApiProps, 'order_type'>,
+    Pick<ClosedPnlDataResponsePayload, 'order_side'>,
+    Pick<CommonBuyAndSellProp, 'stop_loss' | 'take_profit'> {
+  open_price: number
+  close_price: number
+  total_charge_amount: number
+  roe?: string
+}
+
+export interface PositionHistoryApiResponse {
+  data: PositionHistory[]
+  page: PaginationType
+}
+
+export interface TransactionDetailHistory
+  extends Pick<
+      OrderHistory,
+      'fee' | 'created_at' | 'side' | 'symbol' | 'margin_mode'
+    >,
+    Pick<OpenPosition, 'quantity' | 'leverage'>,
+    Pick<BuyOrSellApiProps, 'role'> {
+  final_price: number
+}
+
+export interface TransactionDetailsHistoryResponse {
+  data: TransactionDetailHistory[]
+  page: PaginationType
+}
+
+export interface ReverceOrderApiProps
+  extends Pick<OpenPosition, 'tx_hash' | 'challenge_id'> {
+  method?: string
+}
+
+export type EditPriceProps = Pick<
+  PendingOrder,
+  'challenge_id' | 'submitted_price' | 'symbol' | 'direction' | 'tx_hash'
+>
+
+export interface TokenDetails extends Pick<DrawingData, 'id'> {
+  token_name: string
+  token_image_url: string
+  token_symbol: string
+  binance_socket_url: string
 }

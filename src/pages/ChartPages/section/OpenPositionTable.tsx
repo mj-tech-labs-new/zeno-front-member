@@ -1,9 +1,15 @@
+import {useCallback} from 'react'
+import {useParams} from 'react-router-dom'
+
 import {CommonCloseActionButton, CommonTableComponent} from '@/components'
 import {Constants, English, Utility} from '@/helpers'
+import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 import {CreateChallengeProps} from '@/types/ChallengeTypes'
 import {OpenPosition} from '@/types/ChartTypes'
 
 import EditStopLossModel from '../components/EditStopLossModel'
+import ReverseOrder from '../components/ReverseOrder'
+import {useChartProvider} from '../context/ChartProvider'
 
 const OpenPositionTable = (
   props: Pick<CreateChallengeProps, 'challenge_id'> & {
@@ -12,17 +18,31 @@ const OpenPositionTable = (
   }
 ) => {
   const {challenge_id, openPosition, setPosition} = props
+  const {setGetChallengeByIdArray} = useChartProvider()
+  const params = useParams()
+
+  const handleGetChallengeById = useCallback(() => {
+    if (!params?.challengeId) {
+      return
+    }
+    getChallengeByIdApi({challenge_id: params?.challengeId}).then((res) => {
+      setGetChallengeByIdArray(res)
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params?.challengeId])
+
   return (
     <CommonTableComponent
       apiMethod="put"
       className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
       extraProp={{challenge_id}}
       headingClassName="justify-start !whitespace-nowrap"
-      layoutClassName="!border-none"
+      layoutClassName="!border-none !h-[500px] !overflow-y-auto no-scrollbar"
       showArrows={false}
       tableHeading={Constants.Openposition}
       onPerformAction={(value) => {
         if (value) {
+          handleGetChallengeById()
           setPosition([])
         }
       }}
@@ -112,7 +132,7 @@ const OpenPositionTable = (
               <span className="text-primary-color pb-0.5">{margin_mode}</span>
             </td>
             <td className="flex flex-col  pr-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
-              {tableBody?.take_profit?.[0]?.price &&
+              {tableBody?.take_profit?.[0]?.price ||
               tableBody?.stop_loss?.[0]?.price ? (
                 <div className="flex gap-3 items-center">
                   <div className="flex flex-col">
@@ -124,21 +144,33 @@ const OpenPositionTable = (
                       {tableBody?.stop_loss?.[0]?.price ?? '--'}
                     </span>
                   </div>
-                  <div className="cursor-pointer">
+                  <div>
                     <EditStopLossModel
-                      apiMethod="put"
                       item={tableBody}
-                      singleLineContent={English.E333}
+                      symbol={symbol}
+                      apiMethod={
+                        tableBody?.take_profit?.[0]?.price &&
+                        tableBody?.stop_loss?.[0]?.price
+                          ? 'put'
+                          : 'post'
+                      }
+                      singleLineContent={
+                        tableBody?.take_profit?.[0]?.price &&
+                        tableBody?.stop_loss?.[0]?.price
+                          ? English.E333
+                          : English.E341
+                      }
                     />
                   </div>
                 </div>
               ) : (
-                <div className="cursor-pointer flex gap-2 ">
+                <div className=" flex gap-2 ">
                   --{' '}
                   <EditStopLossModel
                     apiMethod="post"
                     item={tableBody}
                     singleLineContent={English.E341}
+                    symbol={symbol}
                   />
                 </div>
               )}
@@ -152,7 +184,7 @@ const OpenPositionTable = (
                 {Utility.removeDecimal(return_on_equity, 3)})
               </span>
             </th>
-            <td className="pr-6 py-4 text-left !whitespace-nowrap">
+            <td className="pr-6 py-4 flex gap-4 text-left !whitespace-nowrap">
               <CommonCloseActionButton
                 apiMethod="put"
                 challenge_id={challenge_id}
@@ -163,6 +195,11 @@ const OpenPositionTable = (
                     setPosition([])
                   }
                 }}
+              />
+
+              <ReverseOrder
+                challenge_id={tableBody?.challenge_id}
+                tx_hash={tableBody?.tx_hash}
               />
             </td>
           </tr>

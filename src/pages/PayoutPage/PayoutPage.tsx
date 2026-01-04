@@ -47,7 +47,7 @@ const PayoutPage = () => (
             <td className="p-6 text-secondary-light-color">
               {`${Utility.numberConversion(capital)} ${English.E60}`}
             </td>
-            <td className="p-6 text-secondary-light-color">{status}</td>
+            <td className="p-6 text-chart-green-color">{status}</td>
             <td className="p-6 text-secondary-light-color">{method}</td>
             <td className="p-6 text-secondary-light-color">{transactionId}</td>
           </tr>

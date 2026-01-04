@@ -17,10 +17,23 @@ import {
   TabComponentType,
 } from './UnionTypes'
 
-export type ImageComponentProps = Pick<GeneralProps, 'className'> &
+export type ImageComponentProps = Pick<
+  GeneralProps,
+  'className' | 'onPressItem'
+> &
   Required<Pick<GeneralProps, 'imageUrl'>> & {imageType?: ImageType} & {
     imageRelatedText?: string
   }
+
+export type CopyClipBoardProps = Pick<
+  GeneralProps,
+  'className' | 'onPressItem'
+> &
+  Required<Pick<GeneralProps, 'imageUrl'>> & {imageType?: ImageType} & {
+    imageRelatedText?: string
+    type: string
+  }
+
 export interface RangeSelectorProps extends Pick<GeneralProps, 'className'> {
   rangeValue: number
   setRangeValue: (arg: number) => void
@@ -37,7 +50,10 @@ export type InputContainerProps = InputHTMLAttributes<HTMLInputElement> &
 
 export type CommonButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   Required<Pick<GeneralProps, 'singleLineContent'>> &
-  Pick<GeneralProps, 'className' | 'imageUrl'>
+  Pick<GeneralProps, 'className' | 'imageUrl'> & {
+    isAnimatedType?: boolean
+    // isLeftAnimatedType?: boolean
+  }
 
 export type HeadingComponentProps = Pick<GeneralProps, 'className'> &
   Required<Pick<GeneralProps, 'singleLineContent'>> & {
@@ -54,8 +70,14 @@ export type CreatChallengeCardType = Pick<
 export type AccordianPropsType = Required<
   Pick<GeneralProps, 'multilineContent'>
 > &
-  Pick<GeneralProps, 'className' | 'singleLineContent' | 'layoutClassName'> & {
+  Pick<
+    GeneralProps,
+    'className' | 'singleLineContent' | 'layoutClassName' | 'onPressItem'
+  > & {
     isDirectType?: boolean
+    isLineType?: boolean
+    isNotCloseType?: boolean
+    isOpen?: boolean
   }
 
 export type CircularProgressBarType = {
@@ -73,14 +95,31 @@ export interface StatsCardProps
   type: string
 }
 
+export interface SearchComponentProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    Pick<GeneralProps, 'className' | 'layoutClassName'> {
+  searchValue: string
+  setSearchValue: (value: string) => void
+  onPressSearch?: (value: string) => void
+  showCross?: boolean
+}
+
 export interface DropDownProps
   extends Pick<GeneralProps, 'className' | 'layoutClassName'>,
-    Pick<CommonTableComponentProps, 'showArrows'> {
+    Pick<CommonTableComponentProps, 'showArrows'>,
+    Partial<
+      Pick<
+        SearchComponentProps,
+        'searchValue' | 'setSearchValue' | 'onPressSearch'
+      >
+    > {
   dropDownData: DropDownObjectType[]
   selectedValue: DropDownObjectType
   headingClassName?: string
   onSelectValue: (data: DropDownObjectType) => void
   elementId?: string[]
+  isSearchType?: boolean
+  titleClassname?: string
 }
 
 export interface MaxOpenAndMarginProps {
@@ -97,6 +136,7 @@ export interface DatePickerProps extends Pick<GeneralProps, 'className'> {
   dateFormate?: string
   onSelectDate: (data: [Date | null, Date | null]) => void
   showIcon?: boolean
+  minDate?: Date
 }
 
 export interface CommonTableComponentProps
@@ -204,4 +244,29 @@ export interface DashboardTableComponentProps
     >,
     Pick<DropDownProps, 'headingClassName'> {
   data: []
+}
+
+type NavItemsProps = Pick<GeneralProps, 'className' | 'layoutClassName'> & {
+  showLogo?: boolean
+  animationClass?: string
+  onPressItem?: (value: string) => void
+}
+export interface SimpleTabProps extends Pick<GeneralProps, 'className'> {
+  tabArray: {content: string; labelText?: string}[]
+  selectedIndex: number
+  onPressIndex: (index: number) => void
+}
+export interface TestimonialCardProps {
+  initialContent: string
+  secondaryContent: string
+  headingContent: string
+  flag: string
+  details: {value: string; key: string}[]
+}
+export interface TraderCardsProps extends Pick<GeneralProps, 'className'> {
+  mainTitle: string
+  description: string
+  secondaryDesc: string
+  details: string[]
+  mainImg: string
 }

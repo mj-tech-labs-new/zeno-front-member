@@ -48,9 +48,9 @@ const Tooltip = () => {
   ])
   return (
     <React.Fragment>
-      <div className="relative flex gap-5 items-center -top-140 left-5 z-99">
+      <div className="relative font-switzer flex gap-5 items-center -top-140 left-5 z-99">
         <span className="text-primary-color p-0.5 px-4 rounded-md bg-neutral-active-color">
-          {chartInfo?.fullSymbolName.replace('USDT', '')}
+          {chartInfo?.fullSymbolName?.replace('USDT', '')}
         </span>
         <span className="text-primary-color text-[15px]">
           O{' '}
@@ -62,7 +62,7 @@ const Tooltip = () => {
                 : 'text-dark-danger-color'
             }
           >
-            {candleStickData?.open ?? singleCandleData.current?.open}
+            {candleStickData?.open ?? singleCandleData?.current?.open}
           </span>{' '}
         </span>
         <span className="text-primary-color text-[15px]">
@@ -150,8 +150,8 @@ const Tooltip = () => {
               ({' '}
               {(candleStickData?.open ?? singleCandleData.current?.open) <
               (candleStickData?.close ?? singleCandleData.current?.close)
-                ? `+${Utility.removeDecimal((candleStickData?.close ?? singleCandleData.current?.close ?? 0) / (candleStickData?.open ?? singleCandleData.current?.open ?? 0), 2)}%`
-                : `-${Utility.removeDecimal((candleStickData?.close ?? singleCandleData.current?.close ?? 0) / (candleStickData?.open ?? singleCandleData.current?.open ?? 0), 2)}%`}
+                ? `+${Utility.removeDecimal((candleStickData?.close ?? singleCandleData.current?.close ?? 0) / (candleStickData?.open ?? singleCandleData.current?.open ?? 1), 2)}%`
+                : `-${Utility.removeDecimal((candleStickData?.close ?? singleCandleData.current?.close ?? 0) / (candleStickData?.open ?? singleCandleData.current?.open ?? 1), 2)}%`}
               )
             </span>
           </span>
@@ -165,7 +165,7 @@ const Tooltip = () => {
               ? 'text-primary-green'
               : 'text-dark-danger-color'
           }
-        >{`${Utility.removeDecimal(volumeData?.value ?? singleCandleData.current?.volume, 2)}k`}</span>
+        >{`${Utility.removeDecimal(volumeData?.value ?? singleCandleData.current?.volume ?? 0, 2)}k`}</span>
       </div>
     </React.Fragment>
   )

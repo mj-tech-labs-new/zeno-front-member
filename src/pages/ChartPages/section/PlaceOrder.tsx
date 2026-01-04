@@ -27,7 +27,7 @@ const PlaceOrder = () => {
     if (!stages) return
 
     const levArray = Array.from({length: stages.leverage}).map((_, index) => ({
-      title: (index + 1).toString(),
+      title: `${(index + 1).toString()}X`,
     }))
     setLeverageValueArray(levArray)
     setSelectedLeverage({title: levArray[0]?.title?.replace('X', '')})
@@ -35,7 +35,7 @@ const PlaceOrder = () => {
 
   return (
     <div
-      className="my-4 mx-4 overflow-y-auto no-scrollbar "
+      className="my-4 mx-4 overflow-y-auto no-scrollbar shrink-0 max-w-[350px] flex-1"
       id="place_order_container"
     >
       <div className="flex flex-col gap-4">

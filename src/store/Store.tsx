@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'
 import {thunk} from 'redux-thunk'
 
 // eslint-disable-next-line import-x/no-cycle
+import ChartSlice from './ChartSlice/ChartSlice'
 import UserSlice from './UserSlice/UserSlice'
 
 const persistConfig = {
@@ -13,6 +14,7 @@ const persistConfig = {
 const tuple = new Tuple(thunk)
 const rootReducer = combineReducers({
   userData: UserSlice,
+  chartData: ChartSlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

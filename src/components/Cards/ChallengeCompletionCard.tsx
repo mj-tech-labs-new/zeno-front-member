@@ -34,7 +34,7 @@ const ChallengeCompletionCard = (props: ChallengeCompletionCardProps) => {
       </div>
 
       <CircularProgressBarComponent
-        totalAmount={totalAmount}
+        totalAmount={totalAmount ?? 6000}
         usedBalance={
           (totalAmount ?? 60000) -
           (getChallengeByIdArray?.[0]?.current_usdt ?? 5340.31)

@@ -1,6 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-import {DrawingData} from '@/types/ChartTypes'
+// eslint-disable-next-line import-x/no-cycle
+import {DrawingData, TokenDetails} from '@/types/ChartTypes'
+import {ChartTimePeriodType} from '@/types/UnionTypes'
 
 interface ShapeMap {
   trend_line: DrawingData[]
@@ -8,10 +10,16 @@ interface ShapeMap {
 }
 export interface ChartInitialPropsType {
   totalShapes: Record<string, Partial<ShapeMap>>
+  frame: ChartTimePeriodType | null
+  amountType: string
+  selectedToken: Pick<TokenDetails, 'token_symbol'> | string
 }
 
 const initialState: ChartInitialPropsType = {
   totalShapes: {},
+  frame: '1m',
+  amountType: 'USDT',
+  selectedToken: 'BTC',
 }
 
 const ChartSlice = createSlice({
@@ -28,8 +36,37 @@ const ChartSlice = createSlice({
       const updatedShapeData = {...tokenData, [shapeName]: newShapeData}
       state.totalShapes[tokenName] = updatedShapeData
     },
+    addFrame: (state, action) => {
+      const {frame} = action.payload
+      state.frame = frame
+    },
+    removeFrame: (state) => {
+      state.frame = null
+    },
+    addAmountType: (state, action) => {
+      const {amount} = action.payload
+      state.amountType = amount
+    },
+    removeAmountType: (state) => {
+      state.amountType = ''
+    },
+    addCoinToken: (state, action) => {
+      const {token} = action.payload
+      state.selectedToken = token
+    },
+    removeCoinToken: (state) => {
+      state.selectedToken = ''
+    },
   },
 })
 
-export const {addShapes} = ChartSlice.actions
-export default ChartSlice
+export const {
+  addShapes,
+  addFrame,
+  removeFrame,
+  addAmountType,
+  removeAmountType,
+  addCoinToken,
+  removeCoinToken,
+} = ChartSlice.actions
+export default ChartSlice.reducer

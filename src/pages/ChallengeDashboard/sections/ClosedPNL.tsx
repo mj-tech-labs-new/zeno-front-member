@@ -97,6 +97,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
           <DatePickerComponent
             className="!max-w-fit flex items-center"
             dateFormate="d MMM yyyy"
+            minDate={selectedDate.date1 as unknown as Date}
             selectedDate1={selectedDate?.date1 as unknown as Date}
             selectedDate2={selectedDate?.date2}
             showIcon={false}

@@ -18,7 +18,7 @@ const AuthRoutes = [
   />,
   <Route
     key="sign-up"
-    path="/sign-up"
+    path="/sign-up/:refCode?"
     element={
       <AuthWrapper>
         <LazyLoader>

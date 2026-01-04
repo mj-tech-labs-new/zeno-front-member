@@ -19,19 +19,13 @@ const PayoutSuccessPage = () => {
 
   const objectToRender = useMemo(
     () => ({
-      [English.E27]: state.challenge_type,
-      [English.E38]: state.initial_capital,
-      [English.E51]: state.capital,
-      [English.E52]: state.status,
-      [English.E53]: dayjs(state.created_at).format('D MMMM YYYY').toString(),
+      [English.E27]: state?.step,
+      [English.E38]: state?.amount,
+      [English.E51]: state?.capital,
+      [English.E52]: '✅ Status',
+      [English.E53]: dayjs(new Date()).format('D MMMM YYYY').toString(),
     }),
-    [
-      state.capital,
-      state.challenge_type,
-      state.created_at,
-      state.initial_capital,
-      state.status,
-    ]
+    [state?.amount, state?.capital, state?.step]
   )
 
   return (

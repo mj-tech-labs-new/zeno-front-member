@@ -27,6 +27,11 @@ export type SliceDataType =
   | 'logout'
   | 'addPaymentDetails'
   | 'removePaymentDetails'
+  | 'addTimeFrame'
+  | 'addAmountType'
+  | 'removeAmountType'
+  | 'addCoinToken'
+  | 'removeCoinToken'
 export type TabComponentType = 'lineType' | 'buttonType'
 export type TradingSortingType = 'buy_sell_type' | 'buy_type' | 'sell_type'
 export type ListingComponentsType = 'normal_list_type' | 'multi_list_type'
@@ -43,3 +48,5 @@ export type CloseOrderType = 'single_order' | 'all_order'
 export type BasicSkeletonType = 'basic' | 'tableSkeleton'
 
 export type MaxOpenAndMarginType = 'max_open' | 'margin'
+
+export type BuySelltInputType = 'amountType' | 'tokenType'

@@ -26,18 +26,14 @@ const ChartShapes = () => {
       {Constants.chartTools?.map((tool) => {
         const {img, name} = tool
         return (
-          <div
+          <ImageComponent
             key={name}
-            className={`p-1 rounded transition-all duration-500 ease-linear ${name === selectedTool ? 'bg-neutral-active-color pointer-events-none' : 'bg-transparent cursor-pointer'}`}
-            onClick={() => {
+            className={`rounded transition-all duration-500 ease-linear ${name === selectedTool ? 'bg-neutral-active-color pointer-events-none' : 'bg-transparent cursor-pointer'} w-8 p-1 ${selectedTool === name ? '[&>img]:blue_filter' : '[&>img]:grey__filter'}`}
+            imageUrl={img}
+            onPressItem={() => {
               setSelectedTool(name as ChartShapesType)
             }}
-          >
-            <ImageComponent
-              className={`w-6 ${selectedTool === name ? '[&>img]:blue_filter' : '[&>img]:grey__filter'}`}
-              imageUrl={img}
-            />
-          </div>
+          />
         )
       })}
     </div>

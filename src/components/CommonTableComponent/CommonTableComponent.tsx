@@ -28,17 +28,17 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
       id="table"
     >
       <table
-        className={`w-full text-sm text-left overflow-hidden ${showLoader && 'border-separate border-spacing-y-2'}`}
+        className={`w-full text-sm text-left overflow-hidden  ${showLoader && 'border-separate border-spacing-y-2'}`}
       >
         <thead
-          className={`text-xs bg-widget-primary-bg-color capitalize text-tertiary-color ${className}`}
+          className={`text-sm/4 bg-info-bg-color capitalize  text-tertiary-color ${className}`}
         >
           <tr>
             {tableHeading?.map((heading) => {
               const {content} = heading
               return (
                 <th
-key={content[0]} className={`px-6 py-4  `}
+key={content[0]} className={`px-6 py-2.5  `}
 scope="col">
                   {content.includes('Close') ||
                   content.includes('Action') ||

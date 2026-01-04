@@ -31,10 +31,18 @@ const Endpoints = {
   getBilling: (page: number, limit: number) =>
     `users/billing/getAllBill?page=${page}&limit=${limit}`,
   updateOrder: `/users/order/updateOrder`,
-  orderHistory: (page: number, limit: number) =>
+  openHistory: (page: number, limit: number) =>
     `/users/order/orderHistory?page=${page}&limit=${limit}`,
   addStopLoss: '/users/order/addStopLossTakeProfit',
   deleteStopLoss: '/users/order/deleteStopLossTakeProfit',
+  pendingHistory: (page: number, limit: number) =>
+    `/users/order/closedPositionHistory?page=${page}&limit=${limit}`,
+  transactionDetailHistory: (page: number, limit: number) =>
+    `/users/order/transactionDetails?page=${page}&limit=${limit}`,
+  getPaymentQrCode: '/users/payment/getPaymentQr',
+  checkPayment: (transaction_id: number) =>
+    `/users/payment/checkPayment?transaction_id=${transaction_id}`,
+  reverseOrder: `/users/order/reverceOrder`,
 }
 
 export default Endpoints

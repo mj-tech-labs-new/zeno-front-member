@@ -16,6 +16,7 @@ const DatePickerComponent = (props: DatePickerProps) => {
     placeHolder,
     dateFormate,
     showIcon = true,
+    minDate,
   } = props
   return (
     <div
@@ -26,6 +27,7 @@ const DatePickerComponent = (props: DatePickerProps) => {
         calendarIconClassName="react-DatePicker-icon"
         dateFormat={dateFormate}
         endDate={selectedDate2}
+        minDate={minDate}
         placeholderText={placeHolder ?? English.E287}
         showIcon={showIcon}
         startDate={selectedDate1}

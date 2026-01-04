@@ -1,5 +1,12 @@
 import {addToken, PersistStorage, removeToken, Store} from '@/store'
 import {
+  addAmountType,
+  addCoinToken,
+  addFrame,
+  removeCoinToken,
+  removeFrame,
+} from '@/store/ChartSlice/ChartSlice'
+import {
   addPaymentDetails,
   removePaymentDetails,
 } from '@/store/UserSlice/UserSlice'
@@ -12,6 +19,7 @@ const addSliceData = async (type: SliceDataType, payload: any) =>
       resolve(true)
       return
     }
+
     if (type === 'addPaymentDetails') {
       Store.dispatch(addPaymentDetails(payload))
       resolve(true)
@@ -22,9 +30,35 @@ const addSliceData = async (type: SliceDataType, payload: any) =>
       resolve(true)
       return
     }
+    if (type === 'addTimeFrame') {
+      Store.dispatch(addFrame(payload))
+      resolve(true)
+      return
+    }
+    if (type === 'addAmountType') {
+      Store.dispatch(addAmountType(payload))
+      resolve(true)
+      return
+    }
+    if (type === 'removeAmountType') {
+      Store.dispatch(addAmountType(payload))
+      resolve(true)
+      return
+    }
+    if (type === 'addCoinToken') {
+      Store.dispatch(addCoinToken(payload))
+      resolve(true)
+      return
+    }
+    if (type === 'removeCoinToken') {
+      Store.dispatch(removeCoinToken())
+      resolve(true)
+      return
+    }
     if (type === 'logout') {
       PersistStorage.purge()
       Store.dispatch(removeToken())
+      Store.dispatch(removeFrame())
       setTimeout(() => {
         resolve(true)
       }, 1000)
