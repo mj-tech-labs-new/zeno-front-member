@@ -28,11 +28,11 @@ const TradingRules = () => {
         <Steps
           onSelectedItem={(data) => {
             setSelectedPayout({
-              amount: data.capital_fund.toString(),
-              capital: data.fee.toString(),
-              type: data.step === 1 ? 'One Step' : 'Two Step',
-              name: data.challenge_name,
-              status: data.plan_status.toString(),
+              amount: data?.capital_fund.toString(),
+              capital: data?.fee.toString(),
+              type: data?.step === 1 ? 'One Step' : 'Two Step',
+              name: data?.challenge_name,
+              status: data?.plan_status.toString(),
               plan_icon_url: data?.plan_icon_url,
             })
           }}
