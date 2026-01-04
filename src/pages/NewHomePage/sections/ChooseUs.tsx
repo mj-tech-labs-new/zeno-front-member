@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import {memo} from 'react'
 
 import {WordSplit} from '@/components'
-import {Constants, English} from '@/helpers'
+import {Constants, English, Images} from '@/helpers'
 
 interface ChooseUsCardProps {
   video: string
@@ -70,10 +70,10 @@ const ChooseUs = () => {
               {...item}
               video={
                 index === 0
-                  ? 'src\\assets\\static_assets\\c_video_1.mp4'
+                  ? Images.video1
                   : index === 1
-                    ? 'src\\assets\\static_assets\\c_video_2.mp4'
-                    : 'src\\assets\\static_assets\\c_video_3.mp4'
+                    ? Images.video2
+                    : Images.video3
               }
             />
           )

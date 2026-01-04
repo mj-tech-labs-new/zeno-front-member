@@ -20,9 +20,7 @@ const App = () => (
             </LazyLoader>
           }
         />
-        <Route
-key="404" element={<GoBackComponent />}
-path="*" />
+        <Route key="404" element={<GoBackComponent />} path="*" />
         {AuthRoutes}
         {DashboardRoutes}
       </Routes>

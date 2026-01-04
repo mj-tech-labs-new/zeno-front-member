@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import {useCallback, useEffect, useRef, useState} from 'react'
+import {useSelector} from 'react-redux'
+import {useLocation, useNavigate} from 'react-router-dom'
 
-import { DescriptionComponent, HeadingComponent, Loader } from '@/components'
-import { English } from '@/helpers'
+import {DescriptionComponent, HeadingComponent, Loader} from '@/components'
+import {English} from '@/helpers'
 import Layout2 from '@/layouts/Layout2'
-import { CommonFunction } from '@/services'
-import { ChallengePayoutObject } from '@/types/ChallengeTypes'
-import { StorageProps } from '@/types/CommonTypes'
+import {CommonFunction} from '@/services'
+import {ChallengePayoutObject} from '@/types/ChallengeTypes'
+import {StorageProps} from '@/types/CommonTypes'
 
-import { getPaymentQrCode } from './api/CreateChallengeApis'
+import {getPaymentQrCode} from './api/CreateChallengeApis'
 import CreateChallengeContainer from './sections/CreateChallengeContainer'
 import Payout from './sections/Payout'
 import TradingCapitalContainer from './sections/TradingCapitalContainer'
@@ -62,7 +62,7 @@ const CreateChallenge = () => {
             step: payoutDetails?.type,
             status: '',
           }
-          navigate('/payment-screen', { state: paymentData })
+          navigate('/payment-screen', {state: paymentData})
         }
       })
       .finally(() => {
@@ -148,20 +148,20 @@ const CreateChallenge = () => {
               capital={payoutDetails?.capital}
               name={payoutDetails?.name}
               type={payoutDetails?.type}
-            // onPressItem={() => {
-            //   if (!userData?.user?.token) {
-            //     CommonFunction.addSliceData('addPaymentDetails', {
-            //       challenge_plan_id: selectedTableRow,
-            //       step: selectedOption,
-            //       total_stage: selectedOption === 1 ? 2 : 3,
-            //       capital: payoutDetails?.capital,
-            //     }).then(() => {
-            //       navigate('/login')
-            //     })
-            //     return
-            //   }
-            //   handleGetPaymentQR()
-            // }}
+              // onPressItem={() => {
+              //   if (!userData?.user?.token) {
+              //     CommonFunction.addSliceData('addPaymentDetails', {
+              //       challenge_plan_id: selectedTableRow,
+              //       step: selectedOption,
+              //       total_stage: selectedOption === 1 ? 2 : 3,
+              //       capital: payoutDetails?.capital,
+              //     }).then(() => {
+              //       navigate('/login')
+              //     })
+              //     return
+              //   }
+              //   handleGetPaymentQR()
+              // }}
             />
           </div>
         </div>

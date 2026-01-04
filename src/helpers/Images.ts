@@ -219,6 +219,14 @@ const Images = {
     '../assets/static_assets/character_6.jpg',
     import.meta.url
   ).href,
+  video1: new URL('../assets/static_assets/c_video_1.mp4', import.meta.url)
+    .href,
+  video2: new URL('../assets/static_assets/c_video_2.mp4', import.meta.url)
+    .href,
+  video3: new URL('../assets/static_assets/c_video_3.mp4', import.meta.url)
+    .href,
+  mainVideo: new URL('../assets/static_assets/video_2.mp4', import.meta.url)
+    .href,
 }
 
 export default Images

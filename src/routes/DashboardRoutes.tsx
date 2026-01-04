@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom'
+import {Route} from 'react-router-dom'
 
 import SocketProvider from '@/GlobalProvider/SocketProvider'
 import Layout from '@/layouts/Layout'

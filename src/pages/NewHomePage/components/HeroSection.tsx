@@ -17,7 +17,7 @@ const HeroSection = () => {
         className="w-screen left-1/2 -translate-x-1/2 object-cover top-[96px] h-full absolute -z-10"
         controls={false}
       >
-        <source src="src\assets\static_assets\video_2.mp4" type="video/mp4" />
+        <source src={Images.mainVideo} type="video/mp4" />
       </video>
       <div className="space-y-8">
         <div className="max-w-full px-5 md:max-w-3xl lg:px-0 w-full mx-auto space-y-5">
