@@ -10,6 +10,7 @@ export interface ChallengePayoutObject
   type: string
   name?: string
   capital: string
+  plan_icon_url?: string
 }
 
 export interface ChallengeCardObjectType {
@@ -60,6 +61,7 @@ export interface GetTradingCapitalProps extends CommonProps {
   step: number
   img?: string
   checked?: boolean
+  plan_icon_url?: string
 }
 
 export interface CreateChallengeProps extends CommonProps {

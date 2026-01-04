@@ -6,11 +6,11 @@ import {
   HeadingComponent,
   ImageComponent,
 } from '@/components'
-import {English, Images} from '@/helpers'
+import {English, Images, Utility} from '@/helpers'
 import {ChallengePayoutObject} from '@/types/ChallengeTypes'
 
 const Payout = (props: ChallengePayoutObject) => {
-  const {amount, capital, name, type} = props
+  const {amount, capital, name, type, plan_icon_url} = props
   const payoutDetails = useMemo(
     () => ({
       [English.E27]: type,
@@ -26,10 +26,17 @@ const Payout = (props: ChallengePayoutObject) => {
   // )
 
   return (
-    <div className="flex flex-col gap-4 shrink-0  bg-primary-color p-6  rounded-[16px] sticky top-[96px] h-fit max-w-full  lg:w-full lg:max-w-[385px]">
+    <div
+      className="flex flex-col gap-4 shrink-0  bg-primary-color p-6  rounded-[16px] sticky h-fit max-w-full  lg:w-full lg:max-w-[385px]"
+      id="payout_id"
+    >
       <ImageComponent
         className="size-full md:size-56 md:mx-auto lg:size-full"
-        imageUrl={Images.character1}
+        imageUrl={
+          plan_icon_url === null
+            ? Images.character1
+            : `${import.meta.env.VITE_API_BASE_URL_PRODUCTION}${plan_icon_url?.replace('/home/ubuntu/backend/', '')}`
+        }
       />
       <div className="flex flex-col gap-4">
         <HeadingComponent
@@ -60,7 +67,9 @@ const Payout = (props: ChallengePayoutObject) => {
                     : 'text-text-info-dark-color'
                 }
               >
-                {key === 'Trading Capital' ? `$${value} USDT` : value}
+                {key === 'Trading Capital'
+                  ? `$${Utility.numberConversion(Number(value))?.split('.')?.[0]} USDT`
+                  : value}
               </span>
             </div>
           ))}

@@ -34,7 +34,7 @@ const QA = () => {
       />
       <div
         ref={divRef}
-        className="flex flex-col gap-5 max-w-full px-5  w-full "
+        className="flex flex-col gap-5 max-w-full px-5  w-full overflow-hidden"
       >
         {Constants.Talks.map((talk, index) => {
           const {content} = talk

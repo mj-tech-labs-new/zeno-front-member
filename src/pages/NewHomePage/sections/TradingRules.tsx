@@ -12,7 +12,9 @@ const TradingRules = () => {
     type: '----',
     name: '----',
     status: '----',
+    plan_icon_url: '',
   })
+
   return (
     <div className="w-full flex flex-col lg:flex-row gap-[22px]">
       <div className="w-full h-full space-y-[96px] flex-1">
@@ -26,11 +28,12 @@ const TradingRules = () => {
         <Steps
           onSelectedItem={(data) => {
             setSelectedPayout({
-              amount: data.fee.toString(),
-              capital: data.capital_fund.toString(),
+              amount: data.capital_fund.toString(),
+              capital: data.fee.toString(),
               type: data.step === 1 ? 'One Step' : 'Two Step',
               name: data.challenge_name,
               status: data.plan_status.toString(),
+              plan_icon_url: data?.plan_icon_url,
             })
           }}
         />

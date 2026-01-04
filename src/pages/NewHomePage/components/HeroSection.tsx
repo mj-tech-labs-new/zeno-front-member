@@ -38,7 +38,7 @@ const HeroSection = () => {
           </div>
           <DescriptionComponent
             isAnimationType
-            className="text-4xl! leading-10! lg:text-[56px]! lg:leading-[67px]! text-primary-color! text-center"
+            className="text-2xl! sm:text-4xl! leading-10! lg:text-[56px]! lg:leading-[67px]! text-primary-color! text-center"
             multilineContent={[
               'A Crypto Prop Firm Built for',
               'Disciplined Traders',
@@ -46,7 +46,7 @@ const HeroSection = () => {
           />
           <DescriptionComponent
             isAnimationType
-            className="max-w-[400px]! mx-auto text-center text-[20px]!"
+            className="max-w-[400px]! mx-auto text-center text-base  md:text-[20px]!"
             multilineContent={[
               'Trade with clear risk rules, no time pressure,',
               'and transparent payouts. Scale your funded',
@@ -54,7 +54,7 @@ const HeroSection = () => {
             ]}
           />
         </div>
-        <div className="flex flex-col md:flex-row items-center gap-2 justify-center z-10">
+        <div className="flex flex-row flex-wrap items-center gap-2 justify-center z-10">
           <CommonButton
             isAnimatedType
             className="white__primary_btn"
