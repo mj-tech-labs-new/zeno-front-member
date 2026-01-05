@@ -1,9 +1,9 @@
 import {memo} from 'react'
 
-import {Images} from '@/helpers'
+// import {Images} from '@/helpers'
 import {AccordianPropsType} from '@/types/ComponentTypes'
 
-import CommonButton from '../CommonButton/CommonButton'
+// import CommonButton from '../CommonButton/CommonButton'
 
 const Accordian = (props: AccordianPropsType) => {
   const {
@@ -14,7 +14,7 @@ const Accordian = (props: AccordianPropsType) => {
     layoutClassName = '',
     onPressItem,
     isLineType = false,
-    isNotCloseType = true,
+    // isNotCloseType = true,
     isOpen = true,
   } = props
 
@@ -55,14 +55,6 @@ const Accordian = (props: AccordianPropsType) => {
           ))}
         </div>
       </div>
-
-      {!isDirectType && isNotCloseType && (
-        <CommonButton
-          className={`!w-fit !p-0 [&>div]:size-3 !mb-auto  transition-transform duration-300 ease-in-out ${isOpen && 'rotate-45'}`}
-          imageUrl={Images.plusIcon}
-          singleLineContent=""
-        />
-      )}
     </div>
   )
 }
