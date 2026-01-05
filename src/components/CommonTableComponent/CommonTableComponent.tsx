@@ -1,7 +1,7 @@
-import {memo} from 'react'
+import { memo } from 'react'
 
-import {Images} from '@/helpers'
-import {CommonTableComponentProps} from '@/types/ComponentTypes'
+import { Images } from '@/helpers'
+import { CommonTableComponentProps } from '@/types/ComponentTypes'
 
 import CommonCloseActionButton from '../CommonButton/CommonCloseActionButton'
 import ImageComponent from '../ImageComponent/ImageComponent'
@@ -35,12 +35,14 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
         >
           <tr>
             {tableHeading?.map((heading) => {
-              const {content} = heading
+              const { content } = heading
               return (
-                <th key={content[0]} className={`px-6 py-2.5  `} scope="col">
+                <th
+                  key={content[0]} className={`px-6 py-2.5  `}
+                  scope="col">
                   {content.includes('Close') ||
-                  content.includes('Action') ||
-                  content.includes('Delete') ? (
+                    content.includes('Action') ||
+                    content.includes('Delete') ? (
                     <CommonCloseActionButton
                       apiMethod={apiMethod}
                       challenge_id={extraProp?.challenge_id}

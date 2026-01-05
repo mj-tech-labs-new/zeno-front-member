@@ -1,7 +1,7 @@
-import {memo} from 'react'
+import { memo } from 'react'
 
-import {ImageComponent, OpacityContainer, WordSplit} from '@/components'
-import {Constants, English} from '@/helpers'
+import { ImageComponent, OpacityContainer, WordSplit } from '@/components'
+import { Constants, English } from '@/helpers'
 
 interface WhyUsCardProps {
   img: string
@@ -10,7 +10,7 @@ interface WhyUsCardProps {
 }
 
 const WhyUsCard = memo((props: WhyUsCardProps) => {
-  const {content, img, title} = props
+  const { content, img, title } = props
 
   return (
     <OpacityContainer>
@@ -34,9 +34,11 @@ const WhyUs = () => (
 
       <div className="grid grid-cols-1 gap-x-2.5 md:grid-cols-2 md:gap-x-5 lg:grid-cols-3 lg:gap-x-[60px] gap-y-10 lg:gap-y-[60px]">
         {Constants.WhyContactUs.map((item) => {
-          const {content, img, title} = item
+          const { content, img, title } = item
           return (
-            <WhyUsCard key={title} content={content} img={img} title={title} />
+            <WhyUsCard
+              key={title} content={content}
+              img={img} title={title} />
           )
         })}
       </div>
