@@ -1,10 +1,7 @@
 import {memo, useRef, useState} from 'react'
 
-import {Images} from '@/helpers'
 import {useClickOutside} from '@/hooks'
 import {AccordianPropsType} from '@/types/ComponentTypes'
-
-import CommonButton from '../CommonButton/CommonButton'
 
 const Accordian = (props: AccordianPropsType) => {
   const {
@@ -53,14 +50,6 @@ const Accordian = (props: AccordianPropsType) => {
           ))}
         </div>
       </div>
-
-      {!isDirectType && (
-        <CommonButton
-          className={`!w-fit !p-0 [&>div]:size-3 !mb-auto  transition-transform duration-300 ease-in-out ${isAccordianOpen && 'rotate-45'}`}
-          imageUrl={Images.plusIcon}
-          singleLineContent=""
-        />
-      )}
     </div>
   )
 }
