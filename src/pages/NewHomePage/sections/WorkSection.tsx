@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import {useEffect, useRef, useState} from 'react'
 
 import {
   Accordian,
@@ -6,8 +6,8 @@ import {
   OpacityContainer,
   WordSplit,
 } from '@/components'
-import { Constants, English, Images } from '@/helpers'
-import { useClickOutside } from '@/hooks'
+import {Constants, English, Images} from '@/helpers'
+import {useClickOutside} from '@/hooks'
 
 const WorkSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -32,7 +32,7 @@ const WorkSection = () => {
   return (
     <div
       ref={sectionRef}
-      className="py-12 md:py-28 xl:py-[120px] xl:pl-[370px] px-5 lg:pr-0 h-full bg-linear-to-r from-light-gr1 via-light-gr2 to-light-gr3"
+      className=" h-[940px] py-5 lg:py-[54px] xl:py-[118px] flex items-center  xl:pl-[370px] px-5 lg:pr-0  bg-linear-to-r from-light-gr1 via-light-gr2 to-light-gr3"
     >
       <div className="flex flex-col lg:flex-row gap-2 h-full min-h-[654px]">
         <div className="flex flex-col">
@@ -45,7 +45,6 @@ const WorkSection = () => {
               {Constants.QA.map((qa, index) => (
                 <div key={qa.que} className="">
                   <Accordian
-
                     isLineType
                     className="!gap-0"
                     isOpen={currentIndex === index}
@@ -68,8 +67,14 @@ const WorkSection = () => {
           isVerticalPositionType={false}
         >
           <ImageComponent
-            className="h-full flex items-center justify-center"
-            imageUrl={currentIndex !== 2 ? Images.heroImage : Images.price}
+            className="h-full flex items-center justify-center [&>img]:object-contain"
+            imageUrl={
+              currentIndex === 0
+                ? Images.fullDashboard
+                : currentIndex === 1
+                  ? Images.heroImage
+                  : Images.price
+            }
           />
         </OpacityContainer>
       </div>

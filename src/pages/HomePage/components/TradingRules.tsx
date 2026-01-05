@@ -1,39 +1,75 @@
-import {HeadingComponent, ListingComponent} from '@/components'
+import {useCallback, useEffect, useRef, useState} from 'react'
+
+import {Steps, WordSplit} from '@/components'
 import {English} from '@/helpers'
+import Payout from '@/pages/CreateChallenge/sections/Payout'
+import {ChallengePayoutObject} from '@/types/ChallengeTypes'
 
-import StepComponent from './StepComponent'
+const TradingRules = () => {
+  const divRef = useRef<HTMLDivElement | null>(null)
+  const [selectedPayout, setSelectedPayout] = useState<ChallengePayoutObject>({
+    amount: '0.00',
+    capital: '0.00',
+    type: '----',
+    name: '----',
+    status: '----',
+    plan_icon_url: '',
+  })
 
-const TradingRules = () => (
-  <div className="bg-marquee-gradient-bg lg:pt-[123px] lg:pb-[101px] pb-[50px] pt-16 space-y-[34px] px-4 lg:px-13 lg:space-y-[88px]">
-    <div className="flex gap-5  w-full">
-      <div className="hidden lg:flex lg:w-[213px] max-h-fit items-center *:h-fit sticky top-[64px]  gap-3">
-        <ListingComponent type="multi_list_type" />
-        <HeadingComponent
-          className="!text-sm !tracking-[-0.14px] !text-primary-black"
-          singleLineContent={English.E213}
-          type="h2"
+  const handleRender = useCallback(() => {
+    const element = document.getElementById('payout_id')
+    if (!element || !divRef.current) return
+
+    const elementStyle = element.style
+    elementStyle.top = '0px'
+    if (window.innerWidth <= 1024) {
+      elementStyle.marginTop = '0px'
+      return
+    }
+    elementStyle.marginTop = `${divRef.current.clientHeight + 96}px`
+  }, [])
+
+  useEffect(() => {
+    handleRender()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('resize', handleRender)
+
+    return () => {
+      window.removeEventListener('resize', handleRender)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (
+    <div className="w-full flex flex-col lg:flex-row gap-[22px]">
+      <div className="w-full h-full space-y-[96px] flex-1 ">
+        <div ref={divRef} className="lg:w-[calc(100%-24px)] space-y-4">
+          <WordSplit singleLineContent={English.E408} />
+          <WordSplit
+            className="text-xl/[30px] font-normal font-geist text-secondary-light-color!"
+            singleLineContent={English.E409}
+          />
+        </div>
+        <Steps
+          onSelectedItem={(data) => {
+            setSelectedPayout({
+              amount: data?.capital_fund.toString(),
+              capital: data?.fee.toString(),
+              type: data?.step === 1 ? 'One Step' : 'Two Step',
+              name: data?.challenge_name,
+              status: data?.plan_status.toString(),
+              plan_icon_url: data?.plan_icon_url,
+            })
+          }}
         />
       </div>
 
-      <div className="w-full lg:space-y-22 space-y-8.5 lg:w-[calc(100%-275px)] pt-16 lg:py-0">
-        <div className="text-4xl leading-[38px] tracking-[-1px] flex  justify-between sm:w-[80%]">
-          <div className="flex flex-col gap-4">
-            <HeadingComponent
-              className="!text-primary-black !font-[430] !text-4xl !leading-[38px] !tracking-[-1.08px]"
-              singleLineContent={English.E214}
-              type="h2"
-            />
-            <HeadingComponent
-              className="!text-landing-page-trading-rules-para-text !text-xl !tracking-[-0.52px] !leading-7"
-              singleLineContent={English.E215}
-              type="h3"
-            />
-          </div>
-        </div>
-        <StepComponent selectedIndex={0} />
-      </div>
+      <Payout {...selectedPayout} />
     </div>
-  </div>
-)
+  )
+}
 
 export default TradingRules

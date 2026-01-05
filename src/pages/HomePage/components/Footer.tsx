@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom'
+
 import {HeadingComponent, ImageComponent, LogoComponent} from '@/components'
 import {Constants, English, Images} from '@/helpers'
 
@@ -30,10 +32,10 @@ const Footer = () => (
             />
             {item.links.map((link) => (
               <li
-                key={link}
+                key={link.content}
                 className="text-base lg:text-sm !leading-5 text-landing-page-dark-gray-color last:mb-0 mb-2"
               >
-                {link}
+                {link.content}
               </li>
             ))}
           </ul>
@@ -44,12 +46,14 @@ const Footer = () => (
       {Constants.socialLinks.map((item) => (
         <ul key={item.title} className="flex gap-4">
           {item.links.map((link) => (
-            <li
-              key={link}
+            <Link
+              key={link.content}
               className="text-[13.5px] text-landing-page-dark-gray-color"
+              target={link.link !== '#' ? '_blank' : '_top'}
+              to={link.link}
             >
-              {link}
-            </li>
+              {link.content}
+            </Link>
           ))}
         </ul>
       ))}

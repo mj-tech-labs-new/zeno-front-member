@@ -72,8 +72,8 @@ const ChooseUs = () => {
                 index === 0
                   ? Images.video1
                   : index === 1
-                    ? Images.video2
-                    : Images.video3
+                    ? Images.video3
+                    : Images.video2
               }
             />
           )

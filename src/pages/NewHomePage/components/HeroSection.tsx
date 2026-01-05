@@ -1,7 +1,7 @@
-import { useRef } from 'react'
+import {useRef} from 'react'
 
-import { CommonButton, DescriptionComponent, ImageComponent } from '@/components'
-import { English, Images } from '@/helpers'
+import {CommonButton, DescriptionComponent, ImageComponent} from '@/components'
+import {English, Images} from '@/helpers'
 
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null)

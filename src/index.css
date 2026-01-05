@@ -626,3 +626,6 @@
 @utility transition__utility {
   @apply transition-all duration-500 ease-in;
 }
+.custom_shadow {
+  box-shadow: 0px 3px 58px 2.5px rgba(0, 0, 0, 0.3);
+}

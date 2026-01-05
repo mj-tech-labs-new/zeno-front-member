@@ -112,7 +112,7 @@ const Steps = (props: StepsProps) => {
           }}
         />
       </div>
-      <Divider />
+      <Divider className="bg-landing-page-trading-rules-para-text/50!" />
       <div className="flex flex-col gap-[18px]">
         <HeadingComponent
           className="text-tertiary-color! font-semibold font-geist! text-xl/6!"

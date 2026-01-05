@@ -1,6 +1,6 @@
 import Marquee from 'react-fast-marquee'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import {useSelector} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
 import {
   CommonButton,
@@ -8,8 +8,8 @@ import {
   Divider,
   ImageComponent,
 } from '@/components'
-import { Constants, English, Images } from '@/helpers'
-import { StorageProps } from '@/types/CommonTypes'
+import {Constants, English, Images} from '@/helpers'
+import {StorageProps} from '@/types/CommonTypes'
 
 const BrandingComponent = () => {
   const navigate = useNavigate()
@@ -59,8 +59,8 @@ const BrandingComponent = () => {
       </div>
 
       <Marquee
-        gradient gradientColor="#F7F6F5"
-        gradientWidth={200} loop={0}>
+gradient gradientColor="#F7F6F5"
+gradientWidth={200} loop={0}>
         <div className="flex gap-4">
           {Constants.brandImages.map((item) => (
             <ImageComponent
