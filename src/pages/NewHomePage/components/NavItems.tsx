@@ -1,9 +1,9 @@
-import {useGSAP} from '@gsap/react'
+import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import {forwardRef, useMemo} from 'react'
+import { forwardRef, useMemo } from 'react'
 
-import {CommonButton, LogoComponent} from '@/components'
-import {NavItemsProps} from '@/types/ComponentTypes'
+import { CommonButton, LogoComponent } from '@/components'
+import { NavItemsProps } from '@/types/ComponentTypes'
 
 const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
   const {
@@ -15,9 +15,9 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
   } = props
   const NavData = useMemo(
     () => [
-      {content: 'How it works'},
-      {content: 'Trading Rules'},
-      {content: 'Traders payout'},
+      { content: 'How it works' },
+      { content: 'Trading Rules' },
+      { content: 'Traders payout' },
     ],
     []
   )
@@ -45,12 +45,12 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
   return (
     <div
       ref={ref}
-      className={`${className} hidden items-center justify-between gap-4 xl:gap-8 h-full w-full px-8 lg:flex`}
+      className={`${className} hidden lg:container lg:mx-auto items-center justify-between gap-4 xl:gap-8 h-full w-full px-5 lg:flex`}
       id="nav__item__parent"
     >
       <div className="flex items-center gap-7 xl:gap-14">
         {NavData.map((nav) => {
-          const {content} = nav
+          const { content } = nav
           return (
             <div
               key={content}
@@ -65,13 +65,13 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
           )
         })}
       </div>
-      {showLogo && <LogoComponent singleLineContent="Zeno Trader" />}
+      {showLogo && <LogoComponent layoutClassName="flex-row-reverse" singleLineContent="Zeno Trader" />}
       <div className={`flex items-center gap-5 ${layoutClassName}`}>
         {['Login', 'Start Your Challenge']?.map((item, index) => (
           <CommonButton
             key={item}
             isAnimatedType
-            className={`w-fit! text-base/5! font-medium! ${index === 0 ? 'text-tertiary-color! hover:text-primary-color! transition-all duration-500 ease-in' : 'white__primary_btn'}`}
+            className={`w-fit! text-lg/5! font-geist! font-medium! py-4! px-5! ${index === 0 ? 'text-tertiary-color! hover:text-primary-color! transition-all duration-500 ease-in' : 'white__primary_btn'}`}
             singleLineContent={item}
           />
         ))}

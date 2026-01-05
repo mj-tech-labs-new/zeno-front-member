@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import {
   Accordian,
@@ -6,8 +6,8 @@ import {
   OpacityContainer,
   WordSplit,
 } from '@/components'
-import {Constants, English, Images} from '@/helpers'
-import {useClickOutside} from '@/hooks'
+import { Constants, English, Images } from '@/helpers'
+import { useClickOutside } from '@/hooks'
 
 const WorkSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -34,26 +34,30 @@ const WorkSection = () => {
       ref={sectionRef}
       className="py-12 md:py-28 xl:py-[120px] xl:pl-[370px] px-5 lg:pr-0 h-full bg-linear-to-r from-light-gr1 via-light-gr2 to-light-gr3"
     >
-      <div className="flex flex-col lg:flex-row gap-2">
-        <div className="flex flex-col justify-between">
+      <div className="flex flex-col lg:flex-row gap-2 h-full min-h-[654px]">
+        <div className="flex flex-col">
           <WordSplit
             className="text-primary-black!"
             singleLineContent={English.E400}
           />
-          <div>
-            {Constants.QA.map((qa, index) => (
-              <Accordian
-                key={qa.que}
-                isLineType
-                className="!gap-0"
-                isOpen={currentIndex === index}
-                multilineContent={[qa.ans]}
-                singleLineContent={qa.que}
-                onPressItem={() => {
-                  setCurrentIndex(index)
-                }}
-              />
-            ))}
+          <div className="h-full flex items-center">
+            <div className="h-fit my-auto w-full">
+              {Constants.QA.map((qa, index) => (
+                <div key={qa.que} className="">
+                  <Accordian
+
+                    isLineType
+                    className="!gap-0"
+                    isOpen={currentIndex === index}
+                    multilineContent={[qa.ans]}
+                    singleLineContent={qa.que}
+                    onPressItem={() => {
+                      setCurrentIndex(index)
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -64,7 +68,7 @@ const WorkSection = () => {
           isVerticalPositionType={false}
         >
           <ImageComponent
-            className="py-5 h-full w-full aspect-[1.45/1] shrink-0"
+            className="h-full flex items-center justify-center"
             imageUrl={currentIndex !== 2 ? Images.heroImage : Images.price}
           />
         </OpacityContainer>

@@ -1,7 +1,7 @@
-import {useRef} from 'react'
+import { useRef } from 'react'
 
-import {CommonButton, DescriptionComponent, ImageComponent} from '@/components'
-import {Images} from '@/helpers'
+import { CommonButton, DescriptionComponent, ImageComponent } from '@/components'
+import { English, Images } from '@/helpers'
 
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null)
@@ -14,7 +14,7 @@ const HeroSection = () => {
         loop
         muted
         aria-label="video"
-        className="w-screen left-1/2 -translate-x-1/2 object-cover top-[96px] h-full absolute -z-10"
+        className="w-screen left-1/2 -translate-x-1/2 object-cover top-[94px] h-full absolute -z-10"
         controls={false}
       >
         <source src={Images.mainVideo} type="video/mp4" />
@@ -22,23 +22,24 @@ const HeroSection = () => {
       <div className="space-y-8">
         <div className="max-w-full px-5 md:max-w-3xl lg:px-0 w-full mx-auto space-y-5">
           <div
-            className="p-1.5 mx-auto  rounded-full border border-solid border-primary-color/20 group  flex gap-2 w-fit opacity-0"
             id="description_content"
+            className="p-1.5 font-geist!
+             mx-auto  rounded-full border border-solid border-primary-color/20 group  flex  w-fit"
           >
-            <span className="py-[2.5px] px-1.5 uppercase bg-medium-success-color text-[10px]/4 font-bold rounded-full">
-              new
+            <span className="py-[2.5px] px-1.5 uppercase bg-medium-success-color text-[10px]/[15px] font-bold rounded-full">
+              {English.E419}
             </span>
             <p className="text-dark-red-color font-medium text-sm/5 ml-2">
-              Zeno is live for trading
+              {English.E420}
             </p>
             <ImageComponent
-              className="w-6! flex justify-center items-center [&>img]:w-[6px]!"
+              className="w-6! ml-1 flex justify-center items-center [&>img]:w-[6px]!"
               imageUrl={Images.smallArrow}
             />
           </div>
           <DescriptionComponent
             isAnimationType
-            className="text-2xl! sm:text-4xl! leading-10! lg:text-[56px]! lg:leading-[67px]! text-primary-color! text-center"
+            className="text-2xl! sm:text-4xl! leading-10! lg:text-[56px]! lg:leading-[67px]! text-primary-color! text-center font-geist!"
             multilineContent={[
               'A Crypto Prop Firm Built for',
               'Disciplined Traders',
@@ -46,7 +47,7 @@ const HeroSection = () => {
           />
           <DescriptionComponent
             isAnimationType
-            className="max-w-[400px]! mx-auto text-center text-base  md:text-[20px]!"
+            className="w-fit mx-auto text-center font-geist text-base  md:text-[20px]/[30px]!"
             multilineContent={[
               'Trade with clear risk rules, no time pressure,',
               'and transparent payouts. Scale your funded',
@@ -54,15 +55,15 @@ const HeroSection = () => {
             ]}
           />
         </div>
-        <div className="flex flex-row flex-wrap items-center gap-2 justify-center z-10">
+        <div className="flex flex-row flex-wrap items-center gap-2 justify-center z-10 *:font-geist!">
           <CommonButton
             isAnimatedType
-            className="white__primary_btn"
+            className="white__primary_btn py-3! px-6!"
             singleLineContent="Get Funded"
           />
           <CommonButton
             isAnimatedType
-            className="gray__outlined_btn"
+            className="gray__outlined_btn py-3! px-6!"
             singleLineContent="View Rules"
           />
         </div>

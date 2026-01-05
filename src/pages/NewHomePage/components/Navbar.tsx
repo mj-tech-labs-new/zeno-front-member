@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 
-import {LogoComponent} from '@/components'
+import { LogoComponent } from '@/components'
 
 import NavItems from './NavItems'
 import NavvButton from './NavvButton'
@@ -21,11 +21,11 @@ const Navbar = () => {
 
   return (
     <div
-      className={`fixed inset-0 h-[96px] z-99999 flex items-center justify-between bg-primary-black w-screen border-b border-solid ${isScrolled ? 'border-dark-color1' : 'border-transparent'}`}
+      className={`fixed *:font-geist! inset-0 h-[94px] z-99999 flex items-center justify-between bg-primary-black w-screen border-b border-solid ${isScrolled ? 'border-dark-color1' : 'border-transparent'}`}
     >
       <div className="flex lg:hidden items-center justify-between h-full w-[calc(100%-32px)] mx-auto">
         <LogoComponent
-          layoutClassName="block lg:hidden"
+          layoutClassName="block flex-row-reverse lg:hidden "
           singleLineContent="Zeno Trader"
         />
         <NavvButton />

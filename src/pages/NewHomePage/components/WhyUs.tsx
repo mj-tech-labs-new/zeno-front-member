@@ -16,10 +16,10 @@ const WhyUsCard = memo((props: WhyUsCardProps) => {
     <OpacityContainer>
       <div className="space-y-5">
         <ImageComponent className="size-7" imageUrl={img} />
-        <p className="text-primary-color text-xl/7 font-geist" id="words">
+        <p className="text-primary-color text-xl/7 font-geist! font-medium" id="words">
           {title}
         </p>
-        <p className="text-primary-color/50 text-base/6 font-geist font-normal ">
+        <p className="text-primary-color/50 text-base/6 font-geist! font-normal ">
           {content}
         </p>
       </div>

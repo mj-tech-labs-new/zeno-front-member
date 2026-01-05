@@ -56,7 +56,7 @@ const WordSplit = ({
   return (
     <div
       ref={containerRef}
-      className={`text-primary-color font-medium font-geist text-[40px]/12 opacity-0 ${className}`}
+      className={`text-primary-color font-medium font-geist! text-[40px]/12 opacity-0 ${className}`}
     >
       {singleLineContent !== '' && <p>{singleLineContent}</p>}
 

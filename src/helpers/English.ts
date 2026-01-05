@@ -420,6 +420,8 @@ const English = {
   E416: 'Zeno Traders operates exclusively in a simulated trading environment. All accounts, challenges, and programs use virtual funds only and do not involve real capital or live market trading. Zeno Traders is not a broker, dealer, custodian, or investment advisor, and does not accept deposits or provide investment services. All content and services are for educational and evaluation purposes only and should not be considered financial advice. Program fees are participation fees used for operational costs and are not investments or deposits. Trading leveraged products involves significant risk. Past performance is not indicative of future results. Services may not be available in all jurisdictions.',
   E417: 'You ask questions,',
   E418: 'we answer them',
+  E419: 'new',
+  E420: 'Zeno is live for trading'
 }
 
 export default English
