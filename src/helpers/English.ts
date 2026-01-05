@@ -421,7 +421,7 @@ const English = {
   E417: 'You ask questions,',
   E418: 'we answer them',
   E419: 'new',
-  E420: 'Zeno is live for trading',
+  E420: 'Zeno is live for trading'
 }
 
 export default English

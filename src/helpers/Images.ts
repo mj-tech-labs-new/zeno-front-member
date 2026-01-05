@@ -179,7 +179,7 @@ const Images = {
   botIcon: new URL('../assets/static_assets/bot.png', import.meta.url).href,
   flame: new URL('../assets/static_assets/flame.png', import.meta.url).href,
   heroImg2: new URL('../assets/static_assets/hero_2.png', import.meta.url).href,
-  indiaFlag: new URL('../assets/static_assets/india.png', import.meta.url).href,
+  indiaFlag: new URL('../assets/static_assets/India.png', import.meta.url).href,
   turkeyFlag: new URL(
     '../assets/static_assets/turkey_flag.png',
     import.meta.url

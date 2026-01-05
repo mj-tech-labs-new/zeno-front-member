@@ -12,7 +12,7 @@ const Testimonals = () => (
         className="text-[56]/[64px]! px-5"
         singleLineContent={English.E412}
       />
-      <Marquee speed={60}>
+      <Marquee speed={100}>
         <div className="flex gap-2.5 mr-5">
           {Constants.Testimonals.map((testimonals) => {
             const {amount, details, flag, heading, name} = testimonals

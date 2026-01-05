@@ -31,7 +31,7 @@ const Accordian = (props: AccordianPropsType) => {
         className={`${multilineContent?.length > 0 && isOpen ? 'flex flex-col gap-0.5 pointer-events-none' : 'pointer-events-auto cursor-pointer'} : ${className}`}
       >
         <div
-          className={`flex gap-5 items-center relative ${isOpen ? 'pb-[13px]' : 'pb-5'} ${isLineType ? 'pt-5 border-t border-solid border-primary-black/10' : ''} ${isOpen ? 'animating_line' : ''}`}
+          className={`flex gap-5 items-center relative pb-4 ${isLineType ? 'pt-4 border-t border-solid border-primary-black/10' : ''} ${isOpen ? 'animating_line' : ''}`}
         >
           {isLineType && (
             <span
@@ -43,7 +43,7 @@ const Accordian = (props: AccordianPropsType) => {
           </p>
         </div>
         <div
-          className={`overflow-y-auto no-scrollbar transition-all duration-300 ease-in-out ${isOpen ? 'max-h-56 opacity-100 pb-[22px]' : 'max-h-0 opacity-0 mt-0'}`}
+          className={`overflow-y-auto no-scrollbar transition-all duration-300 ease-in-out ${isOpen ? 'max-h-56 opacity-100' : 'max-h-0 opacity-0 mt-0'}`}
         >
           {multilineContent?.map((item) => (
             <p

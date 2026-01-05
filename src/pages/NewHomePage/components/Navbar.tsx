@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 
-import {LogoComponent} from '@/components'
+import { LogoComponent } from '@/components'
 
 import NavItems from './NavItems'
 import NavvButton from './NavvButton'

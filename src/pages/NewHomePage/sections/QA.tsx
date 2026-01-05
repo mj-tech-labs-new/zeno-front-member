@@ -42,7 +42,7 @@ const QA = () => {
           return (
             <div key={content} className="text-primary-color">
               <div
-                className={`flex gap-2 opacity-0 content_box *:font-geist text-base/6  max-w-3/4 translate-y-8 ${isEven ? 'float-left -translate-x-20 ' : 'float-right translate-x-20'}`}
+                className={`flex gap-2 opacity-0 content_box  max-w-3/4 translate-y-8 ${isEven ? 'float-left -translate-x-20 ' : 'float-right translate-x-20'}`}
               >
                 <p
                   className={

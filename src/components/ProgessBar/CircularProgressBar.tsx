@@ -1,13 +1,13 @@
 import 'react-circular-progressbar/dist/styles.css'
 
-import {memo, useMemo} from 'react'
-import {buildStyles, CircularProgressbar} from 'react-circular-progressbar'
+import { memo, useMemo } from 'react'
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar'
 
-import {English} from '@/helpers'
-import {CircularProgressBarType} from '@/types/ComponentTypes'
+import { English } from '@/helpers'
+import { CircularProgressBarType } from '@/types/ComponentTypes'
 
 const CircularProgressBarComponent = (props: CircularProgressBarType) => {
-  const {usedBalance, className = '', totalAmount} = props
+  const { usedBalance, className = '', totalAmount } = props
 
   const percentage = useMemo(
     () => Math.ceil(((usedBalance ?? 0) / Number(totalAmount)) * 100),
@@ -29,13 +29,13 @@ const CircularProgressBarComponent = (props: CircularProgressBarType) => {
       <svg height="0" width="0">
         <defs>
           <linearGradient
-id="gradient1" x1="0%"
-x2="100%" y1="0%"
-y2="100%">
-            <stop offset="0%" style={{stopColor: '#737373', stopOpacity: 1}} />
+            id="gradient1" x1="0%"
+            x2="100%" y1="0%"
+            y2="100%">
+            <stop offset="0%" style={{ stopColor: '#737373', stopOpacity: 1 }} />
             <stop
               offset="100%"
-              style={{stopColor: '#d9d9d9', stopOpacity: 1}}
+              style={{ stopColor: '#d9d9d9', stopOpacity: 1 }}
             />
           </linearGradient>
         </defs>

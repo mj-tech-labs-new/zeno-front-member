@@ -46,18 +46,6 @@ const StepComponent = (props: Pick<SimpleTabProps, 'selectedIndex'>) => {
         itemContent2: selectedIndex === 0 ? '' : '5%',
         bodyContent: 'unlimited',
       },
-      {
-        name: 'Trading Period',
-        itemContent1: selectedIndex === 0 ? 'Unlimited' : 'Unlimited',
-        itemContent2: selectedIndex === 0 ? 'Unlimited' : 'Unlimited',
-        bodyContent: 'Unlimited',
-      },
-      {
-        name: 'Max Leverage',
-        itemContent1: selectedIndex === 0 ? '1:5' : '1:5',
-        itemContent2: selectedIndex === 0 ? '1:5' : '1:5',
-        bodyContent: '1:5',
-      },
     ],
     [selectedIndex]
   )
@@ -67,7 +55,7 @@ const StepComponent = (props: Pick<SimpleTabProps, 'selectedIndex'>) => {
       <div className="flex flex-col w-full">
         <CommonTableComponent
           className="whitespace-nowrap"
-          layoutClassName="border border-solid border-info-bg-color *:font-geist!"
+          layoutClassName="border border-solid border-landing-page-trading-rules-para-text *:font-geist!"
           showArrows={false}
           tableHeading={stepTableHeading}
         >
@@ -76,7 +64,7 @@ const StepComponent = (props: Pick<SimpleTabProps, 'selectedIndex'>) => {
             return (
               <tr
                 key={`TableRow-${name}`}
-                className=" border-b border-info-bg-color  text-base/6 *:transition-all *:duration-300 *:ease-in-out  *:font-geist! whitespace-nowrap *:px-6 *:py-4 *:text-secondary-light-color "
+                className=" border-b border-landing-page-trading-rules-para-text  text-base/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:px-6 *:py-4 *:text-secondary-light-color "
               >
                 <td className="!text-tertiary-color capitalize w-[240px]">
                   {name}

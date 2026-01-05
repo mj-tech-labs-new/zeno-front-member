@@ -29,10 +29,7 @@ const BottomFooter = () => (
         <span className="text-primary-color font-semibold font-switzer! text-lg/6">
           {English.E415}
         </span>
-        <DescriptionComponent
-          className="font-switzer!"
-          singleLineContent={English.E416}
-        />
+        <DescriptionComponent singleLineContent={English.E416} />
       </div>
     </OpacityContainer>
   </div>
