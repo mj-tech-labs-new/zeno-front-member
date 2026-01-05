@@ -32,7 +32,7 @@ const WorkSection = () => {
   return (
     <div
       ref={sectionRef}
-      className=" h-[940px] flex items-center  xl:pl-[370px] px-5 lg:pr-0  bg-linear-to-r from-light-gr1 via-light-gr2 to-light-gr3"
+      className=" h-[940px] py-5 lg:py-[54px] xl:py-[118px] flex items-center  xl:pl-[370px] px-5 lg:pr-0  bg-linear-to-r from-light-gr1 via-light-gr2 to-light-gr3"
     >
       <div className="flex flex-col lg:flex-row gap-2 h-full min-h-[654px]">
         <div className="flex flex-col">
@@ -70,7 +70,7 @@ const WorkSection = () => {
             className="h-full flex items-center justify-center [&>img]:object-contain"
             imageUrl={
               currentIndex === 0
-                ? Images.mainItem
+                ? Images.fullDashboard
                 : currentIndex === 1
                   ? Images.heroImage
                   : Images.price

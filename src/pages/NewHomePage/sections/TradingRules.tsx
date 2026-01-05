@@ -18,9 +18,13 @@ const TradingRules = () => {
 
   const handleRender = useCallback(() => {
     const element = document.getElementById('payout_id')
-    if (!element || !divRef.current || window.innerWidth <= 1024) return
+    if (!element || !divRef.current) return
 
     const elementStyle = element.style
+    if (window.innerWidth <= 1024) {
+      elementStyle.marginTop = '0px'
+      return
+    }
     elementStyle.marginTop = `${divRef.current.clientHeight + 96}px`
   }, [])
 

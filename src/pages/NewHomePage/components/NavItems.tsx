@@ -76,7 +76,7 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
           <CommonButton
             key={item}
             isAnimatedType
-            className={`w-fit! text-lg/5! font-geist! font-medium! py-4! px-5! ${index === 0 ? 'text-tertiary-color! hover:text-primary-color! transition-all duration-500 ease-in' : 'white__primary_btn'}`}
+            className={`w-fit! text-lg/5! font-geist! font-medium! tracing-[-0.14px]! py-0! h-[52px] px-5! ${index === 0 ? 'text-tertiary-color! hover:text-primary-color! transition-all duration-500 ease-in' : 'white__primary_btn'}`}
             singleLineContent={item}
           />
         ))}

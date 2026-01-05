@@ -24,6 +24,7 @@ const JoinUs = () => (
             <OpacityContainer key={content}>
               <Link
                 className="bg-primary-color py-2 px-4 rounded-full cursor-pointer *:font-geist! font-medium text-base/6 flex gap-2 w-full"
+                target="_blank"
                 to={link}
               >
                 <ImageComponent className="size-6" imageUrl={icon} />

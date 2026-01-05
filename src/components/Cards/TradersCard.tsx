@@ -8,7 +8,7 @@ const TradersCard = (props: TraderCardsProps) => {
 
   return (
     <div className="card  overflow-hidden">
-      <div className="p-8 mt-32 bg-dark-gray-bg rounded-[26px] lg:p-[85px] lg:pr-0! grid grid-cols-1 lg:grid-cols-2 gap-[49px]">
+      <div className="p-8 mt-[100px] bg-dark-gray-bg rounded-[26px] lg:p-[85px] lg:pr-0! grid grid-cols-1 lg:grid-cols-2 gap-[49px]">
         <div className="flex flex-col gap-[96px] justify-between">
           <div className="flex flex-col gap-3 *:font-geist!">
             <DescriptionComponent
@@ -39,7 +39,7 @@ const TradersCard = (props: TraderCardsProps) => {
         </div>
 
         <ImageComponent
-          className="size-full hidden lg:block"
+          className="size-full hidden lg:block custom_shadow"
           imageUrl={mainImg}
         />
       </div>

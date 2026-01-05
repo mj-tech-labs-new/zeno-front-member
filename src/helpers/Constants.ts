@@ -588,25 +588,53 @@ const Constants = {
   footerLinks: [
     {
       title: 'Zeno',
-      links: ['Overview', 'About', 'Finance', 'Legal'],
+      links: [
+        {content: 'Overview', link: '#'},
+        {content: 'About', link: '#'},
+        {content: 'Finance', link: '#'},
+        {content: 'Legal', link: '#'},
+      ],
     },
     {
       title: 'Resources',
-      links: ['Blog', 'ChangeLog', 'Webinar', 'Security', 'Customer stories'],
+      links: [
+        {content: 'Blog', link: '#'},
+        {content: 'ChangeLog', link: '#'},
+        {content: 'Webinar', link: '#'},
+        {content: 'Security', link: '#'},
+        {content: 'Customer stories', link: '#'},
+      ],
     },
     {
       title: 'Company',
-      links: ['About', 'Careers', 'News', 'Contact'],
+      links: [
+        {content: 'About', link: '#'},
+        {content: 'Careers', link: '#'},
+        {content: 'News', link: '#'},
+        {content: 'Contact', link: '#'},
+      ],
     },
   ],
   socialLinks: [
     {
       title: 'Legal',
-      links: ['Terms', 'Privacy Policy', 'Cookie Declaration'],
+      links: [
+        {content: 'Terms', link: '#'},
+        {content: 'Privacy Policy', link: '#'},
+        {content: 'Cookie Declaration', link: '#'},
+      ],
     },
     {
       title: 'Social',
-      links: ['LinkedIn', 'YouTube', 'X (Twitter)', 'GitHub'],
+      links: [
+        {
+          content: 'LinkedIn',
+          link: 'https://www.linkedin.com/company/zenotraders/',
+        },
+        {content: 'YouTube', link: 'https://www.youtube.com/@Zeno_Trader'},
+        {content: 'X (Twitter)', link: 'https://x.com/zeno_traders'},
+        {content: 'GitHub', link: '#'},
+      ],
     },
   ],
   brandImages: [
@@ -1135,7 +1163,7 @@ const Constants = {
         'One-Click Trade Access',
         'Challenge Lifecycle Tracking',
       ],
-      mainImg: Images.mainItem,
+      mainImg: Images.fullDashboard,
     },
     {
       mainTitle: 'Monitor your challenge with absolute clarity',
@@ -1149,7 +1177,7 @@ const Constants = {
         'Stage Progress Monitoring',
         'Rule-Based Evaluation',
       ],
-      mainImg: Images.heroImage,
+      mainImg: Images.mainItem,
     },
     {
       mainTitle: 'Professional-grade trading tool.',

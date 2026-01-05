@@ -6,10 +6,10 @@ import {
 import {English, Images} from '@/helpers'
 
 const BottomFooter = () => (
-  <div className="px-5 xl:px-0 max-w-[980px] mx-auto pb-9 ">
+  <div className="px-5 xl:px-0  pb-9 ">
     <OpacityContainer
       isHorizontalPositionType
-      className=" items-center justify-center w-full text-info-bg-color p-6 hidden lg:flex"
+      className=" items-center justify-center w-full text-info-bg-color p-6 pb-0 hidden lg:flex max-w-[980px] mx-auto"
       isVerticalPositionType={false}
     >
       <p className="text-9xl 2xl:text-[199px] leading-[100%] font-switzer! font-semibold">
@@ -30,7 +30,7 @@ const BottomFooter = () => (
           {English.E415}
         </span>
         <DescriptionComponent
-          className="font-switzer!"
+          className="font-switzer! text-xs"
           singleLineContent={English.E416}
         />
       </div>
