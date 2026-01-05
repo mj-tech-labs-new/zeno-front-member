@@ -1,9 +1,9 @@
-import { useGSAP } from '@gsap/react'
+import {useGSAP} from '@gsap/react'
 import gsap from 'gsap'
-import { forwardRef, useMemo } from 'react'
+import {forwardRef, useMemo} from 'react'
 
-import { CommonButton, LogoComponent } from '@/components'
-import { NavItemsProps } from '@/types/ComponentTypes'
+import {CommonButton, LogoComponent} from '@/components'
+import {NavItemsProps} from '@/types/ComponentTypes'
 
 const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
   const {
@@ -15,9 +15,9 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
   } = props
   const NavData = useMemo(
     () => [
-      { content: 'How it works' },
-      { content: 'Trading Rules' },
-      { content: 'Traders payout' },
+      {content: 'How it works'},
+      {content: 'Trading Rules'},
+      {content: 'Traders payout'},
     ],
     []
   )
@@ -50,7 +50,7 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
     >
       <div className="flex items-center gap-7 xl:gap-14">
         {NavData.map((nav) => {
-          const { content } = nav
+          const {content} = nav
           return (
             <div
               key={content}
@@ -65,7 +65,12 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
           )
         })}
       </div>
-      {showLogo && <LogoComponent layoutClassName="flex-row-reverse" singleLineContent="Zeno Trader" />}
+      {showLogo && (
+        <LogoComponent
+          layoutClassName="flex-row-reverse"
+          singleLineContent="Zeno Trader"
+        />
+      )}
       <div className={`flex items-center gap-5 ${layoutClassName}`}>
         {['Login', 'Start Your Challenge']?.map((item, index) => (
           <CommonButton

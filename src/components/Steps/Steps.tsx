@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {useEffect, useMemo, useState} from 'react'
 
 import {English, Utility} from '@/helpers'
 import {getTradingCapitalApi} from '@/pages/CreateChallenge/api/CreateChallengeApis'
@@ -18,7 +18,7 @@ const Steps = (props: StepsProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [selectedAmount, setSelectedAmount] = useState(0)
   const [totalContent, setTotalContent] = useState<GetTradingCapitalProps[]>([])
-  const divRef = useRef<HTMLDivElement | null>(null)
+
   const stepArray = useMemo(
     () => [{content: English.E32}, {content: English.E34}],
     []
@@ -30,7 +30,7 @@ const Steps = (props: StepsProps) => {
         return {
           content: `$${Utility.numberConversion(capital_fund)?.split('.')?.[0]}`,
           labelText:
-            totalContent?.[index]?.challenge_name === 'test plan'
+            totalContent?.[index]?.challenge_name === 'Champion'
               ? 'Most Popular'
               : '',
         }
@@ -52,35 +52,8 @@ const Steps = (props: StepsProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex])
 
-  const handleRender = useCallback(() => {
-    const element = document.getElementById('payout_id')
-    if (!element || !divRef.current || window.innerWidth <= 1024) return
-
-    const {top} = divRef.current.getBoundingClientRect()
-
-    const elementStyle = element.style
-    elementStyle.top = `${top}px`
-  }, [])
-
-  useEffect(() => {
-    handleRender()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    window.addEventListener('resize', handleRender)
-
-    return () => {
-      window.removeEventListener('resize', handleRender)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
-    <div
-      ref={divRef}
-      className="bg-tertiary-bg-color rounded-[16px] border border-solid border-primary-border-color p-6 space-y-8"
-    >
+    <div className="mt-0 lg:mt-5 bg-tertiary-bg-color rounded-[16px] border border-solid border-primary-border-color p-6 space-y-8 ">
       <div className="flex flex-col gap-[18px]">
         <HeadingComponent
           className="text-tertiary-color! font-semibold font-geist! text-xl/6!"

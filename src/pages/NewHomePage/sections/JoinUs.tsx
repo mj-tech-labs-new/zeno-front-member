@@ -12,7 +12,7 @@ const JoinUs = () => (
         singleLineContent={English.E413}
       />
       <OpacityContainer>
-        <p className="text-primary-color/50 text-lg/5 font-geist">
+        <p className="text-primary-color/50 text-lg/5 font-geist!">
           {English.E414}
         </p>
       </OpacityContainer>
@@ -23,7 +23,7 @@ const JoinUs = () => (
           return (
             <OpacityContainer key={content}>
               <Link
-                className="bg-primary-color py-2 px-4 rounded-full cursor-pointer font-geist! font-medium text-base/6 flex gap-2 w-full"
+                className="bg-primary-color py-2 px-4 rounded-full cursor-pointer *:font-geist! font-medium text-base/6 flex gap-2 w-full"
                 to={link}
               >
                 <ImageComponent className="size-6" imageUrl={icon} />

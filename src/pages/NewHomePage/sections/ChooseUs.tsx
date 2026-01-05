@@ -61,7 +61,7 @@ const ChooseUs = () => {
   return (
     <div className="py-12 md:py-28 lg:pb-[120px] lg:pt-[144px] px-5  xl:px-0 xl:max-w-6xl mx-auto space-y-10">
       <WordSplit singleLineContent={English.E407} />
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {Constants.WhyChoose.map((item, index) => {
           const {title} = item
           return (
@@ -72,8 +72,8 @@ const ChooseUs = () => {
                 index === 0
                   ? Images.video1
                   : index === 1
-                    ? Images.video2
-                    : Images.video3
+                    ? Images.video3
+                    : Images.video2
               }
             />
           )

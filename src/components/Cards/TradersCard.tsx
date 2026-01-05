@@ -9,20 +9,20 @@ const TradersCard = (props: TraderCardsProps) => {
   return (
     <div className="card  overflow-hidden">
       <div className="p-8 mt-32 bg-dark-gray-bg rounded-[26px] lg:p-[85px] lg:pr-0! grid grid-cols-1 lg:grid-cols-2 gap-[49px]">
-        <div className="flex flex-col gap-5 justify-between">
+        <div className="flex flex-col gap-[96px] justify-between">
           <div className="flex flex-col gap-3 *:font-geist!">
             <DescriptionComponent
-              className="font-medium  text-[40px]/12 text-primary-color!"
+              className="font-medium font-geist!  text-[40px]/12 text-primary-color!"
               singleLineContent={mainTitle}
             />
             <DescriptionComponent
-              className="text-lg/[30px] font-normal text-primary-color/50"
+              className="text-lg/[30px] font-geist! font-normal text-primary-color/50"
               singleLineContent={description}
             />
           </div>
 
           <div className="flex flex-col gap-3.5">
-            <span className="text-lg/5 font-normal text-primary-color/50 font-inter!">
+            <span className="text-lg/5 font-normal text-primary-color/50  font-inter!">
               {secondaryDesc}
             </span>
             <div className="flex gap-2 flex-wrap">

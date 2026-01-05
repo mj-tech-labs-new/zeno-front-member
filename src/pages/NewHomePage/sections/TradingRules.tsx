@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 
 import {Steps, WordSplit} from '@/components'
 import {English} from '@/helpers'
@@ -6,6 +6,7 @@ import Payout from '@/pages/CreateChallenge/sections/Payout'
 import {ChallengePayoutObject} from '@/types/ChallengeTypes'
 
 const TradingRules = () => {
+  const divRef = useRef<HTMLDivElement | null>(null)
   const [selectedPayout, setSelectedPayout] = useState<ChallengePayoutObject>({
     amount: '0.00',
     capital: '0.00',
@@ -15,10 +16,32 @@ const TradingRules = () => {
     plan_icon_url: '',
   })
 
+  const handleRender = useCallback(() => {
+    const element = document.getElementById('payout_id')
+    if (!element || !divRef.current || window.innerWidth <= 1024) return
+
+    const elementStyle = element.style
+    elementStyle.marginTop = `${divRef.current.clientHeight + 96}px`
+  }, [])
+
+  useEffect(() => {
+    handleRender()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('resize', handleRender)
+
+    return () => {
+      window.removeEventListener('resize', handleRender)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div className="w-full flex flex-col lg:flex-row gap-[22px]">
-      <div className="w-full h-full space-y-[96px] flex-1">
-        <div className="lg:w-[calc(100%-24px)] space-y-4">
+      <div className="w-full h-full space-y-[96px] flex-1 ">
+        <div ref={divRef} className="lg:w-[calc(100%-24px)] space-y-4">
           <WordSplit singleLineContent={English.E408} />
           <WordSplit
             className="text-xl/[30px] font-normal font-geist text-secondary-light-color!"

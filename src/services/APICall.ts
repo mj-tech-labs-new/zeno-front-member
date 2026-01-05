@@ -7,7 +7,7 @@ import CommonFunction from './CommonFunction'
 
 const axiosInstance = axios.create({
   baseURL:
-    process.env.NODE_ENV !== 'production'
+    process.env.NODE_ENV === 'production'
       ? import.meta.env.VITE_API_BASE_URL_LOCAL
       : import.meta.env.VITE_API_BASE_URL_PRODUCTION,
 })

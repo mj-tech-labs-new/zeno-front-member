@@ -1086,13 +1086,13 @@ const Constants = {
       icon: Images.twitterIcon,
       content: 'Follow us on',
       boldText: 'X',
-      link: '#',
+      link: 'https://x.com/zeno_traders',
     },
     {
       icon: Images.telegramIcon,
       content: 'Follow us on',
       boldText: 'TELEGRAM',
-      link: '#',
+      link: 'https://t.me/ZenoTraderChannel',
     },
   ],
   Talks: [
