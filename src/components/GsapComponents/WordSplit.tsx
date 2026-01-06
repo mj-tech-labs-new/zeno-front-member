@@ -25,29 +25,32 @@ const WordSplit = ({
         type: 'words',
       })
 
-      const tl = gsap.timeline({defaults: {ease: 'power3.inOut'}})
+      const tl = gsap.timeline({
+        paused: true,
+        defaults: {ease: 'power3.inOut'},
+      })
+
+      tl.set(containerRef.current, {opacity: 1}).from(split.words, {
+        opacity: 0,
+        yPercent: 50,
+        duration: 1.5,
+        ease: 'back.out(1.7)',
+        stagger: 0.12,
+      })
 
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: 'top 90%',
-        onEnter: () => {
-          tl.to(containerRef.current, {
-            opacity: 1,
-            duration: 0.05,
-          })
-
-          tl.from(split.words, {
-            opacity: 0,
-            yPercent: 50,
-            duration: 1.5,
-            ease: 'back.out(1.7)',
-            stagger: 0.12,
-          })
-        },
+        onEnter: () => tl.restart(),
+        onEnterBack: () => tl.restart(),
+        onLeave: () => tl.pause(0),
+        onLeaveBack: () => tl.pause(0),
       })
 
       // eslint-disable-next-line consistent-return
-      return () => split.revert()
+      return () => {
+        split.revert()
+      }
     },
     {scope: containerRef}
   )

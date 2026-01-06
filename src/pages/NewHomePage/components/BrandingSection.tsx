@@ -1,12 +1,11 @@
 import Marquee from 'react-fast-marquee'
 
-import {DescriptionComponent, ImageComponent} from '@/components'
+import {ImageComponent, WordSplit} from '@/components'
 import {Constants} from '@/helpers'
 
 const BrandingSection = () => (
   <div className="py-12 md:py-28 lg:pb-[152px] max-w-3xl mx-auto space-y-10">
-    <DescriptionComponent
-      isAnimationType
+    <WordSplit
       className="w-fit! font-geist! text-sm/[21px]! mx-auto text-primary-color! text-center"
       singleLineContent="Supported by Leading Industry Partners"
     />

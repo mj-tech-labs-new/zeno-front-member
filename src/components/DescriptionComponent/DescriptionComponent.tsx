@@ -1,6 +1,3 @@
-import {useGSAP} from '@gsap/react'
-import gsap from 'gsap'
-import {ScrollTrigger} from 'gsap/all'
 import {forwardRef, useRef} from 'react'
 
 import {FeatureCardProps, GeneralProps} from '@/types/CommonTypes'
@@ -11,7 +8,7 @@ const DescriptionComponent = forwardRef<
     GeneralProps,
     'className' | 'multilineContent' | 'layoutClassName' | 'singleLineContent'
   > &
-    Pick<FeatureCardProps, 'featureCardSpan'> & {isAnimationType?: boolean}
+    Pick<FeatureCardProps, 'featureCardSpan'>
 >((props, ref) => {
   const {
     className = '',
@@ -19,36 +16,11 @@ const DescriptionComponent = forwardRef<
     singleLineContent = '',
     featureCardSpan = '',
     layoutClassName = '',
-    isAnimationType = false,
   } = props
   const divElement = useRef<HTMLDivElement | null>(null)
 
-  gsap.registerPlugin(ScrollTrigger)
-
-  useGSAP(
-    () => {
-      if (isAnimationType) {
-        gsap.to(divElement.current, {
-          opacity: 100,
-          ease: 'power2.in',
-          duration: 2,
-          scrollTrigger: {
-            trigger: divElement.current,
-            start: 'bottom bottom',
-            end: 'top 20%',
-            scrub: true,
-          },
-        })
-      }
-    },
-    {scope: divElement.current as Element, dependencies: [isAnimationType]}
-  )
-
   return (
-    <div
-      ref={ref ?? divElement}
-      className={` ${isAnimationType ? 'opacity-0' : ''} ${layoutClassName}`}
-    >
+    <div ref={ref ?? divElement} className={layoutClassName}>
       {multilineContent?.length > 0 &&
         multilineContent.map((item) => (
           <p

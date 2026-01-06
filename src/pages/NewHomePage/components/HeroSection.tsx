@@ -1,6 +1,6 @@
 import {useRef} from 'react'
 
-import {CommonButton, DescriptionComponent, ImageComponent} from '@/components'
+import {CommonButton, ImageComponent, WordSplit} from '@/components'
 import {English, Images} from '@/helpers'
 
 const HeroSection = () => {
@@ -38,16 +38,14 @@ const HeroSection = () => {
               imageUrl={Images.smallArrow}
             />
           </div>
-          <DescriptionComponent
-            isAnimationType
+          <WordSplit
             className="text-2xl! sm:text-4xl! leading-10! lg:text-[56px]! lg:leading-[67px]! text-primary-color! text-center font-geist!"
             multilineContent={[
               'A Crypto Prop Firm Built for',
               'Disciplined Traders',
             ]}
           />
-          <DescriptionComponent
-            isAnimationType
+          <WordSplit
             className="w-fit mx-auto text-center font-geist text-base  md:text-[20px]/[30px]!"
             multilineContent={[
               'Trade with clear risk rules, no time pressure,',

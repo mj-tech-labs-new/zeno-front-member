@@ -27,7 +27,7 @@ const QA = () => {
   }, [])
 
   return (
-    <div className="lg:max-w-3xl mx-auto lg:pt-[120px] lg:pb-[150px] space-y-[62px] overflow-x-hidden">
+    <div className="lg:max-w-3xl mx-auto lg:pt-[120px] lg:pb-[150px] space-y-[62px] overflow-x-hidden!">
       <WordSplit
         className="text-[40px]/12! font-medium! text-center!"
         multilineContent={[English.E417, English.E418]}
