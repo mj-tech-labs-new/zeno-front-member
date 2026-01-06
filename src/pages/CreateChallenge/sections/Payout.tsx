@@ -31,23 +31,27 @@ const Payout = (props: ChallengePayoutObject) => {
       id="payout_id"
     >
       <ImageComponent
-        className="size-full md:size-56 md:mx-auto lg:size-full"
+        className="size-full md:size-56 md:mx-auto lg:size-full rounded-[8px] overflow-hidden"
         imageUrl={
           plan_icon_url === null
             ? Images.character1
             : `${import.meta.env.VITE_API_BASE_URL_PRODUCTION}${plan_icon_url?.replace('/home/ubuntu/backend/', '')}`
         }
       />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         <HeadingComponent
-          className="text-base/6 font-medium text-secondary-dark-color font-geist!"
+          className="text-base/6 font-normal text-secondary-dark-color font-geist!"
           singleLineContent={English.E41}
         />
 
         <HeadingComponent
-          className={`!font-medium !text-info-bg-color !tracking-[-0.14px] ${amount === '---' ? '!text-sm/5' : '!text-[32px] !leading-6'}`}
-          singleLineContent={amount === '---' ? English.E48 : `$${capital}`}
+          className={`!font-medium !text-info-bg-color pb-2! !tracking-[-0.14px] ${amount === '---' ? '!text-sm/5' : '!text-[32px] !leading-6'}`}
           type="h2"
+          singleLineContent={
+            amount === '---'
+              ? English.E48
+              : `$${Utility.numberConversion(Number(capital))}`
+          }
         />
       </div>
       <Divider />
@@ -75,7 +79,7 @@ const Payout = (props: ChallengePayoutObject) => {
           ))}
       </div>
       <CommonButton
-        className={`${amount === '---' || amount === '0.00' ? 'grey-disabled-btn-type pointer-events-none' : 'dark-danger-btn-type'} font-medium rounded-[8px]!`}
+        className={`${amount === '---' || amount === '0.00' ? 'grey-disabled-btn-type pointer-events-none' : 'dark-danger-btn-type'} font-normal rounded-[8px]!`}
         singleLineContent={English.E47}
         onClick={() => {
           // onPressItem()

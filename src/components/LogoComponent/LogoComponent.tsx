@@ -14,7 +14,7 @@ const LogoComponent = (
 ) => {
   const {singleLineContent = '', layoutClassName = '', className = ''} = props
   return (
-    <div className={`flex gap-4 items-center   ${layoutClassName}`}>
+    <div className={`flex gap-2 items-center   ${layoutClassName}`}>
       {singleLineContent !== '' && (
         <HeadingComponent
           className="font-geist text-tertiary-color! font-bold text-xl/5"

@@ -30,7 +30,7 @@ const Steps = (props: StepsProps) => {
         return {
           content: `$${Utility.numberConversion(capital_fund)?.split('.')?.[0]}`,
           labelText:
-            totalContent?.[index]?.challenge_name === 'test plan'
+            totalContent?.[index]?.challenge_name === 'Champion'
               ? 'Most Popular'
               : '',
         }

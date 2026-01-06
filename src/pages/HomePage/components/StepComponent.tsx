@@ -35,16 +35,28 @@ const StepComponent = (props: Pick<SimpleTabProps, 'selectedIndex'>) => {
         bodyContent: '5%',
       },
       {
-        name: 'Max total loss',
+        name: 'Max  loss',
         itemContent1: selectedIndex === 0 ? '8%' : '10%',
         itemContent2: selectedIndex === 0 ? '' : '8%',
         bodyContent: '8%',
       },
       {
         name: 'Minimum trading days',
-        itemContent1: selectedIndex === 0 ? '10%' : '5%',
-        itemContent2: selectedIndex === 0 ? '' : '5%',
-        bodyContent: 'unlimited',
+        itemContent1: selectedIndex === 0 ? '10' : '5',
+        itemContent2: selectedIndex === 0 ? '' : '5',
+        bodyContent: 'Unlimited',
+      },
+      {
+        name: 'Trading Period',
+        itemContent1: selectedIndex === 0 ? 'Unlimited' : 'Unlimited',
+        itemContent2: selectedIndex === 0 ? 'Unlimited' : 'Unlimited',
+        bodyContent: 'Unlimited',
+      },
+      {
+        name: 'Max Leverage',
+        itemContent1: selectedIndex === 0 ? '1:5' : '1:10',
+        itemContent2: selectedIndex === 0 ? '1:5' : '1:10',
+        bodyContent: selectedIndex === 0 ? '1:5' : '1:10',
       },
     ],
     [selectedIndex]
@@ -64,7 +76,7 @@ const StepComponent = (props: Pick<SimpleTabProps, 'selectedIndex'>) => {
             return (
               <tr
                 key={`TableRow-${name}`}
-                className=" border-b border-landing-page-trading-rules-para-text  text-base/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:px-6 *:py-4 *:text-secondary-light-color "
+                className=" border-b last:border-none! border-info-bg-color  text-base/6 *:transition-all *:duration-300 *:ease-in-out  whitespace-nowrap *:px-6 *:py-4 *:text-secondary-light-color *:font-light"
               >
                 <td className="!text-tertiary-color capitalize w-[240px]">
                   {name}

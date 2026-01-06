@@ -5,7 +5,10 @@ import TestimonialCard from '@/components/Cards/TestimonialCard'
 import {Constants, English} from '@/helpers'
 
 const Testimonals = () => (
-  <div className="bg-primary-black relative z-9999" id="testimonials">
+  <div
+    className="bg-primary-black relative py-24  xl:pt-[120px] xl:pb-[257px]"
+    id="testimonials"
+  >
     <Divider className="bg-primary-color/15!" />
     <div className="py-12 md:py-28 lg:pt-[120px] lg:pb-[250px] h-full space-y-14">
       <WordSplit className="px-5" singleLineContent={English.E412} />

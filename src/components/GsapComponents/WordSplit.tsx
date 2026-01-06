@@ -30,7 +30,6 @@ const WordSplit = ({
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: 'top 90%',
-        once: true,
         onEnter: () => {
           tl.to(containerRef.current, {
             opacity: 1,

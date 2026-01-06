@@ -50,7 +50,7 @@ const TradingRules = () => {
         <div ref={divRef} className="lg:w-[calc(100%-24px)] space-y-4">
           <WordSplit singleLineContent={English.E408} />
           <WordSplit
-            className="text-xl/[30px] font-normal font-geist text-secondary-light-color!"
+            className="text-xl/[30px] font-light! font-geist text-secondary-light-color!"
             singleLineContent={English.E409}
           />
         </div>

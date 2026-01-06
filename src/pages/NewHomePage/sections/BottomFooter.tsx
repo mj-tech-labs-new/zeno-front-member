@@ -26,11 +26,11 @@ const BottomFooter = () => (
 
     <OpacityContainer>
       <div className="bg-tertiary-bg-color border border-primary-border-color p-6 rounded-[16px]">
-        <span className="text-primary-color font-semibold font-switzer! text-lg/6">
+        {/* <span className="text-primary-color font-semibold font-switzer! text-lg/6">
           {English.E415}
-        </span>
+        </span> */}
         <DescriptionComponent
-          className="font-switzer! text-xs"
+          className="font-switzer! text-[10px] text-justify"
           singleLineContent={English.E416}
         />
       </div>

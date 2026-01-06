@@ -49,14 +49,8 @@ const Stacking = () => {
   return (
     <div ref={wrapperRef} className="">
       <div ref={containerRef} className="flex flex-col">
-        {Constants.StackingCard.map((item, index) => (
-          <TradersCard
-            {...item}
-            key={item.mainTitle}
-            className={
-              index === 0 ? 'top-10' : index === 2 ? 'top-12' : 'top-14'
-            }
-          />
+        {Constants.StackingCard.map((item) => (
+          <TradersCard {...item} key={item.description} />
         ))}
       </div>
     </div>

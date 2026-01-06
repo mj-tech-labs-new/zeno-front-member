@@ -16,6 +16,7 @@ const Accordian = (props: AccordianPropsType) => {
     isLineType = false,
     // isNotCloseType = true,
     isOpen = true,
+    indexValue = 0,
   } = props
 
   return (
@@ -38,12 +39,12 @@ const Accordian = (props: AccordianPropsType) => {
               className={`block size-1.5 rounded-full ${!isOpen ? 'bg-secondary-light-color' : 'bg-extra-dark-danger-color'}`}
             />
           )}
-          <p className="text-primary-black font-semibold font-geist! text-lg/7">
-            {singleLineContent}
+          <p className="text-primary-black font-semibold font-geist! text-xl/7">
+            {indexValue}. {singleLineContent}
           </p>
         </div>
         <div
-          className={`overflow-y-auto no-scrollbar transition-all duration-300 ease-in-out ${isOpen ? 'max-h-56 opacity-100' : 'max-h-0 opacity-0 mt-0'}`}
+          className={`overflow-y-auto no-scrollbar transition-all duration-300 ease-in-out pb-[22px] ${isOpen ? 'max-h-56 opacity-100' : 'max-h-0 opacity-0 mt-0'}`}
         >
           {multilineContent?.map((item) => (
             <p

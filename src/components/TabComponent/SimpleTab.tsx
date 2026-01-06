@@ -26,7 +26,7 @@ const SimpleTab = (props: SimpleTabProps) => {
           return (
             <div
               key={`tab_${content}_${index}`}
-              className={`py-2 px-4 shrink-0! whitespace-nowrap bg-info-bg-color/30 rounded-[8px] border text-tertiary-color font-geist! text-base/6 font-semibold relative ${
+              className={`py-2 ${labelText ? 'rounded-tl-none!' : ''} px-4 shrink-0! whitespace-nowrap bg-info-bg-color/30 rounded-[8px] border text-tertiary-color font-geist! text-base/6 font-medium relative ${
                 isActive
                   ? 'border-tertiary-color pointer-events-none'
                   : 'border-landing-page-trading-rules-para-text cursor-pointer'

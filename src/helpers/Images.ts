@@ -180,10 +180,8 @@ const Images = {
   flame: new URL('../assets/static_assets/flame.png', import.meta.url).href,
   heroImg2: new URL('../assets/static_assets/hero_2.png', import.meta.url).href,
   indiaFlag: new URL('../assets/static_assets/India.png', import.meta.url).href,
-  turkeyFlag: new URL(
-    '../assets/static_assets/turkey_flag.png',
-    import.meta.url
-  ).href,
+  turkeyFlag: new URL('../assets/static_assets/turkey.png', import.meta.url)
+    .href,
   Indonesia: new URL('../assets/static_assets/indonesia.png', import.meta.url)
     .href,
   vietnamFlag: new URL('../assets/static_assets/Vietnam.png', import.meta.url)

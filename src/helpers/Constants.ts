@@ -587,44 +587,6 @@ const Constants = {
 
   footerLinks: [
     {
-      title: 'Zeno',
-      links: [
-        {content: 'Overview', link: '#'},
-        {content: 'About', link: '#'},
-        {content: 'Finance', link: '#'},
-        {content: 'Legal', link: '#'},
-      ],
-    },
-    {
-      title: 'Resources',
-      links: [
-        {content: 'Blog', link: '#'},
-        {content: 'ChangeLog', link: '#'},
-        {content: 'Webinar', link: '#'},
-        {content: 'Security', link: '#'},
-        {content: 'Customer stories', link: '#'},
-      ],
-    },
-    {
-      title: 'Company',
-      links: [
-        {content: 'About', link: '#'},
-        {content: 'Careers', link: '#'},
-        {content: 'News', link: '#'},
-        {content: 'Contact', link: '#'},
-      ],
-    },
-  ],
-  socialLinks: [
-    {
-      title: 'Legal',
-      links: [
-        {content: 'Terms', link: '#'},
-        {content: 'Privacy Policy', link: '#'},
-        {content: 'Cookie Declaration', link: '#'},
-      ],
-    },
-    {
       title: 'Social',
       links: [
         {
@@ -633,7 +595,26 @@ const Constants = {
         },
         {content: 'YouTube', link: 'https://www.youtube.com/@Zeno_Trader'},
         {content: 'X (Twitter)', link: 'https://x.com/zeno_traders'},
-        {content: 'GitHub', link: '#'},
+        {content: 'Instagram', link: 'https://www.instagram.com/zeno_trader/'},
+      ],
+    },
+    // {
+    //   title: 'Resources',
+    //   links: [
+    //     {content: 'Blog', link: '#'},
+    //     {content: 'ChangeLog', link: '#'},
+    //     {content: 'Webinar', link: '#'},
+    //     {content: 'Security', link: '#'},
+    //     {content: 'Customer stories', link: '#'},
+    //   ],
+    // },
+    {
+      title: 'Company',
+      links: [
+        {content: 'About', link: '#'},
+        {content: 'Careers', link: '#'},
+        {content: 'News', link: '#'},
+        {content: 'Contact', link: '#'},
       ],
     },
   ],
@@ -1114,13 +1095,13 @@ const Constants = {
       icon: Images.twitterIcon,
       content: 'Follow us on',
       boldText: 'X',
-      link: '#',
+      link: 'https://x.com/zeno_traders',
     },
     {
       icon: Images.telegramIcon,
       content: 'Follow us on',
       boldText: 'TELEGRAM',
-      link: '#',
+      link: 'https://t.me/ZenoTraderChannel',
     },
   ],
   Talks: [
@@ -1152,7 +1133,7 @@ const Constants = {
   ],
   StackingCard: [
     {
-      mainTitle: 'Manage all challenges from one place',
+      mainTitle: ['Manage all challenges from one place'],
       description:
         'View all your active, failed, and expired challenges at a glance. Track progress, monitor risk limits, and jump straight into trading or analysis.',
       secondaryDesc: 'Everything, clearly organized',
@@ -1166,7 +1147,7 @@ const Constants = {
       mainImg: Images.fullDashboard,
     },
     {
-      mainTitle: 'Monitor your challenge with absolute clarity',
+      mainTitle: ['Monitor your challenge with absolute clarity'],
       description:
         'Track every stage of your Zeno challenge from a single, unified dashboard. See your capital usage, profit targets, drawdowns, and trading days in real time.',
       secondaryDesc: 'Everything, clearly organized',
@@ -1177,10 +1158,10 @@ const Constants = {
         'Stage Progress Monitoring',
         'Rule-Based Evaluation',
       ],
-      mainImg: Images.mainItem,
+      mainImg: Images.heroImage,
     },
     {
-      mainTitle: 'Professional-grade trading tool.',
+      mainTitle: ['Professional-grade', 'trading tool.'],
       description:
         'Execute trades in a real-market environment with institutional-grade tools. Analyze price action, manage positions, and control risk in real time.',
       secondaryDesc: 'Everything, clearly organized',

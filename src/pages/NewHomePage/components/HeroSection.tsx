@@ -8,13 +8,14 @@ const HeroSection = () => {
 
   return (
     <div className="h-[calc(100vh-95.2px)]  w-full flex items-center justify-center relative">
+      {/* <div className="bg-black/10 backdrop-blur-xl  w-screen h-screen  top-[94px]  absolute -z-10" /> */}
       <video
         ref={videoRef}
         autoPlay
         loop
         muted
         aria-label="video"
-        className="w-screen left-1/2 -translate-x-1/2 object-cover top-[94px] h-full absolute -z-10"
+        className="w-screen left-1/2 -translate-x-1/2 object-cover top-[85px] h-full absolute -z-20"
         controls={false}
       >
         <source src={Images.mainVideo} type="video/mp4" />

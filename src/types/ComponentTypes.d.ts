@@ -78,6 +78,7 @@ export type AccordianPropsType = Required<
     isLineType?: boolean
     isNotCloseType?: boolean
     isOpen?: boolean
+    indexValue?: number
   }
 
 export type CircularProgressBarType = {
@@ -264,7 +265,7 @@ export interface TestimonialCardProps {
   details: {value: string; key: string}[]
 }
 export interface TraderCardsProps extends Pick<GeneralProps, 'className'> {
-  mainTitle: string
+  mainTitle: string[]
   description: string
   secondaryDesc: string
   details: string[]

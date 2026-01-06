@@ -26,7 +26,7 @@ const ChooseUsCard = memo((props: ChooseUsCardProps) => {
         <source src={video} type="video/mp4" />
       </video>
       <div className="space-y-3">
-        <p className="text-primary-color font-semibold font-geist! text-xl/7">
+        <p className="text-primary-color font-normal font-geist! text-xl/7">
           {title}
         </p>
         <p className="text-primary-color/50 font-normal font-geist! text-base/6">
@@ -59,7 +59,7 @@ const ChooseUs = () => {
   }, [])
 
   return (
-    <div className="py-12 md:py-28 lg:pb-[120px] lg:pt-[144px] px-5  xl:px-0 xl:max-w-6xl mx-auto space-y-10">
+    <div className="py-12 md:py-28 lg:pb-[120px] lg:pt-[144px] px-5  xl:px-0 xl:max-w-[1180px] mx-auto space-y-10">
       <WordSplit singleLineContent={English.E407} />
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
         {Constants.WhyChoose.map((item, index) => {

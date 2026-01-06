@@ -4,26 +4,26 @@ import {ImageComponent, OpacityContainer, WordSplit} from '@/components'
 import {Constants, English} from '@/helpers'
 
 const JoinUs = () => (
-  <div className="xl:max-w-6xl w-full min-h-[630px] h-full mx-auto relative">
+  <div className="xl:max-w-6xl w-full pb-[82px]  min-h-[483px] mx-auto relative">
     <div className="absolute hero2_section inset-0 -z-10 w-full h-[360px] md:h-full top-1/2 -translate-y-1/2" />
     <div className="lg:max-w-[730px] lg:mx-auto w-[98%] flex flex-col gap-4 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-center">
       <WordSplit
-        className="text-4xl  lg:text-7xl xl:text-[88px]/[92px]"
-        singleLineContent={English.E413}
+        className="text-4xl! lg:text-7xl! xl:text-[88px]/[92px]! font-bold!"
+        multilineContent={[English.E413, English.E421]}
       />
       <OpacityContainer>
-        <p className="text-primary-color/50 text-lg/5 font-geist">
+        <p className="text-primary-color/50 text-sm md:text-lg/5 font-geist">
           {English.E414}
         </p>
       </OpacityContainer>
 
-      <div className="gap-4  flex flex-col md:flex-row md:items-center w-fit mx-auto mt-2 sm:mt-12">
+      <div className="gap-4  flex flex-col md:flex-row items-center w-fit mx-auto mt-2 sm:mt-12">
         {Constants.LinkToFollow.map((items) => {
           const {boldText, content, icon, link} = items
           return (
             <OpacityContainer key={content}>
               <Link
-                className="bg-primary-color py-2 px-4 rounded-full cursor-pointer *:font-geist! font-medium text-base/6 flex gap-2 w-full"
+                className="bg-primary-color py-2 px-4 rounded-full cursor-pointer *:font-geist! font-medium text-base/6 flex gap-2 w-fit! mx-auto"
                 target="_blank"
                 to={link}
               >

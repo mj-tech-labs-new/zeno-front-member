@@ -54,7 +54,7 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
           return (
             <div
               key={content}
-              className={`text-lg/5 font-normal text-tertiary-color hover:text-primary-color nav__item  cursor-pointer ${animationClass}`}
+              className={`text-base/5 font-light! text-tertiary-color hover:text-primary-color nav__item  cursor-pointer ${animationClass}`}
               onClick={(e) => {
                 e.stopPropagation()
                 onPressItem?.(content)
@@ -76,7 +76,7 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
           <CommonButton
             key={item}
             isAnimatedType
-            className={`w-fit! text-lg/5! font-geist! font-medium! tracing-[-0.14px]! py-0! h-[52px] px-5! ${index === 0 ? 'text-tertiary-color! hover:text-primary-color! transition-all duration-500 ease-in' : 'white__primary_btn'}`}
+            className={`w-fit! text-lg/5! font-geist! font-light! tracing-[-0.14px]! py-0! h-[52px] px-5! ${index === 0 ? 'text-tertiary-color! hover:text-primary-color! transition-all duration-500 ease-in' : 'white__primary_btn'}`}
             singleLineContent={item}
           />
         ))}

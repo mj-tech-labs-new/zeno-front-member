@@ -10,34 +10,34 @@ const TestimonialCard = (props: TestimonialCardProps) => {
     props
 
   return (
-    <div className="space-y-0.5 w-[386px] *:font-geist!">
-      <div className="bg-dark-black-color rounded-tr-[33px] rounded-tl-[33px]">
-        <div className="p-7 space-y-[22px]">
-          <div className="flex flex-col sm:flex-row  sm:justify-between">
+    <div className="space-y-0.5 w-[300px] xl:w-[386px] *:font-geist!">
+      <div className="bg-dark-black-color rounded-tr-[33px] rounded-tl-[33px] ">
+        <div className="p-7 space-y-[22px] h-[146px]">
+          <div className="flex flex-row gap-3  justify-between">
             <HeadingComponent
-              className="text-[40px]/[44px]!"
+              className="text-[40px]/[44px]! font-light!"
               singleLineContent={initialContent}
               type="h4"
             />
             <LogoComponent />
           </div>
-          <div className="flex  items-center">
-            <ImageComponent className="[&>img]:size-12!" imageUrl={flag} />
-            <span className="text-primary-color text-lg/6 font-normal font-geist">
+          <div className="flex gap-2.5 items-center">
+            <ImageComponent className="[&>img]:size-6!" imageUrl={flag} />
+            <span className="text-primary-color text-lg/6 font-geist font-light!">
               {secondaryContent}
             </span>
           </div>
         </div>
       </div>
 
-      <div className="space-y-8 relative rounded-br-[33px] p-7">
+      <div className="space-y-8 relative rounded-b-[33px]! overflow-hidden p-7">
         <ImageComponent
           className="absolute right-0 top-0 h-full w-full -z-20"
           imageUrl={Images.flame}
         />
         <div className="absolute top-0 left-0 h-full w-full bg-linear-to-l from-primary-black/50 via-0% to-dark-black-color -z-10" />
         <HeadingComponent
-          className="text-[28px]/[40px]!"
+          className="text-[28px]/[40px]! font-light!"
           singleLineContent={headingContent}
           type="h4"
         />
@@ -45,11 +45,11 @@ const TestimonialCard = (props: TestimonialCardProps) => {
           {details?.map((items) => {
             const {key, value} = items
             return (
-              <div key={key} className="font-geist flex flex-col">
-                <span className="text-lg/8 font-normal font-geist text-primary-color">
+              <div key={key} className="font-geist flex flex-col *:font-light!">
+                <span className="text-lg/8 font-geist text-primary-color">
                   {value}
                 </span>
-                <span className="text-lg/[22px] font-normal font-geist text-secondary-light-color">
+                <span className="text-lg/[22px] font-geist text-secondary-light-color">
                   {key}
                 </span>
               </div>

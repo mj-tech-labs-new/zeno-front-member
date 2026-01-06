@@ -27,7 +27,7 @@ const QA = () => {
   }, [])
 
   return (
-    <div className="lg:max-w-3xl mx-auto lg:pt-[120px] lg:pb-[150px] space-y-[62px]">
+    <div className="lg:max-w-3xl mx-auto lg:pt-[120px] lg:pb-[150px] space-y-[62px] overflow-x-hidden">
       <WordSplit
         className="text-[40px]/12! font-medium! text-center!"
         multilineContent={[English.E417, English.E418]}
@@ -55,7 +55,7 @@ const QA = () => {
                 </p>
                 {!isEven && (
                   <ImageComponent
-                    className="size-9 bg-light-danger-color flex items-center justify-center rounded-full [&>img]:white_filter [&>img]:size-2.5 shrink-0"
+                    className="size-9 bg-light-danger-color flex items-center justify-center rounded-full [&>img]:white_filter [&>img]:size-5! shrink-0"
                     imageUrl={Images.platformLogo}
                   />
                 )}

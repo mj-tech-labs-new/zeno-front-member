@@ -58,7 +58,7 @@ scope="col">
                           <div key={`header_${header}`}>
                             {content.length > 0 ? (
                               <span
-                                className="inline-block"
+                                className="inline-block font-normal!"
                                 onClick={() => {
                                   if (ChangeOrder) ChangeOrder(header)
                                 }}

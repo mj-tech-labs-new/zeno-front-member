@@ -224,7 +224,7 @@ const English = {
   E219: 'Any more questions?',
   E220: 'Talk to sales',
   E221: 'Subscribe to the',
-  E222: 'Zeno Newsletter',
+  E222: 'Zeno Updates',
   E223: 'Stop wasting years proving yourself in risky trading environments',
   E224: 'Stage 1',
   E225: 'Stage 2',
@@ -414,7 +414,7 @@ const English = {
   E410: 'Steps',
   E411: 'Trading Rules',
   E412: 'Verified Traders Payout',
-  E413: 'Join Greatest Traders',
+  E413: 'Join Greatest',
   E414: 'Join our community channels and connect with traders.',
   E415: 'Disclaimer',
   E416: 'Zeno Traders operates exclusively in a simulated trading environment. All accounts, challenges, and programs use virtual funds only and do not involve real capital or live market trading. Zeno Traders is not a broker, dealer, custodian, or investment advisor, and does not accept deposits or provide investment services. All content and services are for educational and evaluation purposes only and should not be considered financial advice. Program fees are participation fees used for operational costs and are not investments or deposits. Trading leveraged products involves significant risk. Past performance is not indicative of future results. Services may not be available in all jurisdictions.',
@@ -422,6 +422,7 @@ const English = {
   E418: 'we answer them',
   E419: 'new',
   E420: 'Zeno is live for trading',
+  E421: 'Traders',
 }
 
 export default English
