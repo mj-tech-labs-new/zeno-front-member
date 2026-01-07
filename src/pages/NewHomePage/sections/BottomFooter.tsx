@@ -6,10 +6,10 @@ import {
 import {English, Images} from '@/helpers'
 
 const BottomFooter = () => (
-  <div className="px-5  pb-9 ">
+  <div className="px-5 pb-9 ">
     <OpacityContainer
       isHorizontalPositionType
-      className=" items-center justify-center w-full text-info-bg-color p-6 pb-0 hidden lg:flex max-w-[980px] mx-auto"
+      className=" items-center justify-center w-full text-info-bg-color p-6 pt-0! pb-0 hidden lg:flex max-w-[980px] mx-auto"
       isVerticalPositionType={false}
     >
       <p className="text-9xl 2xl:text-[199px] leading-[100%] font-switzer! font-semibold">

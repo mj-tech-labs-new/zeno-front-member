@@ -2,29 +2,23 @@ import {useGSAP} from '@gsap/react'
 import gsap from 'gsap'
 import {memo} from 'react'
 
-import {WordSplit} from '@/components'
+import {ImageComponent, WordSplit} from '@/components'
 import {Constants, English, Images} from '@/helpers'
 
 interface ChooseUsCardProps {
-  video: string
+  images: string
   title: string
   content: string
 }
 
 const ChooseUsCard = memo((props: ChooseUsCardProps) => {
-  const {content, video, title} = props
+  const {content, images, title} = props
   return (
     <div className="h-full w-full space-y-5 choose_box">
-      <video
-        autoPlay
-        loop
-        muted
-        aria-label="video"
-        className="rounded-[10px]"
-        controls={false}
-      >
-        <source src={video} type="video/mp4" />
-      </video>
+      <ImageComponent
+        className="h-[300px]! w-auto! [&>img]:object-cover!"
+        imageUrl={images}
+      />
       <div className="space-y-3">
         <p className="text-primary-color font-normal font-geist! text-xl/7">
           {title}
@@ -68,12 +62,12 @@ const ChooseUs = () => {
             <ChooseUsCard
               key={title}
               {...item}
-              video={
+              images={
                 index === 0
-                  ? Images.video1
+                  ? Images.videoImg3
                   : index === 1
-                    ? Images.video3
-                    : Images.video2
+                    ? Images.videoImg2
+                    : Images.videoImg1
               }
             />
           )

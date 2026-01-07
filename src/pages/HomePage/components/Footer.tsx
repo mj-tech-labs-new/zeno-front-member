@@ -1,11 +1,11 @@
 import {Link} from 'react-router-dom'
 
 import {HeadingComponent, ImageComponent, LogoComponent} from '@/components'
-import {Constants, English, Images} from '@/helpers'
+import {Constants, English, Images, Utility} from '@/helpers'
 
 const Footer = () => (
-  <footer className="bg-black text-primary-color mx-auto xl:max-w-6xl">
-    <div className="px-4 lg:px-[52px] pt-[67px] pb-16 lg:pb-24 flex flex-col lg:flex-row gap-16">
+  <footer className="bg-black text-primary-color">
+    <div className="px-4 lg:px-[60px] pt-16 flex flex-col lg:flex-row gap-16">
       <div className="flex lg:flex-col items-start gap-6 lg:gap-12 lg:w-1/2">
         <LogoComponent />
         <Link
@@ -26,7 +26,7 @@ const Footer = () => (
         </Link>
       </div>
 
-      <div className="font-[430] gap-6 grid grid-cols-2 md:grid-cols-3 flex-1 ">
+      <div className="font-[430] gap-20 flex justify-end flex-1 ">
         {Constants.footerLinks.map((item) => (
           <ul key={item.title} className="">
             <HeadingComponent
@@ -39,8 +39,14 @@ const Footer = () => (
                 <Link
                   key={link.content}
                   className="text-base inline-block lg:text-sm !leading-5 text-landing-page-dark-gray-color"
-                  target={link.link === '#' ? '_top' : '_blank'}
+                  target={link.link === '#' ? '_self' : '_blank'}
                   to={link.link}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    if (link.content === 'How it Works') {
+                      Utility.ScrollToSectionUtility('how_it_works')
+                    }
+                  }}
                 >
                   {link.content}
                 </Link>

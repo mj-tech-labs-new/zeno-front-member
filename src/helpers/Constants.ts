@@ -611,10 +611,10 @@ const Constants = {
     {
       title: 'Company',
       links: [
-        {content: 'About', link: '#'},
-        {content: 'Careers', link: '#'},
-        {content: 'News', link: '#'},
-        {content: 'Contact', link: '#'},
+        {content: 'Privacy Policy', link: '#'},
+        {content: 'Terms of Use', link: '#'},
+        {content: 'Refund Policy', link: '#'},
+        {content: 'How it Works', link: '#'},
       ],
     },
   ],
@@ -981,7 +981,7 @@ const Constants = {
           key: 'Name',
         },
         {
-          value: '08 Jan 2026',
+          value: '08 Dec 2025',
           key: 'Date',
         },
         {value: 'Powered by', key: 'Zeno Traders'},
@@ -1015,7 +1015,7 @@ const Constants = {
           key: 'Name',
         },
         {
-          value: '12 Jan 2026',
+          value: '3 Jan 2026',
           key: 'Date',
         },
         {value: 'Powered by', key: 'Zeno Traders'},
@@ -1049,7 +1049,7 @@ const Constants = {
           key: 'Name',
         },
         {
-          value: '04 Jan 2026',
+          value: '04 Dec 2025',
           key: 'Date',
         },
         {value: 'Powered by', key: 'Zeno Traders'},
@@ -1066,7 +1066,7 @@ const Constants = {
           key: 'Name',
         },
         {
-          value: '09 Jan 2026',
+          value: '01 Jan 2026',
           key: 'Date',
         },
         {value: 'Powered by', key: 'Zeno Traders'},
@@ -1083,7 +1083,7 @@ const Constants = {
           key: 'Name',
         },
         {
-          value: '14 Jan 2026',
+          value: '14 Dec 2025',
           key: 'Date',
         },
         {value: 'Powered by', key: 'Zeno Traders'},

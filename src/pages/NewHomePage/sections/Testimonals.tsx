@@ -6,12 +6,16 @@ import {Constants, English} from '@/helpers'
 
 const Testimonals = () => (
   <div
-    className="bg-primary-black relative py-24  xl:pt-[120px] xl:pb-[257px]"
+    className="bg-primary-black relative py-24  xl:pt-[120px]"
     id="testimonials"
+    style={{scrollMarginBlockStart: -100}}
   >
     <Divider className="bg-primary-color/15!" />
-    <div className="py-12 md:py-28 lg:pt-[120px] lg:pb-[250px] h-full space-y-14">
-      <WordSplit className="px-5" singleLineContent={English.E412} />
+    <div className="py-12 lg:pt-[120px] h-full space-y-14 ">
+      <WordSplit
+        className="px-5 xl:px-0 max-w-6xl mx-auto"
+        singleLineContent={English.E412}
+      />
       <Marquee speed={60}>
         <div className="flex gap-2.5 mr-5">
           {Constants.Testimonals.map((testimonals) => {

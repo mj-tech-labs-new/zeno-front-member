@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`fixed *:font-geist! inset-0 h-[85px] z-99999 flex items-center justify-between bg-primary-black w-screen border-b border-solid ${isScrolled ? 'border-dark-color1' : 'border-transparent'}`}
+      className={`fixed *:font-geist! inset-0 h-[75px] z-[99] flex items-center justify-between bg-primary-black w-screen border-b border-solid ${isScrolled ? 'border-dark-color1' : 'border-transparent'}`}
     >
       <div className="flex lg:hidden items-center justify-between h-full w-[calc(100%-32px)] mx-auto">
         <LogoComponent

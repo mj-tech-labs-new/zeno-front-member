@@ -1,8 +1,10 @@
 import {useGSAP} from '@gsap/react'
 import gsap from 'gsap'
 import {forwardRef, useMemo} from 'react'
+import {toast} from 'react-toastify'
 
 import {CommonButton, LogoComponent} from '@/components'
+import {Utility} from '@/helpers'
 import {NavItemsProps} from '@/types/ComponentTypes'
 
 const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
@@ -15,9 +17,9 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
   } = props
   const NavData = useMemo(
     () => [
-      {content: 'How it works'},
-      {content: 'Trading Rules'},
-      {content: 'Traders payout'},
+      {content: 'How it works', id: 'how_it_works'},
+      {content: 'Trading Rules', id: 'trading_rules'},
+      {content: 'Traders payout', id: 'testimonials'},
     ],
     []
   )
@@ -50,14 +52,15 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
     >
       <div className="flex items-center gap-7 xl:gap-14">
         {NavData.map((nav) => {
-          const {content} = nav
+          const {content, id} = nav
           return (
             <div
               key={content}
               className={`text-base/5 font-light! text-tertiary-color hover:text-primary-color nav__item  cursor-pointer ${animationClass}`}
               onClick={(e) => {
                 e.stopPropagation()
-                onPressItem?.(content)
+                onPressItem?.('')
+                Utility.ScrollToSectionUtility(id)
               }}
             >
               {content}
@@ -68,7 +71,7 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
       {showLogo && (
         <LogoComponent
           layoutClassName="flex-row-reverse"
-          singleLineContent="Zeno Trader"
+          singleLineContent="Zeno Traders"
         />
       )}
       <div className={`flex items-center gap-5 ${layoutClassName}`}>
@@ -76,8 +79,14 @@ const NavItems = forwardRef<HTMLDivElement, NavItemsProps>((props, ref) => {
           <CommonButton
             key={item}
             isAnimatedType
-            className={`w-fit! text-lg/5! font-geist! font-light! tracing-[-0.14px]! py-0! h-[52px] px-5! ${index === 0 ? 'text-tertiary-color! hover:text-primary-color! transition-all duration-500 ease-in' : 'white__primary_btn'}`}
+            className={`w-fit! text-base/5! font-geist! font-semibold! tracing-[-0.14px]! py-0! h-[45px] px-5! ${index === 0 ? 'text-tertiary-color! hover:text-primary-color! transition-all duration-500 ease-in' : 'white__primary_btn'}`}
             singleLineContent={item}
+            onClick={(e) => {
+              e.stopPropagation()
+              toast.error(
+                'Zeno Traders is currently available for selected traders. Public access will open soon. Stay tuned.'
+              )
+            }}
           />
         ))}
       </div>

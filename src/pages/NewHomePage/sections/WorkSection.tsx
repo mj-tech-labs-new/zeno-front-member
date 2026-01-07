@@ -30,10 +30,13 @@ const WorkSection = () => {
   })
 
   return (
-    <div className="py-[120px] pl-5 xl:pl-52 pt-[118px] bg-linear-to-r from-light-gr1 via-light-gr2 to-light-gr3">
+    <div
+      className="py-[120px] pl-5 xl:pl-52 pt-[118px] bg-linear-to-r from-light-gr1 via-light-gr2 to-light-gr3"
+      id="how_it_works"
+    >
       <div ref={sectionRef} className="flex items-center ">
         <div className="flex flex-col lg:flex-row gap-2 h-full ">
-          <div className="flex flex-col w-full shrink-0 max-w-[590px] xl:pr-[110px]">
+          <div className="flex flex-col gap-5 w-full shrink-0 max-w-[590px] xl:pr-[110px]">
             <WordSplit
               className="text-primary-black!"
               singleLineContent={English.E400}

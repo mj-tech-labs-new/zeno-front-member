@@ -27,7 +27,7 @@ const TradingRules = () => {
       elementStyle.marginTop = '0px'
       return
     }
-    elementStyle.marginTop = `${divRef.current.clientHeight + 96}px`
+    elementStyle.marginTop = `${divRef.current.clientHeight + 45}px`
   }, [])
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const TradingRules = () => {
 
   return (
     <div className="w-full flex flex-col lg:flex-row gap-[22px]">
-      <div className="w-full h-full space-y-[96px] flex-1">
+      <div className="w-full h-full space-y-[45px] flex-1">
         <div ref={divRef} className="lg:w-[calc(100%-24px)] space-y-4">
           <WordSplit singleLineContent={English.E408} />
           <WordSplit

@@ -1,7 +1,8 @@
 import {useRef} from 'react'
+import {toast} from 'react-toastify'
 
 import {CommonButton, ImageComponent, WordSplit} from '@/components'
-import {English, Images} from '@/helpers'
+import {English, Images, Utility} from '@/helpers'
 
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null)
@@ -46,7 +47,7 @@ const HeroSection = () => {
             ]}
           />
           <WordSplit
-            className="w-fit mx-auto text-center font-geist text-base  md:text-[20px]/[30px]!"
+            className="w-fit mx-auto text-center font-geist text-base text-primary-color/50! font-light!  md:text-[20px]/[30px]!"
             multilineContent={[
               'Trade with clear risk rules, no time pressure,',
               'and transparent payouts. Scale your funded',
@@ -59,11 +60,21 @@ const HeroSection = () => {
             isAnimatedType
             className="white__primary_btn py-3! px-6!"
             singleLineContent="Get Funded"
+            onClick={(e) => {
+              e.stopPropagation()
+              toast.error(
+                'Zeno Traders is currently available for selected traders. Public access will open soon. Stay tuned.'
+              )
+            }}
           />
           <CommonButton
             isAnimatedType
             className="gray__outlined_btn py-3! px-6!"
             singleLineContent="View Rules"
+            onClick={(e) => {
+              e.stopPropagation()
+              Utility.ScrollToSectionUtility('trading_rules')
+            }}
           />
         </div>
       </div>

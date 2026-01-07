@@ -18,7 +18,8 @@ createRoot(document.getElementById('root')!).render(
         autoClose={2000}
         draggable={false}
         limit={1}
-        position="top-right"
+        position="bottom-right"
+        theme="dark"
       />
       <App />
     </PersistGate>
