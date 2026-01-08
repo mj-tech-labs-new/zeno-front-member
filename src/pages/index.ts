@@ -21,6 +21,7 @@ const SetNewPasswordPage = lazy(
 const ForgotPasswordPage = lazy(
   async () => import('./ForgotPasswordPage/ForgotPasswordPage')
 )
+const PrivacyPolicy = lazy(async () => import('./Conditions/PrivacyPolicy'))
 export {
   BillingPage,
   Certificate,
@@ -32,6 +33,7 @@ export {
   HomePage,
   Login,
   PayoutPage,
+  PrivacyPolicy,
   ProfilePage,
   SetNewPasswordPage,
   SignUp,

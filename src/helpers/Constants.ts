@@ -611,9 +611,9 @@ const Constants = {
     {
       title: 'Company',
       links: [
-        {content: 'Privacy Policy', link: '#'},
-        {content: 'Terms of Use', link: '#'},
-        {content: 'Refund Policy', link: '#'},
+        {content: 'Privacy Policy', link: '/privacy-policy'},
+        {content: 'Terms of Use', link: 'terms-and-condition'},
+        {content: 'Refund Policy', link: 'refund-policy'},
         {content: 'How it Works', link: '#'},
       ],
     },
