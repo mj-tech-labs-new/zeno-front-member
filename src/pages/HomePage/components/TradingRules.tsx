@@ -48,10 +48,9 @@ const TradingRules = () => {
       <div className="w-full h-full space-y-[96px] flex-1 ">
         <div ref={divRef} className="lg:w-[calc(100%-24px)] space-y-4">
           <WordSplit singleLineContent={English.E408} />
-          <WordSplit
-            className="text-xl/[30px] font-normal font-geist text-secondary-light-color!"
-            singleLineContent={English.E409}
-          />
+          <p className="text-xl/[30px] font-normal font-geist text-secondary-light-color!">
+            {English.E409}
+          </p>
         </div>
         <Steps
           onSelectedItem={(data) => {

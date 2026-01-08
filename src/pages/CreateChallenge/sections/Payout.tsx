@@ -14,7 +14,7 @@ const Payout = (props: ChallengePayoutObject) => {
   const payoutDetails = useMemo(
     () => ({
       [English.E27]: type,
-      [English.E36]: name,
+      [English.E36]: name ?? '----',
       [English.E39]: amount,
     }),
     [amount, name, type]
@@ -30,14 +30,16 @@ const Payout = (props: ChallengePayoutObject) => {
       className="flex flex-col gap-4 shrink-0  bg-primary-color p-6  rounded-[16px] sticky h-fit max-w-full  lg:w-full lg:max-w-[385px]"
       id="payout_id"
     >
-      <ImageComponent
-        className="size-full md:size-56 md:mx-auto lg:size-full rounded-[8px] overflow-hidden"
-        imageUrl={
-          plan_icon_url === null
-            ? Images.character1
-            : `${import.meta.env.VITE_API_BASE_URL_PRODUCTION}${plan_icon_url?.replace('/home/ubuntu/backend/', '')}`
-        }
-      />
+      <div className="md:min-h-56 rounded-[8px] overflow-hidden">
+        <ImageComponent
+          className="size-full md:size-56 md:mx-auto lg:size-full "
+          imageUrl={
+            plan_icon_url === null
+              ? Images.character1
+              : `${import.meta.env.VITE_API_BASE_URL_PRODUCTION}${plan_icon_url?.replace('/home/ubuntu/backend/', '')}`
+          }
+        />
+      </div>
       <div className="flex flex-col gap-3">
         <HeadingComponent
           className="text-base/6 font-normal text-secondary-dark-color font-geist!"
@@ -50,7 +52,7 @@ const Payout = (props: ChallengePayoutObject) => {
           singleLineContent={
             amount === '---'
               ? English.E48
-              : `$${Utility.numberConversion(Number(capital))}`
+              : `$${Utility.numberConversion(Number(capital ?? 0))}`
           }
         />
       </div>
@@ -72,7 +74,7 @@ const Payout = (props: ChallengePayoutObject) => {
                 }
               >
                 {key === 'Trading Capital'
-                  ? `$${Utility.numberConversion(Number(value))?.split('.')?.[0]} USDT`
+                  ? `$${Utility.numberConversion(Number(value ?? 0))?.split('.')?.[0]} USDT`
                   : value}
               </span>
             </div>
