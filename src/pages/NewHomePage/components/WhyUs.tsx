@@ -39,9 +39,7 @@ const WhyUs = () => (
         {Constants.WhyContactUs.map((item) => {
           const {content, img, title} = item
           return (
-            <WhyUsCard
-key={title} content={content}
-img={img} title={title} />
+            <WhyUsCard key={title} content={content} img={img} title={title} />
           )
         })}
       </div>
