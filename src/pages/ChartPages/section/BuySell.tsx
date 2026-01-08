@@ -12,23 +12,24 @@ import {
 import {
   Divider,
   ImageComponent,
-  InputContainer,
+  // InputContainer,
   RangeSelector,
 } from '@/components'
+import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {Store} from '@/store'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { Store } from '@/store'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
-import SelecAmountModel from '../components/SelecAmountModel'
-import {useChartProvider} from '../context/ChartProvider'
+// import SelecAmountModel from '../components/SelecAmountModel'
+import { useChartProvider } from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
-  const {activeIndex, margin_mode} = props
+  const { activeIndex, margin_mode } = props
   const {
     isLoadingCandles,
     selectedToken,
@@ -40,7 +41,7 @@ const BuySell = (props: BuyOrSelProps) => {
     selectedLeverage,
   } = useChartProvider()
   const [amountPriceType, setAmountPriceType] = useState('')
-  const {socketRef} = useSocketProvider()
+  const { socketRef } = useSocketProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     price: '',
@@ -53,8 +54,8 @@ const BuySell = (props: BuyOrSelProps) => {
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-      Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({stop_loss: [], take_profit: []})
+    Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({ stop_loss: [], take_profit: [] })
 
   const leverage = useMemo(
     () => currentStageArray?.[0]?.leverage,
@@ -244,45 +245,27 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
-        const {name, placeHolder} = item
+        const { name, placeHolder } = item
 
         return (
           <div key={`name_${name}`} className="!mb-3">
             <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
               <div className="flex justify-between gap-2">
-                <div className="w-full gap-2.5 flex items-center">
-                  <InputContainer
-                    disabled={name !== 'amount'}
-                    layoutClassName="!w-full"
-                    placeholder={placeHolder}
-                    value={inputValues?.[name as keyof typeof inputValues]}
-                    className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
-                [&>input]:!text-chart-text-primary-color [&>input]:!text-sm [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium"
-                    onChange={(e) => {
-                      handleInputChange(
-                        name as keyof typeof inputValues,
-                        e.target.value
-                      )
-                    }}
-                  />
-
-                  {name === 'amount' && (
-                    <div className="w-[1px] bg-primary-dark-blue-color h-full" />
-                  )}
-                  <span
-                    className={`text-neutral-primary-color font-medium text-sm !leading-6 cursor-pointer ${index === 2 ? 'pointer-events-none' : ''}`}
-                  >
-                    {(index === 1 || index === 2) && (
-                      <div className="flex gap-1.5 items-center">
-                        <SelecAmountModel
-                          index={index}
-                          onModelClose={resetValues}
-                          symbol={amountPriceType}
-                        />
-                      </div>
-                    )}
-                  </span>
-                </div>
+                <CommonPriceSwitch
+                  currentIndex={index}
+                  currentPriceType={amountPriceType}
+                  name={name}
+                  onModelClose={resetValues}
+                  placeholder={placeHolder}
+                  showModelType={index === 1 || index === 2}
+                  value={inputValues?.[name as keyof typeof inputValues]}
+                  onChange={(e) => {
+                    handleInputChange(
+                      name as keyof typeof inputValues,
+                      e.target.value
+                    )
+                  }}
+                />
               </div>
             </div>
             {name === 'amount' && (
@@ -326,10 +309,10 @@ const BuySell = (props: BuyOrSelProps) => {
 
       {Number(Number(inputValues.total).toFixed(2)) >
         getChallengeByIdArray?.[0]?.current_usdt && (
-        <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
-          {English.E279}
-        </span>
-      )}
+          <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
+            {English.E279}
+          </span>
+        )}
 
       <div className="flex items-center gap-3">
         <ActionButton
@@ -349,7 +332,7 @@ const BuySell = (props: BuyOrSelProps) => {
               : Number(inputValues.amount)
           }
           setInputValues={() => {
-            setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
+            setInputValues((prev) => ({ ...prev, amount: '0', price: '0' }))
           }}
         />
       </div>
@@ -416,7 +399,7 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       )}
 
-      {Array.from({length: 2}).map((_, index) => (
+      {Array.from({ length: 2 }).map((_, index) => (
         <Fragment key={index}>
           <Divider className="!bg-chart-secondary-bg-color !my-3" />
 

@@ -236,3 +236,10 @@ export interface DashboardTableComponentProps
     Pick<DropDownProps, 'headingClassName'> {
   data: []
 }
+
+interface CommonPriceSwitchType extends Pick<InputContainerProps, 'name' | 'disabled' | 'placeholder' | 'value' | 'onChange'>{
+  showModelType?: boolean
+  currentIndex: number
+  onModelClose: () => void
+  currentPriceType: string
+}
