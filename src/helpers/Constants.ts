@@ -870,6 +870,8 @@ const Constants = {
     {content: [English.E284], showArrow: true},
     {content: [English.E285], showArrow: false},
     {content: [English.E286], showArrow: false},
+    {content: [`${English.E180} ${English.E128}`], showArrow: false},
+    {content: [`${English.E243} ${English.E128}`], showArrow: false},
   ],
   OpenHistoryTableHeading: [
     {content: [English.E275], showArrow: false},

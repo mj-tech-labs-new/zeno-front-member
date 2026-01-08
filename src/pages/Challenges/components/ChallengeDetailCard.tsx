@@ -65,6 +65,30 @@ const ChallengeDetailCard = (props: {
     ]
   )
 
+  const profitAmount = useMemo(
+    () =>
+      socketData?.total_available_profit
+        ? Utility.converToPositiveValue(socketData?.total_available_profit)
+        : item?.released_profit
+          ? Utility.converToPositiveValue(item?.released_profit)
+          : 0,
+    [item?.released_profit, socketData?.total_available_profit]
+  )
+
+  const maxDailyLossAmount = useMemo(
+    () =>
+      socketData?.max_daily_loss_amount
+        ? Utility.converToPositiveValue(socketData?.max_daily_loss)
+        : item?.max_total_loss
+          ? Utility.converToPositiveValue(item?.max_total_loss)
+          : 0,
+    [
+      item?.max_total_loss,
+      socketData?.max_daily_loss,
+      socketData?.max_daily_loss_amount,
+    ]
+  )
+
   useEffect(() => {
     const socket = socketRef.current
     if (showLoader || !socket || !item?.challenge_id) return
@@ -120,14 +144,12 @@ const ChallengeDetailCard = (props: {
               className="grey__filter"
               headingContent={English.E68}
               infoContent="Content!!!"
+              secondContent={profitAmount}
               type="lossProgressType"
               initialContent={
                 socketData?.profit_target_amount ??
                 item?.profit_target_amount ??
                 0
-              }
-              secondContent={
-                socketData?.total_available_profit ?? item?.released_profit ?? 0
               }
             />
             <div className="w-[1px] min-h-full bg-landing-page-trading-rules-para-text" />
@@ -135,10 +157,9 @@ const ChallengeDetailCard = (props: {
               className="grey__filter"
               headingContent={English.E70}
               infoContent="Content!!!"
+              initialContent={maxDailyLossAmount}
+              layoutClassName="text-light-danger-color!"
               type="lossProgressType"
-              initialContent={
-                socketData?.max_daily_loss_amount ?? item?.max_total_loss ?? 0
-              }
               secondContent={
                 socketData?.max_current_loss ?? item?.max_current_loss ?? 0
               }

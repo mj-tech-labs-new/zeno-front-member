@@ -48,6 +48,8 @@ const BuySell = (props: BuyOrSelProps) => {
     total: '',
   })
   const [rangeValue, setRangeValue] = useState(0)
+  const tokenQntyRef = useRef('0')
+  const initialAmountRef = useRef(0)
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
@@ -118,16 +120,34 @@ const BuySell = (props: BuyOrSelProps) => {
 
           if (totalStr === '0') totalStrFinal = totalStr
         }
-        setInputValues((prev) => ({
-          ...prev,
-          [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
-          total: Utility.validPointValue(
-            Utility.validFloatNumber(totalStrFinal)
-          ),
-        }))
+        setInputValues((prev) => {
+          initialAmountRef.current = Number(
+            Utility.validPointValue(Utility.validFloatNumber(totalStrFinal))
+          )
+          const tokenQnty = Utility.validPointValue(
+            Utility.validFloatNumber(value)
+          )
+          tokenQntyRef.current = tokenQnty
+          const feeToAdd =
+            (Number(tokenQntyRef.current ?? 0) *
+              livePrice *
+              getChallengeByIdArray[0].order_fee_percent) /
+            100
+          return {
+            ...prev,
+            [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
+            total: Number(initialAmountRef.current + feeToAdd).toString(),
+          }
+        })
       } else {
-        const totalBtc = Number(value) / livePrice
-
+        const priceToGet =
+          (Number(value) *
+            livePrice *
+            getChallengeByIdArray[0].order_fee_percent) /
+          100
+        const totalBtc = Number(value) / livePrice + priceToGet
+        tokenQntyRef.current = (Number(value) / livePrice).toString()
+        initialAmountRef.current = Number(value) / livePrice
         setInputValues((prev) => ({
           ...prev,
           [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
@@ -141,16 +161,30 @@ const BuySell = (props: BuyOrSelProps) => {
         setRangeValue(0)
       }
     },
-    [inputValues.price, leverage, livePrice, selectedLeverage?.title]
+    [
+      getChallengeByIdArray,
+      inputValues.price,
+      leverage,
+      livePrice,
+      selectedLeverage?.title,
+    ]
   )
 
-  useEffect(() => {
+  const resetValues = useCallback(() => {
     setInputValues({
       price: '',
       amount: '',
       total: '',
     })
-  }, [selectedLeverage])
+    initialAmountRef.current = 0
+    tokenQntyRef.current = '0'
+    setRangeValue(0)
+  }, [])
+
+  useEffect(() => {
+    resetValues()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedLeverage, selectedToken])
 
   useEffect(() => {
     if (isLoadingCandles || !socketRef.current) return
@@ -181,17 +215,18 @@ const BuySell = (props: BuyOrSelProps) => {
     setAmountPriceType(chartInfo?.symbol)
   }, [chartInfo?.symbol])
 
-  useEffect(
-    () => () => {
-      setInputValues(() => ({
-        price: '',
-        amount: '',
-        total: '',
-      }))
-      setRangeValue(0)
-    },
-    [selectedToken]
-  )
+  useEffect(() => {
+    if (!livePrice) return
+    const feeToAdd =
+      (Number(tokenQntyRef.current ?? 0) *
+        livePrice *
+        getChallengeByIdArray[0].order_fee_percent) /
+      100
+    setInputValues((prev) => ({
+      ...prev,
+      total: (initialAmountRef.current + feeToAdd).toString(),
+    }))
+  }, [getChallengeByIdArray, livePrice])
 
   return (
     <div className="flex flex-col gap-2">
@@ -241,15 +276,8 @@ const BuySell = (props: BuyOrSelProps) => {
                       <div className="flex gap-1.5 items-center">
                         <SelecAmountModel
                           index={index}
+                          onModelClose={resetValues}
                           symbol={amountPriceType}
-                          onModelClose={() => {
-                            setInputValues({
-                              amount: '',
-                              total: '',
-                              price: '',
-                            })
-                            setRangeValue(0)
-                          }}
                         />
                       </div>
                     )}

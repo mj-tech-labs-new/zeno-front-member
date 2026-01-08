@@ -3,7 +3,7 @@ import {memo, useEffect, useMemo, useState} from 'react'
 
 import {BasicSkeleton, HeadingComponent, StatsDescription} from '@/components'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {English, SocketEmitter} from '@/helpers'
+import {English, SocketEmitter, Utility} from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
 import {
   ChallengeDataSocketType,
@@ -28,10 +28,13 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       },
       {
         title: English.E68,
-        secondValue:
-          socketData?.total_available_profit ??
-          getChallengeByIdArray?.[0]?.released_profit ??
-          0,
+        secondValue: socketData?.total_available_profit
+          ? Utility.converToPositiveValue(socketData?.total_available_profit)
+          : getChallengeByIdArray?.[0]?.released_profit
+            ? Utility.converToPositiveValue(
+                getChallengeByIdArray?.[0]?.released_profit
+              )
+            : 0,
         firstValue:
           socketData?.profit_target_amount ??
           getChallengeByIdArray?.[0]?.profit_target_amount ??
@@ -179,6 +182,11 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
                       infoContent="Hello this is info Demo"
                       initialContent={firstValue ?? 0}
                       type={English.E64}
+                      layoutClassName={
+                        title === English.E69 || title === English.E70
+                          ? 'text-light-danger-color!'
+                          : ''
+                      }
                       secondContent={
                         index === 2
                           ? Math.abs(socketData?.daily_drawdown ?? 0)

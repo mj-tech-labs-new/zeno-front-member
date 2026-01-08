@@ -59,6 +59,7 @@ const ChartContext = createContext<{
   selectedTool: ChartShapesType | null
   setSelectedTool: Dispatch<SetStateAction<ChartShapesType | null>>
   livePrice: number
+
   setLivePrice: Dispatch<SetStateAction<number>>
   getChallengeByIdArray: GetChallengeByIdType[]
   setGetChallengeByIdArray: Dispatch<SetStateAction<GetChallengeByIdType[]>>
@@ -189,6 +190,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
     GetChallengeByIdType[]
   >([])
+
   const [currentStageArray, setCurrentStageArray] = useState<
     ChallengeStageType[]
   >([])

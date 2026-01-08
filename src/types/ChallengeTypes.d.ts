@@ -100,6 +100,7 @@ export type ChallengeInfoDashboardProps = CreateChallengeProps &
     wallet_amount: number
     current_usdt: number
     min_trading_day: number | null
+    order_fee_percent: number
   }
 
 export interface ChallengeInfoDashboardWithPaginationProps {

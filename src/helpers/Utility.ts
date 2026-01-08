@@ -78,7 +78,10 @@ const largeNumberNotationConversion = (content: number) => {
   return newIntlNumber.format(content)
 }
 
+const converToPositiveValue = (content: number) => (content < 0 ? 0 : content)
+
 const Utility = {
+  converToPositiveValue,
   trimMultipleSpaces,
   colorGeneratorUtility,
   ScrollToSectionUtility,
