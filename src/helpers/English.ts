@@ -53,7 +53,7 @@ const English = {
   E52: 'Status',
   E53: 'Start date',
   E54: 'View Dashboard',
-  E55: 'Zeno Challenger',
+  E55: '🔒 Certificate Pending',
   E56: 'Trade',
   E57: 'Dashboard',
   E58: 'Current',
@@ -275,7 +275,7 @@ const English = {
   E270: 'Slide',
   E271: 'Quantity',
   E272: 'Submitted Price',
-  E273: '',
+  E273: 'Your certificate will be generated automatically once you successfully pass the challenge.',
   E274: 'Expiration',
   E275: 'Contracts',
   E276: 'Closing Direction',
@@ -390,6 +390,7 @@ const English = {
   E386: 'Markets',
   E387: 'Last Price',
   E422: 'No Orders',
+  E423: 'Add Challenge',
 }
 
 export default English

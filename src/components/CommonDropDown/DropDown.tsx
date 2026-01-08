@@ -1,13 +1,13 @@
-import {forwardRef, memo, useEffect, useRef, useState} from 'react'
+import { forwardRef, memo, useCallback, useEffect, useRef, useState } from 'react'
 
-import {English, Images} from '@/helpers'
-import {useClickOutside} from '@/hooks'
-import {DropDownProps} from '@/types/ComponentTypes'
+import { English, Images } from '@/helpers'
+import { useClickOutside } from '@/hooks'
+import { DropDownProps } from '@/types/ComponentTypes'
 
 import ImageComponent from '../ImageComponent/ImageComponent'
 import SearchComponent from '../SearchComponent/SearchComponent'
 
-const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
+const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
   const {
     className = '',
     dropDownData,
@@ -28,7 +28,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
   const dropDownStatsRef = useRef<HTMLDivElement | null>(null)
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
 
-  useEffect(() => {
+  const handleRendering = useCallback(() => {
     if (
       dropDownData?.length === 0 ||
       !mainDivRef.current ||
@@ -37,18 +37,26 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
     )
       return
 
-    const {top, left, height, width} =
+    const { top, left, height, width } =
       mainDivRef.current.getBoundingClientRect()
     dropDownStatsRef.current.style.top = `${top + height}px`
     dropDownStatsRef.current.style.left = `${left}px`
     dropDownStatsRef.current.style.width = `${width}px`
   }, [dropDownData?.length, isDropDownOpen])
+
   useClickOutside({
-    refs: [mainDivRef, searchRef],
+    refs: [mainDivRef],
     onClickOutside() {
       setIsDropDownOpen(false)
     },
   })
+
+  useEffect(() => {
+    if (dropDownData?.length === 0 || !isDropDownOpen) return
+    handleRendering()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dropDownData?.length, isDropDownOpen])
+
 
   useEffect(() => {
     if (!isDropDownOpen) return
@@ -69,9 +77,18 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
     }
   }, [elementId, isDropDownOpen])
 
+  useEffect(() => {
+    window.addEventListener('resize', handleRendering)
+
+    return () => {
+      window.removeEventListener('resize', handleRendering)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div
-      ref={mainDivRef ?? ref}
+      ref={mainDivRef}
       className={`pl-4 pr-3 py-3 border-2 border-neutral-secondary-color !z-100 rounded-lg cursor-pointer ${className}`}
       onClick={(e) => {
         e.stopPropagation()
@@ -116,14 +133,14 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, ref) => {
             </div>
           )}
           <div
-            className={` overflow-y-auto bg-chart-dropdown-bg-color shadow-md z-[999] ${isSearchType ? 'h-[calc(100%-40px)]' : 'h-full'}`}
+            className={` overflow-y-auto bg-chart-dropdown-bg-color rounded-lg shadow-md z-[999] ${isSearchType ? 'h-[calc(100%-40px)]' : 'h-full'}`}
           >
             {dropDownData?.map((data) => {
-              const {title, img = ''} = data
+              const { title, img = '' } = data
               return (
                 <div
                   key={title}
-                  className="flex items-center px-4 gap-1.5"
+                  className="flex items-center gap-1.5"
                   onClick={(e) => {
                     e.stopPropagation()
                     onSelectValue(data)

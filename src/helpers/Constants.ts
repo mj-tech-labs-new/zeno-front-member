@@ -39,6 +39,11 @@ const Constants = {
 
   SidebarData: [
     {
+      icon: Images.addIcon,
+      title: English.E423,
+      linkTo: '/create-challenge',
+    },
+    {
       icon: Images.dashboard,
       title: English.E21,
       linkTo: '/dashboard',
@@ -49,17 +54,17 @@ const Constants = {
       linkTo: '/certificates',
     },
     {
-      icon: Images.certificates,
+      icon: Images.payoutIcon,
       title: English.E23,
       linkTo: '/payout',
     },
     {
-      icon: Images.certificates,
+      icon: Images.billingIcon,
       title: English.E24,
       linkTo: '/billing',
     },
     {
-      icon: Images.certificates,
+      icon: Images.myProfileIcon,
       title: English.E25,
       linkTo: '/profile',
     },
@@ -838,6 +843,7 @@ const Constants = {
 
   StepComponentHeading: [{title: English.E182}, {title: English.E183}],
   Openposition: [
+    {content: [''], showArrow: false},
     {content: [English.E275], showArrow: false},
     {content: [English.E180], showArrow: false},
     {content: [English.E271], showArrow: false},
@@ -851,6 +857,7 @@ const Constants = {
     {content: [English.E243], showArrow: false},
   ],
   PendingOrders: [
+    {content: [''], showArrow: false},
     {content: [English.E275], showArrow: false},
     {content: [English.E180], showArrow: false},
     {content: [English.E270], showArrow: false},

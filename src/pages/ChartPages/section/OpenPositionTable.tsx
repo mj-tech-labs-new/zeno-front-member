@@ -1,15 +1,15 @@
-import {useCallback} from 'react'
-import {useParams} from 'react-router-dom'
+import { useCallback } from 'react'
+import { useParams } from 'react-router-dom'
 
-import {CommonCloseActionButton, CommonTableComponent} from '@/components'
-import {Constants, English, Utility} from '@/helpers'
-import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
-import {CreateChallengeProps} from '@/types/ChallengeTypes'
-import {OpenPosition} from '@/types/ChartTypes'
+import { CommonCloseActionButton, CommonTableComponent } from '@/components'
+import { Constants, English, Utility } from '@/helpers'
+import { getChallengeByIdApi } from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
+import { CreateChallengeProps } from '@/types/ChallengeTypes'
+import { OpenPosition } from '@/types/ChartTypes'
 
 import EditStopLossModel from '../components/EditStopLossModel'
-import ReverseOrder from '../components/ReverseOrder'
-import {useChartProvider} from '../context/ChartProvider'
+// import ReverseOrder from '../components/ReverseOrder'
+import { useChartProvider } from '../context/ChartProvider'
 
 const OpenPositionTable = (
   props: Pick<CreateChallengeProps, 'challenge_id'> & {
@@ -17,15 +17,15 @@ const OpenPositionTable = (
     setPosition: (data: OpenPosition[]) => void
   }
 ) => {
-  const {challenge_id, openPosition, setPosition} = props
-  const {setGetChallengeByIdArray} = useChartProvider()
+  const { challenge_id, openPosition, setPosition } = props
+  const { setGetChallengeByIdArray } = useChartProvider()
   const params = useParams()
 
   const handleGetChallengeById = useCallback(() => {
     if (!params?.challengeId) {
       return
     }
-    getChallengeByIdApi({challenge_id: params?.challengeId}).then((res) => {
+    getChallengeByIdApi({ challenge_id: params?.challengeId }).then((res) => {
       setGetChallengeByIdArray(res)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,8 +34,8 @@ const OpenPositionTable = (
   return (
     <CommonTableComponent
       apiMethod="put"
-      className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0"
-      extraProp={{challenge_id}}
+      className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0 [&>tr>th]:pr-1!"
+      extraProp={{ challenge_id }}
       headingClassName="justify-start !whitespace-nowrap"
       layoutClassName="!border-none !h-[500px] !overflow-y-auto no-scrollbar"
       showArrows={false}
@@ -47,7 +47,7 @@ const OpenPositionTable = (
         }
       }}
     >
-      {openPosition?.map((tableBody) => {
+      {openPosition?.map((tableBody, tableIndex) => {
         const {
           symbol,
           tx_hash,
@@ -77,6 +77,11 @@ const OpenPositionTable = (
               className="pr-6 py-4  text-chart-text-primary-color !whitespace-nowrap"
               scope="row"
             >
+              {tableIndex + 1}.
+            </th>
+            <td
+              className="pr-6 py-4  text-chart-text-primary-color !whitespace-nowrap"
+            >
               <span className="!text-light-neutral-color block !pb-0.5 ">
                 {contractFullName}
               </span>
@@ -89,7 +94,7 @@ const OpenPositionTable = (
               >
                 {directionText}
               </span>
-            </th>
+            </td>
 
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
               {Utility.removeDecimal(open ?? 0)}
@@ -133,7 +138,7 @@ const OpenPositionTable = (
             </td>
             <td className="flex flex-col  pr-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
               {tableBody?.take_profit?.[0]?.price ||
-              tableBody?.stop_loss?.[0]?.price ? (
+                tableBody?.stop_loss?.[0]?.price ? (
                 <div className="flex gap-3 items-center">
                   <div className="flex flex-col">
                     <span className="!text-primary-green">
@@ -150,13 +155,13 @@ const OpenPositionTable = (
                       symbol={symbol}
                       apiMethod={
                         tableBody?.take_profit?.[0]?.price &&
-                        tableBody?.stop_loss?.[0]?.price
+                          tableBody?.stop_loss?.[0]?.price
                           ? 'put'
                           : 'post'
                       }
                       singleLineContent={
                         tableBody?.take_profit?.[0]?.price &&
-                        tableBody?.stop_loss?.[0]?.price
+                          tableBody?.stop_loss?.[0]?.price
                           ? English.E333
                           : English.E341
                       }
@@ -197,10 +202,10 @@ const OpenPositionTable = (
                 }}
               />
 
-              <ReverseOrder
+              {/* <ReverseOrder
                 challenge_id={tableBody?.challenge_id}
                 tx_hash={tableBody?.tx_hash}
-              />
+              /> */}
             </td>
           </tr>
         )

@@ -1,8 +1,8 @@
-import {forwardRef, useEffect, useState} from 'react'
-import {toast} from 'react-toastify'
+import { forwardRef, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
-import {English, Images} from '@/helpers'
-import {ImageComponentProps} from '@/types/ComponentTypes'
+import { English, Images } from '@/helpers'
+import { ImageComponentProps } from '@/types/ComponentTypes'
 
 import BasicSkeleton from '../SkeletonComponents/BasicSkeleton'
 
@@ -41,8 +41,10 @@ const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
           ref={ref}
           className={`overflow-hidden ${className}`}
           onClick={(e) => {
-            e.stopPropagation()
-            onPressItem?.()
+            if (onPressItem) {
+              e.stopPropagation()
+              onPressItem()
+            }
             if (imageUrl === Images.copy) {
               toast.info(English.E232)
               window.navigator.clipboard.writeText(imageRelatedText)

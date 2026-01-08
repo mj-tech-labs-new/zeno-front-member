@@ -1,11 +1,11 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
-import {ImageComponent, SearchComponent} from '@/components'
-import {English, Utility} from '@/helpers'
-import {useClickOutside, useDebounce} from '@/hooks'
-import {CommonFunction} from '@/services'
+import { ImageComponent, SearchComponent } from '@/components'
+import { English, Images, Utility } from '@/helpers'
+import { useClickOutside, useDebounce } from '@/hooks'
+import { CommonFunction } from '@/services'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
 const TokenDropdown = () => {
   const {
@@ -18,7 +18,7 @@ const TokenDropdown = () => {
     totalCandlesCount,
   } = useChartProvider()
   const TokenArray = useMemo(
-    () => Object.entries(tokenList ?? [])?.map(([_, value]) => ({...value})),
+    () => Object.entries(tokenList ?? [])?.map(([_, value]) => ({ ...value })),
     [tokenList]
   )
   const [tokenArray, setTokenArray] = useState(TokenArray)
@@ -40,7 +40,7 @@ const TokenDropdown = () => {
   useEffect(() => {
     if (!isDivOpen || !mainDivRef.current || !floatingDiv.current) return
 
-    const {top, height} = mainDivRef.current.getBoundingClientRect()
+    const { top, height } = mainDivRef.current.getBoundingClientRect()
 
     const styleElement = floatingDiv.current.style
     styleElement.top = `${top + height}px`
@@ -86,6 +86,7 @@ const TokenDropdown = () => {
             {selectedToken.token_symbol + English.E60}
           </span>
         )}
+        <ImageComponent className={`size-4! transition-all duration-500 ease-linear ${isDivOpen ? 'rotate-180' : ''}`} imageUrl={Images.dropdownArrow} />
       </div>
 
       {isDivOpen && (
@@ -109,7 +110,7 @@ const TokenDropdown = () => {
           <div className="mt-5 h-full">
             <div className="overflow-y-auto h-[calc(100%-80px)]">
               {tokenArray?.map((item) => {
-                const {id, token_image_url, token_symbol} = item
+                const { id, token_image_url, token_symbol } = item
                 const tokenData = totalTokenData?.[token_symbol]
                 return (
                   <div

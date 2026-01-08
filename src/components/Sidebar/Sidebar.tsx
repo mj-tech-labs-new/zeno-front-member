@@ -55,7 +55,7 @@ const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
             return (
               <Link
                 key={sidebaritems?.title}
-                className={`flex gap-3.5 items-center px-4 py-2 hover:bg-button-primary-color rounded-xl transition-all duration-500 ease-in-out ${sidebaritems?.title?.toLowerCase() === isActiveItem ? 'bg-button-primary-color' : ''}`}
+                className={`flex gap-3.5 items-center px-4 py-2  rounded-xl transition-all duration-500 ease-in-out ${sidebaritems?.title === English.E423 ? 'bg-red-dark-color text-primary-color' : 'hover:bg-button-primary-color'} ${sidebaritems?.title?.toLowerCase() === isActiveItem ? 'bg-button-primary-color' : ''}`}
                 to={sidebaritems?.linkTo}
                 onClick={() => {
                   onPressLink(sidebaritems?.title?.toLowerCase() === 'logout')

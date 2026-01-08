@@ -126,7 +126,7 @@ const BuySell = (props: BuyOrSelProps) => {
             Utility.validPointValue(Utility.validFloatNumber(totalStrFinal))
           )
           const tokenQnty = Utility.validPointValue(
-            Utility.validFloatNumber(value)
+            Utility.validFloatNumber(value) // 1600
           )
           tokenQntyRef.current = tokenQnty
           const feeToAdd =

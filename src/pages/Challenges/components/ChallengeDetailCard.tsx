@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
-import {useEffect, useMemo, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   CommonButton,
@@ -8,8 +8,8 @@ import {
   ImageComponent,
   StatsDescription,
 } from '@/components'
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {English, Images, SocketEmitter, Utility} from '@/helpers'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { English, Images, SocketEmitter, ToolTipContent, Utility } from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
 import {
   ChallengeDataSocketType,
@@ -20,9 +20,9 @@ const ChallengeDetailCard = (props: {
   item: ChallengeInfoDashboardProps
   showLoader: boolean
 }) => {
-  const {item, showLoader} = props
+  const { item, showLoader } = props
   const [socketData, setSocketData] = useState<ChallengeDataSocketType>()
-  const {socketRef} = useSocketProvider()
+  const { socketRef } = useSocketProvider()
 
   const navigate = useNavigate()
   const initialAmount = useMemo(() => {
@@ -143,7 +143,7 @@ const ChallengeDetailCard = (props: {
             <StatsDescription
               className="grey__filter"
               headingContent={English.E68}
-              infoContent="Content!!!"
+              infoContent={ToolTipContent.T5}
               secondContent={profitAmount}
               type="lossProgressType"
               initialContent={
@@ -156,7 +156,7 @@ const ChallengeDetailCard = (props: {
             <StatsDescription
               className="grey__filter"
               headingContent={English.E70}
-              infoContent="Content!!!"
+              infoContent={ToolTipContent.T7}
               initialContent={maxDailyLossAmount}
               layoutClassName="text-light-danger-color!"
               type="lossProgressType"
@@ -178,13 +178,12 @@ const ChallengeDetailCard = (props: {
               <Divider className="!bg-button-primary-color/50" />
               <span
                 className={`text-tertiary-color whitespace-nowrap
-                   ${
-                     key === 'Status'
-                       ? requiredItem.Status === 'Failed'
-                         ? 'p-1 !bg-light-danger-color rounded-sm font-medium'
-                         : 'p-1 !bg-light-success-color rounded-sm font-medium'
-                       : ''
-                   }`}
+                   ${key === 'Status'
+                    ? requiredItem.Status === 'Failed'
+                      ? 'p-1 !bg-light-danger-color rounded-sm font-medium'
+                      : 'p-1 !bg-light-success-color rounded-sm font-medium'
+                    : ''
+                  }`}
               >
                 {value}
               </span>
