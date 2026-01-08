@@ -8,12 +8,13 @@ import {GeneralProps} from '@/types/CommonTypes'
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
 type WordProps = Pick<GeneralProps, 'singleLineContent' | 'multilineContent'> &
-  Pick<GeneralProps, 'className'>
+  Pick<GeneralProps, 'className'> & {isOnceType?: boolean}
 
 const WordSplit = ({
   singleLineContent,
   multilineContent,
   className = '',
+  isOnceType = false,
 }: WordProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
 
@@ -41,8 +42,13 @@ const WordSplit = ({
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: 'top 90%',
-        onEnter: () => tl.restart(),
-        onEnterBack: () => tl.restart(),
+        once: isOnceType,
+        onEnter: () => {
+          tl.restart()
+        },
+        onEnterBack: () => {
+          tl.restart()
+        },
         onLeave: () => tl.pause(0),
         onLeaveBack: () => tl.pause(0),
       })
