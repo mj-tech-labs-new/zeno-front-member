@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite --mode development --host",
     "local": "vite --mode staging --host",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite --mode development build",
     "lint": "lint-staged",
-    "preview": "vite preview",
+    "preview": "vite preview --host",
     "prepare": "husky",
     "fixcode": "npx prettier --write . && npx eslint . --fix"
   },
