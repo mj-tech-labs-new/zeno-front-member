@@ -239,11 +239,13 @@ export interface DashboardTableComponentProps
 
 interface CommonPriceSwitchType
   extends Pick<
-    InputContainerProps,
-    'name' | 'disabled' | 'placeholder' | 'value' | 'onChange'
-  > {
+      InputContainerProps,
+      'name' | 'disabled' | 'placeholder' | 'value' | 'onChange'
+    >,
+    Partial<Pick<RangeSelectorProps, 'rangeValue' | 'setRangeValue'>> {
   showModelType?: boolean
   currentIndex: number
   onModelClose: () => void
   currentPriceType: string
+  isRangeType?: boolean
 }

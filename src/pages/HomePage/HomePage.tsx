@@ -1,9 +1,9 @@
 import dayjs from 'dayjs'
-import {useEffect} from 'react'
-import {useSelector} from 'react-redux'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
-import {CommonFunction} from '@/services'
-import {StorageProps} from '@/types/CommonTypes'
+import { CommonFunction } from '@/services'
+import { StorageProps } from '@/types/CommonTypes'
 
 import BrandingCarousel from './components/BrandingCarousel'
 import BrandingComponent from './components/BrandingComponent'
@@ -16,8 +16,10 @@ import StartYourJourney from './components/StartYourJourney'
 import StopWastingTime from './components/StopWastingTime'
 import TradingRules from './components/TradingRules'
 
+
 const HomePage = () => {
   const userData = useSelector((data: StorageProps) => data.userData?.user)
+
 
   useEffect(() => {
     const currentDate = dayjs()
@@ -26,7 +28,6 @@ const HomePage = () => {
       CommonFunction.addSliceData('logout', {})
     }
   }, [userData?.loggedIn])
-
   return (
     <div className="bg-landing-page-bg-color text-black min-h-screen">
       <Navbar />

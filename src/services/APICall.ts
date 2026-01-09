@@ -8,23 +8,41 @@ import CommonFunction from './CommonFunction'
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL_PROJECT_URL,
 })
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const tempConfig = config
-    const token = Store.getState()?.userData?.user?.token
-    // eslint-disable-next-line @typescript-eslint/no-misused-spread
-    const tempTokenConfig = {...config?.headers}
 
+let cachedIP: string | null = null
+
+const getClientIP = async (): Promise<string | null> => {
+  if (cachedIP) return cachedIP
+
+  try {
+    const res = await axios.get('https://api.ipify.org?format=json')
+    cachedIP = res.data.ip
+    return cachedIP
+  } catch {
+    return null
+  }
+}
+
+axiosInstance.interceptors.request.use(async (config) => {
+  const token = Store.getState()?.userData?.user?.token
+
+  if (token) {
     config.headers = {
-      // eslint-disable-next-line @typescript-eslint/no-misused-spread
-      ...config?.headers,
+      ...(config.headers as any),
+      Authorization: `Bearer ${token}`,
+    }
+  }
 
-      Authorization: `Bearer ${tempTokenConfig?.Authorization ?? token}`,
-    } as any
-    return tempConfig
-  },
-  async (error) => Promise.reject(error)
-)
+  const ip = await getClientIP()
+  if (ip) {
+    config.headers = {
+      ...(config.headers as any),
+      'X-Real-IP': ip,
+    }
+  }
+
+  return config
+})
 
 axiosInstance.interceptors.response.use(
   (res) => res,

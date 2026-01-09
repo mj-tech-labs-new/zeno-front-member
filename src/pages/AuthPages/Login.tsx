@@ -1,5 +1,5 @@
-import {ImageComponent} from '@/components'
-import {Images} from '@/helpers'
+import { ImageComponent } from '@/components'
+import { Images } from '@/helpers'
 
 import AuthForm from './components/AuthForm'
 

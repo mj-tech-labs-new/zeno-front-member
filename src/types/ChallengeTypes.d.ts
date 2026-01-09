@@ -123,6 +123,7 @@ export type ChallengeStageType = CommonProps &
     profit_target: number
     max_daily_loss: number
     max_total_loss: number
+    order_fee_percent: number
   }
 
 export type GetChallengeByIdType = ChallengeInfoDashboardProps & {

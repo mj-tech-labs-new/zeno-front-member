@@ -1,47 +1,40 @@
-/* eslint-disable prefer-template */
 import {
   Fragment,
   memo,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react'
 
 import {
   Divider,
-  ImageComponent,
-  // InputContainer,
-  RangeSelector,
+  ImageComponent
 } from '@/components'
 import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {Store} from '@/store'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { Store } from '@/store'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
-// import SelecAmountModel from '../components/SelecAmountModel'
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
-  const {activeIndex, margin_mode} = props
+  const { activeIndex, margin_mode } = props
   const {
     isLoadingCandles,
     selectedToken,
-    tokenList,
     getChallengeByIdArray,
     chartInfo,
-    currentStageArray,
     livePrice,
     selectedLeverage,
   } = useChartProvider()
   const [amountPriceType, setAmountPriceType] = useState('')
-  const {socketRef} = useSocketProvider()
+  const { socketRef } = useSocketProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     price: '',
@@ -54,123 +47,86 @@ const BuySell = (props: BuyOrSelProps) => {
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-      Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({stop_loss: [], take_profit: []})
-
-  const leverage = useMemo(
-    () => currentStageArray?.[0]?.leverage,
-    [currentStageArray]
-  )
-
+    Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({ stop_loss: [], take_profit: [] })
   const amountRef = useRef(0)
 
-  const handleInputChange = useCallback(
-    (name: keyof typeof inputValues, value: string) => {
+  const calculateOrderValues = useCallback(
+    (rawAmount: string) => {
       const AmountType = Store.getState().chartData.amountType
 
-      if (AmountType !== 'USDT' || leverage) {
-        let totalStrFinal
+      const price = Number(inputValues.price || livePrice || 0)
 
-        const priceStr = inputValues.price
-        const priceBigInt = priceStr.includes('.')
-          ? BigInt(priceStr.replace('.', ''))
-          : BigInt(priceStr)
+      const amount = Number(rawAmount)
 
-        const amountStr = value ?? '0'
-        const amountBigInt = amountStr.includes('.')
-          ? BigInt(amountStr.replace('.', '') ?? '0')
-          : BigInt(amountStr ?? '0')
-
-        const leverageBigInt = BigInt(
-          selectedLeverage?.title.toString()?.replace('X', '') ?? 1
-        )
-
-        const totalStr = (
-          (priceBigInt * amountBigInt) /
-          leverageBigInt
-        ).toString()
-
-        if (!priceStr.includes('.') && !amountStr.includes('.')) {
-          totalStrFinal = totalStr // for int
-        } else {
-          const decimalPlacesPrice = priceStr.includes('.')
-            ? priceStr.length - priceStr.indexOf('.') - 1
-            : 0
-          const decimalPlacesAmount = amountStr.includes('.')
-            ? amountStr.length - amountStr.indexOf('.') - 1
-            : 0
-
-          const indexTotal =
-            totalStr.length - (decimalPlacesPrice + decimalPlacesAmount)
-
-          totalStrFinal = totalStr
-
-          if (totalStr !== '0' || leverage) {
-            let totalStrPrecise =
-              (totalStr.slice(0, indexTotal) ?? '0') +
-              '.' +
-              (totalStr.slice(indexTotal, indexTotal + 2) ?? '0')
-
-            if (totalStrPrecise.startsWith('.')) {
-              const updatedTotal = '0' + totalStrPrecise
-              totalStrPrecise = updatedTotal
-            }
-
-            totalStrFinal = totalStrPrecise
-          }
-
-          if (totalStr === '0') totalStrFinal = totalStr
-        }
-        setInputValues((prev) => {
-          initialAmountRef.current = Number(
-            Utility.validPointValue(Utility.validFloatNumber(totalStrFinal))
-          )
-          const tokenQnty = Utility.validPointValue(
-            Utility.validFloatNumber(value) // 1600
-          )
-          tokenQntyRef.current = tokenQnty
-          const feeToAdd =
-            (Number(tokenQntyRef.current ?? 0) *
-              livePrice *
-              getChallengeByIdArray[0].order_fee_percent) /
-            100
-          return {
-            ...prev,
-            [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
-            total: Number(initialAmountRef.current + feeToAdd).toString(),
-          }
-        })
-      } else {
-        const priceToGet =
-          (Number(value) *
-            livePrice *
-            getChallengeByIdArray[0].order_fee_percent) /
-          100
-        const totalBtc = Number(value) / livePrice + priceToGet
-        tokenQntyRef.current = (Number(value) / livePrice).toString()
-        initialAmountRef.current = Number(value) / livePrice
-        setInputValues((prev) => ({
-          ...prev,
-          [name]: Utility.validPointValue(Utility.validFloatNumber(value)),
-          total: Utility.validPointValue(
-            Utility.validFloatNumber(totalBtc.toFixed(8).toString())
-          ),
-        }))
+      if (!price || amount <= 0) {
+        tokenQntyRef.current = '0'
+        initialAmountRef.current = 0
+        return { amount: '0', total: '0' }
       }
 
-      if (name === 'amount') {
-        setRangeValue(0)
+      let finalAmount = 0
+      let finalTotal = 0
+
+      if (AmountType !== 'USDT') {
+        // TOKEN MODE
+        finalAmount = amount
+
+        const baseTotal = (price * finalAmount)
+
+        initialAmountRef.current = baseTotal
+        tokenQntyRef.current = finalAmount.toString()
+
+        const fee =
+          (finalAmount * price * getChallengeByIdArray[0].order_fee_percent) / 100
+
+        finalTotal = baseTotal + fee
+      } else {
+        finalAmount = amount
+
+        const tokenQty = finalAmount / price
+
+        tokenQntyRef.current = Utility.formatTo8Decimals(tokenQty)
+        initialAmountRef.current = tokenQty
+
+        const fee =
+          (finalAmount * price * getChallengeByIdArray[0].order_fee_percent) / 100
+
+        finalTotal = tokenQty + fee
+      }
+
+      return {
+        amount: Utility.formatTo8Decimals(finalAmount),
+        total: Utility.formatTo8Decimals(finalTotal),
       }
     },
     [
       getChallengeByIdArray,
       inputValues.price,
-      leverage,
       livePrice,
-      selectedLeverage?.title,
     ]
   )
 
+
+  const handleInputChange = useCallback(
+    (name: keyof typeof inputValues, value: string) => {
+      if (name !== 'amount') {
+        setInputValues((prev) => ({ ...prev, [name]: value }))
+        return
+      }
+
+      const calculated = calculateOrderValues(value)
+
+      setInputValues((prev) => ({
+        ...prev,
+        amount: calculated.amount,
+        total: calculated.total,
+      }))
+
+      setRangeValue(0)
+    },
+    [calculateOrderValues]
+  )
   const resetValues = useCallback(() => {
     setInputValues({
       price: '',
@@ -181,6 +137,36 @@ const BuySell = (props: BuyOrSelProps) => {
     tokenQntyRef.current = '0'
     setRangeValue(0)
   }, [])
+  const handleSliderChange = useCallback(
+    (sliderValue: number) => {
+      const percent = sliderValue / 100
+      const AmountType = Store.getState().chartData.amountType
+
+      const balance = Number(amountRef.current)
+
+      if (!balance || !livePrice) {
+        setRangeValue(0)
+        return
+      }
+
+      const rawAmount =
+        AmountType === 'USDT'
+          ? Utility.formatTo8Decimals(balance * percent)
+          : Utility.formatTo8Decimals((balance * percent) / livePrice)
+
+      const calculated = calculateOrderValues(rawAmount)
+
+      setInputValues((prev) => ({
+        ...prev,
+        amount: calculated.amount,
+        total: calculated.total,
+      }))
+
+      setRangeValue(sliderValue)
+    },
+    [calculateOrderValues, livePrice]
+  )
+
 
   useEffect(() => {
     resetValues()
@@ -193,19 +179,7 @@ const BuySell = (props: BuyOrSelProps) => {
       ...prev,
       price: livePrice?.toString() ?? '0',
     }))
-  }, [
-    inputValues.amount,
-    inputValues.price,
-    inputValues.total,
-    isLoadingCandles,
-    leverage,
-    livePrice,
-    rangeValue,
-    selectedLeverage?.title,
-    selectedToken,
-    socketRef,
-    tokenList,
-  ])
+  }, [isLoadingCandles, livePrice, socketRef])
 
   useEffect(() => {
     amountRef.current = getChallengeByIdArray?.[0]?.current_usdt ?? 0
@@ -245,74 +219,37 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
-        const {name, placeHolder} = item
+        const { name, placeHolder } = item
 
         return (
-          <div key={`name_${name}`} className="!mb-3">
-            <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
-              <div className="flex justify-between gap-2">
-                <CommonPriceSwitch
-                  currentIndex={index}
-                  currentPriceType={amountPriceType}
-                  name={name}
-                  onModelClose={resetValues}
-                  placeholder={placeHolder}
-                  showModelType={index === 1 || index === 2}
-                  value={inputValues?.[name as keyof typeof inputValues]}
-                  onChange={(e) => {
-                    handleInputChange(
-                      name as keyof typeof inputValues,
-                      e.target.value
-                    )
-                  }}
-                />
-              </div>
-            </div>
-            {name === 'amount' && (
-              <RangeSelector
-                className="!mt-3 mb-4"
-                rangeValue={rangeValue}
-                setRangeValue={(value) => {
-                  const percentValue = value === 0 ? 0 : value / 100
-                  const AmountType = Store.getState().chartData.amountType
-
-                  const tokenValue = Number(amountRef.current) * percentValue
-                  const newAmount = tokenValue / livePrice
-                  setInputValues((prev) => {
-                    const Leverage = Number(
-                      selectedLeverage?.title.toString()?.replace('X', '')
-                    )
-                    const totalValue = (newAmount * livePrice) / Leverage
-                    const UsdtPrice = Number(amountRef.current) * percentValue
-                    const totalBtc = UsdtPrice / livePrice
-                    return {
-                      ...prev,
-                      amount:
-                        AmountType === 'USDT'
-                          ? Utility.removeDecimal(UsdtPrice, 8).toString()
-                          : Utility.removeDecimal(newAmount).toString(),
-                      total:
-                        AmountType === 'USDT'
-                          ? totalBtc.toFixed(8).toString()
-                          : totalValue
-                            ? totalValue.toFixed(8).toString()
-                            : '0',
-                    }
-                  })
-                  setRangeValue(value)
-                }}
-              />
-            )}
-          </div>
+          <CommonPriceSwitch
+            key={`name_${name}`}
+            currentIndex={index}
+            currentPriceType={amountPriceType}
+            isRangeType={name === 'amount'}
+            name={name}
+            onModelClose={resetValues}
+            placeholder={placeHolder}
+            rangeValue={rangeValue}
+            setRangeValue={handleSliderChange}
+            showModelType={index === 1 || index === 2}
+            value={inputValues?.[name as keyof typeof inputValues]}
+            onChange={(e) => {
+              handleInputChange(
+                name as keyof typeof inputValues,
+                e.target.value
+              )
+            }}
+          />
         )
       })}
 
       {Number(Number(inputValues.total).toFixed(2)) >
         getChallengeByIdArray?.[0]?.current_usdt && (
-        <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
-          {English.E279}
-        </span>
-      )}
+          <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
+            {English.E279}
+          </span>
+        )}
 
       <div className="flex items-center gap-3">
         <ActionButton
@@ -332,7 +269,7 @@ const BuySell = (props: BuyOrSelProps) => {
               : Number(inputValues.amount)
           }
           setInputValues={() => {
-            setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
+            setInputValues((prev) => ({ ...prev, amount: '0', price: '0' }))
           }}
         />
       </div>
@@ -399,7 +336,7 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       )}
 
-      {Array.from({length: 2}).map((_, index) => (
+      {Array.from({ length: 2 }).map((_, index) => (
         <Fragment key={index}>
           <Divider className="!bg-chart-secondary-bg-color !my-3" />
 

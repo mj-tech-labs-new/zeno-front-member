@@ -1,18 +1,20 @@
 /* eslint-disable prefer-template */
-import {Fragment, memo, useCallback, useEffect, useRef, useState} from 'react'
+import { toNumber } from 'lodash'
+import { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react'
 
-import {Divider, ImageComponent, InputContainer} from '@/components'
+import { Divider, ImageComponent } from '@/components'
+import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const {activeIndex, margin_mode} = props
+  const { activeIndex, margin_mode } = props
   const {
     selectedToken,
     tokenList,
@@ -20,27 +22,79 @@ const Limit = (props: BuyOrSelProps) => {
     chartInfo,
     livePrice,
     selectedLeverage,
+
   } = useChartProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     entryprice: '',
     quantity: '',
   })
+  const [amountPriceType, setAmountPriceType] = useState('')
   const [total, setTotal] = useState(0)
-
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-      Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({stop_loss: [], take_profit: []})
+    Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({ stop_loss: [], take_profit: [] })
   const [stopLossValue, setStopLossValue] = useState<number>(0)
   const totalStrFinal = useRef<string>('')
+  const tokenQtyRef = useRef('0')
 
-  useEffect(() => {
+  const resetValues = useCallback(() => {
     setInputValues({
       entryprice: '',
       quantity: '',
     })
-  }, [selectedLeverage])
+    totalStrFinal.current = ''
+    tokenQtyRef.current = '0'
+    // setCurrentType('USDT')
+  }, [])
+
+  const handleLeverageCount = useCallback(
+    (price: number | string) => {
+      if (!selectedLeverage?.title || !price) {
+        setInputValues((prev) => ({
+          ...prev,
+          entryprice: '',
+        }))
+        return
+      }
+      const entry = toNumber(price)
+      setInputValues((prev) => ({
+        ...prev,
+        entryprice: entry.toString(),
+      }))
+    },
+    [selectedLeverage]
+  )
+
+  const handleInputChange = useCallback(
+    (value: string) => {
+      setInputValues((prev) => {
+        let tokenValue = ''
+        if (amountPriceType === '' || amountPriceType !== 'USDT') {
+          tokenValue = Utility.validFloatNumber(Utility.validPointValue(value))
+          tokenQtyRef.current = tokenValue
+        }
+        else {
+          tokenValue = Utility.validFloatNumber(Utility.validFloatNumber(value))
+          const qty = toNumber(tokenValue) / livePrice
+          tokenQtyRef.current = qty.toString()
+        }
+        return {
+          ...prev,
+          quantity: tokenValue,
+        }
+      }
+      )
+    },
+    [amountPriceType, livePrice]
+  )
+
+  useEffect(() => {
+    if (!selectedLeverage || !selectedToken) return
+    resetValues()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedLeverage, selectedToken])
 
   useEffect(() => {
     const entryPriceStr = inputValues?.entryprice
@@ -88,44 +142,6 @@ const Limit = (props: BuyOrSelProps) => {
     tokenList,
   ])
 
-  const handleLeverageCount = useCallback(
-    (price: number | string) => {
-      if (!selectedLeverage?.title || !price) return
-      const leverage = Number()
-
-      const entry = Number(price)
-
-      const leveragedPrice = entry / leverage
-
-      setInputValues((prev) => ({
-        ...prev,
-        entryprice: leveragedPrice.toString(),
-      }))
-    },
-    [selectedLeverage]
-  )
-
-  const handleInputChange = useCallback(
-    (name: keyof typeof inputValues, value: string) => {
-      setInputValues((prev) => {
-        if (name === 'entryprice' && getChallengeByIdArray) {
-          return {
-            ...prev,
-            entryprice: Utility.validFloatNumber(
-              Utility.validPointValue(value)
-            ),
-          }
-        }
-
-        return {
-          ...prev,
-          quantity: Utility.validFloatNumber(Utility.validPointValue(value)),
-        }
-      })
-    },
-    [getChallengeByIdArray]
-  )
-
   useEffect(() => {
     if (!inputValues?.entryprice) setTotal(0)
     if (!inputValues?.quantity) setTotal(0)
@@ -133,25 +149,21 @@ const Limit = (props: BuyOrSelProps) => {
       inputValues?.entryprice != null &&
       inputValues?.entryprice !== '' &&
       inputValues?.quantity != null &&
-      inputValues?.quantity !== ''
+      inputValues?.quantity !== '' &&
+      getChallengeByIdArray?.[0]
     ) {
-      setTotal(
-        (parseFloat(inputValues?.entryprice) *
-          parseFloat(inputValues?.quantity)) /
-          Number(selectedLeverage?.title?.toString()?.replace('X', ''))
-      )
+      const feeToAdd = (toNumber(tokenQtyRef.current) * livePrice * getChallengeByIdArray[0].order_fee_percent) / 100
+      const quantityToGet = toNumber(tokenQtyRef.current) * livePrice
+      const finalAmount = Utility.removeDecimal(feeToAdd + quantityToGet)
+      setTotal(toNumber(finalAmount))
     }
-  }, [getChallengeByIdArray, inputValues, selectedLeverage?.title, total])
+  }, [getChallengeByIdArray, inputValues, livePrice, selectedLeverage?.title, total])
 
-  useEffect(
-    () => () => {
-      setInputValues(() => ({
-        entryprice: '',
-        quantity: '',
-      }))
-    },
-    [selectedToken]
-  )
+  useEffect(() => {
+    if (!chartInfo?.symbol) return
+    setAmountPriceType(chartInfo?.symbol)
+  }, [chartInfo?.symbol])
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-4">
@@ -169,40 +181,27 @@ const Limit = (props: BuyOrSelProps) => {
       </div>
 
       {Constants.BuySellInputArray.Limit.map((item, index) => {
-        const {name, label, textContent} = item
+        const { name, label } = item
         const priceValue = inputValues?.[name as keyof typeof inputValues]
         return (
-          <div key={`name_${name}`}>
-            <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
-              <div className="flex justify-between gap-2">
-                <div className="w-full gap-2.5 flex items-center">
-                  <InputContainer
-                    layoutClassName="!w-full"
-                    placeholder={label}
-                    value={priceValue}
-                    className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
-              [&>input]:!text-chart-text-primary-color [&>input]:!text-sm [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium"
-                    onChange={(e) => {
-                      if (name === 'entryprice') {
-                        const {value} = e.target
-                        handleLeverageCount(value)
-                      }
-                      handleInputChange(
-                        name as keyof typeof inputValues,
-                        e.target.value
-                      )
-                    }}
-                  />
-
-                  <div className="w-[1px] bg-primary-dark-blue-color h-full" />
-                  <span className="text-neutral-primary-color font-medium text-sm !leading-6">
-                    {index === 0 && textContent}
-                    {index === 1 && chartInfo?.fullSymbolName.split('USDT')}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <CommonPriceSwitch
+            key={`name _${name}`}
+            currentIndex={index}
+            currentPriceType={amountPriceType}
+            name={name}
+            onModelClose={resetValues}
+            placeholder={label}
+            showModelType={index === 1 || index === 2}
+            value={priceValue}
+            onChange={(e) => {
+              if (name === 'entryprice') {
+                const { value } = e.target
+                handleLeverageCount(value)
+                return
+              }
+              handleInputChange(e.target.value)
+            }}
+          />
         )
       })}
       {total && total > getChallengeByIdArray?.[0]?.current_usdt ? (
@@ -224,7 +223,7 @@ const Limit = (props: BuyOrSelProps) => {
           take_profit={stopLossData?.take_profit}
           total={total}
           setInputValues={() => {
-            setInputValues({entryprice: '0', quantity: '0'})
+            setInputValues({ entryprice: '0', quantity: '0' })
             setStopLossValue(0)
           }}
         />
@@ -298,7 +297,7 @@ const Limit = (props: BuyOrSelProps) => {
         </div>
       )}
 
-      {Array.from({length: 2}).map((_, index) => (
+      {Array.from({ length: 2 }).map((_, index) => (
         <Fragment key={index}>
           <Divider
             className={`!bg-chart-secondary-bg-color ${index === 0 ? '!my-3' : '!mb-3'}`}

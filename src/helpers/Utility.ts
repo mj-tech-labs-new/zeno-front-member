@@ -1,3 +1,5 @@
+import {isFinite, isNaN} from 'lodash'
+
 const numberConversion = (content: number) => {
   const hasDecimal = content % 1 !== 0
 
@@ -80,7 +82,13 @@ const largeNumberNotationConversion = (content: number) => {
 
 const converToPositiveValue = (content: number) => (content < 0 ? 0 : content)
 
+const formatTo8Decimals = (value: number) => {
+  if (!isFinite(value) || isNaN(value)) return '0'
+  return Number(value.toFixed(8)).toString()
+}
+
 const Utility = {
+  formatTo8Decimals,
   converToPositiveValue,
   trimMultipleSpaces,
   colorGeneratorUtility,
