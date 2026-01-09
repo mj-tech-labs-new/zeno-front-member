@@ -169,7 +169,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
               className="py-8"
               colSpan={Constants.ClosedPNLTableHeading?.length || 1}
             >
-              No Orders
+              {English.E422}
             </td>
           </tr>
         ) : (
@@ -227,6 +227,20 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
                 </td>
                 <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter capitalize">
                   <span>{tableBody?.order_type}</span>
+                </td>
+                <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter capitalize">
+                  <span>
+                    {dayjs(tableBody?.open_time)
+                      .format('MMMM D, YYYY h:mm A')
+                      ?.toString()}
+                  </span>
+                </td>
+                <td className="px-7 py-4 text-left !text-secondary-light-color !whitespace-nowrap !font-inter capitalize">
+                  <span>
+                    {dayjs(tableBody?.close_time)
+                      .format('MMMM D, YYYY h:mm A')
+                      ?.toString()}
+                  </span>
                 </td>
               </tr>
             )

@@ -16,6 +16,7 @@ const StatsDescription = (props: StatsCardProps) => {
     type,
     className = '',
     thirdContent = 0,
+    layoutClassName = '',
   } = props
 
   const percentage = useMemo(
@@ -85,7 +86,7 @@ const StatsDescription = (props: StatsCardProps) => {
         <div className="flex flex-col gap-6">
           <p className="text-lg/6 text-tertiary-color font-normal capitalize">
             <span
-              className={`${
+              className={`${layoutClassName} ${
                 headingContent === English.E66
                   ? 'text-light-success-color'
                   : 'text-light-danger-color'
@@ -98,7 +99,7 @@ const StatsDescription = (props: StatsCardProps) => {
             </span>{' '}
             /{' '}
             {headingContent !== English.E66
-              ? Utility.numberConversion(initialContent)
+              ? Utility.numberConversion(initialContent ?? 0)
               : initialContent}{' '}
             {headingContent === English.E66 ? English.E67 : English.E60}
           </p>

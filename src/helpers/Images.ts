@@ -153,6 +153,10 @@ const Images = {
   pdfIcon: new URL('../assets/svgs/pdf-file.svg', import.meta.url).href,
   reloadIcon: new URL('../assets/svgs/reload-svgrepo-com.svg', import.meta.url)
     .href,
+  payoutIcon: new URL('../assets/svgs/payout.svg', import.meta.url).href,
+  billingIcon: new URL('../assets/svgs/billing.svg', import.meta.url).href,
+  myProfileIcon: new URL('../assets/svgs/myProfile.svg', import.meta.url).href,
+  addIcon: new URL('../assets/svgs/addIcon.svg', import.meta.url).href,
 }
 
 export default Images

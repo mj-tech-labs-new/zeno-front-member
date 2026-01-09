@@ -106,7 +106,7 @@ const DashboardRoutes = [
     ,
   </Route>,
   <Route
-    key="dashboard"
+    key="create-challenge"
     path="/create-challenge"
     element={
       <UserWrapper>

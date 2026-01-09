@@ -1,4 +1,4 @@
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import {
   CommonButton,
@@ -7,15 +7,15 @@ import {
   HeadingComponent,
   ImageComponent,
 } from '@/components'
-import {English, Images} from '@/helpers'
-import {ChallengeDashboardHeaderProps} from '@/types/ChallengeTypes'
+import { English, Images } from '@/helpers'
+import { ChallengeDashboardHeaderProps } from '@/types/ChallengeTypes'
 
-import {useChallengeProvider} from '../context/ChallengeDashboardProvider'
+import { useChallengeProvider } from '../context/ChallengeDashboardProvider'
 
 const ChallengeDashboardHeader = (props: ChallengeDashboardHeaderProps) => {
-  const {createdDate, createdTime, step, updatedDate, updatedTime} = props
+  const { createdDate, createdTime, step, updatedDate, updatedTime } = props
   const navigate = useNavigate()
-  const {getChallengeByIdArray} = useChallengeProvider()
+  const { getChallengeByIdArray } = useChallengeProvider()
 
   return (
     <div className="pt-11 sticky top-0 bg-primary-bg-color z-10">
@@ -24,7 +24,7 @@ const ChallengeDashboardHeader = (props: ChallengeDashboardHeaderProps) => {
           <div className="flex gap-4">
             <GoBackButton />
             <HeadingComponent
-              singleLineContent={English.E55}
+              singleLineContent={English.E57}
               variant="medium"
             />
           </div>

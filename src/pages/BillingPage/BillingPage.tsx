@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
-import {useEffect, useRef, useState} from 'react'
-import {toast} from 'react-toastify'
+import { useEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
 import {
   BasicPagination,
@@ -10,14 +10,14 @@ import {
   HeadingComponent,
   Loader,
 } from '@/components'
-import {Constants, English, Images} from '@/helpers'
-import {APICall, Endpoints} from '@/services'
+import { Constants, English, Images } from '@/helpers'
+import { APICall, Endpoints } from '@/services'
 import {
   GetBillingProps,
   GetBillingWithPaginationProps,
 } from '@/types/ChallengeTypes'
-import {PaginationType} from '@/types/CommonTypes'
-import {AppLoaderRef} from '@/types/ComponentTypes'
+import { PaginationType } from '@/types/CommonTypes'
+import { AppLoaderRef } from '@/types/ComponentTypes'
 
 const BillingPage = () => {
   const [billingData, setBillingData] = useState<GetBillingProps[]>([])
@@ -112,10 +112,10 @@ const BillingPage = () => {
                   {payment_status === 'paid' ? 'Success' : 'Failed'}
                 </td>
                 <td className="p-6 text-secondary-light-color">{txHash}</td>
-                <td>
+                <td className="text-center">
                   <DownloadButton
                     challenge_id={challenge_id}
-                    className="p-6"
+                    className="p-6 w-fit!"
                     imageUrl={Images.pdfIcon}
                   />
                 </td>

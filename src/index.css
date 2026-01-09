@@ -27,6 +27,7 @@
   --light-danger-color: #f04438;
   --dark-danger-color: #cc2929;
   --extra-dark-danger-color: #ff0000;
+  --red-dark-color: #d93125;
   --primary-green: #34c759;
   --primary-border-color: #262626;
   --secondary-border-color: #262729;
@@ -96,6 +97,7 @@
 }
 
 @theme {
+  --color-red-dark-color: var(--red-dark-color);
   --color-inactive-bullets-color: var(--inactive-bullets-color);
   --color-light-grey-btn-color: var(--light-grey-btn-color);
   --color-primary-black: var(--primary-black);

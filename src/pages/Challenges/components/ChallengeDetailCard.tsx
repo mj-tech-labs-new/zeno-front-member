@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
-import {useEffect, useMemo, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   CommonButton,
@@ -8,8 +8,8 @@ import {
   ImageComponent,
   StatsDescription,
 } from '@/components'
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {English, Images, SocketEmitter, Utility} from '@/helpers'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { English, Images, SocketEmitter, ToolTipContent, Utility } from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
 import {
   ChallengeDataSocketType,
@@ -20,9 +20,9 @@ const ChallengeDetailCard = (props: {
   item: ChallengeInfoDashboardProps
   showLoader: boolean
 }) => {
-  const {item, showLoader} = props
+  const { item, showLoader } = props
   const [socketData, setSocketData] = useState<ChallengeDataSocketType>()
-  const {socketRef} = useSocketProvider()
+  const { socketRef } = useSocketProvider()
 
   const navigate = useNavigate()
   const initialAmount = useMemo(() => {
@@ -62,6 +62,30 @@ const ChallengeDetailCard = (props: {
       item?.challenge_type,
       item?.min_trading_day,
       item?.status,
+    ]
+  )
+
+  const profitAmount = useMemo(
+    () =>
+      socketData?.total_available_profit
+        ? Utility.converToPositiveValue(socketData?.total_available_profit)
+        : item?.released_profit
+          ? Utility.converToPositiveValue(item?.released_profit)
+          : 0,
+    [item?.released_profit, socketData?.total_available_profit]
+  )
+
+  const maxDailyLossAmount = useMemo(
+    () =>
+      socketData?.max_daily_loss_amount
+        ? Utility.converToPositiveValue(socketData?.max_daily_loss)
+        : item?.max_total_loss
+          ? Utility.converToPositiveValue(item?.max_total_loss)
+          : 0,
+    [
+      item?.max_total_loss,
+      socketData?.max_daily_loss,
+      socketData?.max_daily_loss_amount,
     ]
   )
 
@@ -119,26 +143,23 @@ const ChallengeDetailCard = (props: {
             <StatsDescription
               className="grey__filter"
               headingContent={English.E68}
-              infoContent="Content!!!"
+              infoContent={ToolTipContent.T5}
+              secondContent={profitAmount}
               type="lossProgressType"
               initialContent={
                 socketData?.profit_target_amount ??
                 item?.profit_target_amount ??
                 0
               }
-              secondContent={
-                socketData?.total_available_profit ?? item?.released_profit ?? 0
-              }
             />
             <div className="w-[1px] min-h-full bg-landing-page-trading-rules-para-text" />
             <StatsDescription
               className="grey__filter"
               headingContent={English.E70}
-              infoContent="Content!!!"
+              infoContent={ToolTipContent.T7}
+              initialContent={maxDailyLossAmount}
+              layoutClassName="text-light-danger-color!"
               type="lossProgressType"
-              initialContent={
-                socketData?.max_daily_loss_amount ?? item?.max_total_loss ?? 0
-              }
               secondContent={
                 socketData?.max_current_loss ?? item?.max_current_loss ?? 0
               }
@@ -157,13 +178,12 @@ const ChallengeDetailCard = (props: {
               <Divider className="!bg-button-primary-color/50" />
               <span
                 className={`text-tertiary-color whitespace-nowrap
-                   ${
-                     key === 'Status'
-                       ? requiredItem.Status === 'Failed'
-                         ? 'p-1 !bg-light-danger-color rounded-sm font-medium'
-                         : 'p-1 !bg-light-success-color rounded-sm font-medium'
-                       : ''
-                   }`}
+                   ${key === 'Status'
+                    ? requiredItem.Status === 'Failed'
+                      ? 'p-1 !bg-light-danger-color rounded-sm font-medium'
+                      : 'p-1 !bg-light-success-color rounded-sm font-medium'
+                    : ''
+                  }`}
               >
                 {value}
               </span>
