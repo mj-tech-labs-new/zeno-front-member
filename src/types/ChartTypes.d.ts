@@ -39,7 +39,7 @@ export interface ChartInfoObjectType {
 
 export type ChartSocketHeaderProps = Pick<
   CandleObjectType,
-  'change' | 'changeAmount' | 'volume' | 'high' | 'low' | 'open'
+  'change' | 'changeAmount' | 'volume' | 'high' | 'low' | 'open' | 'close'
 >
 
 export interface ChartObjectProps {
@@ -261,4 +261,17 @@ export interface TokenDetails extends Pick<DrawingData, 'id'> {
   token_image_url: string
   token_symbol: string
   binance_socket_url: string
+}
+
+export type ToolTipObjectType = Pick<
+  ChartObjectProps,
+  'open' | 'high' | 'low' | 'close'
+> & {
+  time: Time
+}
+
+export interface VolumeToolTipObject {
+  value: number
+  color: string
+  time: Time
 }

@@ -1,5 +1,5 @@
 import SelecAmountModel from '@/pages/ChartPages/components/SelecAmountModel'
-import { CommonPriceSwitchType } from '@/types/ComponentTypes'
+import {CommonPriceSwitchType} from '@/types/ComponentTypes'
 
 import RangeSelector from '../CommonRangeSelector/RangeSelector'
 import InputContainer from '../InputContainer/InputContainer'
@@ -17,7 +17,7 @@ const CommonPriceSwitch = (props: CommonPriceSwitchType) => {
     value,
     isRangeType = false,
     setRangeValue,
-    rangeValue
+    rangeValue,
   } = props
   return (
     <div className="mb-3!">
@@ -53,13 +53,15 @@ const CommonPriceSwitch = (props: CommonPriceSwitchType) => {
           </div>
         </div>
       </div>
-      {isRangeType && <RangeSelector
-        className="!mt-3 mb-4"
-        rangeValue={rangeValue ?? 0}
-        setRangeValue={(range) => {
-          setRangeValue?.(range)
-        }}
-      />}
+      {isRangeType && (
+        <RangeSelector
+          className="!mt-3 mb-4"
+          rangeValue={rangeValue ?? 0}
+          setRangeValue={(range) => {
+            setRangeValue?.(range)
+          }}
+        />
+      )}
     </div>
   )
 }

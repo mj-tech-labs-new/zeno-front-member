@@ -1,15 +1,17 @@
+import dayjs from 'dayjs'
 import {ISeriesApi} from 'lightweight-charts'
-import React, {useEffect, useState} from 'react'
+import {toNumber} from 'lodash'
+import React, {useEffect, useMemo, useState} from 'react'
 
-import {Utility} from '@/helpers'
+import {English, Utility} from '@/helpers'
+import {ToolTipObjectType, VolumeToolTipObject} from '@/types/ChartTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 
 const Tooltip = () => {
-  const [candleStickData, setCandleStickData] = useState<any>()
-
-  const [volumeData, setVolumeData] = useState<any>()
-
+  const [candleStickData, setCandleStickData] =
+    useState<ToolTipObjectType | null>(null)
+  const [volumeData, setVolumeData] = useState<VolumeToolTipObject | null>(null)
   const {
     chartObjectRef,
     isLoadingCandles,
@@ -18,6 +20,46 @@ const Tooltip = () => {
     chartInfo,
     singleCandleData,
   } = useChartProvider()
+
+  const toolTipData = useMemo(() => {
+    if (!candleStickData) return null
+    const {open, low, high, close, time} = candleStickData
+    const timeToMilli = toNumber(time.toString()) * 1000
+    const date = dayjs(timeToMilli)
+    const candleDate = date.format('YYYY/MM/DD')
+    const amplitudeChange = Utility.numberConversion(
+      ((high - low) / (low ?? 1)) * 100
+    )
+    const amountChange = Utility.numberConversion(
+      ((close - open) / (open ?? 1)) * 100
+    )
+
+    return {
+      '': candleDate,
+      O: open,
+      H: high,
+      L: low,
+      C: close,
+      Change: amountChange,
+      Amplitude: amplitudeChange,
+    }
+  }, [candleStickData])
+
+  const VolumeToolTip = useMemo(() => {
+    if (!candleStickData || !volumeData) return null
+    const {open, high, low, close} = candleStickData
+    const avgPrice = open + high + low + close
+    const usdtAmount = avgPrice * volumeData.value
+    return {
+      [`Vol(${chartInfo?.symbol})`]: Utility.largeNumberNotationConversion(
+        volumeData?.value ?? 1
+      ),
+      [`Vol(${English.E60})`]: Utility.largeNumberNotationConversion(
+        volumeData?.value ?? 1 * usdtAmount
+      ),
+    }
+  }, [candleStickData, chartInfo?.symbol, volumeData])
+
   useEffect(() => {
     if (
       !chartObjectRef.current ||
@@ -29,14 +71,14 @@ const Tooltip = () => {
     chartObjectRef.current.subscribeCrosshairMove((tooltipData) => {
       if (!tooltipData) return
       setCandleStickData(
-        tooltipData.seriesData.get(
+        (tooltipData.seriesData.get(
           chartAreaRef.current as ISeriesApi<'Candlestick'>
-        )
+        ) as ToolTipObjectType) ?? null
       )
       setVolumeData(
-        tooltipData?.seriesData?.get(
+        (tooltipData?.seriesData?.get(
           volumeSeriesRef.current as ISeriesApi<'Histogram'>
-        )
+        ) as VolumeToolTipObject) ?? null
       )
     })
   }, [
@@ -48,124 +90,45 @@ const Tooltip = () => {
   ])
   return (
     <React.Fragment>
-      <div className="relative font-switzer flex gap-5 items-center -top-140 left-5 z-99">
-        <span className="text-primary-color p-0.5 px-4 rounded-md bg-neutral-active-color">
-          {chartInfo?.fullSymbolName?.replace('USDT', '')}
-        </span>
-        <span className="text-primary-color text-[15px]">
-          O{' '}
-          <span
-            className={
-              (candleStickData?.open ?? singleCandleData.current?.open) <
-              (candleStickData?.close ?? singleCandleData.current?.close)
-                ? 'text-primary-green'
-                : 'text-dark-danger-color'
-            }
-          >
-            {candleStickData?.open ?? singleCandleData?.current?.open}
-          </span>{' '}
-        </span>
-        <span className="text-primary-color text-[15px]">
-          H{' '}
-          <span
-            className={
-              (candleStickData?.open ?? singleCandleData.current?.open) <
-              (candleStickData?.close ?? singleCandleData.current?.close)
-                ? 'text-primary-green'
-                : 'text-dark-danger-color'
-            }
-          >
-            {candleStickData?.high ?? singleCandleData.current?.high}
-          </span>
-        </span>
-        <span className="text-primary-color text-[15px]">
-          C{' '}
-          <span
-            className={
-              (candleStickData?.open ?? singleCandleData.current?.open) <
-              (candleStickData?.close ?? singleCandleData.current?.close)
-                ? 'text-primary-green'
-                : 'text-dark-danger-color'
-            }
-          >
-            {candleStickData?.close ?? singleCandleData.current?.close}
-          </span>
-        </span>
-        <span className="text-primary-color text-[15px]">
-          L{' '}
-          <span
-            className={
-              (candleStickData?.open ?? singleCandleData.current?.open) <
-              (candleStickData?.close ?? singleCandleData.current?.close)
-                ? 'text-primary-green'
-                : 'text-dark-danger-color'
-            }
-          >
-            {candleStickData?.low ?? singleCandleData.current?.low}
-          </span>
-        </span>
-        <span className="text-primary-color text-[15px]">
-          <span>
-            <span
-              className={
-                (
-                  (candleStickData?.close ??
-                    singleCandleData.current?.close ??
-                    0) -
-                  (candleStickData?.open ?? singleCandleData.current?.open ?? 0)
-                )
-                  .toString()
-                  .startsWith('-')
-                  ? 'text-dark-danger-color mr-2'
-                  : 'text-primary-green mr-2'
-              }
+      <div className="absolute font-poppins! flex flex-wrap gap-4 items-center  top-3 left-5 z-99">
+        {toolTipData?.Change &&
+          Object.entries(toolTipData)?.map(([key, value], index) => (
+            <div
+              key={key}
+              className="flex items-center *:text-[10px]/4! *:font-medium! gap-1 flex-wrap text-neutral-primary-color"
             >
-              {(
-                (candleStickData?.close ??
-                  singleCandleData.current?.close ??
-                  0) -
-                (candleStickData?.open ?? singleCandleData.current?.open ?? 0)
-              )
-                .toString()
-                .startsWith('-')
-                ? Utility.removeDecimal(
-                    (candleStickData?.close ??
-                      singleCandleData.current?.close ??
-                      0) -
-                      (candleStickData?.open ??
-                        singleCandleData.current?.open ??
-                        0),
-                    2
-                  )
-                : `+${Utility.removeDecimal((candleStickData?.close ?? singleCandleData.current?.close ?? 0) - (candleStickData?.open ?? singleCandleData.current?.open ?? 0), 2)}`}
-            </span>
-            <span
-              className={
-                (candleStickData?.open ?? singleCandleData.current?.open) <
-                (candleStickData?.close ?? singleCandleData.current?.close)
-                  ? 'text-primary-green'
-                  : 'text-dark-danger-color'
-              }
-            >
-              ({' '}
-              {(candleStickData?.open ?? singleCandleData.current?.open) <
-              (candleStickData?.close ?? singleCandleData.current?.close)
-                ? `+${Utility.removeDecimal((candleStickData?.close ?? singleCandleData.current?.close ?? 0) / (candleStickData?.open ?? singleCandleData.current?.open ?? 1), 2)}%`
-                : `-${Utility.removeDecimal((candleStickData?.close ?? singleCandleData.current?.close ?? 0) / (candleStickData?.open ?? singleCandleData.current?.open ?? 1), 2)}%`}
-              )
-            </span>
-          </span>
-        </span>
+              {index !== 0 && <span className="capitalize">{key}</span>}
+              <span
+                className={
+                  index === 0
+                    ? 'text-neutral-primary-color'
+                    : Utility.colorGeneratorUtility(
+                        toNumber(toolTipData.Change)
+                      )
+                }
+              >
+                {key === 'Change' || key === 'Amplitude' ? `${value}%` : value}
+              </span>
+            </div>
+          ))}
       </div>
-      <div className="relative bottom-50 text-primary-color -top-52 left-5 z-99">
-        Volume :{' '}
-        <span
-          className={
-            candleStickData?.open < candleStickData?.close
-              ? 'text-primary-green'
-              : 'text-dark-danger-color'
-          }
-        >{`${Utility.removeDecimal(volumeData?.value ?? singleCandleData.current?.volume ?? 0, 2)}k`}</span>
+      <div className="absolute font-poppins! flex flex-wrap gap-4 items-center  bottom-[114px] left-5 z-99">
+        {VolumeToolTip &&
+          Object.entries(VolumeToolTip)?.map(([key, value]) => (
+            <div
+              key={key}
+              className="flex gap-1 items-center *:text-[10px]/4 *:font-medium *:tracking-normal"
+            >
+              <span className="text-neutral-primary-color!">{key}</span>
+              <span
+                className={Utility.colorGeneratorUtility(
+                  toNumber(toolTipData?.Change) ?? 0
+                )}
+              >
+                {value}
+              </span>
+            </div>
+          ))}
       </div>
     </React.Fragment>
   )

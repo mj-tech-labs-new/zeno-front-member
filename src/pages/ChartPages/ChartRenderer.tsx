@@ -1,3 +1,6 @@
+import {useEffect, useRef, useState} from 'react'
+
+// import { ImageComponent } from '@/components'
 import {Constants, English} from '@/helpers'
 import {CommonFunction} from '@/services'
 import {ChartTimePeriodType} from '@/types/UnionTypes'
@@ -20,12 +23,27 @@ const ChartRenderer = () => {
     isLoadingCandles,
     currnetLimit,
   } = useChartProvider()
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const fullScreenContainer = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const {fullscreenElement} = document
+      setIsFullscreen(!!fullscreenElement)
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+    }
+  }, [])
 
   return (
     <div className="h-full bg-chart-layout w-full  lg:w-[calc(100vw-500px)] flex-1">
       <div className="flex flex-col lg:flex-row gap-1 w-full">
         <ChartShapes />
-        <div className="flex-1">
+        <div ref={fullScreenContainer} className="flex-1">
           <div className="p-4 flex flex-col-reverse sm:flex-row gap-4 sm:items-center sm:justify-between">
             <div className="flex items-center flex-row gap-4">
               <span className="text-neutral-primary-color font-bold text-sm !leading-4">
@@ -56,11 +74,21 @@ const ChartRenderer = () => {
                 })}
               </div>
             </div>
-            <span className="bg-neutral-secondary-color py-1.5 px-3 rounded-full text-sm !leading-4 text-chart-text-primary-color w-fit shrink-0">
-              {English.E20}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="bg-neutral-secondary-color py-1.5 px-3 rounded-full text-sm !leading-4 text-chart-text-primary-color font-bold! w-fit shrink-0">
+                {English.E434}
+              </span>
+              {/* <ImageComponent
+                className="size-4! cursor-pointer" imageUrl={Images.fullScreen}
+                onPressItem={() => {
+                  if (!fullScreenContainer.current) return
+                  fullScreenContainer.current.requestFullscreen()
+                }} /> */}
+            </div>
           </div>
-          <div className="relative h-[563px] w-full overflow-hidden ">
+          <div
+            className={`relative w-full ${isFullscreen ? 'h-full' : 'h-[563px] overflow-hidden'}  `}
+          >
             <ChartGraphs />
             <Ma5Indicators />
             <Ma10Indicators />

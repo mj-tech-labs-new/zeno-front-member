@@ -391,6 +391,7 @@ const English = {
   E387: 'Last Price',
   E422: 'No Orders',
   E423: 'Add Challenge',
+  E434: 'Trading View',
 }
 
 export default English

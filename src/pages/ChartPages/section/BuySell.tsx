@@ -1,30 +1,20 @@
-import {
-  Fragment,
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import {Fragment, memo, useCallback, useEffect, useRef, useState} from 'react'
 
-import {
-  Divider,
-  ImageComponent
-} from '@/components'
+import {Divider, ImageComponent} from '@/components'
 import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
-import { Constants, English, Images, Utility } from '@/helpers'
-import { Store } from '@/store'
-import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
+import {Constants, English, Images, Utility} from '@/helpers'
+import {Store} from '@/store'
+import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
-  const { activeIndex, margin_mode } = props
+  const {activeIndex, margin_mode} = props
   const {
     isLoadingCandles,
     selectedToken,
@@ -34,7 +24,7 @@ const BuySell = (props: BuyOrSelProps) => {
     selectedLeverage,
   } = useChartProvider()
   const [amountPriceType, setAmountPriceType] = useState('')
-  const { socketRef } = useSocketProvider()
+  const {socketRef} = useSocketProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     price: '',
@@ -47,8 +37,8 @@ const BuySell = (props: BuyOrSelProps) => {
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-    Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({ stop_loss: [], take_profit: [] })
+      Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({stop_loss: [], take_profit: []})
   const amountRef = useRef(0)
 
   const calculateOrderValues = useCallback(
@@ -62,7 +52,7 @@ const BuySell = (props: BuyOrSelProps) => {
       if (!price || amount <= 0) {
         tokenQntyRef.current = '0'
         initialAmountRef.current = 0
-        return { amount: '0', total: '0' }
+        return {amount: '0', total: '0'}
       }
 
       let finalAmount = 0
@@ -72,13 +62,14 @@ const BuySell = (props: BuyOrSelProps) => {
         // TOKEN MODE
         finalAmount = amount
 
-        const baseTotal = (price * finalAmount)
+        const baseTotal = price * finalAmount
 
         initialAmountRef.current = baseTotal
         tokenQntyRef.current = finalAmount.toString()
 
         const fee =
-          (finalAmount * price * getChallengeByIdArray[0].order_fee_percent) / 100
+          (finalAmount * price * getChallengeByIdArray[0].order_fee_percent) /
+          100
 
         finalTotal = baseTotal + fee
       } else {
@@ -90,7 +81,8 @@ const BuySell = (props: BuyOrSelProps) => {
         initialAmountRef.current = tokenQty
 
         const fee =
-          (finalAmount * price * getChallengeByIdArray[0].order_fee_percent) / 100
+          (finalAmount * price * getChallengeByIdArray[0].order_fee_percent) /
+          100
 
         finalTotal = tokenQty + fee
       }
@@ -100,18 +92,13 @@ const BuySell = (props: BuyOrSelProps) => {
         total: Utility.formatTo8Decimals(finalTotal),
       }
     },
-    [
-      getChallengeByIdArray,
-      inputValues.price,
-      livePrice,
-    ]
+    [getChallengeByIdArray, inputValues.price, livePrice]
   )
-
 
   const handleInputChange = useCallback(
     (name: keyof typeof inputValues, value: string) => {
       if (name !== 'amount') {
-        setInputValues((prev) => ({ ...prev, [name]: value }))
+        setInputValues((prev) => ({...prev, [name]: value}))
         return
       }
 
@@ -167,7 +154,6 @@ const BuySell = (props: BuyOrSelProps) => {
     [calculateOrderValues, livePrice]
   )
 
-
   useEffect(() => {
     resetValues()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -219,7 +205,7 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
-        const { name, placeHolder } = item
+        const {name, placeHolder} = item
 
         return (
           <CommonPriceSwitch
@@ -246,10 +232,10 @@ const BuySell = (props: BuyOrSelProps) => {
 
       {Number(Number(inputValues.total).toFixed(2)) >
         getChallengeByIdArray?.[0]?.current_usdt && (
-          <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
-            {English.E279}
-          </span>
-        )}
+        <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
+          {English.E279}
+        </span>
+      )}
 
       <div className="flex items-center gap-3">
         <ActionButton
@@ -269,7 +255,7 @@ const BuySell = (props: BuyOrSelProps) => {
               : Number(inputValues.amount)
           }
           setInputValues={() => {
-            setInputValues((prev) => ({ ...prev, amount: '0', price: '0' }))
+            setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
           }}
         />
       </div>
@@ -336,7 +322,7 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       )}
 
-      {Array.from({ length: 2 }).map((_, index) => (
+      {Array.from({length: 2}).map((_, index) => (
         <Fragment key={index}>
           <Divider className="!bg-chart-secondary-bg-color !my-3" />
 

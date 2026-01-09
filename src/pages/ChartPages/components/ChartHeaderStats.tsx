@@ -1,3 +1,4 @@
+import {toNumber} from 'lodash'
 import {useEffect, useMemo} from 'react'
 
 import {ImageComponent} from '@/components'
@@ -16,7 +17,6 @@ const ChartHeaderStats = () => {
     setChartSocketData,
     chartSocketData,
     chartInfo,
-    livePrice,
     setTotalTokenData,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
@@ -56,23 +56,22 @@ const ChartHeaderStats = () => {
   const volumeAmount = useMemo(
     () => ({
       priceDiff: chartSocketData?.volume
-        ? Utility.largeNumberNotationConversion(chartSocketData?.volume ?? 1)
+        ? (chartSocketData?.volume ?? 1)
         : '---',
     }),
     [chartSocketData]
   )
 
-  const usdtAmount = useMemo(
-    () => ({
-      priceDiff:
-        livePrice && volumeAmount?.priceDiff
-          ? Utility.largeNumberNotationConversion(
-              (livePrice ?? 0) * Number(chartSocketData?.volume ?? 1)
-            )
-          : '---',
-    }),
-    [chartSocketData?.volume, livePrice, volumeAmount?.priceDiff]
-  )
+  // const usdtAmount = useMemo(
+  //   () => {
+  //     if (!chartSocketData) return { priceDiff: '---' }
+  //     const { high, low, close, open } = chartSocketData
+  //     const avgPrice = (toNumber(high) + toNumber(low) + toNumber(close) + toNumber(open)) / 4
+  //     const usdtPrice = avgPrice * (toNumber(volumeAmount?.priceDiff) ?? 1)
+  //     return { priceDiff: usdtPrice ?? '---', }
+  //   },
+  //   [chartSocketData, volumeAmount?.priceDiff]
+  // )
 
   const ConstantMapData = useMemo(
     () => [
@@ -96,18 +95,17 @@ const ChartHeaderStats = () => {
         content: `${English.E122} (${chartInfo?.symbol})`,
         textContent: volumeAmount ?? 0,
       },
-      {
-        img: Images.dollar,
-        content: `${English.E373}  (${English.E60})`,
-        textContent: usdtAmount ?? 1,
-      },
+      // {
+      //   img: Images.dollar,
+      //   content: `${English.E373}  (${English.E60})`,
+      //   textContent: usdtAmount ?? 1,
+      // },
     ],
     [
       chartInfo?.symbol,
       highestAmount,
       lowestAmount,
       observedChange,
-      usdtAmount,
       volumeAmount,
     ]
   )
@@ -122,7 +120,7 @@ const ChartHeaderStats = () => {
       const chartData: CandleObjectType =
         data?.data?.candles?.[findTokenName?.token_symbol]
       if (!chartData) return
-      const {change, changeAmount, open, high, low, volume} = chartData
+      const {change, changeAmount, open, high, low, volume, close} = chartData
       setChartSocketData((prev) => ({
         change: prev?.change === change ? prev.change : change,
         changeAmount:
@@ -132,6 +130,7 @@ const ChartHeaderStats = () => {
         high: prev?.high === high ? prev.high : high,
         low: prev?.low === low ? prev.low : low,
         open: prev?.open === open ? prev.open : open,
+        close: prev?.close === close ? prev.close : close,
         volume: prev?.volume === volume ? prev.volume : volume,
       }))
       setTotalTokenData(data?.data?.candles)
@@ -139,7 +138,7 @@ const ChartHeaderStats = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoadingCandles, selectedIndex, selectedToken, socketRef, tokenList])
   return (
-    <div className="flex  w-full  gap-6">
+    <div className="flex justify-end  w-full  gap-6">
       {ConstantMapData?.map((item, index) => {
         const {content, img, textContent} = item
         return (
@@ -158,8 +157,9 @@ const ChartHeaderStats = () => {
               className={`text-sm !leading-6 font-medium ${index === 0 ? (textContent?.priceDiff?.toString()?.startsWith('-') ? 'text-chart-red-color' : 'text-chart-green-color') : 'text-chart-text-primary-color'}`}
             >
               <span className="whitespace-nowrap">
-                {content.includes(English.E122)
-                  ? `${textContent?.priceDiff ?? '0.00'}${textContent?.priceDiff ? '' : ''}  ${chartInfo?.symbol ?? ''}`
+                {content.includes(English.E122) ||
+                content.includes(English.E373)
+                  ? `${Utility.largeNumberNotationConversion(toNumber(textContent?.priceDiff ?? 1)) ?? '0.00'}${textContent?.priceDiff ? '' : ''}  ${chartInfo?.symbol ?? ''}`
                   : (textContent?.priceDiff ?? '0.00')}{' '}
               </span>
               {index !== 3 && (

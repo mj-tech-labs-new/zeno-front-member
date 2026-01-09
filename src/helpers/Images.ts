@@ -157,6 +157,7 @@ const Images = {
   billingIcon: new URL('../assets/svgs/billing.svg', import.meta.url).href,
   myProfileIcon: new URL('../assets/svgs/myProfile.svg', import.meta.url).href,
   addIcon: new URL('../assets/svgs/addIcon.svg', import.meta.url).href,
+  fullScreen: new URL('../assets/svgs/full_screen.svg', import.meta.url).href,
 }
 
 export default Images
