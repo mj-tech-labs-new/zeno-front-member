@@ -1,13 +1,13 @@
-import { English } from '@/helpers'
+import {English} from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
-import { useChallengeProvider } from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
+import {useChallengeProvider} from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
 
 import Accordian from '../Accordian/Accordian'
 import HeadingComponent from '../HeadingComponent/HeadingComponent'
 import Info from '../Tooltips/Info'
 
 const ChallengeStatusCard = () => {
-  const { getChallengeByIdArray } = useChallengeProvider()
+  const {getChallengeByIdArray} = useChallengeProvider()
 
   return (
     <ChallengeCardLayout className="max-h-[350px] h-full bg-linear-to-t from-linear-gr-bg1-color to-linear-gr-bg2-color">
@@ -21,7 +21,7 @@ const ChallengeStatusCard = () => {
       </div>
       <div className="flex flex-col gap-6 h-[calc(100%-48px)] overflow-y-auto no-scrollbar">
         {getChallengeByIdArray?.[0]?.ChallengeStage?.map((contentItem) => {
-          const { stage } = contentItem
+          const {stage} = contentItem
           return (
             <div
               key={stage}
@@ -52,10 +52,10 @@ const ChallengeStatusCard = () => {
                     getChallengeByIdArray?.[0]?.current_stage === stage
                       ? [English.E332]
                       : stage === 1 &&
-                        getChallengeByIdArray?.[0]?.current_stage === 1
+                          getChallengeByIdArray?.[0]?.current_stage === 1
                         ? [English.E252]
                         : stage === 2 &&
-                          getChallengeByIdArray?.[0]?.current_stage === 2
+                            getChallengeByIdArray?.[0]?.current_stage === 2
                           ? [English.E252]
                           : [English.E254]
                   }

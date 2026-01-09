@@ -17,19 +17,19 @@ import {
 } from '@/components'
 import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
-import { Constants, English, Images, Utility } from '@/helpers'
-import { Store } from '@/store'
-import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
+import {Constants, English, Images, Utility} from '@/helpers'
+import {Store} from '@/store'
+import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
 // import SelecAmountModel from '../components/SelecAmountModel'
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
-  const { activeIndex, margin_mode } = props
+  const {activeIndex, margin_mode} = props
   const {
     isLoadingCandles,
     selectedToken,
@@ -41,7 +41,7 @@ const BuySell = (props: BuyOrSelProps) => {
     selectedLeverage,
   } = useChartProvider()
   const [amountPriceType, setAmountPriceType] = useState('')
-  const { socketRef } = useSocketProvider()
+  const {socketRef} = useSocketProvider()
   const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     price: '',
@@ -54,8 +54,8 @@ const BuySell = (props: BuyOrSelProps) => {
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-    Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({ stop_loss: [], take_profit: [] })
+      Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({stop_loss: [], take_profit: []})
 
   const leverage = useMemo(
     () => currentStageArray?.[0]?.leverage,
@@ -245,7 +245,7 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       </div>
       {Constants.BuySellInputArray?.Market.map((item, index) => {
-        const { name, placeHolder } = item
+        const {name, placeHolder} = item
 
         return (
           <div key={`name_${name}`} className="!mb-3">
@@ -309,10 +309,10 @@ const BuySell = (props: BuyOrSelProps) => {
 
       {Number(Number(inputValues.total).toFixed(2)) >
         getChallengeByIdArray?.[0]?.current_usdt && (
-          <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
-            {English.E279}
-          </span>
-        )}
+        <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
+          {English.E279}
+        </span>
+      )}
 
       <div className="flex items-center gap-3">
         <ActionButton
@@ -332,7 +332,7 @@ const BuySell = (props: BuyOrSelProps) => {
               : Number(inputValues.amount)
           }
           setInputValues={() => {
-            setInputValues((prev) => ({ ...prev, amount: '0', price: '0' }))
+            setInputValues((prev) => ({...prev, amount: '0', price: '0'}))
           }}
         />
       </div>
@@ -399,7 +399,7 @@ const BuySell = (props: BuyOrSelProps) => {
         </div>
       )}
 
-      {Array.from({ length: 2 }).map((_, index) => (
+      {Array.from({length: 2}).map((_, index) => (
         <Fragment key={index}>
           <Divider className="!bg-chart-secondary-bg-color !my-3" />
 

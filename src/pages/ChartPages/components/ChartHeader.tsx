@@ -1,18 +1,18 @@
-import { memo, useEffect } from 'react'
+import {memo, useEffect} from 'react'
 
-import { English, Utility } from '@/helpers'
-import { CommonFunction } from '@/services'
+import {English, Utility} from '@/helpers'
+import {CommonFunction} from '@/services'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import ChartHeaderStats from './ChartHeaderStats'
 import TokenDropdown from './TokenDropdown'
 
 const ChartHeader = () => {
-  const { chartInfo, livePrice, chartSocketData } = useChartProvider()
+  const {chartInfo, livePrice, chartSocketData} = useChartProvider()
 
   useEffect(() => {
     if (!chartInfo?.symbol) return
-    CommonFunction.addSliceData('addAmountType', { amount: chartInfo.symbol })
+    CommonFunction.addSliceData('addAmountType', {amount: chartInfo.symbol})
   }, [chartInfo?.symbol])
   return (
     <div className="py-5 px-6 bg-chart-layout-bg rounded">
@@ -21,7 +21,9 @@ const ChartHeader = () => {
           <div className="flex flex-row gap-4 lg:gap-8 whitespace-nowrap">
             <TokenDropdown />
             <div className="flex flex-col gap-0.5">
-              <span className={`${Utility.colorGeneratorUtility(Number(chartSocketData?.change ?? 0))} text-2xl !leading-8 font-semibold w-44`}>
+              <span
+                className={`${Utility.colorGeneratorUtility(Number(chartSocketData?.change ?? 0))} text-2xl !leading-8 font-semibold w-44`}
+              >
                 {livePrice} {English.E60}
               </span>
               <span className="text-primary-color font-medium leading-tight">

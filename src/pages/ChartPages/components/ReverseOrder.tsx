@@ -1,8 +1,8 @@
-import { memo, useCallback } from 'react'
+import {memo, useCallback} from 'react'
 
-import { CommonButton } from '@/components'
-import { English } from '@/helpers'
-import { ReverceOrderApiProps } from '@/types/ChartTypes'
+import {CommonButton} from '@/components'
+import {English} from '@/helpers'
+import {ReverceOrderApiProps} from '@/types/ChartTypes'
 
 import chartPageApi from '../api/ChartPageApi'
 

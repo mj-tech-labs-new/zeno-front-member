@@ -237,7 +237,11 @@ export interface DashboardTableComponentProps
   data: []
 }
 
-interface CommonPriceSwitchType extends Pick<InputContainerProps, 'name' | 'disabled' | 'placeholder' | 'value' | 'onChange'>{
+interface CommonPriceSwitchType
+  extends Pick<
+    InputContainerProps,
+    'name' | 'disabled' | 'placeholder' | 'value' | 'onChange'
+  > {
   showModelType?: boolean
   currentIndex: number
   onModelClose: () => void

@@ -1,16 +1,16 @@
 import dayjs from 'dayjs'
-import { useCallback } from 'react'
-import { useParams } from 'react-router-dom'
+import {useCallback} from 'react'
+import {useParams} from 'react-router-dom'
 
-import { CommonCloseActionButton, CommonTableComponent } from '@/components'
-import { Constants, English, Utility } from '@/helpers'
-import { getChallengeByIdApi } from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
-import { CreateChallengeProps } from '@/types/ChallengeTypes'
-import { PendingOrder } from '@/types/ChartTypes'
+import {CommonCloseActionButton, CommonTableComponent} from '@/components'
+import {Constants, English, Utility} from '@/helpers'
+import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
+import {CreateChallengeProps} from '@/types/ChallengeTypes'
+import {PendingOrder} from '@/types/ChartTypes'
 
 import EditLimitPriceModel from '../components/EditLimitPriceModel'
 import EditStopLossModel from '../components/EditStopLossModel'
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 
 const PendingOrderTable = (
   props: Pick<CreateChallengeProps, 'challenge_id'> & {
@@ -18,8 +18,8 @@ const PendingOrderTable = (
     setPendingOrder: (data: PendingOrder[]) => void
   }
 ) => {
-  const { challenge_id, pendingOrder, setPendingOrder } = props
-  const { livePrice, setGetChallengeByIdArray } = useChartProvider()
+  const {challenge_id, pendingOrder, setPendingOrder} = props
+  const {livePrice, setGetChallengeByIdArray} = useChartProvider()
 
   const params = useParams()
 
@@ -27,7 +27,7 @@ const PendingOrderTable = (
     if (!params?.challengeId) {
       return
     }
-    getChallengeByIdApi({ challenge_id: params?.challengeId }).then((res) => {
+    getChallengeByIdApi({challenge_id: params?.challengeId}).then((res) => {
       setGetChallengeByIdArray(res)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,7 +36,7 @@ const PendingOrderTable = (
     <CommonTableComponent
       apiMethod="delete"
       className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0 [&>tr>th]:pr-1!"
-      extraProp={{ challenge_id }}
+      extraProp={{challenge_id}}
       headingClassName="justify-start !whitespace-nowrap "
       layoutClassName="!border-none !h-[500px] !overflow-y-auto no-scrollbar"
       showArrows={false}
@@ -78,9 +78,7 @@ const PendingOrderTable = (
             >
               {tableIndex + 1}.
             </th>
-            <td
-              className="pr-6 py-4  text-chart-text-primary-color !whitespace-nowrap"
-            >
+            <td className="pr-6 py-4  text-chart-text-primary-color !whitespace-nowrap">
               <span className="!text-light-neutral-color block !pb-0.5 ">
                 {contractFullName}
               </span>
@@ -142,7 +140,7 @@ const PendingOrderTable = (
 
             <td className=" pr-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
               {tableBody?.take_profit?.[0]?.price ||
-                tableBody?.stop_loss?.[0]?.price ? (
+              tableBody?.stop_loss?.[0]?.price ? (
                 <div className="flex gap-3 items-center">
                   <div className="flex flex-col">
                     <span className="!text-primary-green">
@@ -155,17 +153,17 @@ const PendingOrderTable = (
                   </div>
                   <div className="">
                     <EditStopLossModel
-                      item={{ ...tableBody, average_price: livePrice }}
+                      item={{...tableBody, average_price: livePrice}}
                       symbol={symbol}
                       apiMethod={
                         tableBody?.take_profit?.[0]?.price &&
-                          tableBody?.stop_loss?.[0]?.price
+                        tableBody?.stop_loss?.[0]?.price
                           ? 'put'
                           : 'post'
                       }
                       singleLineContent={
                         tableBody?.take_profit?.[0]?.price &&
-                          tableBody?.stop_loss?.[0]?.price
+                        tableBody?.stop_loss?.[0]?.price
                           ? English.E333
                           : English.E341
                       }
@@ -177,7 +175,7 @@ const PendingOrderTable = (
                   --{' '}
                   <EditStopLossModel
                     apiMethod="post"
-                    item={{ ...tableBody, average_price: livePrice }}
+                    item={{...tableBody, average_price: livePrice}}
                     singleLineContent={English.E341}
                     symbol={symbol}
                   />

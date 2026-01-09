@@ -1,8 +1,8 @@
-import { forwardRef, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import {forwardRef, useEffect, useState} from 'react'
+import {toast} from 'react-toastify'
 
-import { English, Images } from '@/helpers'
-import { ImageComponentProps } from '@/types/ComponentTypes'
+import {English, Images} from '@/helpers'
+import {ImageComponentProps} from '@/types/ComponentTypes'
 
 import BasicSkeleton from '../SkeletonComponents/BasicSkeleton'
 

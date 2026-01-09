@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback } from 'react'
+import {useCallback} from 'react'
 
-import { ImageComponent } from '@/components'
-import { useModalContext } from '@/components/Modal/context/ModalContextProvider'
-import { English, Images } from '@/helpers'
-import { Store } from '@/store'
+import {ImageComponent} from '@/components'
+import {useModalContext} from '@/components/Modal/context/ModalContextProvider'
+import {English, Images} from '@/helpers'
+import {Store} from '@/store'
 
 import AmountTypeSelectComponent from './AmountTypeSelectComponent'
 
@@ -13,8 +13,8 @@ const SelecAmountModel = (props: {
   index: number
   symbol: string
 }) => {
-  const { onModelClose, index, symbol } = props
-  const { setChildContent, setModalProps } = useModalContext()
+  const {onModelClose, index, symbol} = props
+  const {setChildContent, setModalProps} = useModalContext()
   const onPressAmount = useCallback(() => {
     setChildContent(
       <AmountTypeSelectComponent

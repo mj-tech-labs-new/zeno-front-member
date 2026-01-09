@@ -1,8 +1,8 @@
-import { forwardRef, memo, useCallback, useEffect, useRef, useState } from 'react'
+import {forwardRef, memo, useCallback, useEffect, useRef, useState} from 'react'
 
-import { English, Images } from '@/helpers'
-import { useClickOutside } from '@/hooks'
-import { DropDownProps } from '@/types/ComponentTypes'
+import {English, Images} from '@/helpers'
+import {useClickOutside} from '@/hooks'
+import {DropDownProps} from '@/types/ComponentTypes'
 
 import ImageComponent from '../ImageComponent/ImageComponent'
 import SearchComponent from '../SearchComponent/SearchComponent'
@@ -37,7 +37,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
     )
       return
 
-    const { top, left, height, width } =
+    const {top, left, height, width} =
       mainDivRef.current.getBoundingClientRect()
     dropDownStatsRef.current.style.top = `${top + height}px`
     dropDownStatsRef.current.style.left = `${left}px`
@@ -56,7 +56,6 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
     handleRendering()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dropDownData?.length, isDropDownOpen])
-
 
   useEffect(() => {
     if (!isDropDownOpen) return
@@ -136,7 +135,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
             className={` overflow-y-auto bg-chart-dropdown-bg-color rounded-lg shadow-md z-[999] ${isSearchType ? 'h-[calc(100%-40px)]' : 'h-full'}`}
           >
             {dropDownData?.map((data) => {
-              const { title, img = '' } = data
+              const {title, img = ''} = data
               return (
                 <div
                   key={title}
