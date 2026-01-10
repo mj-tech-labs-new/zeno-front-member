@@ -492,11 +492,11 @@ const Constants = {
   TradingTab: [{title: English.E136}],
   ChartSwitchType: ['buy_sell_type', 'buy_type', 'sell_type'],
   tradesHeadingTypes: [
-    {title: English.E142},
-    {title: English.E143},
-    {title: English.E344},
-    {title: English.E144},
-    {title: English.E345},
+    {title: English.E142, content: '0'},
+    {title: English.E143, content: '0'},
+    {title: English.E344, content: ''},
+    {title: English.E144, content: ''},
+    {title: English.E345, content: ''},
   ],
   orderMarginMode: [{title: English.E139}, {title: English.E329}],
   trades: [
@@ -836,7 +836,6 @@ const Constants = {
 
   StepComponentHeading: [{title: English.E182}, {title: English.E183}],
   Openposition: [
-    {content: [''], showArrow: false},
     {content: [English.E275], showArrow: false},
     {content: [English.E180], showArrow: false},
     {content: [English.E271], showArrow: false},
@@ -850,7 +849,6 @@ const Constants = {
     {content: [English.E243], showArrow: false},
   ],
   PendingOrders: [
-    {content: [''], showArrow: false},
     {content: [English.E275], showArrow: false},
     {content: [English.E180], showArrow: false},
     {content: [English.E270], showArrow: false},

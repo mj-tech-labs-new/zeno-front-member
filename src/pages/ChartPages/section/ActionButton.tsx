@@ -1,9 +1,10 @@
 import {memo, useEffect, useRef, useState} from 'react'
-import {useNavigate, useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import {toast} from 'react-toastify'
 
 import {CommonButton, Loader} from '@/components'
 import {Constants, English} from '@/helpers'
+import {Store} from '@/store'
 import {CommonBuyAndSellProp} from '@/types/ChartTypes'
 
 import chartPageApi from '../api/ChartPageApi'
@@ -24,14 +25,9 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
   } = props
   const [isLoading, setIsLoading] = useState(false)
 
-  const navigate = useNavigate()
   const amountRef = useRef(0)
-  const {
-    getChallengeByIdArray,
-    chartInfo,
-    setGetChallengeByIdArray,
-    livePrice,
-  } = useChartProvider()
+  const {getChallengeByIdArray, setGetChallengeByIdArray, livePrice} =
+    useChartProvider()
 
   const params = useParams()
 
@@ -68,7 +64,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     setIsLoading(true)
     chartPageApi
       .buyOrSellApi({
-        symbol: chartInfo?.fullSymbolName,
+        symbol: `${Store?.getState()?.chartData?.selectedToken?.name}USDT`,
         usdt_price: price,
         quantity,
         order_type,
@@ -90,10 +86,6 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
             : 'taker',
       })
       .then(async (res) => {
-        if (res.isNavigateType) {
-          navigate('/dashboard')
-          return
-        }
         setGetChallengeByIdArray((data) => {
           const previousData = data[0]
           const newData = {

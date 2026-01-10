@@ -47,7 +47,7 @@ const OpenPositionTable = (
         }
       }}
     >
-      {openPosition?.map((tableBody, tableIndex) => {
+      {openPosition?.map((tableBody) => {
         const {
           symbol,
           tx_hash,
@@ -73,12 +73,6 @@ const OpenPositionTable = (
             key={`content-${tx_hash}`}
             className=" text-xs/5 *:transition-all *:duration-300 *:ease-in *:!font-poppins *:!leading-5"
           >
-            <th
-              className="pr-6 py-4  text-chart-text-primary-color !whitespace-nowrap"
-              scope="row"
-            >
-              {tableIndex + 1}.
-            </th>
             <td className="pr-6 py-4  text-chart-text-primary-color !whitespace-nowrap">
               <span className="!text-light-neutral-color block !pb-0.5 ">
                 {contractFullName}

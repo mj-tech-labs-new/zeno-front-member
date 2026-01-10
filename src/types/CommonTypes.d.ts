@@ -17,6 +17,7 @@ export interface GeneralProps {
 export interface DropDownObjectType {
   img?: string
   title: string
+  content?: string
 }
 
 export interface UserObjectType {

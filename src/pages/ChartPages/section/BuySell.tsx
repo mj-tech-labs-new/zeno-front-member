@@ -21,7 +21,6 @@ const BuySell = (props: BuyOrSelProps) => {
     isLoadingCandles,
     selectedToken,
     getChallengeByIdArray,
-    chartInfo,
     livePrice,
     selectedLeverage,
   } = useChartProvider()
@@ -174,9 +173,10 @@ const BuySell = (props: BuyOrSelProps) => {
   }, [getChallengeByIdArray])
 
   useEffect(() => {
-    if (!chartInfo?.symbol) return
-    setAmountPriceType(chartInfo?.symbol)
-  }, [chartInfo?.symbol])
+    setAmountPriceType(
+      Store?.getState()?.chartData?.selectedToken?.name ?? 'BTC'
+    )
+  }, [])
 
   useEffect(() => {
     if (!livePrice) return

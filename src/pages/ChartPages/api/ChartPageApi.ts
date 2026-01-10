@@ -18,27 +18,25 @@ import {
 import {PaginationType} from '@/types/CommonTypes'
 
 const buyOrSellApi = async (props: BuyOrSellApiProps) =>
-  new Promise<{data: BuyOrSellApiType[]; isNavigateType: boolean}>(
-    (resolve) => {
-      APICall('post', Endpoints.buyOrSell, props)
-        .then((res: any) => {
-          if (res?.status === 200 && res?.statusCode === 400) {
-            resolve({data: [], isNavigateType: true})
-            return
-          }
-          if (res?.status === 200 && res?.statusCode === 200) {
-            resolve({data: res?.data?.buy_order, isNavigateType: false})
-          } else {
-            resolve({data: [], isNavigateType: false})
-            toast.error(res?.message)
-          }
-        })
-        .catch((error) => {
-          toast.error(error?.data?.message)
-          resolve({data: [], isNavigateType: false})
-        })
-    }
-  )
+  new Promise<{data: BuyOrSellApiType[]}>((resolve) => {
+    APICall('post', Endpoints.buyOrSell, props)
+      .then((res: any) => {
+        if (res?.status === 200) {
+          resolve({data: []})
+          return
+        }
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve({data: res?.data?.buy_order})
+        } else {
+          resolve({data: []})
+          toast.error(res?.message)
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message)
+        resolve({data: []})
+      })
+  })
 
 const closeOrderApi = async (
   props: Omit<CloseOrderButtonProps, 'className'>

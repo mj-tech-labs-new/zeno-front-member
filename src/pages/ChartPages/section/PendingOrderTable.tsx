@@ -48,7 +48,7 @@ const PendingOrderTable = (
         }
       }}
     >
-      {pendingOrder?.map((tableBody, tableIndex) => {
+      {pendingOrder?.map((tableBody) => {
         const {
           symbol,
           leverage,
@@ -72,12 +72,6 @@ const PendingOrderTable = (
             key={`content-${tableBody?.tx_hash}`}
             className="font-normal text-xs/5 *:transition-all *:duration-300 *:ease-in-out"
           >
-            <th
-              className="pr-0!  text-chart-text-primary-color !whitespace-nowrap"
-              scope="row"
-            >
-              {tableIndex + 1}.
-            </th>
             <td className="pr-6 py-4  text-chart-text-primary-color !whitespace-nowrap">
               <span className="!text-light-neutral-color block !pb-0.5 ">
                 {contractFullName}

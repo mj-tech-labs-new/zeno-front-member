@@ -43,7 +43,7 @@ const SelecAmountModel = (props: {
       onClick={onPressAmount}
     >
       {index === 1
-        ? Store.getState().chartData.amountType
+        ? Store.getState().chartData.selectedToken?.name
         : Store.getState().chartData.amountType === 'USDT'
           ? symbol
           : English.E60}

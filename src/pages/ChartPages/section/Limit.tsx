@@ -7,6 +7,7 @@ import {Divider, ImageComponent} from '@/components'
 import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
 import {Constants, English, Images, Utility} from '@/helpers'
+import {Store} from '@/store'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 import {StorageProps} from '@/types/CommonTypes'
 
@@ -21,7 +22,6 @@ const Limit = (props: BuyOrSelProps) => {
     selectedToken,
     tokenList,
     getChallengeByIdArray,
-    chartInfo,
     livePrice,
     selectedLeverage,
   } = useChartProvider()
@@ -30,7 +30,9 @@ const Limit = (props: BuyOrSelProps) => {
     entryprice: '',
     quantity: '',
   })
-  const [amountPriceType, setAmountPriceType] = useState('')
+  const [amountPriceType, setAmountPriceType] = useState(
+    Store?.getState()?.chartData?.selectedToken?.name
+  )
   const [total, setTotal] = useState(0)
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
@@ -97,7 +99,7 @@ const Limit = (props: BuyOrSelProps) => {
     if (!selectedLeverage || !selectedToken) return
     resetValues()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedLeverage, selectedToken])
+  }, [selectedLeverage, selectedToken, activeIndex])
 
   useEffect(() => {
     if (activeIndex === 1) {
@@ -170,9 +172,10 @@ const Limit = (props: BuyOrSelProps) => {
   ])
 
   useEffect(() => {
-    if (!chartInfo?.symbol) return
-    setAmountPriceType(chartInfo?.symbol)
-  }, [chartInfo?.symbol])
+    setAmountPriceType(
+      Store?.getState()?.chartData?.selectedToken?.name ?? 'BTC'
+    )
+  }, [])
 
   return (
     <div className="flex flex-col gap-2">
@@ -200,7 +203,7 @@ const Limit = (props: BuyOrSelProps) => {
             <CommonPriceSwitch
               key={`name _${name}`}
               currentIndex={index}
-              currentPriceType={amountPriceType}
+              currentPriceType={amountPriceType ?? 'USDT'}
               disabled={name === 'price'}
               name={name}
               onModelClose={resetValues}

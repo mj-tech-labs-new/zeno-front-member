@@ -1,5 +1,5 @@
 import {CreatePriceLineOptions, LineStyle} from 'lightweight-charts'
-import React, {memo, useEffect, useMemo, useState} from 'react'
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react'
 
 import {TabComponent} from '@/components'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
@@ -16,8 +16,6 @@ import TransactionDetailsTable from './TransactionDetailsTable'
 const TradesInfo = (props: {challengeId: string}) => {
   const {challengeId} = props
   const [activeIndex, setActiveIndex] = useState(0)
-  const [socketEventKey, setSocketEventKey] =
-    useState<keyof typeof SocketEmitter.Emitter>('user_open_position')
   const [openPosition, setOpenPosition] = useState<OpenPosition[]>([])
   const [pendingOrder, setPendingOrder] = useState<PendingOrder[]>([])
   const currentData = useMemo(
@@ -26,31 +24,83 @@ const TradesInfo = (props: {challengeId: string}) => {
   )
   const {isLoadingCandles, chartAreaRef, chartInfo} = useChartProvider()
   const {socketRef} = useSocketProvider()
+  const [tableHeadingData, setTableHeadingData] = useState(
+    Constants.tradesHeadingTypes
+  )
+
+  const handleTableHeadingData = useCallback(
+    (data: any, key: string, indexNo: number) => {
+      setTableHeadingData((prev) => {
+        const newTableHeading = prev.map((item, index) =>
+          index === indexNo ? {...item, content: data?.length} : item
+        )
+        return newTableHeading
+      })
+
+      if (key === 'user_open_position') {
+        setOpenPosition(data)
+        return
+      }
+      setPendingOrder(data)
+    },
+    []
+  )
 
   useEffect(() => {
     const currentSocket = socketRef.current
     if (isLoadingCandles || !currentSocket) return
-    const socketEventName = `${SocketEmitter.Emitter[socketEventKey]}_${challengeId}`
 
-    const handler = (data: any) => {
-      if (socketEventKey === 'user_open_position') {
-        setOpenPosition(data?.data?.positions)
-        return
+    currentSocket.on(
+      `${SocketEmitter.Emitter.user_open_position}_${challengeId}`,
+      (data) => {
+        handleTableHeadingData(data?.data?.positions, 'user_open_position', 0)
       }
-
-      setPendingOrder(data?.data?.positions)
-    }
-
-    currentSocket.on(socketEventName, handler)
+    )
 
     // eslint-disable-next-line consistent-return
     return () => {
-      setSocketEventKey((data) => data)
-      setOpenPosition([])
-      setPendingOrder([])
-      currentSocket?.off(socketEventName, handler)
+      currentSocket?.off(
+        `${SocketEmitter.Emitter.user_open_position}_${challengeId}`,
+        (data) => {
+          handleTableHeadingData(data?.data?.positions, 'user_open_position', 0)
+        }
+      )
     }
-  }, [challengeId, isLoadingCandles, socketEventKey, socketRef])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoadingCandles, socketRef])
+
+  useEffect(() => {
+    const currentSocket = socketRef.current
+    if (isLoadingCandles || !currentSocket) return
+
+    currentSocket.on(
+      `${SocketEmitter.Emitter.user_pending_positions}_${challengeId}`,
+      (data) => {
+        handleTableHeadingData(
+          data?.data?.positions,
+          'user_pending_positions',
+          1
+        )
+      }
+    )
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      currentSocket?.off(
+        `${SocketEmitter.Emitter.user_pending_positions}_${challengeId}`,
+        (data) => {
+          handleTableHeadingData(
+            data?.data?.positions,
+            'user_pending_positions',
+            1
+          )
+        }
+      )
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoadingCandles, socketRef])
 
   useEffect(() => {
     const priceline = chartAreaRef?.current
@@ -105,16 +155,14 @@ const TradesInfo = (props: {challengeId: string}) => {
   return (
     <div className="!w-full py-5 px-4 !bg-chart-layout-bg rounded !whitespace-nowrap h-full">
       <TabComponent
+        isContentType
         activeIndex={activeIndex}
         className="!w-full !leading-4.5 !gap-3"
-        headingData={Constants.tradesHeadingTypes}
+        headingData={tableHeadingData}
         isDividerType={false}
         type="buttonType"
         setActiveIndex={(index) => {
           setActiveIndex(index)
-          setSocketEventKey(
-            index === 0 ? 'user_open_position' : 'user_pending_positions'
-          )
         }}
       >
         {activeIndex !== 2 &&
@@ -132,14 +180,18 @@ const TradesInfo = (props: {challengeId: string}) => {
                 key="open_position_order"
                 challenge_id={challengeId}
                 openPosition={openPosition}
-                setPosition={setOpenPosition}
+                setPosition={(data) => {
+                  handleTableHeadingData(data, 'user_open_position', 0)
+                }}
               />
             ) : activeIndex === 1 ? (
               <PendingOrderTable
-                key="pending_order"
+                key="user_pending_positions"
                 challenge_id={challengeId}
                 pendingOrder={pendingOrder}
-                setPendingOrder={setPendingOrder}
+                setPendingOrder={(data) => {
+                  handleTableHeadingData(data, 'user_pending_position', 1)
+                }}
               />
             ) : activeIndex === 2 ? (
               <OpenHistoryTable showHeader />

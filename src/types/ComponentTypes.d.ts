@@ -153,6 +153,7 @@ export interface CommonTabComponentProps
   isDividerType?: boolean
   type?: TabComponentType
   isCorruptedTabIndex?: number
+  isContentType?: boolean
 }
 
 export interface AppLoaderRef {
