@@ -16,7 +16,7 @@ import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const BuySell = (props: BuyOrSelProps) => {
-  const {activeIndex, margin_mode} = props
+  const {margin_mode} = props
   const {
     isLoadingCandles,
     selectedToken,
@@ -241,7 +241,7 @@ const BuySell = (props: BuyOrSelProps) => {
 
       <div className="flex items-center gap-3">
         <ActionButton
-          activeIndex={activeIndex}
+          // activeIndex={activeIndex}
           checked={checked}
           leverage={Number(selectedLeverage?.title.replace('X', ' '))}
           margin_mode={margin_mode}

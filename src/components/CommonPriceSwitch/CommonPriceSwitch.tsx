@@ -1,5 +1,5 @@
 import SelecAmountModel from '@/pages/ChartPages/components/SelecAmountModel'
-import { CommonPriceSwitchType } from '@/types/ComponentTypes'
+import {CommonPriceSwitchType} from '@/types/ComponentTypes'
 
 import RangeSelector from '../CommonRangeSelector/RangeSelector'
 import InputContainer from '../InputContainer/InputContainer'
@@ -18,12 +18,14 @@ const CommonPriceSwitch = (props: CommonPriceSwitchType) => {
     isRangeType = false,
     setRangeValue,
     rangeValue,
-    singleLineContent = ''
+    singleLineContent = '',
   } = props
   return (
     <div className="mb-3!">
       <div className="flex flex-col gap-2">
-        <span className="font-medium text-light-neutral-color text-xs font-switzer!">{singleLineContent}</span>
+        <span className="font-medium text-light-neutral-color text-xs font-switzer!">
+          {singleLineContent}
+        </span>
         <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
           <div className="flex justify-between gap-2">
             <div className="w-full gap-2.5 flex items-center">

@@ -434,7 +434,9 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     socket.on(SocketEmitter.Emitter.live_prices, (data) => {
       const tokenPrices = data?.data?.prices
       const findTokenName = tokenList?.find(
-        (item) => item?.token_symbol === selectedToken?.token_symbol
+        (item) =>
+          item?.token_symbol ===
+          Store.getState()?.chartData?.selectedToken?.name
       )
 
       if (!findTokenName) return

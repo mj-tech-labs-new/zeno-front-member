@@ -1,9 +1,11 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react'
+import {useSelector} from 'react-redux'
 
 import {ImageComponent, SearchComponent} from '@/components'
 import {English, Images, Utility} from '@/helpers'
 import {useClickOutside, useDebounce} from '@/hooks'
 import {CommonFunction} from '@/services'
+import {StorageProps} from '@/types/CommonTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 
@@ -29,6 +31,11 @@ const TokenDropdown = () => {
   const [isDivOpen, setIsDivOpen] = useState(false)
   const floatingDiv = useRef<HTMLDivElement | null>(null)
   const searchRef = useRef<HTMLDivElement | null>(null)
+  const ChartData = useSelector((state: StorageProps) => state.chartData)
+  const tokenToShow = useMemo(
+    () => ChartData?.selectedToken ?? null,
+    [ChartData?.selectedToken]
+  )
 
   useClickOutside({
     refs: [searchRef, mainDivRef, floatingDiv],
@@ -77,13 +84,15 @@ const TokenDropdown = () => {
           setIsDivOpen((data) => !data)
         }}
       >
-        <ImageComponent
-          className="w-6 h-6 "
-          imageUrl={`${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${selectedToken?.token_image_url?.replace('/home/ubuntu/backend/', '')}`}
-        />
-        {tokenList && selectedToken && (
+        {tokenToShow?.imgUrl && (
+          <ImageComponent
+            className="w-6 h-6 "
+            imageUrl={`${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${tokenToShow?.imgUrl?.replace('/home/ubuntu/backend/', '')}`}
+          />
+        )}
+        {tokenList && selectedToken && tokenToShow && (
           <span className="text-primary-color text-lg !leading-5 font-semibold uppercase tracking-wider">
-            {selectedToken.token_symbol + English.E60}
+            {tokenToShow.name + English.E60}
           </span>
         )}
         <ImageComponent
@@ -124,8 +133,12 @@ const TokenDropdown = () => {
                       setSelectedToken((data) => {
                         if (data?.token_symbol !== item?.token_symbol) {
                           CommonFunction.addSliceData('removeCoinToken', '')
+                          const tokenToSend = {
+                            name: item?.token_symbol?.replace('USDT', ''),
+                            imgUrl: item?.token_image_url,
+                          }
                           CommonFunction.addSliceData('addCoinToken', {
-                            token: item?.token_name?.replace('USDT', ''),
+                            token: tokenToSend,
                           })
                           CommonFunction.addSliceData('addAmountType', {
                             amount: chartInfo?.symbol,

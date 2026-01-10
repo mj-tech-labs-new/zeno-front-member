@@ -1,26 +1,26 @@
 import {toNumber} from 'lodash'
 import {useEffect, useMemo} from 'react'
+import {useSelector} from 'react-redux'
 
 import {ImageComponent} from '@/components'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {English, Images, SocketEmitter, Utility} from '@/helpers'
 import {CandleObjectType} from '@/types/ChartTypes'
+import {StorageProps} from '@/types/CommonTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 
 const ChartHeaderStats = () => {
   const {
     isLoadingCandles,
-    selectedIndex,
     tokenList,
-    selectedToken,
     setChartSocketData,
     chartSocketData,
     chartInfo,
     setTotalTokenData,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
-
+  const chartDetails = useSelector((state: StorageProps) => state.chartData)
   const observedChange = useMemo(
     () => ({
       priceDiff: chartSocketData?.changeAmount ?? '---',
@@ -114,29 +114,31 @@ const ChartHeaderStats = () => {
     if (!socketRef.current || isLoadingCandles) return
     socketRef.current.on(SocketEmitter.Emitter['1d'], (data) => {
       const findTokenName = tokenList?.find(
-        (item) => item?.token_symbol === selectedToken?.token_symbol
+        (item) => item?.token_symbol === chartDetails?.selectedToken?.name
       )
       if (!findTokenName) return
       const chartData: CandleObjectType =
         data?.data?.candles?.[findTokenName?.token_symbol]
       if (!chartData) return
       const {change, changeAmount, open, high, low, volume, close} = chartData
-      setChartSocketData((prev) => ({
-        change: prev?.change === change ? prev.change : change,
-        changeAmount:
-          prev?.changeAmount === changeAmount
-            ? prev.changeAmount
-            : changeAmount,
-        high: prev?.high === high ? prev.high : high,
-        low: prev?.low === low ? prev.low : low,
-        open: prev?.open === open ? prev.open : open,
-        close: prev?.close === close ? prev.close : close,
-        volume: prev?.volume === volume ? prev.volume : volume,
+      setChartSocketData(() => ({
+        change,
+        changeAmount,
+        high,
+        low,
+        open,
+        close,
+        volume,
       }))
       setTotalTokenData(data?.data?.candles)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoadingCandles, selectedIndex, selectedToken, socketRef, tokenList])
+  }, [
+    chartDetails?.selectedToken?.name,
+    isLoadingCandles,
+    socketRef,
+    tokenList,
+  ])
   return (
     <div className="flex justify-end  w-full  gap-6">
       {ConstantMapData?.map((item, index) => {
