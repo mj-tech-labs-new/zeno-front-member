@@ -1,22 +1,22 @@
 /* eslint-disable prefer-template */
-import {toNumber} from 'lodash'
-import {Fragment, memo, useCallback, useEffect, useRef, useState} from 'react'
-import {useSelector} from 'react-redux'
+import { toNumber } from 'lodash'
+import { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 
-import {Divider, ImageComponent} from '@/components'
+import { Divider, ImageComponent } from '@/components'
 import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
-import {StorageProps} from '@/types/CommonTypes'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
+import { StorageProps } from '@/types/CommonTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const {activeIndex, margin_mode} = props
+  const { activeIndex, margin_mode } = props
   const {
     selectedToken,
     tokenList,
@@ -34,8 +34,8 @@ const Limit = (props: BuyOrSelProps) => {
   const [total, setTotal] = useState(0)
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-      Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({stop_loss: [], take_profit: []})
+    Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({ stop_loss: [], take_profit: [] })
   const [stopLossValue, setStopLossValue] = useState<number>(0)
   const totalStrFinal = useRef<string>('')
   const tokenQtyRef = useRef('0')
@@ -100,6 +100,10 @@ const Limit = (props: BuyOrSelProps) => {
   }, [selectedLeverage, selectedToken])
 
   useEffect(() => {
+    if (activeIndex === 1) {
+      setInputValues((prev) => ({ ...prev, entryprice: livePrice.toString() }))
+      return
+    }
     const entryPriceStr = inputValues?.entryprice
     const entryPriceBigInt = entryPriceStr.includes('.')
       ? BigInt(entryPriceStr.replace('.', ''))
@@ -136,6 +140,7 @@ const Limit = (props: BuyOrSelProps) => {
     livePrice,
     selectedToken,
     tokenList,
+    activeIndex,
   ])
 
   useEffect(() => {
@@ -186,7 +191,7 @@ const Limit = (props: BuyOrSelProps) => {
       </div>
       {Constants.BuySellInputArray[activeIndex === 0 ? 'Limit' : 'Market']?.map(
         (item, index) => {
-          const {name, label} = item
+          const { name, label } = item
           const priceValue =
             name === 'price'
               ? livePrice
@@ -207,7 +212,7 @@ const Limit = (props: BuyOrSelProps) => {
               value={priceValue}
               onChange={(e) => {
                 if (name === 'entryprice') {
-                  const {value} = e.target
+                  const { value } = e.target
                   handleLeverageCount(value)
                   return
                 }
@@ -238,7 +243,7 @@ const Limit = (props: BuyOrSelProps) => {
             activeIndex === 0 ? Number(inputValues?.entryprice) : livePrice
           }
           setInputValues={() => {
-            setInputValues({entryprice: '0', quantity: '0'})
+            setInputValues({ entryprice: '0', quantity: '0' })
             setStopLossValue(0)
           }}
         />
@@ -312,7 +317,7 @@ const Limit = (props: BuyOrSelProps) => {
         </div>
       )}
 
-      {Array.from({length: 2}).map((_, index) => (
+      {Array.from({ length: 2 }).map((_, index) => (
         <Fragment key={index}>
           <Divider
             className={`!bg-chart-secondary-bg-color ${index === 0 ? '!my-3' : '!mb-3'}`}

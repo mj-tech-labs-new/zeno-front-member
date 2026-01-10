@@ -442,7 +442,7 @@ const Constants = {
   BuySellInputArray: {
     Market: [
       {
-        name: 'price',
+        name: 'entryprice',
         placeHolder: English.E131,
         textContent: English.E60,
       },
