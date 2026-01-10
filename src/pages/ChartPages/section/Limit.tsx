@@ -191,7 +191,7 @@ const Limit = (props: BuyOrSelProps) => {
       </div>
       {Constants.BuySellInputArray[activeIndex === 0 ? 'Limit' : 'Market']?.map(
         (item, index) => {
-          const { name, label } = item
+          const { name, label, placeHolder } = item
           const priceValue =
             name === 'price'
               ? livePrice
@@ -202,14 +202,13 @@ const Limit = (props: BuyOrSelProps) => {
               currentIndex={index}
               currentPriceType={amountPriceType}
               disabled={name === 'price'}
-              // isRangeType={name === 'quantity'}
               name={name}
               onModelClose={resetValues}
-              placeholder={label}
-              // rangeValue={rangeValue}
-              // setRangeValue={setRangeValue}
+              placeholder={placeHolder}
               showModelType={index === 1 || index === 2}
+              singleLineContent={label}
               value={priceValue}
+
               onChange={(e) => {
                 if (name === 'entryprice') {
                   const { value } = e.target
@@ -229,7 +228,6 @@ const Limit = (props: BuyOrSelProps) => {
       ) : null}
       <div className="flex items-center gap-3">
         <ActionButton
-          activeIndex={activeIndex}
           checked={checked}
           leverage={Number(selectedLeverage?.title.replace('X', ' '))}
           margin_mode={margin_mode}

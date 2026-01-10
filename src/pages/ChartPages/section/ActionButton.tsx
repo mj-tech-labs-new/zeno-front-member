@@ -11,7 +11,6 @@ import {useChartProvider} from '../context/ChartProvider'
 
 const ActionButton = (props: CommonBuyAndSellProp) => {
   const {
-    activeIndex,
     total = 0,
     price,
     quantity = 0,
@@ -39,24 +38,6 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
   const handleButtonClick = (orderSide: string) => {
     if (!params?.challengeId) return
     if (checked) setChecked(false)
-
-    if (order_type === 'limit') {
-      const enterPrice = price
-      if (orderSide === 'buy' || orderSide === 'sell') {
-        if (orderSide === 'buy') {
-          if (enterPrice >= livePrice) {
-            toast.error(English.E370)
-            return
-          }
-        }
-        if (orderSide === 'sell') {
-          if (enterPrice <= livePrice) {
-            toast.error(English.E370)
-            return
-          }
-        }
-      }
-    }
 
     if (orderSide === 'buy' || orderSide === 'sell') {
       const sl = stop_loss?.[0]?.price
@@ -135,7 +116,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
   return (
     <div className="flex flex-1 gap-3">
       <Loader ref={(ref) => ref?.showLoader(isLoading)} />
-      {Constants?.BuySellActionButtons?.[activeIndex].map((item) => {
+      {Constants?.BuySellActionButtons?.[0].map((item) => {
         const {name, text} = item
         return (
           <CommonButton

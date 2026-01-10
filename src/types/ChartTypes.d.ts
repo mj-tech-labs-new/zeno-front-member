@@ -139,7 +139,6 @@ export interface CommonBuyAndSellProp
   checked?: boolean
   setChecked?: Dispatch<SetStateAction<boolean>>
   text?: number
-  activeIndex: number
   total?: number
   quantity: number
   usdt_price?: number

@@ -442,15 +442,16 @@ const Constants = {
   BuySellInputArray: {
     Market: [
       {
-        name: 'entryprice',
+        label: 'Price',
+        name: 'price',
         placeHolder: English.E131,
         textContent: English.E60,
       },
       {
+        label: 'Amount',
         name: 'quantity',
-        placeHolder: 'Quantity',
+        placeHolder: 'Enter Amount',
         textContent: '0ETH',
-        label: 'Quantity',
       },
     ],
     Limit: [
@@ -458,13 +459,13 @@ const Constants = {
         name: 'entryprice',
         placeHolder: 'Entery Price',
         textContent: English.E60,
-        label: 'Entry Price',
+        label: 'Price',
       },
       {
         name: 'quantity',
-        placeHolder: 'Quantity',
+        placeHolder: 'Enter Amount',
         textContent: '0ETH',
-        label: 'Quantity',
+        label: 'Amount',
       },
     ],
     SLTP: [
@@ -486,10 +487,6 @@ const Constants = {
     [
       {name: 'buy', text: English.E134},
       {name: 'sell', text: English.E135},
-    ],
-    [
-      {name: 'buy', text: 'Buy'},
-      {name: 'sell', text: 'Sell'},
     ],
   ],
   TradingTab: [{title: English.E136}],
