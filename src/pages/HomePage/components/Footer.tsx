@@ -4,8 +4,8 @@ import {HeadingComponent, ImageComponent, LogoComponent} from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
 
 const Footer = () => (
-  <footer className="bg-black text-primary-color">
-    <div className="px-4 lg:px-[60px] pt-16 flex flex-col lg:flex-row gap-16">
+  <footer className="bg-black text-primary-color mb-3">
+    <div className="px-4 lg:px-[60px] pt-16 flex flex-col lg:flex-row gap-8 lg:gap-16">
       <div className="flex lg:flex-col items-start gap-6 lg:gap-12 lg:w-1/2">
         <LogoComponent />
         <Link
@@ -26,7 +26,7 @@ const Footer = () => (
         </Link>
       </div>
 
-      <div className="font-[430] gap-20 flex justify-end flex-1 ">
+      <div className="font-[430] gap-20 flex justify-center lg:justify-end flex-1 ">
         {Constants.footerLinks.map((item) => (
           <ul key={item.title} className="">
             <HeadingComponent
