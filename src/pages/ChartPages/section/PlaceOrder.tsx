@@ -4,7 +4,6 @@ import {DropDown, HeadingComponent, TabComponent} from '@/components'
 import {Constants, English} from '@/helpers'
 
 import {useChartProvider} from '../context/ChartProvider'
-import BuySell from './BuySell'
 import Limit from './Limit'
 
 const PlaceOrder = () => {
@@ -82,11 +81,7 @@ const PlaceOrder = () => {
           setActiveIndex={setActiveIndex}
           type="buttonType"
         >
-          {activeIndex === 0 ? (
-            <Limit activeIndex={activeIndex} margin_mode={mode?.toString()} />
-          ) : (
-            <BuySell activeIndex={activeIndex} margin_mode={mode?.toString()} />
-          )}
+          <Limit activeIndex={activeIndex} margin_mode={mode?.toString()} />
         </TabComponent>
       </div>
     </div>

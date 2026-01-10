@@ -447,14 +447,10 @@ const Constants = {
         textContent: English.E60,
       },
       {
-        name: 'amount',
-        placeHolder: English.E105,
-        textContent: 'BTC',
-      },
-      {
-        name: 'total',
-        placeHolder: English.E133,
-        textContent: 'BTC',
+        name: 'quantity',
+        placeHolder: 'Quantity',
+        textContent: '0ETH',
+        label: 'Quantity',
       },
     ],
     Limit: [

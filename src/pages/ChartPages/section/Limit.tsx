@@ -1,12 +1,14 @@
 /* eslint-disable prefer-template */
 import {toNumber} from 'lodash'
 import {Fragment, memo, useCallback, useEffect, useRef, useState} from 'react'
+import {useSelector} from 'react-redux'
 
 import {Divider, ImageComponent} from '@/components'
 import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
 import {Constants, English, Images, Utility} from '@/helpers'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
+import {StorageProps} from '@/types/CommonTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
 import {useChartProvider} from '../context/ChartProvider'
@@ -37,6 +39,10 @@ const Limit = (props: BuyOrSelProps) => {
   const [stopLossValue, setStopLossValue] = useState<number>(0)
   const totalStrFinal = useRef<string>('')
   const tokenQtyRef = useRef('0')
+  const addAmountType = useSelector(
+    (state: StorageProps) => state?.chartData?.amountType
+  )
+  // const [rangeValue, setRangeValue] = useState(0)
 
   const resetValues = useCallback(() => {
     setInputValues({
@@ -45,7 +51,6 @@ const Limit = (props: BuyOrSelProps) => {
     })
     totalStrFinal.current = ''
     tokenQtyRef.current = '0'
-    // setCurrentType('USDT')
   }, [])
 
   const handleLeverageCount = useCallback(
@@ -70,12 +75,13 @@ const Limit = (props: BuyOrSelProps) => {
     (value: string) => {
       setInputValues((prev) => {
         let tokenValue = ''
-        if (amountPriceType === '' || amountPriceType !== 'USDT') {
+        if (addAmountType === '' || addAmountType !== 'USDT') {
           tokenValue = Utility.validFloatNumber(Utility.validPointValue(value))
           tokenQtyRef.current = tokenValue
         } else {
           tokenValue = Utility.validFloatNumber(Utility.validFloatNumber(value))
-          const qty = toNumber(tokenValue) / livePrice
+          const entityToDivide = toNumber(prev.entryprice) ?? 1
+          const qty = toNumber(tokenValue) / entityToDivide
           tokenQtyRef.current = qty.toString()
         }
         return {
@@ -84,7 +90,7 @@ const Limit = (props: BuyOrSelProps) => {
         }
       })
     },
-    [amountPriceType, livePrice]
+    [addAmountType]
   )
 
   useEffect(() => {
@@ -133,30 +139,29 @@ const Limit = (props: BuyOrSelProps) => {
   ])
 
   useEffect(() => {
-    if (!inputValues?.entryprice) setTotal(0)
     if (!inputValues?.quantity) setTotal(0)
     if (
-      inputValues?.entryprice != null &&
-      inputValues?.entryprice !== '' &&
       inputValues?.quantity != null &&
       inputValues?.quantity !== '' &&
       getChallengeByIdArray?.[0]
     ) {
       const feeToAdd =
         (toNumber(tokenQtyRef.current) *
-          livePrice *
+          (toNumber(inputValues.entryprice) ?? 1) *
           getChallengeByIdArray[0].order_fee_percent) /
         100
-      const quantityToGet = toNumber(tokenQtyRef.current) * livePrice
+      const quantityToGet =
+        toNumber(tokenQtyRef.current) * (toNumber(inputValues.entryprice) ?? 1)
+      // console.log('tokenQtyRef.current', tokenQtyRef.current)
       const finalAmount = Utility.removeDecimal(feeToAdd + quantityToGet)
+      // console.log('finalAmount', finalAmount)
       setTotal(toNumber(finalAmount))
     }
   }, [
     getChallengeByIdArray,
-    inputValues,
+    inputValues.entryprice,
+    inputValues?.quantity,
     livePrice,
-    selectedLeverage?.title,
-    total,
   ])
 
   useEffect(() => {
@@ -179,31 +184,39 @@ const Limit = (props: BuyOrSelProps) => {
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>
       </div>
-
-      {Constants.BuySellInputArray.Limit.map((item, index) => {
-        const {name, label} = item
-        const priceValue = inputValues?.[name as keyof typeof inputValues]
-        return (
-          <CommonPriceSwitch
-            key={`name _${name}`}
-            currentIndex={index}
-            currentPriceType={amountPriceType}
-            name={name}
-            onModelClose={resetValues}
-            placeholder={label}
-            showModelType={index === 1 || index === 2}
-            value={priceValue}
-            onChange={(e) => {
-              if (name === 'entryprice') {
-                const {value} = e.target
-                handleLeverageCount(value)
-                return
-              }
-              handleInputChange(e.target.value)
-            }}
-          />
-        )
-      })}
+      {Constants.BuySellInputArray[activeIndex === 0 ? 'Limit' : 'Market']?.map(
+        (item, index) => {
+          const {name, label} = item
+          const priceValue =
+            name === 'price'
+              ? livePrice
+              : inputValues?.[name as keyof typeof inputValues]
+          return (
+            <CommonPriceSwitch
+              key={`name _${name}`}
+              currentIndex={index}
+              currentPriceType={amountPriceType}
+              disabled={name === 'price'}
+              // isRangeType={name === 'quantity'}
+              name={name}
+              onModelClose={resetValues}
+              placeholder={label}
+              // rangeValue={rangeValue}
+              // setRangeValue={setRangeValue}
+              showModelType={index === 1 || index === 2}
+              value={priceValue}
+              onChange={(e) => {
+                if (name === 'entryprice') {
+                  const {value} = e.target
+                  handleLeverageCount(value)
+                  return
+                }
+                handleInputChange(e.target.value)
+              }}
+            />
+          )
+        }
+      )}
       {total && total > getChallengeByIdArray?.[0]?.current_usdt ? (
         <span className="text-light-danger-color text-xs/6 font-normal tracking-[0.4px]">
           {English.E279}
@@ -216,12 +229,14 @@ const Limit = (props: BuyOrSelProps) => {
           leverage={Number(selectedLeverage?.title.replace('X', ' '))}
           margin_mode={margin_mode}
           order_type="limit"
-          price={Number(inputValues?.entryprice)}
-          quantity={Number(Number(inputValues?.quantity))}
+          quantity={toNumber(tokenQtyRef.current)}
           setChecked={setChecked}
           stop_loss={stopLossData?.stop_loss}
           take_profit={stopLossData?.take_profit}
           total={total}
+          price={
+            activeIndex === 0 ? Number(inputValues?.entryprice) : livePrice
+          }
           setInputValues={() => {
             setInputValues({entryprice: '0', quantity: '0'})
             setStopLossValue(0)

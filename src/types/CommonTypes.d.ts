@@ -1,7 +1,8 @@
+/* eslint-disable import-x/no-cycle */
 import {ReactNode} from 'react'
 
-// eslint-disable-next-line import-x/no-cycle
 import {UserSliceInitialType} from '@/store'
+import {ChartInitialPropsType} from '@/store/ChartSlice/ChartSlice'
 
 export interface GeneralProps {
   className?: string
@@ -27,6 +28,7 @@ export interface UserObjectType {
 
 export interface StorageProps {
   userData: UserSliceInitialType
+  chartData: ChartInitialPropsType
 }
 
 export interface FeatureProps {

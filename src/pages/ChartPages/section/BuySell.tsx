@@ -1,4 +1,5 @@
 import {Fragment, memo, useCallback, useEffect, useRef, useState} from 'react'
+import {useSelector} from 'react-redux'
 
 import {Divider, ImageComponent} from '@/components'
 import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
@@ -7,6 +8,7 @@ import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
 import {Constants, English, Images, Utility} from '@/helpers'
 import {Store} from '@/store'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
+import {StorageProps} from '@/types/CommonTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
 import {useChartProvider} from '../context/ChartProvider'
@@ -34,6 +36,9 @@ const BuySell = (props: BuyOrSelProps) => {
   const [rangeValue, setRangeValue] = useState(0)
   const tokenQntyRef = useRef('0')
   const initialAmountRef = useRef(0)
+  const addAmountType = useSelector(
+    (state: StorageProps) => state?.chartData?.amountType
+  )
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
@@ -43,8 +48,6 @@ const BuySell = (props: BuyOrSelProps) => {
 
   const calculateOrderValues = useCallback(
     (rawAmount: string) => {
-      const AmountType = Store.getState().chartData.amountType
-
       const price = Number(inputValues.price || livePrice || 0)
 
       const amount = Number(rawAmount)
@@ -58,8 +61,7 @@ const BuySell = (props: BuyOrSelProps) => {
       let finalAmount = 0
       let finalTotal = 0
 
-      if (AmountType !== 'USDT') {
-        // TOKEN MODE
+      if (addAmountType !== 'USDT') {
         finalAmount = amount
 
         const baseTotal = price * finalAmount
@@ -92,7 +94,7 @@ const BuySell = (props: BuyOrSelProps) => {
         total: Utility.formatTo8Decimals(finalTotal),
       }
     },
-    [getChallengeByIdArray, inputValues.price, livePrice]
+    [addAmountType, getChallengeByIdArray, inputValues.price, livePrice]
   )
 
   const handleInputChange = useCallback(
