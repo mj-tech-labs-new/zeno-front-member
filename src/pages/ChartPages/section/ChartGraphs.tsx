@@ -2,6 +2,7 @@ import {
   CandlestickSeries,
   createChart,
   HistogramSeries,
+  LogicalRange,
   Time,
 } from 'lightweight-charts'
 import {memo, useCallback, useEffect} from 'react'
@@ -31,6 +32,7 @@ const ChartGraphs = () => {
     setLiveCandle,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
+
   const calculateDataAndUpdateChart = useCallback(
     (items: CandleObjectType[]) => {
       const candlestickData = items?.map((item) => {
@@ -61,6 +63,24 @@ const ChartGraphs = () => {
     [chartAreaRef, totalCandleData, volumeSeriesRef]
   )
 
+  const loadMoreCandles = useCallback(() => {
+    currnetLimit.current += 100
+    const tokenToUse = tokenList?.find(
+      (item) => item?.token_symbol === selectedToken?.token_symbol
+    )
+
+    getCandleHistory(tokenToUse?.token_symbol ?? 'BTC', currnetLimit.current)
+  }, [currnetLimit, getCandleHistory, selectedToken?.token_symbol, tokenList])
+
+  const handleRangeChange = useCallback(
+    (logicalRange: LogicalRange) => {
+      if (logicalRange && logicalRange.from < 10) {
+        loadMoreCandles()
+      }
+    },
+    [loadMoreCandles]
+  )
+
   const handleChartRendering = useCallback(() => {
     if (firstChartRef.current === null) return
     if (chartObjectRef.current) {
@@ -85,7 +105,6 @@ const ChartGraphs = () => {
       },
     })
     chartObj.timeScale().applyOptions({barSpacing: 10})
-    chartObj.timeScale().fitContent()
 
     // Add volume series (histogram)
     const volumeSeries = chartObj.addSeries(HistogramSeries, {
@@ -105,7 +124,17 @@ const ChartGraphs = () => {
     volumeSeriesRef.current.moveToPane(2)
     const volumePane = chartObjectRef.current.panes()?.[1]
     volumePane.setHeight(120)
-  }, [chartAreaRef, chartObjectRef, firstChartRef, volumeSeriesRef])
+
+    chartObj.timeScale().subscribeVisibleLogicalRangeChange((logicalRange) => {
+      handleRangeChange(logicalRange as unknown as LogicalRange)
+    })
+  }, [
+    chartAreaRef,
+    chartObjectRef,
+    firstChartRef,
+    handleRangeChange,
+    volumeSeriesRef,
+  ])
 
   useEffect(() => {
     if (isLoadingCandles) return
@@ -164,28 +193,17 @@ const ChartGraphs = () => {
     singleCandleData,
   ])
 
-  chartObjectRef.current
-    ?.timeScale()
-    .subscribeVisibleTimeRangeChange((timeRange) => {
-      if (!timeRange) return
-
-      const firstVisibleBar = chartObjectRef.current
-        ?.timeScale()
-        .coordinateToLogical(0)
-      if (!firstVisibleBar || isCallingCurrent.current) return
-
-      if (firstVisibleBar < 0) {
-        currnetLimit.current += 100
-        const tokenToUse = tokenList?.find(
-          (item) => item?.token_symbol === selectedToken?.token_symbol
-        )
-
-        getCandleHistory(
-          tokenToUse?.token_symbol ?? 'BTC',
-          currnetLimit.current
-        )
-      }
-    })
+  useEffect(() => {
+    const chart = chartObjectRef.current
+    if (!chart) return
+    // eslint-disable-next-line consistent-return
+    return () => {
+      chart.timeScale().unsubscribeVisibleLogicalRangeChange((logicalRange) => {
+        handleRangeChange(logicalRange as unknown as LogicalRange)
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chartObjectRef])
 
   useEffect(() => {
     if (!isLoadingCandles && !isCallingCurrent) return
