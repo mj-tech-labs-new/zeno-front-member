@@ -59,7 +59,7 @@ const CommonPriceSwitch = (props: CommonPriceSwitchType) => {
           </div>
         </div>
       </div>
-      {isRangeType && (
+      {!isRangeType && (
         <RangeSelector
           className="!mt-3 mb-4"
           rangeValue={rangeValue ?? 0}

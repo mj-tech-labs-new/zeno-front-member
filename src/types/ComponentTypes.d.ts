@@ -38,7 +38,6 @@ export interface RangeSelectorProps extends Pick<GeneralProps, 'className'> {
   rangeValue: number
   setRangeValue: (arg: number) => void
   sliderWidth?: number
-  rangeClassname?: string
 }
 
 export type InputContainerProps = InputHTMLAttributes<HTMLInputElement> &

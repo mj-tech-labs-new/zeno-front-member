@@ -590,3 +590,14 @@
   filter: brightness(0) saturate(100%) invert(88%) sepia(81%) saturate(0%)
     hue-rotate(156deg) brightness(103%) contrast(80%);
 }
+
+/* Range CSS */
+.rc-slider-handle {
+  background: var(--linear-gr-bg3-color) !important;
+  border: 1px solid var(--primary-black) !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+.rc-slider-mark-text-active {
+  color: var(--accents-yellow-color) !important;
+}
