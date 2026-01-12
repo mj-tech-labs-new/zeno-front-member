@@ -1,5 +1,5 @@
 import SelecAmountModel from '@/pages/ChartPages/components/SelecAmountModel'
-import {CommonPriceSwitchType} from '@/types/ComponentTypes'
+import { CommonPriceSwitchType } from '@/types/ComponentTypes'
 
 import RangeSelector from '../CommonRangeSelector/RangeSelector'
 import InputContainer from '../InputContainer/InputContainer'
@@ -48,7 +48,6 @@ const CommonPriceSwitch = (props: CommonPriceSwitchType) => {
                 {showModelType && (
                   <div className="flex gap-1.5 items-center">
                     <SelecAmountModel
-                      index={currentIndex}
                       onModelClose={onModelClose}
                       symbol={currentPriceType}
                     />
@@ -59,7 +58,7 @@ const CommonPriceSwitch = (props: CommonPriceSwitchType) => {
           </div>
         </div>
       </div>
-      {!isRangeType && (
+      {isRangeType && (
         <RangeSelector
           className="!mt-3 mb-4"
           rangeValue={rangeValue ?? 0}
