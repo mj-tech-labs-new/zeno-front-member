@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback } from 'react'
+import {useCallback} from 'react'
 
-import { ImageComponent } from '@/components'
-import { useModalContext } from '@/components/Modal/context/ModalContextProvider'
-import { English, Images } from '@/helpers'
-import { Store } from '@/store'
+import {ImageComponent} from '@/components'
+import {useModalContext} from '@/components/Modal/context/ModalContextProvider'
+import {English, Images} from '@/helpers'
+import {Store} from '@/store'
 
 import AmountTypeSelectComponent from './AmountTypeSelectComponent'
 
@@ -12,8 +12,8 @@ const SelecAmountModel = (props: {
   onModelClose: () => void
   symbol: string
 }) => {
-  const { onModelClose,  symbol } = props
-  const { setChildContent, setModalProps } = useModalContext()
+  const {onModelClose, symbol} = props
+  const {setChildContent, setModalProps} = useModalContext()
   const onPressAmount = useCallback(() => {
     setChildContent(
       <AmountTypeSelectComponent
@@ -41,9 +41,7 @@ const SelecAmountModel = (props: {
       className="text-white font-bold flex gap-1.5 items-center"
       onClick={onPressAmount}
     >
-      {Store.getState().chartData.amountType !== 'USDT'
-        ? symbol
-        : English.E60}
+      {Store.getState().chartData.amountType !== 'USDT' ? symbol : English.E60}
       <ImageComponent className="h-4! w-4!" imageUrl={Images.dropdownArrow} />
     </div>
   )

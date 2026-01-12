@@ -37,7 +37,7 @@ axiosInstance.interceptors.request.use(async (config) => {
   if (ip) {
     config.headers = {
       ...(config.headers as any),
-      'X-Real-IP': ip,
+      'client-ip': ip,
     }
   }
 

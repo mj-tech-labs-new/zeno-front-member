@@ -1,5 +1,5 @@
 import SelecAmountModel from '@/pages/ChartPages/components/SelecAmountModel'
-import { CommonPriceSwitchType } from '@/types/ComponentTypes'
+import {CommonPriceSwitchType} from '@/types/ComponentTypes'
 
 import RangeSelector from '../CommonRangeSelector/RangeSelector'
 import InputContainer from '../InputContainer/InputContainer'
