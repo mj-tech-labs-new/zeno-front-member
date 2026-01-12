@@ -172,9 +172,9 @@ export interface CommonStopLossProp {
 }
 
 export interface OrderBookObjectType {
-  lastUpdateId: number
-  bids: number[][]
-  asks: number[][]
+  lastUpdateId?: number
+  bids: [string, string][]
+  asks: [string, string][]
 }
 export interface EditStopLossModelProps
   extends Pick<GeneralProps, 'singleLineContent'>,

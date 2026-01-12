@@ -1,125 +1,201 @@
 /* eslint-disable consistent-return */
-import _ from 'lodash'
-import {Fragment, memo, useEffect, useMemo, useRef, useState} from 'react'
+import axios from 'axios'
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import {English, Utility} from '@/helpers'
 import {ChartSwitchProps, OrderBookObjectType} from '@/types/ChartTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 
-const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
-  const {isLoadingCandles, chartInfo, livePrice} = useChartProvider()
-
-  const {activeType} = props
+const TradesTabComponent = ({
+  activeType,
+}: Pick<ChartSwitchProps, 'activeType'>) => {
+  const {chartInfo, isLoadingCandles, livePrice} = useChartProvider()
+  const wsRef = useRef<WebSocket | null>(null)
+  const bufferRef = useRef<any[]>([])
+  const firstURef = useRef<number | null>(null)
+  const orderBookRef = useRef({
+    bids: new Map<string, string>(),
+    asks: new Map<string, string>(),
+    lastUpdateId: 0,
+  })
   const [bookings, setBookings] = useState<OrderBookObjectType | null>(null)
-  const webSocketRef = useRef<WebSocket | null>(null)
+  const max = useMemo(() => {
+    if (!bookings) return {buy: 1, sell: 1}
+    return {
+      buy: Math.max(...bookings.bids.map(([p, q]) => +p * +q)),
+      sell: Math.max(...bookings.asks.map(([p, q]) => +p * +q)),
+    }
+  }, [bookings])
+
+  const updateUI = useCallback(() => {
+    const ob = orderBookRef.current
+    setBookings({
+      bids: [...ob.bids.entries()].slice(0, 20),
+      asks: [...ob.asks.entries()].slice(0, 20),
+    })
+  }, [])
+
+  const restartEvent = useCallback(() => {
+    wsRef.current = null
+    bufferRef.current = []
+    firstURef.current = null
+    orderBookRef.current = {
+      bids: new Map(),
+      asks: new Map(),
+      lastUpdateId: 0,
+    }
+  }, [])
+
+  const applyUpdate = useCallback(
+    (e: any) => {
+      const ob = orderBookRef.current
+      if (e.u < ob.lastUpdateId) return
+
+      if (e.U > ob.lastUpdateId + 1) {
+        // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+        return restartEvent()
+      }
+
+      e.b.forEach(([p, q]: string[]) =>
+        Number(q) === 0 ? ob.bids.delete(p) : ob.bids.set(p, q)
+      )
+
+      e.a.forEach(([p, q]: string[]) =>
+        Number(q) === 0 ? ob.asks.delete(p) : ob.asks.set(p, q)
+      )
+
+      ob.lastUpdateId = e.u
+    },
+    [restartEvent]
+  )
+
+  const syncSnapshot = useCallback(
+    async (symbol: string) => {
+      const res = await axios.get(
+        `https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=5000`
+      )
+      const ob = orderBookRef.current
+      ob.lastUpdateId = res.data.lastUpdateId
+      ob.bids = new Map(res.data.bids)
+      ob.asks = new Map(res.data.asks)
+
+      bufferRef.current
+        .filter((e) => e.u > ob.lastUpdateId)
+        .forEach(applyUpdate)
+
+      bufferRef.current = []
+      updateUI()
+    },
+    [applyUpdate, updateUI]
+  )
 
   const tradesToMap = useMemo(() => {
-    const buyOrders = bookings?.asks?.slice(0, 6)?.map((item) => ({
-      price: item[0],
-      amount: item[1],
-      total: item[0] * item[1],
+    if (!bookings) return []
+
+    const buys = bookings.bids.slice(0, 7).map(([p, q]) => ({
+      price: +p,
+      amount: +q,
+      total: +p * +q,
       type: 'buy',
     }))
 
-    const sortedBuyOrder = _.orderBy(buyOrders, ['total'], ['asc'])
-    const sellOrders = bookings?.bids?.slice(0, 6)?.map((item) => ({
-      price: item[0],
-      amount: item[1],
-      total: item[0] * item[1],
+    const sells = bookings.asks.slice(0, 7).map(([p, q]) => ({
+      price: +p,
+      amount: +q,
+      total: +p * +q,
       type: 'sell',
     }))
 
-    const sortedSellOrder = _.orderBy(sellOrders, ['total'], ['desc'])
-    return activeType === 'buy_sell_type'
-      ? [...(sortedBuyOrder ?? []), ...(sellOrders ?? [])]
-      : activeType === 'buy_type'
-        ? sortedBuyOrder
-        : sortedSellOrder
-  }, [activeType, bookings?.asks, bookings?.bids])
-
-  const maxNumber = useMemo(() => {
-    const finalAmountToBids = [...(bookings?.bids ?? [])]?.map(
-      (numbers) => numbers[0] * numbers[1]
-    )
-    const finalAmountToBuy = [...(bookings?.asks ?? [])]?.map(
-      (numbers) => numbers[0] * numbers[1]
-    )
-    return {
-      maxBid: Math.max(...finalAmountToBids),
-      maxBuy: Math.max(...finalAmountToBuy),
-    }
-  }, [bookings?.asks, bookings?.bids])
-
-  // const getInitialOrderBook = useCallback(() => {
-  //   axios.get('https://api.binance.com/api/v3/depth?symbol=BNBBTC&limit=10').then((res) => {
-
-  //   }, [])
-  // }, [])
+    if (activeType === 'buy_type') return buys
+    if (activeType === 'sell_type') return sells
+    return [...sells, ...buys]
+  }, [activeType, bookings])
 
   useEffect(() => {
-    if (isLoadingCandles || !chartInfo?.fullSymbolName) return
-    const SYMBOL = chartInfo?.fullSymbolName
-    if (webSocketRef.current) {
-      webSocketRef.current.close()
-    }
-    const webSocket = new WebSocket(
-      `wss://stream.binance.com:9443/ws/${SYMBOL.toLowerCase()}@depth10@100ms`
+    if (isLoadingCandles || !chartInfo?.symbol) return
+    restartEvent()
+    const symbol = chartInfo.fullSymbolName.toUpperCase()
+    const ws = new WebSocket(
+      `wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}@depth`
     )
-    webSocketRef.current = webSocket
+    wsRef.current = ws
+    ws.onmessage = (msg) => {
+      const data = JSON.parse(msg.data)
+      bufferRef.current.push(data)
 
-    webSocket.addEventListener('message', (data) => {
-      const bidData = JSON.parse(data?.data)
-      setBookings(bidData)
-    })
+      if (!firstURef.current) {
+        firstURef.current = data.U
+        syncSnapshot(symbol)
+        return
+      }
 
-    return () => {
-      webSocket.removeEventListener('close', () => {
-        setBookings(null)
-      })
+      applyUpdate(data)
+      updateUI()
     }
-  }, [chartInfo?.fullSymbolName, isLoadingCandles])
+
+    return () => ws.close()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chartInfo?.fullSymbolName, chartInfo?.symbol, isLoadingCandles])
 
   return (
-    <div>
-      <div className="grid grid-cols-3 gap-2 px-4 mt-3">
-        {[
-          `${English.E140} (${English.E60})`,
-          `${English.E141} ${chartInfo?.symbol}`,
-          English.E133,
-        ].map((item) => (
-          <div key={item} className="flex flex-col gap-1">
-            <span className="text-xs font-semibold !leading-5 text-neutral-primary-color text-center">
-              {item}
-            </span>
+    <div className="w-full">
+      <div className="grid grid-cols-3 px-4 mt-3 text-neutral-primary-color mb-1">
+        {[English.E140, English.E141, English.E133].map((item, index) => (
+          <div
+            key={item}
+            className="text-xs font-semibold text-center flex flex-col justify-start *:text-left"
+          >
+            <span>{item}</span>
+            {index !== 2 && (
+              <span>
+                {index === 0 ? English.E60 : `(${chartInfo?.symbol})`}
+              </span>
+            )}
           </div>
         ))}
       </div>
-      {tradesToMap.map((trade, tradeIndex) => {
-        const {amount, price, type, total} = trade
-        const amountToDivide =
-          type === 'buy' ? maxNumber.maxBuy : maxNumber.maxBid
+
+      {tradesToMap.map((t, i) => {
+        const width = (t.total / (t.type === 'buy' ? max.buy : max.sell)) * 100
+
         return (
-          <Fragment key={`trade_${trade?.type}_${tradeIndex?.toString()}`}>
-            {activeType === 'buy_sell_type' && tradeIndex === 6 && (
-              <p className="text-primary-color my-5 font-medium  rounded !leading-6 text-left text-2xl">
-                {Utility.numberConversion(livePrice)}{' '}
+          <Fragment key={i}>
+            {activeType === 'buy_sell_type' && i === 7 && (
+              <p className="text-primary-color my-5 text-2xl">
+                {Utility.numberConversion(livePrice)}
               </p>
             )}
-            <div className="relative grid grid-cols-3 gap-2 last:mb-0 mb-2 mt-2 *:text-neutral-tertiary-color *:text-xs *:!leading-5 *:text-center py-1">
+
+            <div className="relative space-y-1 grid grid-cols-3 gap-7 text-xs py-1 text-neutral-tertiary-color">
               <div
-                className={`absolute right-0 h-full ${type === 'buy' ? 'bg-chart-green-color' : 'bg-chart-red-color'} opacity-15`}
-                style={{
-                  width: `${total === amountToDivide ? 100 : total / amountToDivide}%`,
-                }}
+                style={{width: `${width}%`}}
+                className={`absolute right-0 h-full transition-all duration-300 ease-linear ${
+                  t.type === 'buy'
+                    ? 'bg-chart-green-color'
+                    : 'bg-chart-red-color'
+                } opacity-15`}
               />
+
               <span
-                className={`font-semibold ${type !== 'buy' ? '!text-chart-red-color' : '!text-chart-green-color'}`}
+                className={
+                  t.type === 'buy'
+                    ? 'text-chart-green-color'
+                    : 'text-chart-red-color'
+                }
               >
-                {Utility.numberConversion(price)}
+                {Utility.numberConversion(t.price)}
               </span>
-              <span>{amount}</span>
-              <span>{Utility.numberConversion(total)}</span>
+              <span>{t.amount}</span>
+              <span>{Utility.numberConversion(t.total)}</span>
             </div>
           </Fragment>
         )
@@ -128,4 +204,4 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
   )
 }
 
-export default memo(TradesTabComponent)
+export default TradesTabComponent
