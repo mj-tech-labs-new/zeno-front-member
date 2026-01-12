@@ -45,7 +45,15 @@ const StopLoss = (props: CommonStopLossProp) => {
   }, [])
 
   useEffect(() => {
-    if (!stopLoss || !quantity) return
+    if (!stopLoss || !quantity) {
+      setInputValues([
+        {
+          id: 0,
+          marketprice: 0,
+        },
+      ])
+      return
+    }
     setInputValues(() => [
       {
         id: stopLoss?.id,

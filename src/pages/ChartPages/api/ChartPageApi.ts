@@ -1,11 +1,7 @@
 import {toast} from 'react-toastify'
 
 import {APICall, Endpoints} from '@/services'
-import {
-  BuyOrSellApiProps,
-  BuyOrSellApiType,
-  CloseOrderButtonProps,
-} from '@/types/ChallengeTypes'
+import {BuyOrSellApiProps, CloseOrderButtonProps} from '@/types/ChallengeTypes'
 import {
   OrderHistoryApiProps,
   OrderHistoryApiResponse,
@@ -18,23 +14,19 @@ import {
 import {PaginationType} from '@/types/CommonTypes'
 
 const buyOrSellApi = async (props: BuyOrSellApiProps) =>
-  new Promise<{data: BuyOrSellApiType[]}>((resolve) => {
+  new Promise<boolean>((resolve) => {
     APICall('post', Endpoints.buyOrSell, props)
       .then((res: any) => {
-        if (res?.status === 200) {
-          resolve({data: []})
-          return
-        }
         if (res?.status === 200 && res?.statusCode === 200) {
-          resolve({data: res?.data?.buy_order})
+          resolve(true)
         } else {
-          resolve({data: []})
+          resolve(false)
           toast.error(res?.message)
         }
       })
       .catch((error) => {
         toast.error(error?.data?.message)
-        resolve({data: []})
+        resolve(false)
       })
   })
 

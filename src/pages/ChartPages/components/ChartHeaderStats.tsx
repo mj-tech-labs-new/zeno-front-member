@@ -62,17 +62,6 @@ const ChartHeaderStats = () => {
     [chartSocketData]
   )
 
-  // const usdtAmount = useMemo(
-  //   () => {
-  //     if (!chartSocketData) return { priceDiff: '---' }
-  //     const { high, low, close, open } = chartSocketData
-  //     const avgPrice = (toNumber(high) + toNumber(low) + toNumber(close) + toNumber(open)) / 4
-  //     const usdtPrice = avgPrice * (toNumber(volumeAmount?.priceDiff) ?? 1)
-  //     return { priceDiff: usdtPrice ?? '---', }
-  //   },
-  //   [chartSocketData, volumeAmount?.priceDiff]
-  // )
-
   const ConstantMapData = useMemo(
     () => [
       {
@@ -95,11 +84,6 @@ const ChartHeaderStats = () => {
         content: `${English.E122} (${chartInfo?.symbol})`,
         textContent: volumeAmount ?? 0,
       },
-      // {
-      //   img: Images.dollar,
-      //   content: `${English.E373}  (${English.E60})`,
-      //   textContent: usdtAmount ?? 1,
-      // },
     ],
     [
       chartInfo?.symbol,
@@ -161,7 +145,7 @@ const ChartHeaderStats = () => {
               <span className="whitespace-nowrap">
                 {content.includes(English.E122) ||
                 content.includes(English.E373)
-                  ? `${Utility.largeNumberNotationConversion(toNumber(textContent?.priceDiff ?? 1)) ?? '0.00'}${textContent?.priceDiff ? '' : ''}  ${chartInfo?.symbol ?? ''}`
+                  ? `${textContent?.priceDiff !== '---' ? (Utility.largeNumberNotationConversion(toNumber(textContent?.priceDiff ?? 1)) ?? '0.00') : '---'}${textContent?.priceDiff ? '' : ''}  ${chartInfo?.symbol ?? ''}`
                   : (textContent?.priceDiff ?? '0.00')}{' '}
               </span>
               {index !== 3 && (

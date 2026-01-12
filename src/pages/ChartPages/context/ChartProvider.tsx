@@ -116,7 +116,11 @@ const ChartContext = createContext<{
   setTotalTokenData: Dispatch<
     SetStateAction<Record<string, CandleObjectType> | null>
   >
+  setIsTpSl: Dispatch<SetStateAction<boolean>>
+  isTpSl: boolean
 }>({
+  isTpSl: false,
+  setIsTpSl: () => {},
   totalTokenData: null,
   setTotalTokenData: () => {},
   liveCandle: null,
@@ -190,7 +194,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
     GetChallengeByIdType[]
   >([])
-
+  const [isTpSl, setIsTpSl] = useState(false)
   const [currentStageArray, setCurrentStageArray] = useState<
     ChallengeStageType[]
   >([])
@@ -359,8 +363,11 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       singleCandleData,
       setLiveCandle,
       liveCandle,
+      setIsTpSl,
+      isTpSl,
     }),
     [
+      isTpSl,
       totalTokenData,
       chartSocketData,
       leverageValueArray,
@@ -387,7 +394,6 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       liveCandle,
     ]
   )
-
   const getTokenList = useCallback(() => {
     setOtherLoading({isDropdownLoading: true})
     APICall('get', Endpoints.suppportedToken)
@@ -397,7 +403,9 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
           const btc = res?.data?.allTokens?.find(
             (item: TokenDetails) => item?.token_symbol === 'BTC'
           )
-          setSelectedToken(btc ?? null)
+          setSelectedToken(
+            Store?.getState()?.chartData?.selectedToken?.name ?? btc ?? null
+          )
         } else {
           toast.error(res?.message)
         }
@@ -413,9 +421,14 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   useEffect(() => {
     if (selectedIndex) {
       const tokenToUse = tokenList?.find(
-        (item) => item?.token_symbol === selectedToken?.token_symbol
+        (item) =>
+          item?.token_symbol ===
+          (typeof selectedToken === 'string'
+            ? selectedToken
+            : selectedToken?.token_symbol)
       )
       setIsLoadingCandles(true)
+      if (!tokenToUse) return
       socketRef?.current?.off()
       getCandleHistory(tokenToUse?.token_symbol ?? 'BTC', currnetLimit.current)
     }

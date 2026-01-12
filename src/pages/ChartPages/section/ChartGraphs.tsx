@@ -68,7 +68,7 @@ const ChartGraphs = () => {
     const tokenToUse = tokenList?.find(
       (item) => item?.token_symbol === selectedToken?.token_symbol
     )
-
+    if (!tokenToUse) return
     getCandleHistory(tokenToUse?.token_symbol ?? 'BTC', currnetLimit.current)
   }, [currnetLimit, getCandleHistory, selectedToken?.token_symbol, tokenList])
 

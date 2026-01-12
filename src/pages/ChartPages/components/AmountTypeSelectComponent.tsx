@@ -1,24 +1,34 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useMemo, useState} from 'react'
+import {useSelector} from 'react-redux'
 
 import {CommonButton} from '@/components'
-import {Constants, English} from '@/helpers'
+import {English} from '@/helpers'
 import {CommonFunction} from '@/services'
-import {Store} from '@/store'
 import {PendingOrder} from '@/types/ChartTypes'
+import {StorageProps} from '@/types/CommonTypes'
 
 interface AmountTypeProps extends Pick<PendingOrder, 'symbol'> {
   onPressButton: () => void
 }
 const AmountTypeSelectComponent = (props: AmountTypeProps) => {
   const {onPressButton, symbol} = props
+  const chartData = useSelector((state: StorageProps) => state.chartData)
   const [selectedAmount, setSelectedAmount] = useState('')
   useEffect(() => {
-    setSelectedAmount(Store.getState().chartData.amountType)
-  }, [])
+    setSelectedAmount(chartData?.amountType)
+  }, [chartData?.amountType])
+
+  const marktetAmountType = useMemo(
+    () => [
+      {heading: English.E373, content: `${English.E374} ${symbol}`},
+      {heading: English.E60, content: English.E375},
+    ],
+    [symbol]
+  )
 
   return (
     <div className="flex flex-col gap-5 text-amber-600  mt-5">
-      {Constants.MarketAmountType.map((item, index) => {
+      {marktetAmountType?.map((item, index) => {
         const {content, heading} = item
         return (
           <div
@@ -29,7 +39,7 @@ const AmountTypeSelectComponent = (props: AmountTypeProps) => {
               CommonFunction.addSliceData('addAmountType', {
                 amount: index === 0 ? symbol : heading,
               })
-              setSelectedAmount(Store.getState().chartData.amountType)
+              setSelectedAmount(chartData?.amountType)
             }}
           >
             <div className="text-primary-color font-bold text-lg">

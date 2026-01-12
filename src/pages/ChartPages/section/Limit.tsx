@@ -7,7 +7,6 @@ import {Divider, ImageComponent} from '@/components'
 import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
 import {Constants, English, Images, Utility} from '@/helpers'
-import {Store} from '@/store'
 import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
 import {StorageProps} from '@/types/CommonTypes'
 
@@ -24,15 +23,15 @@ const Limit = (props: BuyOrSelProps) => {
     getChallengeByIdArray,
     livePrice,
     selectedLeverage,
+    isTpSl,
+    setIsTpSl,
   } = useChartProvider()
-  const [checked, setChecked] = useState(false)
   const [inputValues, setInputValues] = useState({
     entryprice: '',
     quantity: '',
   })
-  const [amountPriceType, setAmountPriceType] = useState(
-    Store?.getState()?.chartData?.amountType
-  )
+  const chartData = useSelector((state: StorageProps) => state.chartData)
+  const [amountPriceType, setAmountPriceType] = useState(chartData?.amountType)
   const [total, setTotal] = useState(0)
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
@@ -172,10 +171,8 @@ const Limit = (props: BuyOrSelProps) => {
   ])
 
   useEffect(() => {
-    setAmountPriceType(
-      Store?.getState()?.chartData?.selectedToken?.name ?? 'BTC'
-    )
-  }, [])
+    setAmountPriceType(chartData?.selectedToken?.name ?? 'BTC')
+  }, [chartData?.selectedToken?.name])
 
   return (
     <div className="flex flex-col gap-2">
@@ -230,12 +227,12 @@ const Limit = (props: BuyOrSelProps) => {
       ) : null}
       <div className="flex items-center gap-3">
         <ActionButton
-          checked={checked}
+          checked={isTpSl}
           leverage={Number(selectedLeverage?.title.replace('X', ' '))}
           margin_mode={margin_mode}
-          order_type="limit"
+          order_type={activeIndex === 0 ? 'limit' : 'market'}
           quantity={toNumber(tokenQtyRef.current)}
-          setChecked={setChecked}
+          setChecked={setIsTpSl}
           stop_loss={stopLossData?.stop_loss}
           take_profit={stopLossData?.take_profit}
           total={total}
@@ -245,6 +242,7 @@ const Limit = (props: BuyOrSelProps) => {
           setInputValues={() => {
             setInputValues({entryprice: '0', quantity: '0'})
             setStopLossValue(0)
+            setStopLossData({stop_loss: [], take_profit: []})
           }}
         />
       </div>
@@ -252,17 +250,23 @@ const Limit = (props: BuyOrSelProps) => {
       <Divider className="!bg-chart-secondary-bg-color !my-3" />
 
       <CheckBoxInputContainer
-        checked={checked}
+        checked={isTpSl}
         className="checkbox-checked-bg !appearance-none"
         singleLineContent={English.E298}
         onChange={() => {
-          setChecked((prev) => !prev)
+          setIsTpSl((prev) => {
+            const newValue = !prev
+            if (!newValue) {
+              setStopLossData({stop_loss: [], take_profit: []})
+            }
+            return newValue
+          })
         }}
       />
 
-      {checked && <Divider className="!bg-chart-secondary-bg-color !my-1" />}
+      {isTpSl && <Divider className="!bg-chart-secondary-bg-color !my-1" />}
 
-      {checked && (
+      {isTpSl && (
         <div className="flex flex-col ">
           <StopLoss
             heading="Stop Loss"

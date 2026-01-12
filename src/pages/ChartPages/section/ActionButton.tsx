@@ -1,9 +1,10 @@
-import {memo, useEffect, useRef, useState} from 'react'
+import {memo, useCallback, useEffect, useRef, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {toast} from 'react-toastify'
 
 import {CommonButton, Loader} from '@/components'
 import {Constants, English} from '@/helpers'
+import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 import {Store} from '@/store'
 import {CommonBuyAndSellProp} from '@/types/ChartTypes'
 
@@ -22,84 +23,107 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
     setChecked = () => {},
     checked = false,
     margin_mode,
+    setInputValues,
   } = props
   const [isLoading, setIsLoading] = useState(false)
 
   const amountRef = useRef(0)
-  const {getChallengeByIdArray, setGetChallengeByIdArray, livePrice} =
-    useChartProvider()
+  const {
+    getChallengeByIdArray,
+    challengeId,
+    livePrice,
+    setGetChallengeByIdArray,
+  } = useChartProvider()
 
   const params = useParams()
 
-  const handleButtonClick = (orderSide: string) => {
-    if (!params?.challengeId) return
-    if (checked) setChecked(false)
+  const handleButtonClick = useCallback(
+    (orderSide: string) => {
+      if (!params?.challengeId) return
+      if (checked) setChecked(false)
 
-    if (orderSide === 'buy' || orderSide === 'sell') {
-      const sl = stop_loss?.[0]?.price
-      const tp = take_profit?.[0]?.price
+      if (orderSide === 'buy' || orderSide === 'sell') {
+        const sl = stop_loss?.[0]?.price
+        const tp = take_profit?.[0]?.price
 
-      if (orderSide === 'buy') {
-        if (sl && Number(sl) >= livePrice) {
-          toast.error(English.E296)
-          return
-        }
-        if (tp && Number(tp) <= livePrice) {
-          toast.error(English.E296)
-          return
-        }
-      }
-
-      if (orderSide === 'sell') {
-        if (sl && Number(sl) <= livePrice) {
-          toast.error(English.E297)
-          return
-        }
-        if (tp && Number(tp) >= livePrice) {
-          toast.error(English.E297)
-          return
-        }
-      }
-    }
-    setIsLoading(true)
-    chartPageApi
-      .buyOrSellApi({
-        symbol: `${Store?.getState()?.chartData?.selectedToken?.name}USDT`,
-        usdt_price: price,
-        quantity,
-        order_type,
-        order_side: orderSide,
-        challenge_id: params?.challengeId,
-        leverage,
-        stop_loss,
-        take_profit,
-        margin_mode,
-        role:
-          order_type === 'limit'
-            ? orderSide === 'buy'
-              ? price <= livePrice
-                ? 'taker'
-                : 'maker'
-              : price >= livePrice
-                ? 'taker'
-                : 'maker'
-            : 'taker',
-      })
-      .then(async (res) => {
-        setGetChallengeByIdArray((data) => {
-          const previousData = data[0]
-          const newData = {
-            ...previousData,
-            current_usdt: res?.data?.[0]?.usdt_balance_after,
+        if (orderSide === 'buy') {
+          if (sl && Number(sl) >= livePrice) {
+            toast.error(English.E296)
+            return
           }
-          return [newData]
+          if (tp && Number(tp) <= livePrice) {
+            toast.error(English.E296)
+            return
+          }
+        }
+
+        if (orderSide === 'sell') {
+          if (sl && Number(sl) <= livePrice) {
+            toast.error(English.E297)
+            return
+          }
+          if (tp && Number(tp) >= livePrice) {
+            toast.error(English.E297)
+            return
+          }
+        }
+      }
+      setIsLoading(true)
+      chartPageApi
+        .buyOrSellApi({
+          symbol: `${Store?.getState()?.chartData?.selectedToken?.name}USDT`,
+          usdt_price: price,
+          quantity,
+          order_type,
+          order_side: orderSide,
+          challenge_id: params?.challengeId,
+          leverage,
+          stop_loss,
+          take_profit,
+          margin_mode,
+          role:
+            order_type === 'limit'
+              ? orderSide === 'buy'
+                ? price <= livePrice
+                  ? 'taker'
+                  : 'maker'
+                : price >= livePrice
+                  ? 'taker'
+                  : 'maker'
+              : 'taker',
         })
-        toast.success(English.E280)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }
+        .then(async (res) => {
+          if (res && challengeId) {
+            getChallengeByIdApi({challenge_id: challengeId}).then(
+              (challengeRes) => {
+                setGetChallengeByIdArray(challengeRes)
+              }
+            )
+            toast.success(English.E280)
+          }
+        })
+        .finally(() => {
+          setInputValues?.()
+          setIsLoading(false)
+        })
+    },
+    [
+      challengeId,
+      checked,
+      leverage,
+      livePrice,
+      margin_mode,
+      order_type,
+      params?.challengeId,
+      price,
+      quantity,
+      setChecked,
+      stop_loss,
+      take_profit,
+      setInputValues,
+      setGetChallengeByIdArray,
+    ]
+  )
 
   useEffect(() => {
     amountRef.current = getChallengeByIdArray?.[0]?.current_usdt ?? 0

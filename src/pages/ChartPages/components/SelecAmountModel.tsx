@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useCallback} from 'react'
+import {useSelector} from 'react-redux'
 
 import {ImageComponent} from '@/components'
 import {useModalContext} from '@/components/Modal/context/ModalContextProvider'
 import {English, Images} from '@/helpers'
-import {Store} from '@/store'
+import {StorageProps} from '@/types/CommonTypes'
 
 import AmountTypeSelectComponent from './AmountTypeSelectComponent'
 
@@ -14,6 +15,7 @@ const SelecAmountModel = (props: {
 }) => {
   const {onModelClose, symbol} = props
   const {setChildContent, setModalProps} = useModalContext()
+  const chartData = useSelector((state: StorageProps) => state.chartData)
   const onPressAmount = useCallback(() => {
     setChildContent(
       <AmountTypeSelectComponent
@@ -41,7 +43,7 @@ const SelecAmountModel = (props: {
       className="text-white font-bold flex gap-1.5 items-center"
       onClick={onPressAmount}
     >
-      {Store.getState().chartData.amountType !== 'USDT' ? symbol : English.E60}
+      {chartData?.amountType !== 'USDT' ? symbol : English.E60}
       <ImageComponent className="h-4! w-4!" imageUrl={Images.dropdownArrow} />
     </div>
   )

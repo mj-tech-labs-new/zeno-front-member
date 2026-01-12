@@ -35,9 +35,7 @@ const BuySell = (props: BuyOrSelProps) => {
   const [rangeValue, setRangeValue] = useState(0)
   const tokenQntyRef = useRef('0')
   const initialAmountRef = useRef(0)
-  const addAmountType = useSelector(
-    (state: StorageProps) => state?.chartData?.amountType
-  )
+  const ChartData = useSelector((state: StorageProps) => state.chartData)
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
@@ -60,7 +58,7 @@ const BuySell = (props: BuyOrSelProps) => {
       let finalAmount = 0
       let finalTotal = 0
 
-      if (addAmountType !== 'USDT') {
+      if (ChartData?.amountType !== 'USDT') {
         finalAmount = amount
 
         const baseTotal = price * finalAmount
@@ -93,7 +91,7 @@ const BuySell = (props: BuyOrSelProps) => {
         total: Utility.formatTo8Decimals(finalTotal),
       }
     },
-    [addAmountType, getChallengeByIdArray, inputValues.price, livePrice]
+    [ChartData?.amountType, getChallengeByIdArray, inputValues.price, livePrice]
   )
 
   const handleInputChange = useCallback(
@@ -173,10 +171,8 @@ const BuySell = (props: BuyOrSelProps) => {
   }, [getChallengeByIdArray])
 
   useEffect(() => {
-    setAmountPriceType(
-      Store?.getState()?.chartData?.selectedToken?.name ?? 'BTC'
-    )
-  }, [])
+    setAmountPriceType(ChartData?.selectedToken?.name ?? 'BTC')
+  }, [ChartData?.selectedToken?.name])
 
   useEffect(() => {
     if (!livePrice) return

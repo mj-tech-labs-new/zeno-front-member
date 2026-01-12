@@ -375,7 +375,7 @@ const English = {
   E371: 'Edit Price',
   E372: 'Search',
   E373: '24h Amount',
-  E374: 'Please enter your order quantity in BTC',
+  E374: 'Please enter your order quantity in',
   E375: 'When the cost value of the transaction in used, the cost of opening  a position does not change according to the leverage. ',
   E376: 'Select Option',
   E377: 'Ok',
