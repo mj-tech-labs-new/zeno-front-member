@@ -220,7 +220,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const firstChartRef = useRef<HTMLDivElement | null>(null)
   const chartObjectRef = useRef<IChartApi | null>(null)
   const [totalShapes, setTotalShapes] = useState<DrawingData[]>([])
-  const currnetLimit = useRef(100)
+  const currnetLimit = useRef(200)
   const [tokenList, setTokenList] = useState<TokenDetails[] | null>(null)
   const [selectedToken, setSelectedToken] = useState<TokenDetails | null>(null)
   const chartAreaRef =

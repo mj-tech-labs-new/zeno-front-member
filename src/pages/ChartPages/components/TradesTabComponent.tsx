@@ -1,16 +1,16 @@
 /* eslint-disable consistent-return */
 import _ from 'lodash'
-import { Fragment, memo, useEffect, useMemo, useRef, useState } from 'react'
+import {Fragment, memo, useEffect, useMemo, useRef, useState} from 'react'
 
-import { English, Utility } from '@/helpers'
-import { ChartSwitchProps, OrderBookObjectType } from '@/types/ChartTypes'
+import {English, Utility} from '@/helpers'
+import {ChartSwitchProps, OrderBookObjectType} from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 
 const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
-  const { isLoadingCandles, chartInfo, livePrice } = useChartProvider()
+  const {isLoadingCandles, chartInfo, livePrice} = useChartProvider()
 
-  const { activeType } = props
+  const {activeType} = props
   const [bookings, setBookings] = useState<OrderBookObjectType | null>(null)
   const webSocketRef = useRef<WebSocket | null>(null)
 
@@ -96,7 +96,7 @@ const TradesTabComponent = (props: Pick<ChartSwitchProps, 'activeType'>) => {
         ))}
       </div>
       {tradesToMap.map((trade, tradeIndex) => {
-        const { amount, price, type, total } = trade
+        const {amount, price, type, total} = trade
         const amountToDivide =
           type === 'buy' ? maxNumber.maxBuy : maxNumber.maxBid
         return (

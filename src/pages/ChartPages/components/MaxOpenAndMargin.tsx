@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 
-import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
-import { English, SocketEmitter, Utility } from '@/helpers'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
+import {English, SocketEmitter, Utility} from '@/helpers'
 import {
   MarginAndAssetProps,
   MaxOpenAndMarginProps,
 } from '@/types/ComponentTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 
 const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
-  const { type = 'max_open', totalNum, totalStr } = props
+  const {type = 'max_open', totalNum, totalStr} = props
 
   const [marginAssetData, setMarginAssetData] =
     useState<MarginAndAssetProps | null>(null)
 
-  const { socketRef } = useSocketProvider()
-  const { challengeId, isLoadingCandles } = useChartProvider()
-  const { getChallengeByIdArray } = useChartProvider()
+  const {socketRef} = useSocketProvider()
+  const {challengeId, isLoadingCandles} = useChartProvider()
+  const {getChallengeByIdArray} = useChartProvider()
 
   useEffect(() => {
     const currentSocket = socketRef.current
@@ -35,7 +35,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
             : 'flex flex-row justify-between'
         }
       >
-        {Array.from({ length: type === 'margin' ? 2 : 1 }).map((_, index) => (
+        {Array.from({length: type === 'margin' ? 2 : 1}).map((_, index) => (
           <div
             key={index}
             className={
@@ -59,20 +59,20 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                 {type === 'margin'
                   ? index === 0
                     ? Utility.removeDecimal(
-                      marginAssetData?.available_margin ??
-                      getChallengeByIdArray[0]?.current_usdt ??
-                      0,
-                      2
-                    )
+                        marginAssetData?.available_margin ??
+                          getChallengeByIdArray[0]?.current_usdt ??
+                          0,
+                        2
+                      )
                     : Utility.removeDecimal(
-                      marginAssetData?.total_balance ??
-                      getChallengeByIdArray[0]?.current_usdt ??
-                      0,
-                      2
-                    )
+                        marginAssetData?.total_balance ??
+                          getChallengeByIdArray[0]?.current_usdt ??
+                          0,
+                        2
+                      )
                   : Utility.numberConversion(
-                    getChallengeByIdArray[0]?.current_usdt ?? 0
-                  )}{' '}
+                      getChallengeByIdArray[0]?.current_usdt ?? 0
+                    )}{' '}
                 {English.E60}
               </span>
             </div>
@@ -89,15 +89,15 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                 {type === 'margin'
                   ? index === 0
                     ? Utility.removeDecimal(
-                      marginAssetData?.used_margin ?? 0,
-                      2
-                    )
+                        marginAssetData?.used_margin ?? 0,
+                        2
+                      )
                     : Utility.removeDecimal(
-                      marginAssetData?.account_balance ??
-                      getChallengeByIdArray[0]?.current_usdt ??
-                      0,
-                      2
-                    )
+                        marginAssetData?.account_balance ??
+                          getChallengeByIdArray[0]?.current_usdt ??
+                          0,
+                        2
+                      )
                   : totalNum > 1
                     ? totalStr
                     : Utility.removeDecimal(totalNum ?? 0, 2)}{' '}
