@@ -222,7 +222,7 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
                   <span className={Utility.colorGeneratorUtility(realized_pnl)}>
                     {`${Utility.removeDecimal(realized_pnl, 3)} ${English.E60}`}
                   </span>
-                  <span className={Utility.colorGeneratorUtility(Number(roe))}>
+                  <span className={Utility.colorGeneratorUtility(realized_pnl)}>
                     {roe ?? '--'}
                   </span>
                 </td>
