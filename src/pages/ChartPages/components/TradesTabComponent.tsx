@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import axios from 'axios'
-import {
+import React, {
   Fragment,
   useCallback,
   useEffect,
@@ -17,7 +17,8 @@ import {useChartProvider} from '../context/ChartProvider'
 const TradesTabComponent = ({
   activeType,
 }: Pick<ChartSwitchProps, 'activeType'>) => {
-  const {chartInfo, isLoadingCandles, livePrice} = useChartProvider()
+  const {chartInfo, isLoadingCandles, livePrice, selectedToken} =
+    useChartProvider()
   const wsRef = useRef<WebSocket | null>(null)
   const bufferRef = useRef<any[]>([])
   const firstURef = useRef<number | null>(null)
@@ -27,6 +28,7 @@ const TradesTabComponent = ({
     lastUpdateId: 0,
   })
   const [bookings, setBookings] = useState<OrderBookObjectType | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const max = useMemo(() => {
     if (!bookings) return {buy: 1, sell: 1}
     return {
@@ -80,8 +82,11 @@ const TradesTabComponent = ({
   const syncSnapshot = useCallback(
     async (symbol: string) => {
       const res = await axios.get(
-        `https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=5000`
+        `https://api.binance.com/api/v3/depth?symbol=${symbol}USDT&limit=5000`
       )
+      if (res) {
+        setIsLoading(false)
+      }
       const ob = orderBookRef.current
       ob.lastUpdateId = res.data.lastUpdateId
       ob.bids = new Map(res.data.bids)
@@ -122,6 +127,7 @@ const TradesTabComponent = ({
   useEffect(() => {
     if (isLoadingCandles || !chartInfo?.symbol) return
     restartEvent()
+
     const symbol = chartInfo.fullSymbolName.toUpperCase()
     const ws = new WebSocket(
       `wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}@depth`
@@ -133,7 +139,11 @@ const TradesTabComponent = ({
 
       if (!firstURef.current) {
         firstURef.current = data.U
-        syncSnapshot(symbol)
+        syncSnapshot(
+          (typeof selectedToken === 'string'
+            ? selectedToken
+            : selectedToken?.token_name) ?? 'BTC'
+        )
         return
       }
 
@@ -144,62 +154,78 @@ const TradesTabComponent = ({
     return () => ws.close()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chartInfo?.fullSymbolName, chartInfo?.symbol, isLoadingCandles])
+  }, [
+    chartInfo?.fullSymbolName,
+    chartInfo?.symbol,
+    isLoadingCandles,
+    selectedToken,
+  ])
 
   return (
-    <div className="w-full">
-      <div className="grid grid-cols-3 px-4 mt-3 text-neutral-primary-color mb-1">
-        {[English.E140, English.E141, English.E133].map((item, index) => (
-          <div
-            key={item}
-            className="text-xs font-semibold text-center flex flex-col justify-start *:text-left"
-          >
-            <span>{item}</span>
-            {index !== 2 && (
-              <span>
-                {index === 0 ? English.E60 : `(${chartInfo?.symbol})`}
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {tradesToMap.map((t, i) => {
-        const width = (t.total / (t.type === 'buy' ? max.buy : max.sell)) * 100
-
-        return (
-          <Fragment key={i}>
-            {activeType === 'buy_sell_type' && i === 7 && (
-              <p className="text-primary-color my-5 text-2xl">
-                {Utility.numberConversion(livePrice)}
-              </p>
-            )}
-
-            <div className="relative space-y-1 grid grid-cols-3 gap-7 text-xs py-1 text-neutral-tertiary-color">
+    <div className="w-full lg:w-[256px]  h-full overflow-y-auto  relative no-scrollbar">
+      {isLoading ? (
+        <div
+          className={`absolute  h-full w-full     bg-primary-bg-color/50  backdrop-blur-xs z-[99999] `}
+        >
+          <div className="binanceSpin absolute   left-1/2  top-1/2 -translate-y-1/2 -translate-x-1/2 " />
+        </div>
+      ) : (
+        <React.Fragment>
+          <div className="grid grid-cols-3 px-4 mt-3 text-neutral-primary-color mb-1">
+            {[English.E140, English.E141, English.E133].map((item, index) => (
               <div
-                style={{width: `${width}%`}}
-                className={`absolute right-0 h-full transition-all duration-300 ease-linear ${
-                  t.type === 'buy'
-                    ? 'bg-chart-green-color'
-                    : 'bg-chart-red-color'
-                } opacity-15`}
-              />
-
-              <span
-                className={
-                  t.type === 'buy'
-                    ? 'text-chart-green-color'
-                    : 'text-chart-red-color'
-                }
+                key={item}
+                className="text-xs font-semibold text-center flex flex-col justify-start *:text-left"
               >
-                {Utility.numberConversion(t.price)}
-              </span>
-              <span>{t.amount}</span>
-              <span>{Utility.numberConversion(t.total)}</span>
-            </div>
-          </Fragment>
-        )
-      })}
+                <span>{item}</span>
+                {index !== 2 && (
+                  <span>
+                    {index === 0 ? English.E60 : `(${chartInfo?.symbol})`}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {tradesToMap.map((t, i) => {
+            const width =
+              (t.total / (t.type === 'buy' ? max.buy : max.sell)) * 100
+
+            return (
+              <Fragment key={i}>
+                {activeType === 'buy_sell_type' && i === 7 && (
+                  <p className="text-primary-color my-5 text-2xl">
+                    {Utility.numberConversion(livePrice)}
+                  </p>
+                )}
+
+                <div className="relative space-y-1 grid grid-cols-3 gap-7 text-xs py-1 text-neutral-tertiary-color">
+                  <div
+                    style={{width: `${width}%`}}
+                    className={`absolute right-0 h-full transition-all duration-300 ease-linear ${
+                      t.type === 'buy'
+                        ? 'bg-chart-green-color'
+                        : 'bg-chart-red-color'
+                    } opacity-15`}
+                  />
+
+                  <span
+                    className={
+                      t.type === 'buy'
+                        ? 'text-chart-green-color'
+                        : 'text-chart-red-color'
+                    }
+                  >
+                    {Utility.numberConversion(t.price)}
+                  </span>
+                  <span>{t.amount}</span>
+                  <span>{Utility.numberConversion(t.total)}</span>
+                </div>
+              </Fragment>
+            )
+          })}
+        </React.Fragment>
+      )}
     </div>
   )
 }

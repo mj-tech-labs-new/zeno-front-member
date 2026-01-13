@@ -22,7 +22,7 @@ const Loader = forwardRef<AppLoaderRef, Pick<GeneralProps, 'className'>>(
       <div
         className={`fixed invisible h-screen w-screen bg-primary-bg-color/50 left-0 top-0 backdrop-blur-md loader-container z-[99999] ${className}`}
       >
-        <div className="gradient-container h-36 w-36 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" />
+        <div className="binanceLoader h-36 w-36 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2" />
       </div>
     )
   }
