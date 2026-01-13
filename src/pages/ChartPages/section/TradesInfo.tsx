@@ -1,4 +1,5 @@
 import {CreatePriceLineOptions, LineStyle} from 'lightweight-charts'
+import _ from 'lodash'
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react'
 
 import {TabComponent} from '@/components'
@@ -37,11 +38,12 @@ const TradesInfo = (props: {challengeId: string}) => {
         return newTableHeading
       })
 
+      const sortedData = _.orderBy(data, (item) => item.open_time, ['desc'])
       if (key === 'user_open_position') {
-        setOpenPosition(data)
+        setOpenPosition(sortedData)
         return
       }
-      setPendingOrder(data)
+      setPendingOrder(sortedData)
     },
     []
   )

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import _ from 'lodash'
 import {memo, useCallback, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 
@@ -54,7 +55,10 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
         })
         .then((data) => {
           if (!data) return
-          setPositionHistory(data.data)
+          const sortedData = _.orderBy(data.data, (item) => item.open_time, [
+            'desc',
+          ])
+          setPositionHistory(sortedData)
           setPaginationData(data?.page)
         })
         .finally(() => {

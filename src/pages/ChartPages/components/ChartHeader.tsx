@@ -15,7 +15,7 @@ const ChartHeader = () => {
     CommonFunction.addSliceData('addAmountType', {amount: chartInfo.symbol})
   }, [chartInfo?.symbol])
   return (
-    <div className="py-5 px-6 bg-chart-layout-bg rounded">
+    <div className="py-2.5 bg-chart-layout-bg rounded">
       <div className="space-y-5">
         <div className="flex flex-row w-full justify-between  gap-10 overflow-x-auto floating__container">
           <div className="flex flex-row gap-4 lg:gap-8 whitespace-nowrap">

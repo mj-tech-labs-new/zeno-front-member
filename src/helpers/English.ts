@@ -351,7 +351,7 @@ const English = {
   E347: 'Liquid Date',
   E348: 'ExitPrice',
   E349: 'Realized PnL',
-  E350: 'Liuidation Qty',
+  E350: 'Liquidation Qty',
   E351: 'Final Price',
   E352: 'Rate',
   E353: 'Role',

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import _ from 'lodash'
 import {memo, useCallback, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 
@@ -58,7 +59,10 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
         })
         .then((data) => {
           if (!data) return
-          setOpenHistory(data.data)
+          const sortedData = _.orderBy(data.data, (item) => item.created_at, [
+            'desc',
+          ])
+          setOpenHistory(sortedData)
           setPaginationData(data?.page)
         })
         .finally(() => {

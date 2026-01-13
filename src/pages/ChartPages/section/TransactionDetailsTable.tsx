@@ -1,5 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import dayjs from 'dayjs'
+import _ from 'lodash'
 import {memo, useCallback, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 
@@ -57,7 +58,10 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
         })
         .then((data) => {
           if (!data) return
-          setTransactionHistory(data.data)
+          const sortedData = _.orderBy(data.data, (item) => item.created_at, [
+            'desc',
+          ])
+          setTransactionHistory(sortedData)
           setPaginationData(data?.page)
         })
         .finally(() => {
