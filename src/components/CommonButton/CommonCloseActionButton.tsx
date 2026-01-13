@@ -1,7 +1,9 @@
 import React, {memo, useRef} from 'react'
 
 import {English} from '@/helpers'
+import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
 import chartPageApi from '@/pages/ChartPages/api/ChartPageApi'
+import {useChartProvider} from '@/pages/ChartPages/context/ChartProvider'
 import {CloseOrderButtonProps} from '@/types/ChallengeTypes'
 import {AppLoaderRef} from '@/types/ComponentTypes'
 
@@ -18,7 +20,7 @@ const CommonCloseActionButton = (props: CloseOrderButtonProps) => {
     apiMethod = 'put',
   } = props
   const loaderRef = useRef<AppLoaderRef>(null)
-
+  const {challengeId, setGetChallengeByIdArray} = useChartProvider()
   return (
     <React.Fragment>
       <Loader ref={loaderRef} />
@@ -38,6 +40,11 @@ const CommonCloseActionButton = (props: CloseOrderButtonProps) => {
             .closeOrderApi({apiMethod, challenge_id, tx_hash, type})
             .then(() => {
               if (onPerformAction) {
+                getChallengeByIdApi({challenge_id: challengeId ?? ''}).then(
+                  (challengeRes) => {
+                    setGetChallengeByIdArray(challengeRes)
+                  }
+                )
                 onPerformAction(true)
               }
             })

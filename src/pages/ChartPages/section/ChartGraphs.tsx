@@ -44,7 +44,7 @@ const ChartGraphs = () => {
 
       chartAreaRef.current?.setData(candlestickData)
 
-      const volumeData = totalCandleData.map((item) => {
+      const volumeData = totalCandleData?.map((item) => {
         const {volume, close, open, close_time_iso} = item
         const isUp = Number(close) > Number(open)
 
@@ -173,7 +173,7 @@ const ChartGraphs = () => {
           ([_, value]) => value === selectedToken
         )
         getCandleHistory(
-          tokenToUse ? tokenToUse?.[0] : 'BTC',
+          tokenToUse ? tokenToUse?.[1]?.token_symbol : 'BTC',
           currnetLimit.current
         )
       }

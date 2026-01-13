@@ -44,11 +44,11 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       },
       {
         title: English.E69,
-        secondValue:
-          socketData?.daily_drawdown ??
-          (getChallengeByIdArray?.[0]?.daily_drawdown
+        secondValue: socketData
+          ? socketData?.daily_drawdown
+          : getChallengeByIdArray?.[0]?.daily_drawdown
             ? getChallengeByIdArray?.[0]?.daily_drawdown
-            : 0),
+            : 0,
         firstValue:
           socketData?.max_daily_loss_amount ??
           getChallengeByIdArray?.[0]?.max_daily_loss_amount ??
@@ -57,11 +57,9 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       },
       {
         title: English.E70,
-        secodValue:
-          socketData?.max_current_loss ??
-          (getChallengeByIdArray?.[0]?.max_current_loss
-            ? getChallengeByIdArray?.[0]?.max_current_loss
-            : 0),
+        secondValue: socketData
+          ? socketData?.max_current_loss
+          : getChallengeByIdArray?.[0]?.max_current_loss,
         firstValue:
           socketData?.max_total_loss ??
           getChallengeByIdArray?.[0]?.max_total_loss ??
@@ -69,15 +67,7 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
         infoContent: ToolTipContent.T7,
       },
     ],
-    [
-      getChallengeByIdArray,
-      socketData?.daily_drawdown,
-      socketData?.max_current_loss,
-      socketData?.max_daily_loss_amount,
-      socketData?.max_total_loss,
-      socketData?.profit_target_amount,
-      socketData?.total_available_profit,
-    ]
+    [getChallengeByIdArray, socketData]
   )
 
   const percentageCardsArray = useMemo(() => {
@@ -181,7 +171,7 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       ) : (
         <div className={`flex flex-col gap-4 ${className}`}>
           {type === English.E64
-            ? tradingObjectiveArray?.map((tradingItem, index) => {
+            ? tradingObjectiveArray?.map((tradingItem) => {
                 const {title, secondValue, firstValue, infoContent} =
                   tradingItem
                 return (
@@ -191,20 +181,12 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
                       headingContent={title}
                       infoContent={infoContent}
                       initialContent={firstValue ?? 0}
+                      secondContent={secondValue ?? 0}
                       type={English.E64}
                       layoutClassName={
                         title === English.E69 || title === English.E70
                           ? 'text-light-danger-color!'
                           : ''
-                      }
-                      secondContent={
-                        index === 2
-                          ? Math.abs(socketData?.daily_drawdown ?? 0)
-                          : index === 3
-                            ? Math.abs(socketData?.max_current_loss ?? 0)
-                            : (secondValue ??
-                              getChallengeByIdArray?.[0]?.released_profit ??
-                              0)
                       }
                     />
                   </ChallengeCardLayout>
