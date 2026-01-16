@@ -105,7 +105,7 @@ const Ma5Indicators = () => {
   }, [totalCandleData, isLoadingCandles])
 
   useEffect(() => {
-    if (!ma5Ref.current || !liveCandle) return
+    if (!ma5Ref.current || !liveCandle || !isLastCandle.current) return
 
     const last = bufferRef.current.at(-1)
 
@@ -127,7 +127,7 @@ const Ma5Indicators = () => {
       time: (new Date(liveCandle.close_time_iso).getTime() / 1000) as Time,
       value: sum / period,
     })
-  }, [liveCandle])
+  }, [isLastCandle, liveCandle])
 
   useEffect(() => {
     if (!ma5Ref.current || !singleCandleData?.current || !isLastCandle?.current)

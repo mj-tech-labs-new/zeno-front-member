@@ -27,6 +27,8 @@ const ChartGraphs = () => {
     getCandleHistory,
     currnetLimit,
     isCallingCurrent,
+    isLastCandle,
+    setLiveCandle,
   } = useChartProvider()
   const {socketRef} = useSocketProvider()
   const calculateDataAndUpdateChart = useCallback(
@@ -117,12 +119,16 @@ const ChartGraphs = () => {
         selectedIndex as keyof typeof SocketEmitter.Emitter
       ],
       (data) => {
+        const token =
+          typeof selectedToken === 'string'
+            ? selectedToken
+            : (selectedToken?.token_symbol ?? 'BTC')
         const findTokenName = Object.entries(tokenList ?? {}).find(
-          ([_, value]) => value === selectedToken
+          ([_, value]) => value?.token_symbol === token
         )
         if (!findTokenName) return
         const chartSocketData: CandleObjectType =
-          data?.data?.candles?.[findTokenName?.[0]]
+          data?.data?.candles?.[findTokenName?.[1]?.token_symbol]
         if (
           !chartSocketData ||
           !chartAreaRef.current ||
@@ -130,6 +136,7 @@ const ChartGraphs = () => {
         )
           return
         const {open, high, low, close, volume, close_time_iso} = chartSocketData
+
         const currentCandle = {
           close: Number(close),
           high: Number(high),
@@ -143,10 +150,13 @@ const ChartGraphs = () => {
           color: Number(close) > Number(open) ? '#31413C' : '#4A2C25',
         }
         if (!currentCandle || !currentCandleVolume) return
+        setLiveCandle(chartSocketData)
+        isLastCandle.current = true
         chartAreaRef.current.update(currentCandle)
         volumeSeriesRef.current.update(currentCandleVolume)
       }
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     tokenList,
     chartAreaRef,
@@ -155,6 +165,7 @@ const ChartGraphs = () => {
     selectedToken,
     socketRef,
     volumeSeriesRef,
+    isLastCandle,
   ])
 
   chartObjectRef.current

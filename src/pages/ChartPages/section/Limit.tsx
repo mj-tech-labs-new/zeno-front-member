@@ -181,7 +181,7 @@ const Limit = (props: BuyOrSelProps) => {
           {English.E130}
         </span>
         <div className="flex items-center gap-1">
-          <span className="text-extra-light-success-color text-xs font-semibold !leading-5">
+          <span className="text-chart-green-color text-xs font-semibold !leading-5">
             {Utility.numberConversion(
               getChallengeByIdArray?.[0]?.current_usdt ?? 0
             )}

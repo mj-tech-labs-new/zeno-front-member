@@ -113,7 +113,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
 
                 <div className="flex flex-col gap-1">
                   <span
-                    className={`font-medium ${marginAssetData?.unreleased_profit?.toString().startsWith('-') ? 'text-light-danger-color ' : 'text-light-success-color '}`}
+                    className={`font-medium ${marginAssetData?.unreleased_profit?.toString().startsWith('-') ? 'text-chart-red-color ' : 'text-chart-green-color '}`}
                   >
                     {Utility.removeDecimal(
                       marginAssetData?.unreleased_profit ?? 0,

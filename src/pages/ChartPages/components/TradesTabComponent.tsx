@@ -140,9 +140,9 @@ const TradesTabComponent = ({
       if (!firstURef.current) {
         firstURef.current = data.U
         syncSnapshot(
-          (typeof selectedToken === 'string'
+          typeof selectedToken === 'string'
             ? selectedToken
-            : selectedToken?.token_name) ?? 'BTC'
+            : (selectedToken?.token_symbol ?? 'BTC')
         )
         return
       }
