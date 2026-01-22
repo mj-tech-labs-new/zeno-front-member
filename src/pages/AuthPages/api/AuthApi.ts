@@ -43,11 +43,11 @@ const registerApi = async (props: RegisterApiProps) => {
 
 const loginApi = async (props: LoginApiProps) => {
   const payload = {...props}
-  return new Promise<boolean>((resolve) => {
+  return new Promise<string>((resolve) => {
     APICall('post', Endpoints.loginUser, payload)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
-          resolve(true)
+          resolve(res?.data?.token)
           const newPayload = {
             token: res?.data?.token,
             userData: res?.data?.user,
@@ -56,13 +56,13 @@ const loginApi = async (props: LoginApiProps) => {
 
           CommonFunction.addSliceData('addUserToken', newPayload)
         } else {
-          resolve(false)
+          resolve('')
           toast.error(res?.message)
         }
       })
       .catch((error) => {
         toast.error(error?.data?.message)
-        resolve(false)
+        resolve('')
       })
   })
 }

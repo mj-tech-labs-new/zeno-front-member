@@ -25,6 +25,7 @@ export interface UserObjectType {
   email: string
   profilePic: null | string
   reg_date: string
+  isMarketer: number
 }
 
 export interface StorageProps {

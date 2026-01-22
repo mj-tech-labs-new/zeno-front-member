@@ -1,19 +1,20 @@
-import {useCallback} from 'react'
-import {useSelector} from 'react-redux'
-import {Link, useLocation} from 'react-router-dom'
+import { useCallback } from 'react'
+import { useSelector } from 'react-redux'
+import { Link, useLocation } from 'react-router-dom'
 
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {Constants, English, Images} from '@/helpers'
-import {CommonFunction} from '@/services'
-import {GeneralProps, StorageProps} from '@/types/CommonTypes'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { Constants, English, Images } from '@/helpers'
+import { CommonFunction } from '@/services'
+import { GeneralProps, StorageProps } from '@/types/CommonTypes'
 
+import AffiliateButton from '../CommonButton/AffiliateButton'
 import ImageComponent from '../ImageComponent/ImageComponent'
 import LogoComponent from '../LogoComponent/LogoComponent'
 
 const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
   const userData = useSelector((state: StorageProps) => state.userData)
-  const {socketRef} = useSocketProvider()
-  const {onPressItem} = props
+  const { socketRef } = useSocketProvider()
+  const { onPressItem } = props
   const location = useLocation()
   const onPressLink = useCallback(
     (isLogoutType: boolean) => {
@@ -41,7 +42,7 @@ const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
             const currentPath = location.pathname
             const isActiveItem =
               currentPath?.toLowerCase().startsWith('/dashboard') ||
-              currentPath?.toLowerCase().startsWith('/challenge')
+                currentPath?.toLowerCase().startsWith('/challenge')
                 ? 'challenges'
                 : currentPath?.toLowerCase().startsWith('/certificates')
                   ? 'certificates'
@@ -71,28 +72,30 @@ const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
         </ul>
 
         <div className="flex flex-col gap-6">
-          <Link
-            className="flex gap-3.5 items-center px-4 py-2 hover:bg-button-primary-color rounded-xl transition-all duration-500 ease-in-out"
-            onClick={() => {
-              onPressLink(true)
-            }}
-            to={
-              Constants?.SidebarData?.[Constants.SidebarData.length - 1]?.linkTo
-            }
-          >
-            <img
-              alt="error-icon"
-              src={
-                Constants?.SidebarData?.[Constants.SidebarData.length - 1]?.icon
+          <div>
+            {userData?.user?.userData?.isMarketer === 1 && <AffiliateButton />}
+            <Link
+              className="flex gap-3.5 items-center px-4 py-2 hover:bg-button-primary-color rounded-xl transition-all duration-500 ease-in-out"
+              onClick={() => {
+                onPressLink(true)
+              }}
+              to={
+                Constants?.SidebarData?.[Constants.SidebarData.length - 1]?.linkTo
               }
-            />
-            <li className="text-tertiary-color text-base/6 font-normal list-none">
-              {
-                Constants?.SidebarData?.[Constants.SidebarData.length - 1]
-                  ?.title
-              }
-            </li>
-          </Link>
+            >
+              <ImageComponent
+                imageUrl={
+                  Constants?.SidebarData?.[Constants.SidebarData.length - 1]?.icon
+                }
+              />
+              <li className="text-tertiary-color text-base/6 font-normal list-none">
+                {
+                  Constants?.SidebarData?.[Constants.SidebarData.length - 1]
+                    ?.title
+                }
+              </li>
+            </Link>
+          </div>
           {!location.pathname.startsWith('/profile') && (
             <div className="flex  items-center gap-3 bg-user-info-card-bg-color p-2 rounded-2xl mb-4">
               <ImageComponent

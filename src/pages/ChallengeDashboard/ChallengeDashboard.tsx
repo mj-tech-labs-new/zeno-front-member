@@ -68,18 +68,18 @@ const ChallengeDashboard = () => {
               getChallengeByIdArray?.[0]?.ChallengePlan[0].capital_fund ?? 0
             }
           />
-          <TradingDescriptionSection type={English.E257} />
+          {/* <TradingDescriptionSection type={English.E257} /> */}
         </div>
         <TradingDescriptionSection
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
           layoutClassName="[&>h2]:!tracking-[0px]"
           type={English.E64}
         />
-        <TradingDescriptionSection
+        {/* <TradingDescriptionSection
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
           layoutClassName="[&>h2]:!tracking-[0px]"
           type={English.E65}
-        />
+        /> */}
         <ClosedPNL showHeader />
       </div>
     </ChallengeDashboardLayout>
