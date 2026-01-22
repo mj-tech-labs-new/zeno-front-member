@@ -268,8 +268,8 @@ const EditStopLoss = (props: {
             <CommonButton
               key={`index_${index + 1}`}
               singleLineContent={index + 1 === 1 ? English.E341 : English.E342}
-              className={`font-semibold text-sm ${index + 1 === 1 ? 'bg-chart-red-color ' : 'bg-extra-dark-danger-color'}
-                   ${index + 1 === 1 && item?.stop_loss?.length === 1 && item?.take_profit?.length === 1 ? 'bg-chart-red-color/50 text-primary-color/50 pointer-events-none' : ''} text-primary-color !w-fit `}
+              className={`font-semibold text-sm ${index + 1 === 1 ? 'bg-chart-green-color' : 'bg-chart-red-color'}
+                   ${index + 1 === 1 && item?.stop_loss?.length === 1 && item?.take_profit?.length === 1 ? 'bg-chart-red-color/50 text-primary-color/50 pointer-events-none' : ''} text-primary-color !w-fit !py-2 !rounded-full !font-bold `}
               onClick={async () =>
                 index + 1 === 1
                   ? handleUpdateOrder('all', 'post')
