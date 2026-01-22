@@ -40,10 +40,10 @@ const ChartRenderer = () => {
   }, [])
 
   return (
-    <div className="h-full bg-chart-layout w-full  lg:w-[calc(100vw-500px)] flex-1">
-      <div className="flex flex-col lg:flex-row gap-1 w-full">
+    <div className="h-full bg-chart-layout w-full  lg:w-[calc(100%-600px)] flex-1">
+      <div className="flex flex-col lg:flex-row  w-full">
         <ChartShapes />
-        <div ref={fullScreenContainer} className="flex-1">
+        <div ref={fullScreenContainer} className="w-full">
           <div className="p-2 flex flex-col-reverse sm:flex-row gap-4 sm:items-center sm:justify-between">
             <div className="flex items-center flex-row gap-4">
               <span className="text-neutral-primary-color font-bold text-sm !leading-4">
@@ -87,7 +87,7 @@ const ChartRenderer = () => {
             </div>
           </div>
           <div
-            className={`relative w-full ${isFullscreen ? 'h-full' : 'flex h-[calc(100vh-195px)] lg:h-[calc(100vh-132px)] max-h-[562px] overflow-hidden'}  `}
+            className={`relative ${isFullscreen ? 'h-full' : 'flex h-[calc(100vh-195px)] lg:h-[calc(100vh-132px)] max-h-[562px] overflow-hidden'}  `}
           >
             <ChartGraphs />
             <Ma5Indicators />

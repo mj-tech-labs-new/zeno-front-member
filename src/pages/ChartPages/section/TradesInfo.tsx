@@ -1,21 +1,21 @@
-import { CreatePriceLineOptions, LineStyle } from 'lightweight-charts'
+import {CreatePriceLineOptions, LineStyle} from 'lightweight-charts'
 import _ from 'lodash'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react'
 
-import { TabComponent } from '@/components'
-import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
-import { Constants, SocketEmitter, Utility } from '@/helpers'
-import { OpenPosition, PendingOrder } from '@/types/ChartTypes'
+import {TabComponent} from '@/components'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
+import {Constants, SocketEmitter, Utility} from '@/helpers'
+import {OpenPosition, PendingOrder} from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import OpenHistoryTable from './OpenHistoryTable'
 import OpenPositionTable from './OpenPositionTable'
 import PendingOrderTable from './PendingOrderTable'
 import PositionHistoryTable from './PositionHistoryTable'
 import TransactionDetailsTable from './TransactionDetailsTable'
 
-const TradesInfo = (props: { challengeId: string }) => {
-  const { challengeId } = props
+const TradesInfo = (props: {challengeId: string}) => {
+  const {challengeId} = props
   const [activeIndex, setActiveIndex] = useState(0)
   const [openPosition, setOpenPosition] = useState<OpenPosition[]>([])
   const [pendingOrder, setPendingOrder] = useState<PendingOrder[]>([])
@@ -23,8 +23,8 @@ const TradesInfo = (props: { challengeId: string }) => {
     () => (activeIndex === 0 ? openPosition : pendingOrder),
     [activeIndex, openPosition, pendingOrder]
   )
-  const { isLoadingCandles, chartAreaRef, chartInfo } = useChartProvider()
-  const { socketRef } = useSocketProvider()
+  const {isLoadingCandles, chartAreaRef, chartInfo} = useChartProvider()
+  const {socketRef} = useSocketProvider()
   const [tableHeadingData, setTableHeadingData] = useState(
     Constants.tradesHeadingTypes
   )
@@ -33,7 +33,7 @@ const TradesInfo = (props: { challengeId: string }) => {
     (data: any, key: string, indexNo: number) => {
       setTableHeadingData((prev) => {
         const newTableHeading = prev.map((item, index) =>
-          index === indexNo ? { ...item, content: data?.length } : item
+          index === indexNo ? {...item, content: data?.length} : item
         )
         return newTableHeading
       })
@@ -168,10 +168,10 @@ const TradesInfo = (props: { challengeId: string }) => {
         }}
       >
         {activeIndex !== 2 &&
-          activeIndex !== 3 &&
-          activeIndex !== 4 &&
-          currentData.length === 0 &&
-          !isLoadingCandles ? (
+        activeIndex !== 3 &&
+        activeIndex !== 4 &&
+        currentData.length === 0 &&
+        !isLoadingCandles ? (
           <span className="font-medium text-chart-text-primary-color text-center !whitespace-nowrap">
             No Orders
           </span>

@@ -36,9 +36,9 @@ const ChartRenderingLayout = () => {
     >
       <ChartHeader />
       <div className="flex flex-col gap-1 w-full ">
-        <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col lg:flex-row lg:gap-10 xl:gap-0">
           <ChartRenderer />
-          <div className="flex  lg:flex h-[630px] lg:h-[600px]">
+          <div className="flex h-[630px] lg:h-[600px]">
             <Trades />
             <PlaceOrder />
           </div>
