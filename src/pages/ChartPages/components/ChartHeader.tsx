@@ -15,20 +15,20 @@ const ChartHeader = () => {
     CommonFunction.addSliceData('addAmountType', {amount: chartInfo.symbol})
   }, [chartInfo?.symbol])
   return (
-    <div className="py-2.5 bg-chart-layout-bg rounded">
+    <div className="py-[3px] bg-chart-layout-bg rounded">
       <div className="space-y-5">
         <div className="flex flex-row w-full justify-between  gap-10 overflow-x-auto floating__container">
-          <div className="flex flex-row gap-4 lg:gap-8 whitespace-nowrap">
+          <div className="flex flex-row items-center gap-4 lg:gap-8 whitespace-nowrap">
             <TokenDropdown />
             <div className="flex flex-col gap-0.5">
               <span
-                className={`${Utility.colorGeneratorUtility(Number(chartSocketData?.change ?? 0))} text-2xl !leading-8 font-semibold w-44`}
+                className={`${Utility.colorGeneratorUtility(Number(chartSocketData?.change ?? 0))} text-lg !leading-5 font-semibold w-44`}
               >
                 {livePrice} {English.E60}
               </span>
-              <span className="text-primary-color font-medium leading-tight">
+              {/* <span className="text-primary-color font-medium leading-tight">
                 $ {livePrice}
-              </span>
+              </span> */}
             </div>
           </div>
 

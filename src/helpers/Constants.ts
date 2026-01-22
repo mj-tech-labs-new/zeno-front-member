@@ -442,7 +442,7 @@ const Constants = {
   BuySellInputArray: {
     Market: [
       {
-        label: 'Price',
+        label: `${English.E140} (${English.E60})`,
         name: 'price',
         placeHolder: English.E131,
         textContent: English.E60,
@@ -457,13 +457,13 @@ const Constants = {
     Limit: [
       {
         name: 'entryprice',
-        placeHolder: 'Entery Price',
+        placeHolder: 'Please enter the price',
         textContent: English.E60,
-        label: 'Price',
+        label: `${English.E140} (${English.E60})`,
       },
       {
         name: 'quantity',
-        placeHolder: 'Enter Amount',
+        placeHolder: 'Please enter the price',
         textContent: '0ETH',
         label: 'Amount',
       },

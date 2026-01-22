@@ -1,22 +1,22 @@
 /* eslint-disable prefer-template */
-import {toNumber} from 'lodash'
-import {Fragment, memo, useCallback, useEffect, useRef, useState} from 'react'
-import {useSelector} from 'react-redux'
+import { toNumber } from 'lodash'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 
-import {Divider, ImageComponent} from '@/components'
+import { Divider, ImageComponent } from '@/components'
 import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
-import {StorageProps} from '@/types/CommonTypes'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
+import { StorageProps } from '@/types/CommonTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const {activeIndex, margin_mode} = props
+  const { activeIndex, margin_mode } = props
   const {
     selectedToken,
     tokenList,
@@ -35,8 +35,8 @@ const Limit = (props: BuyOrSelProps) => {
   const [total, setTotal] = useState(0)
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-      Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({stop_loss: [], take_profit: []})
+    Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({ stop_loss: [], take_profit: [] })
   const [stopLossValue, setStopLossValue] = useState<number>(0)
   const totalStrFinal = useRef<string>('')
   const tokenQtyRef = useRef('0')
@@ -102,7 +102,7 @@ const Limit = (props: BuyOrSelProps) => {
 
   useEffect(() => {
     if (activeIndex === 1) {
-      setInputValues((prev) => ({...prev, entryprice: livePrice.toString()}))
+      setInputValues((prev) => ({ ...prev, entryprice: livePrice.toString() }))
       return
     }
     const entryPriceStr = inputValues?.entryprice
@@ -177,21 +177,21 @@ const Limit = (props: BuyOrSelProps) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-4">
-        <span className="text-base !leading-8 text-chart-text-primary-color font-semibold ">
+        <span className="text-base leading-0! text-chart-text-primary-color font-semibold ">
           {English.E130}
         </span>
         <div className="flex items-center gap-1">
-          <span className="text-chart-green-color text-xs font-semibold !leading-5">
+          <span className="text-base leading-0! text-chart-text-primary-color font-semibold ">
             {Utility.numberConversion(
               getChallengeByIdArray?.[0]?.current_usdt ?? 0
-            )}
+            )} {English.E60}
           </span>
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </div>
       </div>
       {Constants.BuySellInputArray[activeIndex === 0 ? 'Limit' : 'Market']?.map(
         (item, index) => {
-          const {name, label, placeHolder} = item
+          const { name, label, placeHolder } = item
           const priceValue =
             name === 'price'
               ? livePrice
@@ -210,7 +210,7 @@ const Limit = (props: BuyOrSelProps) => {
               value={priceValue}
               onChange={(e) => {
                 if (name === 'entryprice') {
-                  const {value} = e.target
+                  const { value } = e.target
                   handleLeverageCount(value)
                   return
                 }
@@ -225,27 +225,7 @@ const Limit = (props: BuyOrSelProps) => {
           {English.E279}
         </span>
       ) : null}
-      <div className="flex items-center gap-3">
-        <ActionButton
-          checked={isTpSl}
-          leverage={Number(selectedLeverage?.title.replace('X', ' '))}
-          margin_mode={margin_mode}
-          order_type={activeIndex === 0 ? 'limit' : 'market'}
-          quantity={toNumber(tokenQtyRef.current)}
-          setChecked={setIsTpSl}
-          stop_loss={stopLossData?.stop_loss}
-          take_profit={stopLossData?.take_profit}
-          total={total}
-          price={
-            activeIndex === 0 ? Number(inputValues?.entryprice) : livePrice
-          }
-          setInputValues={() => {
-            setInputValues({entryprice: '0', quantity: '0'})
-            setStopLossValue(0)
-            setStopLossData({stop_loss: [], take_profit: []})
-          }}
-        />
-      </div>
+
 
       <Divider className="!bg-chart-secondary-bg-color !my-3" />
 
@@ -257,7 +237,7 @@ const Limit = (props: BuyOrSelProps) => {
           setIsTpSl((prev) => {
             const newValue = !prev
             if (!newValue) {
-              setStopLossData({stop_loss: [], take_profit: []})
+              setStopLossData({ stop_loss: [], take_profit: [] })
             }
             return newValue
           })
@@ -320,20 +300,47 @@ const Limit = (props: BuyOrSelProps) => {
           />
         </div>
       )}
+      <Divider
+        className="!bg-chart-secondary-bg-color !my-3"
+      />
 
-      {Array.from({length: 2}).map((_, index) => (
-        <Fragment key={index}>
-          <Divider
-            className={`!bg-chart-secondary-bg-color ${index === 0 ? '!my-3' : '!mb-3'}`}
-          />
+      <MaxOpenAndMargin
+        totalNum={total}
+        totalStr={total.toString() ?? '0'}
+        type="max_open"
+      />
 
-          <MaxOpenAndMargin
-            totalNum={total}
-            totalStr={total.toString() ?? '0'}
-            type={index === 0 ? 'max_open' : 'margin'}
-          />
-        </Fragment>
-      ))}
+      <div className="flex items-center gap-3">
+        <ActionButton
+          checked={isTpSl}
+          leverage={Number(selectedLeverage?.title.replace('X', ' '))}
+          margin_mode={margin_mode}
+          order_type={activeIndex === 0 ? 'limit' : 'market'}
+          quantity={toNumber(tokenQtyRef.current)}
+          setChecked={setIsTpSl}
+          stop_loss={stopLossData?.stop_loss}
+          take_profit={stopLossData?.take_profit}
+          total={total}
+          price={
+            activeIndex === 0 ? Number(inputValues?.entryprice) : livePrice
+          }
+          setInputValues={() => {
+            setInputValues({ entryprice: '0', quantity: '0' })
+            setStopLossValue(0)
+            setStopLossData({ stop_loss: [], take_profit: [] })
+          }}
+        />
+      </div>
+
+      <Divider
+        className="!bg-chart-secondary-bg-color !mb-3"
+      />
+
+      <MaxOpenAndMargin
+        totalNum={total}
+        totalStr={total.toString() ?? '0'}
+        type="margin"
+      />
     </div>
   )
 }

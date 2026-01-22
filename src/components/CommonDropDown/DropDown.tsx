@@ -21,7 +21,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
     searchValue = '',
     setSearchValue,
     onPressSearch,
-    titleClassname,
+    titleClassname = '',
   } = props
   const mainDivRef = useRef<HTMLDivElement | null>(null)
   const searchRef = useRef<HTMLDivElement | null>(null)
@@ -88,7 +88,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
   return (
     <div
       ref={mainDivRef}
-      className={`pl-4 pr-3 py-3 border-2 border-neutral-secondary-color !z-100 rounded-lg cursor-pointer ${className}`}
+      className={`pl-4 pr-3 mt-0! py-1.5 border-2 border-neutral-secondary-color !z-100 rounded-lg cursor-pointer ${className}`}
       onClick={(e) => {
         e.stopPropagation()
         e.preventDefault()
@@ -97,7 +97,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
     >
       <div className="flex justify-between items-center gap-1">
         <span
-          className={`text-tertiary-color text-sm font-normal hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out  ${headingClassName}`}
+          className={`text-tertiary-color first-letter:capitalize! text-sm font-normal hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out  ${headingClassName}`}
         >
           {selectedValue?.title}
         </span>
@@ -115,7 +115,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
       {isDropDownOpen ? (
         <div
           ref={dropDownStatsRef}
-          className={`fixed bg-chart-dropdown-bg-color shadow-md z-[999] rounded-lg  h-56  ${layoutClassName}`}
+          className={`fixed bg-chart-dropdown-bg-color shadow-md z-[999] rounded-lg  max-h-56  ${layoutClassName}`}
         >
           {isSearchType && (
             <div className="p-2">
@@ -150,7 +150,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
                     <ImageComponent className="w-5 h-5" imageUrl={img} />
                   )}
                   <span
-                    className={`text-tertiary-color text-sm font-normal p-3  w-full hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out ${titleClassname}`}
+                    className={`text-tertiary-color text-sm font-normal p-2 pl-4  w-full hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out ${titleClassname}`}
                   >
                     {title}
                   </span>

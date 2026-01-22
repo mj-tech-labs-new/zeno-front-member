@@ -9,15 +9,15 @@ import React, {
   useState,
 } from 'react'
 
-import {English, Utility} from '@/helpers'
-import {ChartSwitchProps, OrderBookObjectType} from '@/types/ChartTypes'
+import { English, Utility } from '@/helpers'
+import { ChartSwitchProps, OrderBookObjectType } from '@/types/ChartTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
 const TradesTabComponent = ({
   activeType,
 }: Pick<ChartSwitchProps, 'activeType'>) => {
-  const {chartInfo, isLoadingCandles, livePrice, selectedToken} =
+  const { chartInfo, isLoadingCandles, livePrice, selectedToken, chartSocketData } =
     useChartProvider()
   const wsRef = useRef<WebSocket | null>(null)
   const bufferRef = useRef<any[]>([])
@@ -30,7 +30,7 @@ const TradesTabComponent = ({
   const [bookings, setBookings] = useState<OrderBookObjectType | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const max = useMemo(() => {
-    if (!bookings) return {buy: 1, sell: 1}
+    if (!bookings) return { buy: 1, sell: 1 }
     return {
       buy: Math.max(...bookings.bids.map(([p, q]) => +p * +q)),
       sell: Math.max(...bookings.asks.map(([p, q]) => +p * +q)),
@@ -171,18 +171,16 @@ const TradesTabComponent = ({
         </div>
       ) : (
         <React.Fragment>
-          <div className="grid grid-cols-3 px-4 mt-3 text-neutral-primary-color mb-1">
+          <div className="grid grid-cols-3 mt-3 text-neutral-primary-color mb-1">
             {[English.E140, English.E141, English.E133].map((item, index) => (
               <div
                 key={item}
-                className="text-xs font-semibold text-center flex flex-col justify-start *:text-left"
+                className={`text-xs font-semibold text-center flex ${index !== 2 ? 'justify-normal' : 'justify-center'}`}
               >
                 <span>{item}</span>
-                {index !== 2 && (
-                  <span>
-                    {index === 0 ? English.E60 : `(${chartInfo?.symbol})`}
-                  </span>
-                )}
+                <span>
+                  {index !== 1 ? `(${English.E60})` : `(${chartInfo?.symbol})`}
+                </span>
               </div>
             ))}
           </div>
@@ -194,19 +192,18 @@ const TradesTabComponent = ({
             return (
               <Fragment key={i}>
                 {activeType === 'buy_sell_type' && i === 7 && (
-                  <p className="text-primary-color my-5 text-2xl">
+                  <p className={`${Utility.colorGeneratorUtility(Number(chartSocketData?.change ?? 0))} text-[22px] !leading-5 font-semibold my-5`}>
                     {Utility.numberConversion(livePrice)}
                   </p>
                 )}
 
                 <div className="relative space-y-1 grid grid-cols-3 gap-7 text-xs py-1 text-neutral-tertiary-color">
                   <div
-                    style={{width: `${width}%`}}
-                    className={`absolute right-0 h-full transition-all duration-300 ease-linear ${
-                      t.type === 'buy'
-                        ? 'bg-chart-green-color'
-                        : 'bg-chart-red-color'
-                    } opacity-15`}
+                    style={{ width: `${width}%` }}
+                    className={`absolute right-0 h-full transition-all duration-300 ease-linear ${t.type === 'buy'
+                      ? 'bg-chart-green-color'
+                      : 'bg-chart-red-color'
+                      } opacity-15`}
                   />
 
                   <span

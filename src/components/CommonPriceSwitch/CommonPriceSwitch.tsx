@@ -1,5 +1,5 @@
 import SelecAmountModel from '@/pages/ChartPages/components/SelecAmountModel'
-import {CommonPriceSwitchType} from '@/types/ComponentTypes'
+import { CommonPriceSwitchType } from '@/types/ComponentTypes'
 
 import RangeSelector from '../CommonRangeSelector/RangeSelector'
 import InputContainer from '../InputContainer/InputContainer'
@@ -21,12 +21,12 @@ const CommonPriceSwitch = (props: CommonPriceSwitchType) => {
     singleLineContent = '',
   } = props
   return (
-    <div className="mb-3!">
-      <div className="flex flex-col gap-2">
-        <span className="font-medium text-light-neutral-color text-xs font-switzer!">
+    <div className="mt-1">
+      <div className="flex flex-col gap-1">
+        <span className="font-semibold text-primary-color text-sm font-switzer!">
           {singleLineContent}
         </span>
-        <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
+        <div className="px-4 py-1.5 rounded-xl border-2 border-solid border-neutral-secondary-color">
           <div className="flex justify-between gap-2">
             <div className="w-full gap-2.5 flex items-center">
               <InputContainer
@@ -35,8 +35,8 @@ const CommonPriceSwitch = (props: CommonPriceSwitchType) => {
                 onChange={onChange}
                 placeholder={placeholder}
                 value={value}
-                className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
-                [&>input]:!text-chart-text-primary-color [&>input]:!text-sm [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium"
+                className="!p-0 !border-none !w-full [&>input]:text-start! [&>input]:!h-fit
+                [&>input]:!text-chart-text-primary-color [&>input]:placeholder:text-sm [&>input]:px-0! [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium [&>input]:text-base"
               />
 
               {name === 'amount' && (

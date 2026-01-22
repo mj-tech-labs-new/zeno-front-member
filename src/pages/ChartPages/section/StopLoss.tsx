@@ -1,11 +1,11 @@
-import {memo, useCallback, useEffect, useRef, useState} from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 
-import {InputContainer} from '@/components'
-import {English} from '@/helpers'
-import {CommonStopLossProp, StopLossProps} from '@/types/ChartTypes'
+import { InputContainer } from '@/components'
+import { English } from '@/helpers'
+import { CommonStopLossProp, StopLossProps } from '@/types/ChartTypes'
 
 const StopLoss = (props: CommonStopLossProp) => {
-  const {heading = '', marketPrice, setStopLoss, quantity = 0, stopLoss} = props
+  const { heading = '', marketPrice, setStopLoss, quantity = 0, stopLoss } = props
 
   const [inputValues, setInputValues] = useState<StopLossProps[]>([])
   const stopLossRef = useRef<number>(0)
@@ -24,7 +24,7 @@ const StopLoss = (props: CommonStopLossProp) => {
           status: item.status,
         }))
 
-        setStopLoss({take_profit: payload, stop_loss: payload})
+        setStopLoss({ take_profit: payload, stop_loss: payload })
         return updated
       })
     },
@@ -65,10 +65,10 @@ const StopLoss = (props: CommonStopLossProp) => {
   }, [quantity, stopLoss])
   return (
     <div className="!w-fit">
-      <div className="flex flex-col gap-3 ">
+      <div className="flex flex-col gap-1">
         <div className="flex justify-between gap-2 w-full items-center mt-3 mx-0.5">
-          <div className="flex gap-3">
-            <div className="text-base !leading-8 text-chart-text-primary-color font-semibold">
+          <div className="flex flex-col gap-1">
+            <div className="font-semibold text-primary-color text-sm font-switzer!">
               {heading}{' '}
             </div>
           </div>
@@ -80,17 +80,15 @@ const StopLoss = (props: CommonStopLossProp) => {
               className=" flex flex-col gap-3"
             >
               <div className="flex flex-col gap-3">
-                <div className="px-4 py-3 rounded-xl border-2 border-solid border-neutral-secondary-color">
+                <div className="px-4 py-1.5 rounded-xl border-2 border-solid border-neutral-secondary-color">
                   <div className="flex justify-between gap-2">
                     <div className="w-fit gap-2.5 flex justify-between items-center">
                       <InputContainer
                         layoutClassName="!w-fit"
                         placeholder={English.E6.replace('password', '')}
                         readOnly={!marketPrice || !quantity}
-                        className="!p-0 !border-none !w-full [&>input]:!text-end [&>input]:!h-6
-  [&>input]:!text-chart-text-primary-color [&>input]:!text-sm 
-  [&>input]:placeholder:!text-chart-text-primary-color 
-  [&>input]:!w-fit !leading-6 !font-medium"
+                        className="!p-0 !border-none !w-full [&>input]:text-start! [&>input]:!h-fit
+                [&>input]:!text-chart-text-primary-color [&>input]:placeholder:text-sm [&>input]:px-0! [&>input]:placeholder:!text-chart-text-primary-color [&>input]:!w-full !leading-6 !font-medium [&>input]:text-base"
                         onChange={(e) =>
                           handleInputChange('marketprice', e.target.value)
                         }

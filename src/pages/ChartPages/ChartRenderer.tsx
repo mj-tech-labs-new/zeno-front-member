@@ -44,7 +44,7 @@ const ChartRenderer = () => {
       <div className="flex flex-col lg:flex-row gap-1 w-full">
         <ChartShapes />
         <div ref={fullScreenContainer} className="flex-1">
-          <div className="p-4 flex flex-col-reverse sm:flex-row gap-4 sm:items-center sm:justify-between">
+          <div className="p-2 flex flex-col-reverse sm:flex-row gap-4 sm:items-center sm:justify-between">
             <div className="flex items-center flex-row gap-4">
               <span className="text-neutral-primary-color font-bold text-sm !leading-4">
                 {English.E128}
@@ -55,7 +55,7 @@ const ChartRenderer = () => {
                   return (
                     <span
                       key={key}
-                      className={`py-1.5 px-3 transition-all duration-200 ease-linear  font-bold text-sm !leading-4 rounded-full ${selectedIndex === key ? 'text-primary-color bg-neutral-active-color' : 'text-neutral-primary-color cursor-pointer'}`}
+                      className={`py-1.5 px-3 transition-all duration-200 ease-linear  font-normal text-xs !leading-4 rounded-full ${selectedIndex === key ? 'text-primary-color bg-neutral-active-color' : 'text-neutral-primary-color cursor-pointer'}`}
                       onClick={() => {
                         isLastCandle.current = false
                         totalCandlesCount.current = 0

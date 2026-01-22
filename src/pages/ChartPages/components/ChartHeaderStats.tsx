@@ -140,7 +140,7 @@ const ChartHeaderStats = () => {
               <span className="whitespace-nowrap">{content}</span>
             </div>
             <p
-              className={`text-sm !leading-6 font-medium ${index === 0 ? (textContent?.priceDiff?.toString()?.startsWith('-') ? 'text-chart-red-color' : 'text-chart-green-color') : 'text-chart-text-primary-color'}`}
+              className={`text-xs !leading-5 font-medium ${index === 0 ? (textContent?.priceDiff?.toString()?.startsWith('-') ? 'text-chart-red-color' : 'text-chart-green-color') : 'text-chart-text-primary-color'}`}
             >
               <span className="whitespace-nowrap">
                 {content.includes(English.E122) ||

@@ -37,7 +37,7 @@ const PlaceOrder = () => {
       className="my-4 mx-4  no-scrollbar shrink-0 max-w-[350px] flex-1 overflow-y-auto lg:overflow-y-visible"
       id="place_order_container"
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2.5">
         <HeadingComponent
           className="!text-[16px]/6 !font-poppins !tracking-normal !text-neutral-primary-color"
           singleLineContent={English.E129}
@@ -76,7 +76,7 @@ const PlaceOrder = () => {
 
         <TabComponent
           activeIndex={activeIndex}
-          className="!font-bold !text-[14px] !leading-4 !text-chart-text-primary-color !gap-4 !font-dmsansm [&>div]:!gap-2.5"
+          className="!font-bold !text-[14px] !leading-4 !text-chart-text-primary-color gap-3! !font-dmsansm [&>div]:!gap-2.5"
           headingData={Constants.PlaceOrderTab}
           setActiveIndex={setActiveIndex}
           type="buttonType"
