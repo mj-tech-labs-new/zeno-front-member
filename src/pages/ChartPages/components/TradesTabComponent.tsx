@@ -9,16 +9,21 @@ import React, {
   useState,
 } from 'react'
 
-import { English, Utility } from '@/helpers'
-import { ChartSwitchProps, OrderBookObjectType } from '@/types/ChartTypes'
+import {English, Utility} from '@/helpers'
+import {ChartSwitchProps, OrderBookObjectType} from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 
 const TradesTabComponent = ({
   activeType,
 }: Pick<ChartSwitchProps, 'activeType'>) => {
-  const { chartInfo, isLoadingCandles, livePrice, selectedToken, chartSocketData } =
-    useChartProvider()
+  const {
+    chartInfo,
+    isLoadingCandles,
+    livePrice,
+    selectedToken,
+    chartSocketData,
+  } = useChartProvider()
   const wsRef = useRef<WebSocket | null>(null)
   const bufferRef = useRef<any[]>([])
   const firstURef = useRef<number | null>(null)
@@ -30,7 +35,7 @@ const TradesTabComponent = ({
   const [bookings, setBookings] = useState<OrderBookObjectType | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const max = useMemo(() => {
-    if (!bookings) return { buy: 1, sell: 1 }
+    if (!bookings) return {buy: 1, sell: 1}
     return {
       buy: Math.max(...bookings.bids.map(([p, q]) => +p * +q)),
       sell: Math.max(...bookings.asks.map(([p, q]) => +p * +q)),
@@ -192,18 +197,21 @@ const TradesTabComponent = ({
             return (
               <Fragment key={i}>
                 {activeType === 'buy_sell_type' && i === 7 && (
-                  <p className={`${Utility.colorGeneratorUtility(Number(chartSocketData?.change ?? 0))} text-[22px] !leading-5 font-semibold my-5`}>
+                  <p
+                    className={`${Utility.colorGeneratorUtility(Number(chartSocketData?.change ?? 0))} text-[22px] !leading-5 font-semibold my-5`}
+                  >
                     {Utility.numberConversion(livePrice)}
                   </p>
                 )}
 
                 <div className="relative space-y-1 grid grid-cols-3 gap-7 text-xs py-1 text-neutral-tertiary-color">
                   <div
-                    style={{ width: `${width}%` }}
-                    className={`absolute right-0 h-full transition-all duration-300 ease-linear ${t.type === 'buy'
-                      ? 'bg-chart-green-color'
-                      : 'bg-chart-red-color'
-                      } opacity-15`}
+                    style={{width: `${width}%`}}
+                    className={`absolute right-0 h-full transition-all duration-300 ease-linear ${
+                      t.type === 'buy'
+                        ? 'bg-chart-green-color'
+                        : 'bg-chart-red-color'
+                    } opacity-15`}
                   />
 
                   <span

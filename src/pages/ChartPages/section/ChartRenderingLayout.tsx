@@ -31,7 +31,7 @@ const ChartRenderingLayout = () => {
 
   return (
     <div
-      className="h-[calc(100%-86px)] w-full overflow-y-auto space-y-1 "
+      className="h-[calc(100%-38px)] w-full overflow-y-auto space-y-1 "
       id="chartRendering"
     >
       <ChartHeader />

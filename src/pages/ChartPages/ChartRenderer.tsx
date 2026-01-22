@@ -87,7 +87,7 @@ const ChartRenderer = () => {
             </div>
           </div>
           <div
-            className={`relative w-full ${isFullscreen ? 'h-full' : 'h-[563px] overflow-hidden'}  `}
+            className={`relative w-full ${isFullscreen ? 'h-full' : 'flex h-[calc(100vh-195px)] lg:h-[calc(100vh-132px)] max-h-[562px] overflow-hidden'}  `}
           >
             <ChartGraphs />
             <Ma5Indicators />

@@ -34,7 +34,7 @@ const PlaceOrder = () => {
 
   return (
     <div
-      className="my-4 mx-4  no-scrollbar shrink-0 max-w-[350px] flex-1 overflow-y-auto lg:overflow-y-visible"
+      className="my-4 mx-4  no-scrollbar shrink-0 lg:max-w-[350px] flex-1 overflow-y-auto lg:overflow-y-visible"
       id="place_order_container"
     >
       <div className="flex flex-col gap-2.5">

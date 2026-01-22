@@ -20,7 +20,7 @@ const TabComponent = (props: CommonTabComponentProps) => {
 
   return (
     <div className={`flex flex-col gap-8 ${className} `}>
-      <div className="flex gap-6 w-full">
+      <div className="flex gap-6 w-full floating__container">
         {headingData?.map((heading, index) => {
           const {title, img = '', content = ''} = heading
           return (
