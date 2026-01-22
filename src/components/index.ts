@@ -3,6 +3,7 @@ import ChallengeCompletionCard from './Cards/ChallengeCompletionCard'
 import ChallengeOptionCards from './Cards/ChallengeOptionCards'
 import ChallengeStatusCard from './Cards/ChallengeStatusCard'
 import FeatureCard from './Cards/FeatureCard'
+import AffiliateButton from './CommonButton/AffiliateButton'
 import ChallengeActionButton from './CommonButton/ChallengeActionButton'
 import CommonButton from './CommonButton/CommonButton'
 import CommonCloseActionButton from './CommonButton/CommonCloseActionButton'
@@ -39,6 +40,7 @@ import Info from './Tooltips/Info'
 
 export {
   Accordian,
+  AffiliateButton,
   BasicPagination,
   BasicSkeleton,
   ChallengeActionButton,

@@ -158,6 +158,7 @@ const Images = {
   myProfileIcon: new URL('../assets/svgs/myProfile.svg', import.meta.url).href,
   addIcon: new URL('../assets/svgs/addIcon.svg', import.meta.url).href,
   fullScreen: new URL('../assets/svgs/full_screen.svg', import.meta.url).href,
+  affiliate: new URL('../assets/svgs/affiliate.svg', import.meta.url).href
 }
 
 export default Images
