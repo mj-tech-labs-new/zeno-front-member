@@ -1,8 +1,8 @@
-import { toNumber } from 'lodash'
-import { useMemo } from 'react'
+import {toNumber} from 'lodash'
+import {useMemo} from 'react'
 
-import { English, Utility } from '@/helpers'
-import { StatsCardProps } from '@/types/ComponentTypes'
+import {English, Utility} from '@/helpers'
+import {StatsCardProps} from '@/types/ComponentTypes'
 
 import PercentageLabel from '../PercentageLabel/PercentageLabel'
 import LinearProgressBar from '../ProgessBar/LinearProgressBar'
@@ -20,7 +20,12 @@ const StatsDescription = (props: StatsCardProps) => {
     layoutClassName = '',
   } = props
   const percentage = useMemo(
-    () => ((toNumber(secondContent?.toString()?.replace('-', '')) / Utility.converToPositiveValue(initialContent)) * 100).toFixed(2),
+    () =>
+      (
+        (toNumber(secondContent?.toString()?.replace('-', '')) /
+          Utility.converToPositiveValue(initialContent)) *
+        100
+      ).toFixed(2),
     [initialContent, secondContent]
   )
 
@@ -57,28 +62,28 @@ const StatsDescription = (props: StatsCardProps) => {
             {!(
               headingContent === English.E72 || headingContent === English.E73
             ) && (
-                <p className="text-text-hint-color text-13 !leading-6 font-normal">
-                  {English.E80}: {secondContent.toFixed(2) ?? 0.0}%
-                </p>
-              )}
+              <p className="text-text-hint-color text-13 !leading-6 font-normal">
+                {English.E80}: {secondContent.toFixed(2) ?? 0.0}%
+              </p>
+            )}
           </span>
 
           {(headingContent === English.E72 ||
             headingContent === English.E73) && (
-              <p className="text-13 leading-6 text-tertiary-color flex gap-2">
-                <span className="text-light-success-color">
-                  {headingContent === English.E72
-                    ? `${secondContent ?? 0} ${English.E74}`
-                    : `${secondContent ?? 0} ${English.E76}`}
-                </span>
-                <span>/</span>
-                <span className="text-light-danger-color">
-                  {headingContent === English.E72
-                    ? `${thirdContent ?? 0} ${English.E75}`
-                    : `${thirdContent ?? 0} ${English.E77}`}
-                </span>
-              </p>
-            )}
+            <p className="text-13 leading-6 text-tertiary-color flex gap-2">
+              <span className="text-light-success-color">
+                {headingContent === English.E72
+                  ? `${secondContent ?? 0} ${English.E74}`
+                  : `${secondContent ?? 0} ${English.E76}`}
+              </span>
+              <span>/</span>
+              <span className="text-light-danger-color">
+                {headingContent === English.E72
+                  ? `${thirdContent ?? 0} ${English.E75}`
+                  : `${thirdContent ?? 0} ${English.E77}`}
+              </span>
+            </p>
+          )}
         </div>
       )}
 
@@ -86,10 +91,11 @@ const StatsDescription = (props: StatsCardProps) => {
         <div className="flex flex-col gap-6">
           <p className="text-lg/6 text-tertiary-color font-normal capitalize">
             <span
-              className={`${layoutClassName} ${headingContent === English.E66
-                ? 'text-light-success-color'
-                : 'text-light-danger-color'
-                }
+              className={`${layoutClassName} ${
+                headingContent === English.E66
+                  ? 'text-light-success-color'
+                  : 'text-light-danger-color'
+              }
             ${secondContent.toString().startsWith('-') ? 'text-light-danger-color' : 'text-light-success-color'}`}
             >
               {headingContent !== English.E66
