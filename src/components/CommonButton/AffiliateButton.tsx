@@ -16,7 +16,10 @@ const AffiliateButton = () => {
       .then((res) => {
         if (res?.isMarketer !== 0 && res) {
           const {referral_code} = res
-          window.location.href = `http://192.168.1.4:5174/?user_id=${Store?.getState()?.userData?.user?.token}&ref_code=${referral_code}`
+          window.open(
+            `${import.meta.env.VITE_APPLICATION_REDIRECT_URL}/?user_id=${Store?.getState()?.userData?.user?.token}&ref_code=${referral_code}`,
+            '_blank'
+          )
         }
       })
       .finally(() => {
