@@ -121,11 +121,16 @@ const ChartGraphs = () => {
       ],
       (data) => {
         const findTokenName = tokenList?.find(
-          (item) => item?.token_symbol === selectedToken?.token_symbol
+          (item) =>
+            item?.token_symbol ===
+            (typeof selectedToken === 'string'
+              ? selectedToken
+              : selectedToken?.token_symbol)
         )
         if (!findTokenName) return
         const chartSocketData: CandleObjectType =
           data?.data?.candles?.[findTokenName?.token_symbol]
+
         if (
           !chartSocketData ||
           !chartAreaRef.current ||
@@ -154,14 +159,14 @@ const ChartGraphs = () => {
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    tokenList,
     chartAreaRef,
     isLoadingCandles,
     selectedIndex,
-    selectedToken,
-    socketRef,
-    volumeSeriesRef,
+    selectedToken?.token_symbol,
     singleCandleData,
+    socketRef,
+    tokenList,
+    volumeSeriesRef,
   ])
 
   chartObjectRef.current
