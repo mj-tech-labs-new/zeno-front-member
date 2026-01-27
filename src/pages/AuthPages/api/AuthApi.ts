@@ -151,7 +151,7 @@ const setNewPasswordApi = async (props: SetNewPasswordApiProps) => {
 
 const verifyOtpApi = async (props: VerifyOtpProps) => {
   const payload = {otp: props?.otp}
-  const header = {Authorization: `${props?.token}`}
+  const header = {Authorization: `Bearer ${props?.token}`}
   return new Promise<any>((resolve) => {
     APICall('post', Endpoints.verifyOtp, payload, {}, header)
       .then((res: any) => {
