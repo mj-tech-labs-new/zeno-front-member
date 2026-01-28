@@ -110,7 +110,7 @@ const PaymentPage = () => {
                 <span className="text-text-hint-color text-13 !leading-6 font-medium text-nowrap">
                   {key}
                 </span>{' '}
-                <Divider className="flex-1" />{' '}
+                <Divider className="flex-1 bg-button-primary-color/50!" />{' '}
                 <span className="text-tertiary-color text-13 font-normal !leading-6   ">
                   {key === English.E379 ? (
                     <span className="flex">
@@ -138,7 +138,7 @@ const PaymentPage = () => {
                 <span className="text-text-hint-color text-13 !leading-6 font-medium">
                   {key}
                 </span>{' '}
-                <Divider className="flex-1" />{' '}
+                <Divider className="flex-1 bg-button-primary-color/50!" />{' '}
                 <span className="text-tertiary-color text-13 font-normal !leading-6">
                   {!(key === English.E38 || key === English.E51)
                     ? value

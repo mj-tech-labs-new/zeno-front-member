@@ -59,7 +59,7 @@ const Payout = (
             </div>
           ))}
       </div>
-      <Divider />
+      <Divider className="bg-button-primary-color!" />
 
       <div className="flex flex-col gap-3">
         {amount !== '---' && (

@@ -1,22 +1,24 @@
+import dayjs from 'dayjs'
 import html2pdf from 'html-to-pdf-js'
-import {memo} from 'react'
+import {memo, useCallback} from 'react'
 import {toast} from 'react-toastify'
 
 import {APICall, Endpoints} from '@/services'
-import {BuyOrSellApiProps} from '@/types/ChallengeTypes'
-import {GeneralProps} from '@/types/CommonTypes'
+import {DownLoadButtonProps} from '@/types/ComponentTypes'
 
 import ImageComponent from '../ImageComponent/ImageComponent'
 
-const DownloadButton = (
-  props: Pick<GeneralProps, 'singleLineContent'> &
-    Pick<GeneralProps, 'className'> &
-    Pick<BuyOrSellApiProps, 'challenge_id'> &
-    Pick<GeneralProps, 'imageUrl'>
-) => {
-  const {singleLineContent = '', className = '', challenge_id, imageUrl} = props
+const DownloadButton = (props: DownLoadButtonProps) => {
+  const {
+    singleLineContent = '',
+    className = '',
+    challenge_id,
+    imageUrl,
+    isApiType = false,
+    data,
+  } = props
 
-  const downloadCertificateApi = async () => {
+  const downloadCertificateApi = useCallback(async () => {
     const payload = {challenge_id}
 
     return new Promise<any>((resolve) => {
@@ -111,13 +113,138 @@ const DownloadButton = (
           resolve(null)
         })
     })
-  }
+  }, [challenge_id])
+
+  const downloadBill = useCallback(() => {
+    if (!data) return
+    const {challenge_fee, user_name, invoice_id} = data
+    const div = document.createElement('div')
+    div.innerHTML = `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Certificate</title>
+  </head>
+  <body>
+    <table
+      style="
+        padding: 40px 0px 20px 0px;
+        margin: 0 auto;
+        width: calc(100% - 80px);
+      "
+    >
+      <tbody>
+        <tr>
+          <td style="width: fit-content; display: flex; ali">
+            <img
+              src="https://zenotraders.com/assets/logo-Dywl1gc3.png"
+              id="imgToRender"
+              alt="Zeno Traders Logo"
+              height="50"
+              crossorigin="anonymous"
+            
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding-top: 40px">
+            <span> <strong>Invoice: </strong></span> <span>${invoice_id}</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 20px;"><strong><span>Date: </strong></span> <span>${dayjs().format('MM/DD/YYYY')}</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table
+      style="
+        margin: 0 auto;
+        width: calc(100% - 80px);
+        table-layout: auto;
+        border-collapse: collapse;
+      "
+    >
+      <thead style="background: rgba(117, 113, 113, 0.373)">
+        <tr>
+          <th style="padding: 10px; border: 1px solid black">Product</th>
+          <th style="padding: 10px; border: 1px solid black">Amount</th>
+          <th style="padding: 10px; border: 1px solid black">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 5px; border: 1px solid black">Challenge</td>
+          <td style="padding: 5px; border: 1px solid black">
+            $${challenge_fee}
+          </td>
+          <td style="padding: 5px; border: 1px solid black; text-align: right">
+            $${challenge_fee}
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 5px; border: 1px solid black"></td>
+          <td style="padding: 10px 5px; border: 1px solid black"></td>
+          <td
+            style="
+              padding: 10px 5px;
+              border: 1px solid black;
+              text-align: right;
+            "
+          ></td>
+        </tr>
+        <tr>
+          <td style="padding: 5px; border: 1px solid black; font-weight: bold">
+            Total
+          </td>
+          <td style="padding: 5px; border: 1px solid black"></td>
+          <td
+            style="
+              padding: 5px;
+              border: 1px solid black;
+              text-align: right;
+              font-weight: bold;
+            "
+          >
+            $${challenge_fee}
+          </td>
+        </tr>
+        <tr>
+          <td style = "padding-bottom: 10px"><strong>Bill To:</strong>${user_name}</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+`
+
+    const opt = {
+      margin: 1,
+      filename: 'document.pdf',
+      image: {type: 'png', quality: 0.98},
+      html2canvas: {
+        dpi: 192,
+        letterRendering: true,
+        useCORS: true, // CRITICAL: This allows remote images to render
+      },
+      jsPDF: {unit: 'in', format: 'letter', orientation: 'landscape'},
+    }
+
+    html2pdf().set(opt).from(div).save()
+  }, [data])
 
   return (
     <button
       className={`text-secondary-light-color cursor-pointer  ${className}`}
-      onClick={downloadCertificateApi}
       type="button"
+      onClick={() => {
+        if (isApiType) {
+          downloadBill()
+          return
+        }
+        downloadCertificateApi()
+      }}
     >
       {singleLineContent !== '' && singleLineContent}
       {imageUrl !== '' && (

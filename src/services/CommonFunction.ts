@@ -65,8 +65,19 @@ const addSliceData = async (type: SliceDataType, payload: any) =>
     }
   })
 
+const getFullImagePath = async (src: string) => {
+  const blob = await fetch(src).then(async (res) => res.blob())
+  console.log('blob', blob)
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.readAsDataURL(blob)
+  })
+}
+
 const CommonFunction = {
   addSliceData,
+  getFullImagePath,
 }
 
 export default CommonFunction

@@ -6,6 +6,7 @@ import {Constants} from '@/helpers'
 import {
   ChallengeCompletionCardProps,
   CloseOrderButtonProps,
+  GetBillingProps,
 } from './ChallengeTypes'
 import type {DropDownObjectType, GeneralProps} from './CommonTypes'
 import {
@@ -254,3 +255,10 @@ interface CommonPriceSwitchType
   currentPriceType: string
   isRangeType?: boolean
 }
+
+export type DownLoadButtonProps = Pick<GeneralProps, 'singleLineContent'> &
+  Pick<GeneralProps, 'className'> &
+  Pick<BuyOrSellApiProps, 'challenge_id'> &
+  Pick<GeneralProps, 'imageUrl'> & {isApiType?: boolean} & {
+    data?: GetBillingProps
+  }

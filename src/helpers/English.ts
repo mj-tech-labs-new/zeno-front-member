@@ -393,6 +393,7 @@ const English = {
   E423: 'Add Challenge',
   E434: 'Trading View',
   E435: ' Affiliate Panel',
+  E436: 'No Bills',
 }
 
 export default English

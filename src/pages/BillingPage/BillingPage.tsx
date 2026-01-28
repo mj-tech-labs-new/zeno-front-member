@@ -69,8 +69,8 @@ const BillingPage = () => {
       >
         {billingData?.length === 0 ? (
           <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
-            <td className="py-8" colSpan={8}>
-              No Bills
+            <td className="py-8" colSpan={12}>
+              {English.E436}
             </td>
           </tr>
         ) : (
@@ -111,11 +111,17 @@ const BillingPage = () => {
                 <td className="p-6 text-secondary-light-color">
                   {payment_status === 'paid' ? 'Success' : 'Failed'}
                 </td>
-                <td className="p-6 text-secondary-light-color">{txHash}</td>
+                <td className="p-6 text-secondary-light-color">
+                  {!txHash.startsWith('0x')
+                    ? txHash
+                    : `${txHash.slice(0, 6)}....${txHash.slice(-6)}`}
+                </td>
                 <td className="text-center">
                   <DownloadButton
+                    isApiType
                     challenge_id={challenge_id}
                     className="p-6 w-fit!"
+                    data={tableBody}
                     imageUrl={Images.pdfIcon}
                   />
                 </td>
