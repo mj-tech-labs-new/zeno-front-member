@@ -112,7 +112,9 @@ const DownloadButton = (props: DownLoadButtonProps) => {
        `
 
             docElement.html(div)
-            docElement.save(`cerificate_${res?.data?.certificate_id}`)
+            docElement.save(
+              `Zeno_Traders_Certificate_${res?.data?.certificate_id}.pdf`
+            )
           } else {
             toast.error(res?.message)
             resolve(null)
@@ -242,7 +244,7 @@ box-sizing:border-box;
       y: 20,
       width: 800,
       windowWidth: 800,
-      callback: (doc) => doc.save('document.pdf'),
+      callback: (doc) => doc.save(`Zeno_Traders_Invoice_${invoice_id}.pdf`),
     })
   }, [data, docElement, imgRender])
 
