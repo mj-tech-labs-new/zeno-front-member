@@ -8,6 +8,10 @@ const Images = {
   ).href,
   heroImage: new URL('../assets/static_assets/hero_image.png', import.meta.url)
     .href,
+  billingLogo: new URL(
+    '../assets/static_assets/billing_logo.png',
+    import.meta.url
+  ).href,
   dashboard: new URL('../assets/svgs/dashboard.svg', import.meta.url).href,
   logoWithoutText: new URL('../assets/svgs/logo.svg', import.meta.url).href,
   certificates: new URL('../assets/svgs/certificates.svg', import.meta.url)

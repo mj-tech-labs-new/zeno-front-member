@@ -118,11 +118,11 @@ const BillingPage = () => {
                 </td>
                 <td className="text-center">
                   <DownloadButton
-                    isApiType
                     challenge_id={challenge_id}
                     className="p-6 w-fit!"
                     data={tableBody}
                     imageUrl={Images.pdfIcon}
+                    isApiType={false}
                   />
                 </td>
               </tr>

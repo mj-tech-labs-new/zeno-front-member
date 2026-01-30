@@ -43,6 +43,8 @@ const Endpoints = {
   checkPayment: (transaction_id: number) =>
     `/users/payment/checkPayment?transaction_id=${transaction_id}`,
   reverseOrder: `/users/order/reverceOrder`,
+  getPayouts: '/users/payout/getTotalPayouts',
+  getPayoutHistory: 'users/payout/history',
 }
 
 export default Endpoints

@@ -97,8 +97,8 @@ const English = {
   E97: 'Challenge',
   E98: 'Issue Date',
   E99: 'Download',
-  E100: 'Pending Payout',
-  E101: 'Next payout on',
+  E100: 'Total Payout',
+  E101: '',
   E102: 'Payout History',
   E103: 'Payout ID',
   E104: 'Date',
@@ -392,8 +392,8 @@ const English = {
   E422: 'No Orders',
   E423: 'Add Challenge',
   E434: 'Trading View',
-  E435: ' Affiliate Panel',
   E436: 'No Bills',
+  E435: ' Affiliate Panel',
 }
 
 export default English
