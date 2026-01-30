@@ -222,11 +222,11 @@ const DownloadButton = (props: DownLoadButtonProps) => {
     const opt = {
       margin: 1,
       filename: 'document.pdf',
-      image: {type: 'png', quality: 0.98},
+      image: {type: 'jpeg', quality: 0.98},
       html2canvas: {
         dpi: 192,
         letterRendering: true,
-        useCORS: true, // CRITICAL: This allows remote images to render
+        useCORS: true,
       },
       jsPDF: {unit: 'in', format: 'letter', orientation: 'landscape'},
     }

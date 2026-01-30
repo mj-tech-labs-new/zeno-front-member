@@ -30,10 +30,7 @@ const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
   )
   return (
     <div className="h-full w-full px-3.5 pt-8 z-50 ">
-      <LogoComponent
-        layoutClassName="sticky top-0  !flex-row-reverse w-fit mr-auto pl-5"
-        singleLineContent={English.E20}
-      />
+      <LogoComponent layoutClassName="sticky top-0  !flex-row-reverse w-fit mr-auto pl-5" />
       <div
         className={`${location.pathname.startsWith('/profile') ? 'h-[calc(100vh-84px)]' : 'h-[calc(100vh-106px)]'} overflow-y-auto pt-8 flex flex-col justify-between`}
       >

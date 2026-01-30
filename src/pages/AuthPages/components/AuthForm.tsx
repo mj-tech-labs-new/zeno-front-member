@@ -21,8 +21,8 @@ const AuthForm = (props: {type: AuthType}) => {
         className={`h-full sm:w-small-container mx-auto xl:w-md 2xl:w-2xl ${type === 'loginType' ? 'lg:ml-[102px] lg:mx-0' : ''}`}
       >
         <ImageComponent
-          className="h-8 sm:h-10 mx-auto aspect-square"
-          imageUrl={Images.platformLogo}
+          className="h-8 sm:h-10 mx-auto"
+          imageUrl={Images.logoWithoutText}
         />
         <div className="flex flex-col gap-10 sm:gap-8 w-full">
           <div

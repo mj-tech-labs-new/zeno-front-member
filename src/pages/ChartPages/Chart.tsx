@@ -4,7 +4,7 @@ import {toast} from 'react-toastify'
 
 import {GoBackButton, LogoComponent} from '@/components'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {English, SocketEmitter} from '@/helpers'
+import {SocketEmitter} from '@/helpers'
 
 import {getChallengeByIdApi} from '../ChallengeDashboard/api/ChallengeDashboardApi'
 import ChartProvider, {useChartProvider} from './context/ChartProvider'
@@ -47,11 +47,7 @@ const Chart = () => {
       <div className="h-screen w-screen">
         <div className="flex gap-5 px-2.5 items-center">
           <GoBackButton className="!h-4" />
-          <LogoComponent
-            className="!w-4"
-            layoutClassName="flex-row-reverse"
-            singleLineContent={English.E20}
-          />
+          <LogoComponent layoutClassName="flex-row-reverse" />
         </div>
         <ChartRenderingLayout />
       </div>

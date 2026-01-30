@@ -48,11 +48,7 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center justify-between p-4 lg:px-[52px] lg:py-3 fixed top-0 w-full bg-white z-20 lg:gap-[85px]">
-      <LogoComponent
-        className="!w-5"
-        layoutClassName="[&>h1]:!text-base/5 [&>h1]:!tracking-[-0.14px] [&>h1]:!font-switzer [&>h1]:!font-medium !flex-row-reverse !gap-2 !shrink-0 [&>h1]:!text-base [&>h1]:!text-extra-dark-danger-color [&>h1]:!hidden [&>h1]:sm:!block"
-        singleLineContent={English.E20}
-      />
+      <LogoComponent isBlackLogo layoutClassName="!shrink-0" />
 
       {windowSize >= 1024 && <NavList />}
 

@@ -1,31 +1,39 @@
-import {memo} from 'react'
+import {memo, useEffect, useState} from 'react'
 
 import {Images} from '@/helpers'
-import {GeneralProps} from '@/types/CommonTypes'
+import {LogoComponentProps} from '@/types/ComponentTypes'
 
-import HeadingComponent from '../HeadingComponent/HeadingComponent'
 import ImageComponent from '../ImageComponent/ImageComponent'
 
-const LogoComponent = (
-  props: Pick<
-    GeneralProps,
-    'singleLineContent' | 'layoutClassName' | 'className'
-  >
-) => {
-  const {singleLineContent = '', layoutClassName = '', className = ''} = props
+const LogoComponent = (props: LogoComponentProps) => {
+  const {layoutClassName = '', className = '', isBlackLogo = false} = props
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 642)
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      if (window.innerWidth < 642) {
+        setIsSmallScreen(true)
+      } else {
+        setIsSmallScreen(false)
+      }
+    }
+    window.addEventListener('resize', handleWindowResize)
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize)
+    }
+  }, [])
   return (
     <div className={`flex gap-4 items-center ${layoutClassName}`}>
-      {singleLineContent !== '' && (
-        <HeadingComponent
-          className="font-inter font-semibold"
-          singleLineContent={singleLineContent}
-          type="h1"
-          variant="x-small"
-        />
-      )}
       <ImageComponent
-        className={`w-6 aspect-square ${className}`}
-        imageUrl={Images.platformLogo}
+        className={`h-6 ${className}`}
+        imageUrl={
+          isSmallScreen
+            ? Images.logoWithoutText
+            : isBlackLogo
+              ? Images.plaformLogoBlack
+              : Images.platformLogo
+        }
       />
     </div>
   )

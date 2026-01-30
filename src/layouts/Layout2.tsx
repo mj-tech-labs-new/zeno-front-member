@@ -1,7 +1,6 @@
 import {useLocation} from 'react-router-dom'
 
 import {GoBackButton, LogoComponent} from '@/components'
-import {English} from '@/helpers'
 import {GeneralProps} from '@/types/CommonTypes'
 
 const Layout2 = (props: Required<Pick<GeneralProps, 'children'>>) => {
@@ -19,10 +18,7 @@ const Layout2 = (props: Required<Pick<GeneralProps, 'children'>>) => {
         <div className="w-full relative">
           <GoBackButton />
 
-          <LogoComponent
-            layoutClassName="absolute top-0 left-1/2 -translate-x-1/2 flex-row-reverse"
-            singleLineContent={English.E20}
-          />
+          <LogoComponent layoutClassName="absolute top-0 left-1/2 -translate-x-1/2 flex-row-reverse" />
         </div>
       )}
       <div

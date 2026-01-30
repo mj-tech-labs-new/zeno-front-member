@@ -2,9 +2,14 @@ const Images = {
   googleIcon: new URL('../assets/svgs/google_icon.svg', import.meta.url).href,
   platformLogo: new URL('../assets/static_assets/logo.png', import.meta.url)
     .href,
+  plaformLogoBlack: new URL(
+    '../assets/static_assets/logo_black.png',
+    import.meta.url
+  ).href,
   heroImage: new URL('../assets/static_assets/hero_image.png', import.meta.url)
     .href,
   dashboard: new URL('../assets/svgs/dashboard.svg', import.meta.url).href,
+  logoWithoutText: new URL('../assets/svgs/logo.svg', import.meta.url).href,
   certificates: new URL('../assets/svgs/certificates.svg', import.meta.url)
     .href,
   backArrow: new URL('../assets/svgs/backarrow.svg', import.meta.url).href,

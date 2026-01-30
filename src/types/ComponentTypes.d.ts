@@ -262,3 +262,8 @@ export type DownLoadButtonProps = Pick<GeneralProps, 'singleLineContent'> &
   Pick<GeneralProps, 'imageUrl'> & {isApiType?: boolean} & {
     data?: GetBillingProps
   }
+
+export type LogoComponentProps = Pick<
+  GeneralProps,
+  'layoutClassName' | 'className'
+> & {isBlackLogo?: boolean}
