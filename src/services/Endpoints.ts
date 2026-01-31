@@ -45,6 +45,8 @@ const Endpoints = {
   reverseOrder: `/users/order/reverceOrder`,
   getPayouts: '/users/payout/getTotalPayouts',
   getPayoutHistory: 'users/payout/history',
+  getPayoutWallet: '/users/payout/getPayoutWallet',
+  getFundedChallenges: '/users/payout/pasedAllChallenges',
 }
 
 export default Endpoints

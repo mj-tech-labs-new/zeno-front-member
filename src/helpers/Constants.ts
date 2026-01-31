@@ -345,7 +345,7 @@ const Constants = {
     ],
     CertificatesHeadingData: [
       {content: [English.E94], showArrow: false},
-      {content: [English.E95], showArrow: false},
+      {content: [English.E36], showArrow: false},
       {content: [English.E96], showArrow: false},
       {content: [English.E52], showArrow: false},
       {content: [English.E98], showArrow: false},
@@ -906,6 +906,25 @@ const Constants = {
   PlaceOrderTab: [
     {title: English.E290, img: ''},
     {title: English.E131, img: ''},
+  ],
+  UserPaymentStatus: [{title: English.E95}, {title: English.E101}],
+  FundedAccountHeading: [
+    {
+      content: [English.E443],
+      showArrow: false,
+    },
+    {
+      content: [English.E36],
+      showArrow: false,
+    },
+    {
+      content: [English.E105],
+      showArrow: false,
+    },
+    {
+      content: [''],
+      showArrow: false,
+    },
   ],
 }
 

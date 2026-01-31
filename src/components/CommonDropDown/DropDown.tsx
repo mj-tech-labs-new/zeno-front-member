@@ -88,7 +88,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
   return (
     <div
       ref={mainDivRef}
-      className={`pl-4 pr-3 mt-0! py-1.5 border-2 border-neutral-secondary-color !z-100 rounded-lg cursor-pointer ${className}`}
+      className={`pl-4 pr-3 mt-0! py-1.5 border-2 border-neutral-secondary-color !z-30 rounded-lg cursor-pointer ${className}`}
       onClick={(e) => {
         e.stopPropagation()
         e.preventDefault()
@@ -97,7 +97,7 @@ const DropDown = forwardRef<HTMLDivElement, DropDownProps>((props, _) => {
     >
       <div className="flex justify-between items-center gap-1">
         <span
-          className={`text-tertiary-color first-letter:capitalize! text-sm font-normal hover:bg-secondary-light-color hover:text-white transition-all duration-500 ease-in-out  ${headingClassName}`}
+          className={`text-tertiary-color first-letter:capitalize! text-sm font-normal  hover:text-white transition-all duration-500 ease-in-out  ${headingClassName}`}
         >
           {selectedValue?.title}
         </span>

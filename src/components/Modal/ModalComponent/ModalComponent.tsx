@@ -52,7 +52,7 @@ const ModalComponent = (props: ModalComponentProps) => {
           )}
           {showCross && (
             <ImageComponent
-              imageUrl={Images.crossIcon}
+              imageUrl={Images.roundedCrossIcon}
               className="!w-fit !ml-auto !cursor-pointer [&>img]:w-5 [&>img]:white_filter
             "
               onPressItem={() => {

@@ -25,7 +25,7 @@ const PaymentPage = () => {
       [English.E380]: 'P012397917697679979723',
       [English.E381]: 'VT-VT129387987987912',
       [English.E382]: [English.E385],
-      [English.E383]: 'Waiting for Payment ',
+      [English.E52]: 'Waiting for Payment ',
     }),
     []
   )

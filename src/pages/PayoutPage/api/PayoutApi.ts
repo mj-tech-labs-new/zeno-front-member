@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import {toast} from 'react-toastify'
 
 import {APICall, Endpoints} from '@/services'
@@ -43,14 +44,24 @@ const getPayoutHistory = async (props: PayoutHistoryPayload) => {
   }
 
   if (challenge_name !== '' && challenge_name !== 'None') {
-    bodyParams = {...bodyParams, challenge_name}
+    bodyParams = {
+      ...bodyParams,
+      challenge_name: challenge_name === 'One Step' ? 2 : 3,
+    }
   }
   if (payment_status !== '' && payment_status !== 'None') {
-    bodyParams = {...bodyParams, payment_status}
+    bodyParams = {
+      ...bodyParams,
+      payment_status: payment_status === 'Paid' ? 1 : 0,
+    }
   }
 
-  if (toDate !== '' && toDate !== '') {
-    bodyParams = {...bodyParams, toDate, fromDate}
+  if (toDate !== '' && toDate && fromDate !== '' && fromDate) {
+    bodyParams = {
+      ...bodyParams,
+      toDate: dayjs(toDate).format('YYYY-MM-DD'),
+      fromDate: dayjs(fromDate).format('YYYY-MM-DD'),
+    }
   }
 
   return new Promise<boolean>((resolve) => {
@@ -70,6 +81,45 @@ const getPayoutHistory = async (props: PayoutHistoryPayload) => {
   })
 }
 
-const PayouApi = {getPayoutAmount, getPayoutHistory}
+const getPayoutWalletAddress = async () =>
+  new Promise<string>((resolve) => {
+    APICall('post', Endpoints.getPayoutWallet)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve(res?.data?.wallet ?? '')
+        } else {
+          toast.error(res?.message)
+          resolve('')
+        }
+      })
+      .catch((e) => {
+        resolve('')
+        toast.error(e?.data?.message)
+      })
+  })
 
-export default PayouApi
+const getFundedChallengesData = async () =>
+  new Promise<boolean>((resolve) => {
+    APICall('post', Endpoints.getFundedChallenges)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve(true)
+        } else {
+          toast.error(res?.message)
+          resolve(false)
+        }
+      })
+      .catch((e) => {
+        resolve(false)
+        toast.error(e?.data?.message)
+      })
+  })
+
+const PayoutApi = {
+  getPayoutAmount,
+  getPayoutHistory,
+  getPayoutWalletAddress,
+  getFundedChallengesData,
+}
+
+export default PayoutApi

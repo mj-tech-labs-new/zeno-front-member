@@ -6,7 +6,7 @@ export interface PayoutHistoryPayload {
   fromDate: string
   toDate: string
   limit: number
-  page: string
+  page: number
   search_value: string
   search_type: string
 }

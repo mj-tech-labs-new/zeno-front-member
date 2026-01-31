@@ -14,7 +14,7 @@ const ChallengeStatusCard = () => {
       <div className="flex justify-between items-center mb-6">
         <HeadingComponent
           className="!tracking-[0px]"
-          singleLineContent={English.E383}
+          singleLineContent={English.E52}
           type="h3"
         />
         <Info />

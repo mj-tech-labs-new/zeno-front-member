@@ -16,6 +16,7 @@ import DatePickerComponent from './DatePicker/DatePickerComponent'
 import DescriptionComponent from './DescriptionComponent/DescriptionComponent'
 import StatsDescription from './DescriptionComponent/StatsDescription'
 import Divider from './Divider/Divider'
+import EmptyComponent from './EmptyComponent/EmptyComponent'
 import GoBackButton from './GoBackButton/GoBackButton'
 import GoBackComponent from './GoBackComponent/GoBackComponent'
 import HeadingComponent from './HeadingComponent/HeadingComponent'
@@ -37,6 +38,7 @@ import BasicSkeleton from './SkeletonComponents/BasicSkeleton'
 import SwiperComponent from './SwiperComponent/SwiperComponent'
 import TabComponent from './TabComponent/TabComponent'
 import Info from './Tooltips/Info'
+import ChallengeWallet from './Wallet/ChallengeWallet'
 
 export {
   Accordian,
@@ -47,6 +49,7 @@ export {
   ChallengeCompletionCard,
   ChallengeOptionCards,
   ChallengeStatusCard,
+  ChallengeWallet,
   CircularProgressBarComponent,
   CommonButton,
   CommonCloseActionButton,
@@ -57,6 +60,7 @@ export {
   Divider,
   DownloadButton,
   DropDown,
+  EmptyComponent,
   FeatureCard,
   GoBackButton,
   GoBackComponent,

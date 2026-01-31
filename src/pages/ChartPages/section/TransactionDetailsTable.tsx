@@ -12,14 +12,9 @@ import {
 } from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
 import {TransactionDetailHistory} from '@/types/ChartTypes'
-import {PaginationType} from '@/types/CommonTypes'
+import {DateObject, PaginationType} from '@/types/CommonTypes'
 
 import chartPageApi from '../api/ChartPageApi'
-
-interface DateObject {
-  date1: Date | null
-  date2: Date | null
-}
 
 const TransactionDetailsTable = (props: {showHeader: boolean}) => {
   const {showHeader} = props

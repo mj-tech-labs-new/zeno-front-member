@@ -222,7 +222,6 @@
     border-collapse: collapse; /* Ensures no space between cells */
   }
   input::placeholder {
-    color: var(--neutral-primary-color) !important;
     text-align: left !important;
   }
   [type='radio'] {
@@ -542,6 +541,10 @@
 @utility text-13 {
   @apply text-[13px] leading-5;
 }
+@utility text_base_utility {
+  @apply text-base/6 font-light font-switzer!;
+}
+
 @utility primary-btn-type {
   @apply bg-button-primary-color hover:bg-button-primary-color/65 text-primary-color font-semibold text-base/6 text-center;
 }
@@ -621,4 +624,7 @@
   to {
     transform: rotate(1turn);
   }
+}
+.react-datepicker__input-container {
+  height: 100% !important;
 }

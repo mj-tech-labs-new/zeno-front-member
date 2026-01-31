@@ -11,10 +11,12 @@ import AffiliateButton from '../CommonButton/AffiliateButton'
 import ImageComponent from '../ImageComponent/ImageComponent'
 import LogoComponent from '../LogoComponent/LogoComponent'
 
-const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
+const Sidebar = (
+  props: Required<Pick<GeneralProps, 'onPressItem'>> & {isSmallScreen: boolean}
+) => {
   const userData = useSelector((state: StorageProps) => state.userData)
   const {socketRef} = useSocketProvider()
-  const {onPressItem} = props
+  const {onPressItem, isSmallScreen} = props
   const location = useLocation()
   const onPressLink = useCallback(
     (isLogoutType: boolean) => {
@@ -29,8 +31,17 @@ const Sidebar = (props: Required<Pick<GeneralProps, 'onPressItem'>>) => {
     [onPressItem, socketRef]
   )
   return (
-    <div className="h-full w-full px-3.5 pt-8 z-50 ">
-      <LogoComponent layoutClassName="sticky top-0  !flex-row-reverse w-fit mr-auto pl-5" />
+    <div className="h-full w-full px-3.5 pt-8  ">
+      <div className="flex justify-between w-full relative">
+        <LogoComponent layoutClassName="sticky top-0  !flex-row-reverse w-fit mr-auto" />
+        {isSmallScreen && (
+          <ImageComponent
+            className="[&>img]:white_filter absolute right-4 top-1/2 -translate-y-1/2 size-3.5"
+            imageUrl={Images.crossIcon}
+            onPressItem={onPressItem}
+          />
+        )}
+      </div>
       <div
         className={`${location.pathname.startsWith('/profile') ? 'h-[calc(100vh-84px)]' : 'h-[calc(100vh-106px)]'} overflow-y-auto pt-8 flex flex-col justify-between`}
       >

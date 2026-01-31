@@ -108,6 +108,7 @@ const Images = {
   ).href,
   navbarIcon: new URL('../assets/svgs/navbar_icon.svg', import.meta.url).href,
   crossIcon: new URL('../assets/svgs/cross.svg', import.meta.url).href,
+  roundedCrossIcon: new URL('../assets/svgs/rounded_cross.svg', import.meta.url).href,
   showDetailsGraphIcon: new URL(
     '../assets/svgs/show-details.svg',
     import.meta.url
@@ -168,6 +169,8 @@ const Images = {
   addIcon: new URL('../assets/svgs/addIcon.svg', import.meta.url).href,
   fullScreen: new URL('../assets/svgs/full_screen.svg', import.meta.url).href,
   affiliate: new URL('../assets/svgs/affiliate.svg', import.meta.url).href,
+  changeWallet: new URL('../assets/svgs/change_wallet.svg', import.meta.url)
+    .href,
 }
 
 export default Images

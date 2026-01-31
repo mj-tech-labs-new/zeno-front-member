@@ -8,7 +8,11 @@ import {
   CloseOrderButtonProps,
   GetBillingProps,
 } from './ChallengeTypes'
-import type {DropDownObjectType, GeneralProps} from './CommonTypes'
+import type {
+  DropDownObjectType,
+  GeneralProps,
+  PaginationType,
+} from './CommonTypes'
 import {
   HeadingComponentType,
   HeadingComponentVariant,
@@ -128,6 +132,7 @@ export interface DatePickerProps extends Pick<GeneralProps, 'className'> {
   onSelectDate: (data: [Date | null, Date | null]) => void
   showIcon?: boolean
   minDate?: Date
+  isDropDownType?: boolean
 }
 
 export interface CommonTableComponentProps
@@ -267,3 +272,29 @@ export type LogoComponentProps = Pick<
   GeneralProps,
   'layoutClassName' | 'className'
 > & {isBlackLogo?: boolean}
+
+export interface CustomFilterType
+  extends Required<Pick<GeneralProps, 'children'>> {
+  dropDownData1?: DropDownObjectType[]
+  dropDownData2?: DropDownObjectType[]
+  placeHolder1?: string
+  placeHolder2?: string
+  onPressSearch: (
+    dropDownValue1?: string,
+    dropDownValue2?: string,
+    searchValue?: string,
+    sDate?: string,
+    endDate?: string,
+    page: number
+  ) => void
+  paginationData: PaginationType | null
+}
+export type EmptyComponentProps = Pick<GeneralProps, 'singleLineContent'> & {
+  isTableType?: boolean
+}
+
+export interface WalletModelProps {
+  earningAmount: number
+  walletAddress: string
+  onPressClose: () => void
+}

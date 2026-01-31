@@ -1,20 +1,18 @@
 import {useEffect, useState} from 'react'
 
-import {
-  BasicSkeleton,
-  CommonTableComponent,
-  HeadingComponent,
-} from '@/components'
-import {Constants, English, Utility} from '@/helpers'
+import {BasicSkeleton, ChallengeWallet, HeadingComponent} from '@/components'
+import {English, Utility} from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
 
-import PayouApi from './api/PayoutApi'
+import PayoutApi from './api/PayoutApi'
+import FundedChallenges from './components/FundedChallenges'
+import PayoutHistory from './components/PayoutHistory'
 
 const PayoutPage = () => {
   const [totalPayout, setTotalPayout] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
-    PayouApi.getPayoutAmount()
+    PayoutApi.getPayoutAmount()
       .then((res) => {
         setTotalPayout(res)
       })
@@ -24,60 +22,27 @@ const PayoutPage = () => {
   }, [])
 
   return (
-    <div className="flex flex-col gap-8 mt-8">
+    <div className="flex flex-col gap-8 mt-8 pb-3.5">
       <HeadingComponent singleLineContent={English.E23} variant="medium" />
 
-      {isLoading ? (
-        <BasicSkeleton className="h-52! w-full!" />
-      ) : (
-        <ChallengeCardLayout className="max-w-72">
-          <span className="text-15 !leading-6 text-text-hint-color font-switzer!">
-            {English.E100}
-          </span>
-          <div className="mt-2">
-            <span className="text-lg/6 font-normal text-primary-color font-switzer!">{`${Utility.numberConversion(totalPayout)} ${English.E60}`}</span>
-          </div>
-        </ChallengeCardLayout>
-      )}
+      <div className=" grid grid-cols-1 md:flex gap-4 ">
+        {isLoading ? (
+          <BasicSkeleton className="h-52! w-full!" />
+        ) : (
+          <ChallengeCardLayout className="max-w-72 ">
+            <span className="text-15 !leading-6 text-text-hint-color font-switzer!">
+              {English.E100}
+            </span>
+            <div className="mt-2">
+              <span className="text-lg/6 font-normal text-primary-color font-switzer!">{`${Utility.numberConversion(totalPayout)} ${English.E60}`}</span>
+            </div>
+          </ChallengeCardLayout>
+        )}
+        <ChallengeWallet />
+      </div>
 
-      <HeadingComponent
-        className="!text-base !leading-6"
-        singleLineContent={English.E102}
-      />
-
-      <CommonTableComponent
-        tableHeading={Constants.Payout.PayoutTableHeadingData}
-      >
-        {Constants.Payout.PayoutTableBodyData?.map((tableBody) => {
-          const {payoutId, date, amount, status, method, transactionId} =
-            tableBody
-          const capital = Number(amount)
-          return (
-            <tr
-              key={`content-${payoutId}`}
-              className="font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in-out"
-            >
-              <th
-                className="p-6 font-medium text-secondary-light-color whitespace-nowrap "
-                scope="row"
-              >
-                {payoutId}
-              </th>
-              <td className="p-6 text-secondary-light-color capitalize">
-                {date}
-              </td>
-              <td className="p-6 text-secondary-light-color">
-                {`${Utility.numberConversion(capital)} ${English.E60}`}
-              </td>
-              <td className="p-6 text-chart-green-color">{status}</td>
-              <td className="p-6 text-secondary-light-color">{method}</td>
-              <td className="p-6 text-secondary-light-color">
-                {transactionId}
-              </td>
-            </tr>
-          )
-        })}
-      </CommonTableComponent>
+      <FundedChallenges />
+      <PayoutHistory />
     </div>
   )
 }

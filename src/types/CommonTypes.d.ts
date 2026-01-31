@@ -72,3 +72,8 @@ export interface PaginationType {
   totalPages: number
   totalCount?: number
 }
+
+export interface DateObject {
+  date1: Date | null
+  date2: Date | null
+}

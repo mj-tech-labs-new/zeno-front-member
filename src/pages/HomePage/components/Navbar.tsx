@@ -47,7 +47,7 @@ const Navbar = () => {
   }, [showMenu, windowSize])
 
   return (
-    <div className="flex items-center justify-between p-4 lg:px-[52px] lg:py-3 fixed top-0 w-full bg-white z-20 lg:gap-[85px]">
+    <div className="flex items-center justify-between p-4 lg:px-[52px] lg:py-3 z-50 fixed top-0 w-full bg-white lg:gap-[85px]">
       <LogoComponent isBlackLogo layoutClassName="!shrink-0" />
 
       {windowSize >= 1024 && <NavList />}

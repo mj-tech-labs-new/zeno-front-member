@@ -75,7 +75,10 @@ const Layout = () => {
                   : ''
               }
             >
-              <Sidebar onPressItem={handleCloseMenu} />
+              <Sidebar
+                isSmallScreen={isSmallScreen}
+                onPressItem={handleCloseMenu}
+              />
             </div>
           ) : null}
         </div>

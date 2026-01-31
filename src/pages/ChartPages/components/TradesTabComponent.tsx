@@ -177,7 +177,7 @@ const TradesTabComponent = ({
       ) : (
         <React.Fragment>
           <div className="grid grid-cols-3 mt-3 text-neutral-primary-color mb-1">
-            {[English.E140, English.E141, English.E133].map((item, index) => (
+            {[English.E140, English.E105, English.E133].map((item, index) => (
               <div
                 key={item}
                 className={`text-xs font-semibold text-center flex ${index !== 2 ? 'justify-normal' : 'justify-center'}`}
