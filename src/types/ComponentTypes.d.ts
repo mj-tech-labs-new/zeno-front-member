@@ -296,5 +296,5 @@ export type EmptyComponentProps = Pick<GeneralProps, 'singleLineContent'> & {
 export interface WalletModelProps {
   earningAmount: number
   walletAddress: string
-  onPressClose: () => void
+  challenge_id: string
 }

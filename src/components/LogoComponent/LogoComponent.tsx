@@ -7,7 +7,7 @@ import ImageComponent from '../ImageComponent/ImageComponent'
 
 const LogoComponent = (props: LogoComponentProps) => {
   const {layoutClassName = '', className = '', isBlackLogo = false} = props
-  
+
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 642)
 
   useEffect(() => {

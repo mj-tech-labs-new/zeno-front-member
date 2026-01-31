@@ -2,7 +2,12 @@ import dayjs from 'dayjs'
 import {toast} from 'react-toastify'
 
 import {APICall, Endpoints} from '@/services'
-import {PayoutHistoryPayload} from '@/types/apiTypes/PayoutApiType'
+import {
+  FundedChallengeType,
+  PayoutHistoryApi,
+  PayoutHistoryPayload,
+} from '@/types/apiTypes/PayoutApiType'
+import {PaginationType} from '@/types/CommonTypes'
 
 const getPayoutAmount = async () =>
   new Promise<number>((resolve) => {
@@ -64,8 +69,70 @@ const getPayoutHistory = async (props: PayoutHistoryPayload) => {
     }
   }
 
-  return new Promise<boolean>((resolve) => {
+  return new Promise<PayoutHistoryApi | null>((resolve) => {
     APICall('post', Endpoints.getPayoutHistory, bodyParams, queryParmas)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          const paginationObject: PaginationType = {
+            limit: res?.data?.limit,
+            page: res?.data?.page,
+            total: res?.data?.total,
+            totalPages: res?.data?.totalPages,
+          }
+          resolve({
+            data: res?.data?.payout_history ?? [],
+            pagination: paginationObject,
+          })
+        } else {
+          toast.error(res?.message)
+          resolve(null)
+        }
+      })
+      .catch((e) => {
+        resolve(null)
+        toast.error(e?.data?.message)
+      })
+  })
+}
+
+const getPayoutWalletAddress = async () =>
+  new Promise<string>((resolve) => {
+    APICall('get', Endpoints.getPayoutWallet)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve(res?.data?.wallet_address ?? '')
+        } else {
+          toast.error(res?.message)
+          resolve('')
+        }
+      })
+      .catch((e) => {
+        resolve('')
+        toast.error(e?.data?.message)
+      })
+  })
+
+const getFundedChallengesData = async () =>
+  new Promise<FundedChallengeType[]>((resolve) => {
+    APICall('get', Endpoints.getFundedChallenges)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve(res?.data?.challenges)
+        } else {
+          toast.error(res?.message)
+          resolve([])
+        }
+      })
+      .catch((e) => {
+        resolve([])
+        toast.error(e?.data?.message)
+      })
+  })
+
+const updatePayoutWallet = async (content: string) =>
+  new Promise<boolean>((resolve) => {
+    const payload = {wallet_address: content}
+    APICall('post', Endpoints.updateWallet, payload)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(true)
@@ -79,28 +146,10 @@ const getPayoutHistory = async (props: PayoutHistoryPayload) => {
         toast.error(e?.data?.message)
       })
   })
-}
-
-const getPayoutWalletAddress = async () =>
-  new Promise<string>((resolve) => {
-    APICall('post', Endpoints.getPayoutWallet)
-      .then((res: any) => {
-        if (res?.status === 200 && res?.statusCode === 200) {
-          resolve(res?.data?.wallet ?? '')
-        } else {
-          toast.error(res?.message)
-          resolve('')
-        }
-      })
-      .catch((e) => {
-        resolve('')
-        toast.error(e?.data?.message)
-      })
-  })
-
-const getFundedChallengesData = async () =>
+const payoutRequest = async (challenge_id: string, amount: number) =>
   new Promise<boolean>((resolve) => {
-    APICall('post', Endpoints.getFundedChallenges)
+    const payload = {challenge_id, withdraw_amount: amount}
+    APICall('post', Endpoints.payoutRequest, payload)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(true)
@@ -116,6 +165,8 @@ const getFundedChallengesData = async () =>
   })
 
 const PayoutApi = {
+  payoutRequest,
+  updatePayoutWallet,
   getPayoutAmount,
   getPayoutHistory,
   getPayoutWalletAddress,

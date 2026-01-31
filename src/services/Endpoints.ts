@@ -47,6 +47,8 @@ const Endpoints = {
   getPayoutHistory: 'users/payout/history',
   getPayoutWallet: '/users/payout/getPayoutWallet',
   getFundedChallenges: '/users/payout/pasedAllChallenges',
+  updateWallet: '/users/payout/addPayoutWallet',
+  payoutRequest: 'users/payout/payoutRequest',
 }
 
 export default Endpoints

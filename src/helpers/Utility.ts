@@ -87,7 +87,11 @@ const formatTo8Decimals = (value: number) => {
   return Number(value.toFixed(8)).toString()
 }
 
+const generateTrimmedWallet = (content: string, numberToTrim?: number) =>
+  `${content.slice(0, numberToTrim ?? 5)}....${content.slice(-4)}`
+
 const Utility = {
+  generateTrimmedWallet,
   formatTo8Decimals,
   converToPositiveValue,
   trimMultipleSpaces,

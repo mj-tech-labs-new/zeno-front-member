@@ -1,16 +1,40 @@
 import {memo, useCallback, useEffect, useState} from 'react'
 
 import {English} from '@/helpers'
+import {WalletModelProps} from '@/types/ComponentTypes'
 
-const WithdrawButton = (props: {availableAmount: number}) => {
-  const {availableAmount} = props
+import {useModalContext} from '../Modal/context/ModalContextProvider'
+import WalletModel from '../Wallet/WalletModel'
+
+const WithdrawButton = (props: {
+  availableAmount: number
+  walletAddress: string
+  challenge_id: string
+}) => {
+  const {availableAmount, walletAddress, challenge_id} = props
   const [avlbAmtToWithdraw, setAvlbAmtToWithdraw] = useState(availableAmount)
+  const {setChildContent, setModalProps} = useModalContext()
 
-  const onPressWithdraw = useCallback(() => {
-    if (avlbAmtToWithdraw !== 0) {
-      /// Something Here Later....
-    }
-  }, [avlbAmtToWithdraw])
+  const onPressWithdraw = useCallback(
+    (
+      data: Pick<WalletModelProps, 'earningAmount' | 'walletAddress'> & {
+        challenge_id: string
+      }
+    ) => {
+      if (avlbAmtToWithdraw !== 0) {
+        setChildContent(<WalletModel {...data} />)
+        setModalProps({
+          className: 'p-6 rounded-[16px] bg-primary-color w-[558px]',
+          showCross: true,
+          onPressButton: () => {
+            setChildContent(null)
+            setModalProps(null)
+          },
+        })
+      }
+    },
+    [avlbAmtToWithdraw, setChildContent, setModalProps]
+  )
 
   useEffect(() => {
     setAvlbAmtToWithdraw(availableAmount)
@@ -22,7 +46,11 @@ const WithdrawButton = (props: {availableAmount: number}) => {
       type="button"
       onClick={(e) => {
         e.stopPropagation()
-        onPressWithdraw()
+        onPressWithdraw({
+          earningAmount: availableAmount,
+          walletAddress,
+          challenge_id,
+        })
       }}
     >
       {English.E444}

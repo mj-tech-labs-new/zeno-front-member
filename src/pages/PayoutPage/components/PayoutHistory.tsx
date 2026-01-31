@@ -1,8 +1,17 @@
-import {memo, useCallback, useEffect, useMemo, useState} from 'react'
+import dayjs from 'dayjs'
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react'
 
-import {BasicSkeleton} from '@/components'
-import {Constants, English} from '@/helpers'
-import {PayoutHistoryPayload} from '@/types/apiTypes/PayoutApiType'
+import {
+  BasicSkeleton,
+  CommonTableComponent,
+  EmptyComponent,
+  ImageComponent,
+} from '@/components'
+import {Constants, English, Images, Utility} from '@/helpers'
+import {
+  PayoutHistoryData,
+  PayoutHistoryPayload,
+} from '@/types/apiTypes/PayoutApiType'
 import {PaginationType} from '@/types/CommonTypes'
 
 import PayoutApi from '../api/PayoutApi'
@@ -10,7 +19,7 @@ import PayoutLayout from '../layout/PayoutLayout'
 import CustomFilter from './CustomFilter'
 
 const PayoutHistory = () => {
-  // const [totalPayout, setTotalPayout] = useState<any[]>([])
+  const [totalPayout, setTotalPayout] = useState<PayoutHistoryData[]>([])
   const [isLoadingPayout, setIsLoadingPayout] = useState(true)
   const [paginationData, setPaginationData] = useState<PaginationType | null>(
     null
@@ -46,7 +55,11 @@ const PayoutHistory = () => {
       search_value,
       toDate,
     })
-      .then(() => {})
+      .then((res) => {
+        if (!res) return
+        setTotalPayout(res.data)
+        setPaginationData(res.pagination)
+      })
       .finally(() => {
         setIsLoadingPayout(false)
       })
@@ -65,7 +78,6 @@ const PayoutHistory = () => {
       search_value: '',
       toDate: '',
     })
-    setPaginationData(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -102,7 +114,54 @@ const PayoutHistory = () => {
         {isLoadingPayout ? (
           <BasicSkeleton className="h-33! w-full" />
         ) : (
-          <span>Hello</span>
+          <CommonTableComponent
+            layoutClassName="bg-tertiary-bg-color  border! border-solid! border-info-bg-color!"
+            tableHeading={Constants.PayoutHistoryHeading}
+          >
+            {totalPayout?.length === 0 ? (
+              <EmptyComponent isTableType />
+            ) : (
+              totalPayout?.map((item) => {
+                const {
+                  amount,
+                  challenge_id,
+                  date,
+                  payment_method,
+                  payment_status,
+                  payout_id,
+                  tx_hash,
+                  wallet_address,
+                } = item
+                return (
+                  <tr
+                    key={challenge_id}
+                    className="*:px-6 border-b border-info-bg-color border-solid *:py-6 *:whitespace-nowrap *:text-sm *:leading-5 *:font-light *:font-inter *:text-secondary-light-color"
+                  >
+                    <td className="text-primary-color!  ">{payout_id}</td>
+                    <td className="text-primary-color!">{challenge_id}</td>
+                    <td>{dayjs(date).format('YYYY-MM-DD')}</td>
+                    <td>{`${Utility.numberConversion(amount)} ${English.E60}`}</td>
+                    <td>{Utility.generateTrimmedWallet(wallet_address)}</td>
+                    <td className="flex items-center gap-2">
+                      {payment_status === 0 ? (
+                        <span>{English.E101}</span>
+                      ) : (
+                        <React.Fragment>
+                          <ImageComponent
+                            className="size-5!"
+                            imageUrl={Images.paidStatus}
+                          />
+                          <span>{English.E95}</span>
+                        </React.Fragment>
+                      )}
+                    </td>
+                    <td className="capitalize">{`${English.E60} (${payment_method})`}</td>
+                    <td>{Utility.generateTrimmedWallet(tx_hash ?? '')}</td>
+                  </tr>
+                )
+              })
+            )}
+          </CommonTableComponent>
         )}
       </CustomFilter>
     </PayoutLayout>

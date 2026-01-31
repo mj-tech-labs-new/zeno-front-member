@@ -926,6 +926,16 @@ const Constants = {
       showArrow: false,
     },
   ],
+  PayoutHistoryHeading: [
+    {content: [English.E103], showArrow: false},
+    {content: [English.E443], showArrow: false},
+    {content: [English.E104], showArrow: false},
+    {content: [English.E105], showArrow: false},
+    {content: [English.E357], showArrow: false},
+    {content: [English.E52], showArrow: false},
+    {content: [English.E107], showArrow: false},
+    {content: [English.E446], showArrow: false},
+  ],
 }
 
 export default Constants

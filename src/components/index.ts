@@ -39,6 +39,8 @@ import SwiperComponent from './SwiperComponent/SwiperComponent'
 import TabComponent from './TabComponent/TabComponent'
 import Info from './Tooltips/Info'
 import ChallengeWallet from './Wallet/ChallengeWallet'
+import ChangeWalletBtn from './Wallet/ChangeWalletBtn'
+import WalletModel from './Wallet/WalletModel'
 
 export {
   Accordian,
@@ -50,6 +52,7 @@ export {
   ChallengeOptionCards,
   ChallengeStatusCard,
   ChallengeWallet,
+  ChangeWalletBtn,
   CircularProgressBarComponent,
   CommonButton,
   CommonCloseActionButton,
@@ -82,4 +85,5 @@ export {
   StatsDescription,
   SwiperComponent,
   TabComponent,
+  WalletModel,
 }

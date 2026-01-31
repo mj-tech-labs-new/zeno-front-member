@@ -255,6 +255,10 @@
   ::-webkit-scrollbar {
     width: 8px;
   }
+  button:disabled {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+  }
 
   ::-webkit-scrollbar-thumb {
     background: linear-gradient(316.81deg, #d9d9d9 27.27%, #737373 75.79%);
@@ -585,6 +589,12 @@
   filter: brightness(0) saturate(100%) invert(48%) sepia(97%) saturate(1670%)
     hue-rotate(336deg) brightness(100%) contrast(103%);
 }
+
+@utility secondary_red_filter {
+  filter: brightness(0) saturate(100%) invert(37%) sepia(20%) saturate(2739%)
+    hue-rotate(323deg) brightness(104%) contrast(111%);
+}
+
 @utility blue_filter {
   filter: brightness(0) saturate(100%) invert(28%) sepia(98%) saturate(2482%)
     hue-rotate(220deg) brightness(116%) contrast(101%);
@@ -592,6 +602,9 @@
 @utility white_filter {
   filter: brightness(0) saturate(100%) invert(88%) sepia(81%) saturate(0%)
     hue-rotate(156deg) brightness(103%) contrast(80%);
+}
+@utility black__filter {
+  filter: brightness(0) saturate(100%);
 }
 
 /* Range CSS */

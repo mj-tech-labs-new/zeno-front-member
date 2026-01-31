@@ -11,6 +11,18 @@ import PayoutHistory from './components/PayoutHistory'
 const PayoutPage = () => {
   const [totalPayout, setTotalPayout] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [wallet, setWallet] = useState('')
+  const [isLoadingWallet, setIsLoadingWallet] = useState(true)
+  useEffect(() => {
+    setIsLoadingWallet(true)
+    PayoutApi.getPayoutWalletAddress()
+      .then((res) => {
+        setWallet(res)
+      })
+      .finally(() => {
+        setIsLoadingWallet(false)
+      })
+  }, [])
   useEffect(() => {
     PayoutApi.getPayoutAmount()
       .then((res) => {
@@ -38,10 +50,14 @@ const PayoutPage = () => {
             </div>
           </ChallengeCardLayout>
         )}
-        <ChallengeWallet />
+        <ChallengeWallet
+          isLoadingWallet={isLoadingWallet}
+          onChangeWallet={setWallet}
+          walletAddress={wallet}
+        />
       </div>
 
-      <FundedChallenges />
+      <FundedChallenges address={wallet} />
       <PayoutHistory />
     </div>
   )

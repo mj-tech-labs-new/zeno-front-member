@@ -358,7 +358,7 @@ const English = {
   E354: 'No TransactionDetails',
   E355: 'No PositionHistory',
   E356: 'No OpenHistory',
-  E357: 'Wallet Address ',
+  E357: 'Wallet Address',
   E358: 'Transfer Currency :',
   E359: 'Network :',
   E360: 'Amount to Pay :',
@@ -402,7 +402,9 @@ const English = {
   E442: 'Funded Challenge',
   E443: 'Challenge ID',
   E444: 'Withdrawal',
-  E445: 'Earnings Available'
+  E445: 'Earnings Available',
+  E446: 'Transaction Hash',
+  E447: 'confirm and withdrawal',
 }
 
 export default English

@@ -108,10 +108,10 @@ const CustomFilter = (props: CustomFilterType) => {
               e.stopPropagation()
               currentPageRef.current = 1
               setSearchValue('')
-              setDropDown1Value({title: ''})
-              setDropDown2Value({title: ''})
+              setDropDown1Value({title: 'None'})
+              setDropDown2Value({title: 'None'})
               setSelectedDate({date1: null, date2: null})
-              onPressSearch('', '', '', '', '', 1)
+              onPressSearch('None', 'None', '', '', '', 1)
             }}
           />
         </div>
