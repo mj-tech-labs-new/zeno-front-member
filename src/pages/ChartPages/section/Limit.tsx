@@ -158,9 +158,7 @@ const Limit = (props: BuyOrSelProps) => {
         100
       const quantityToGet =
         toNumber(tokenQtyRef.current) * (toNumber(inputValues.entryprice) ?? 1)
-      // console.log('tokenQtyRef.current', tokenQtyRef.current)
       const finalAmount = Utility.removeDecimal(feeToAdd + quantityToGet)
-      // console.log('finalAmount', finalAmount)
       setTotal(toNumber(finalAmount))
     }
   }, [

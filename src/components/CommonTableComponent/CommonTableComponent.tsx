@@ -24,14 +24,14 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
 
   return (
     <div
-      className={`relative rounded-lg shadow-sm ${layoutClassName} w-full`}
+      className={`relative rounded-lg shadow-sm bg-tertiary-bg-color border border-solid border-landing-page-trading-rules-para-text ${layoutClassName} w-full`}
       id="table"
     >
       <table
         className={`w-full text-sm text-left overflow-hidden ${showLoader && 'border-separate border-spacing-y-2'}`}
       >
         <thead
-          className={`text-xs bg-widget-primary-bg-color capitalize text-tertiary-color ${className}`}
+          className={`text-xs bg-info-bg-color capitalize text-tertiary-color ${className}`}
         >
           <tr>
             {tableHeading?.map((heading) => {

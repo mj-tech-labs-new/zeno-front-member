@@ -38,6 +38,7 @@ import BasicSkeleton from './SkeletonComponents/BasicSkeleton'
 import SwiperComponent from './SwiperComponent/SwiperComponent'
 import TabComponent from './TabComponent/TabComponent'
 import Info from './Tooltips/Info'
+import TotalPayout from './TotalPayout/TotalPayout'
 import ChallengeWallet from './Wallet/ChallengeWallet'
 import ChangeWalletBtn from './Wallet/ChangeWalletBtn'
 import WalletModel from './Wallet/WalletModel'
@@ -85,5 +86,6 @@ export {
   StatsDescription,
   SwiperComponent,
   TabComponent,
+  TotalPayout,
   WalletModel,
 }

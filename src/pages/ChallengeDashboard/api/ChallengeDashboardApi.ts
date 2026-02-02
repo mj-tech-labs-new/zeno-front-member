@@ -124,9 +124,29 @@ const getClosedPnlDetails = async (props: GetClosedPnlDetailsPayloadProps) => {
   })
 }
 
+const getTotalEaringsData = async (challengeId: string) => {
+  const payload = {challenge_id: challengeId}
+  return new Promise<string>((resolve) => {
+    APICall('post', Endpoints.getTotalCurrentEarnings, payload)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve(res?.data?.payout?.[0]?.released_profit ?? '')
+        } else {
+          resolve('')
+          toast.error(res?.message)
+        }
+      })
+      .catch((error) => {
+        resolve('')
+        toast.error(error?.data?.message)
+      })
+  })
+}
+
 export {
   challengeInfoDashboardApi,
   getChallengeByIdApi,
   getClosedPnlDetails,
+  getTotalEaringsData,
   tradingStatisticsApi,
 }

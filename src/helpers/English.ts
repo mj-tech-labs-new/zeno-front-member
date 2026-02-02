@@ -405,6 +405,7 @@ const English = {
   E445: 'Earnings Available',
   E446: 'Transaction Hash',
   E447: 'confirm and withdrawal',
+  E448: 'Earning',
 }
 
 export default English

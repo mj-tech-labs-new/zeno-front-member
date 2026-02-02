@@ -13,6 +13,7 @@ import {
   getChallengeByIdApi,
   tradingStatisticsApi,
 } from './api/ChallengeDashboardApi'
+import Earnings from './components/Earnings'
 import {useChallengeProvider} from './context/ChallengeDashboardProvider'
 import ClosedPNL from './sections/ClosedPNL'
 import TradingDescriptionSection from './sections/TradingDescriptionSection'
@@ -80,6 +81,7 @@ const ChallengeDashboard = () => {
           layoutClassName="[&>h2]:!tracking-[0px]"
           type={English.E65}
         />
+        <Earnings />
         <ClosedPNL showHeader />
       </div>
     </ChallengeDashboardLayout>
