@@ -27,7 +27,7 @@ const LogoComponent = (props: LogoComponentProps) => {
   return (
     <div className={`flex gap-4 items-center ${layoutClassName}`}>
       <ImageComponent
-        className={`h-6 ${className}`}
+        className={`h-6 max-w-[200px] ${className}`}
         imageUrl={
           isSmallScreen
             ? Images.logoWithoutText

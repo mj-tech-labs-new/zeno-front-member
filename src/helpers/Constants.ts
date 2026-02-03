@@ -425,7 +425,7 @@ const Constants = {
     'Minimum Trading Days': '5',
     Challenge: 'Two Step',
     'Trading type': 'Futures',
-    'Drawdown type': 'Trailing',
+    'Drawdown type': 'Static',
     'Challenge type': 'Zeno Challenger',
   },
   ChartTypes: [

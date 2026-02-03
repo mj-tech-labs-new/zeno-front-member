@@ -1,19 +1,19 @@
-import {useEffect} from 'react'
-import {useNavigate, useParams} from 'react-router-dom'
-import {toast} from 'react-toastify'
+import { useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import {GoBackButton, LogoComponent} from '@/components'
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {SocketEmitter} from '@/helpers'
+import { GoBackButton, LogoComponent } from '@/components'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { SocketEmitter } from '@/helpers'
 
-import {getChallengeByIdApi} from '../ChallengeDashboard/api/ChallengeDashboardApi'
-import ChartProvider, {useChartProvider} from './context/ChartProvider'
+import { getChallengeByIdApi } from '../ChallengeDashboard/api/ChallengeDashboardApi'
+import ChartProvider, { useChartProvider } from './context/ChartProvider'
 import ChartRenderingLayout from './section/ChartRenderingLayout'
 
 const Chart = () => {
   const params = useParams()
-  const {socketRef} = useSocketProvider()
-  const {setGetChallengeByIdArray} = useChartProvider()
+  const { socketRef } = useSocketProvider()
+  const { setGetChallengeByIdArray } = useChartProvider()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const Chart = () => {
       (data) => {
         if (data) {
           toast.success(data?.message)
-          getChallengeByIdApi({challenge_id: params?.challengeId ?? ''}).then(
+          getChallengeByIdApi({ challenge_id: params?.challengeId ?? '' }).then(
             (res) => {
               setGetChallengeByIdArray(res)
             }
