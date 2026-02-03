@@ -29,7 +29,7 @@ const ChangeWalletBtn = (props: {
       />
       <CommonButton
         className="medium-success-btn-type text-primary-color py-2! text_base_utility font-switzer! font-normal rounded-lg!"
-        disabled={updatedAdd === ''}
+        disabled={updatedAdd === '' || !updatedAdd.startsWith('0x')}
         singleLineContent={English.E439}
         onClick={(e) => {
           e.stopPropagation()
