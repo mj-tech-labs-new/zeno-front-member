@@ -41,6 +41,54 @@ const ChartUtils = {
     wickUpColor: '#00C076',
     wickDownColor: '#FF6838',
   },
+  ChartBarGraphOptions: {
+    maintainAspectRatio: false,
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        border: {
+          align: 'center',
+          display: true,
+          color: '#777E90',
+        },
+        ticks: {
+          padding: 10,
+          color: '#7D7D7D',
+        },
+        grid: {
+          display: true,
+          drawOnChartArea: false,
+          drawTicks: true,
+          color: '#7D7D7D',
+          drawBorder: true,
+          offset: false,
+        },
+      },
+      y: {
+        position: 'left',
+        border: {
+          display: true,
+          color: '#777E90',
+        },
+        ticks: {
+          stepSize: 2,
+          color: '#7D7D7D',
+        },
+        grid: {
+          display: true,
+          color: '#7D7D7D',
+          drawBorder: true,
+          drawOnChartArea: false,
+          drawTicks: true,
+        },
+      },
+    },
+  },
 }
 
 export default ChartUtils

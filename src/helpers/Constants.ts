@@ -312,9 +312,11 @@ const Constants = {
     },
   ],
   CertificateTabHeading: [
-    {title: English.E91, img: ''},
-    {title: English.E92, img: ''},
-    {title: English.E93, img: ''},
+    {title: English.E57, img: ''},
+    {title: English.E449, img: ''},
+    {title: English.E450, img: ''},
+    {title: English.E451, img: ''},
+    {title: English.E452, img: ''},
   ],
   Certificate: {
     CertificatesBodyData: [
@@ -935,6 +937,57 @@ const Constants = {
     {content: [English.E52], showArrow: false},
     {content: [English.E107], showArrow: false},
     {content: [English.E446], showArrow: false},
+  ],
+  certificateDashboardHeading: [
+    {content: [English.E456], showArrow: false},
+    {content: [English.E457], showArrow: false},
+    {content: [English.E458], showArrow: false},
+    {content: [English.E459], showArrow: false},
+    {content: [], showArrow: false},
+  ],
+
+  certificateTableData: [
+    {
+      image: Images.zenoIcon,
+      registerDate: English.E460,
+      taskLink: '',
+      reward: '2 Points',
+    },
+    {
+      image: Images.twitterIcon,
+      registerDate: English.E461,
+      taskLink: '',
+      reward: '2 Points',
+    },
+    {
+      image: Images.instagramIcon,
+      registerDate: English.E462,
+      taskLink: '',
+      reward: '2 Points',
+    },
+    {
+      image: Images.telegramIcon,
+      registerDate: English.E463,
+      taskLink: '',
+      reward: '2 Points',
+    },
+    {
+      image: Images.telegramIcon,
+      registerDate: English.E464,
+      taskLink: '',
+      reward: '2 Points',
+    },
+    {
+      image: Images.youtubeIcon,
+      registerDate: English.E465,
+      taskLink: '',
+      reward: '2 Points',
+    },
+  ],
+  certificateCard: [
+    {heading: English.E472, tooltip: '', value: '',title:'50 Pointes'},
+    {heading: English.E472, tooltip: '', value: '',title:'890 Pointes'},
+    {heading: English.E473, tooltip: '', value: '',title:'1558 Pointes'},
   ],
 }
 

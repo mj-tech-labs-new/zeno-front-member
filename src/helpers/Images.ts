@@ -173,6 +173,12 @@ const Images = {
   changeWallet: new URL('../assets/svgs/change_wallet.svg', import.meta.url)
     .href,
   paidStatus: new URL('../assets/svgs/paid.svg', import.meta.url).href,
+  instagramIcon: new URL('../assets/svgs/instagram.svg', import.meta.url).href,
+  zenoIcon: new URL('../assets/svgs/zeno.svg', import.meta.url).href,
+  twitterIcon: new URL('../assets/svgs/twitter.svg', import.meta.url).href,
+  telegramIcon: new URL('../assets/svgs/telegram.svg', import.meta.url).href,
+  youtubeIcon: new URL('../assets/svgs/youtube.svg', import.meta.url).href,
+  greenDoneIcon: new URL('../assets/svgs/write.svg', import.meta.url).href,
 }
 
 export default Images

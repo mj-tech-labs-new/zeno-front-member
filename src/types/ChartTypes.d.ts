@@ -13,6 +13,7 @@ import {
 import {CommonProps, GeneralProps, PaginationType} from './CommonTypes'
 import {ChartShapesType, Methodtype, TradingSortingType} from './UnionTypes'
 
+export declare const Bar: TypedChartComponent<'bar'>
 interface CandleObjectType {
   symbol: string
   open_time: string

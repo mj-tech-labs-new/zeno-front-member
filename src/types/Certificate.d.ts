@@ -6,3 +6,8 @@ export interface CertificateData
   user_name: string
   date: strig
 }
+export interface DashboardCardProps {
+  title: string
+  content: string
+  infoContent?: string
+}

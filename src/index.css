@@ -80,6 +80,9 @@
   --font-helvetica: 'Helvetica Neue', sans-serif;
   --font-dmsans: 'DM Sans', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
+  --gradient-gr1: #242424;
+  --black-dark-600: #111111;
+  --black-dark-700: #292929;
 }
 
 @font-face {
@@ -103,6 +106,9 @@
   --color-primary-black: var(--primary-black);
   --color-marquee-gradient-bg: var(--marquee-gradient-bg);
   --color-neutral-tertiary-color: var(--neutral-tertiary-color);
+  --color-gradient-gr1: var(--gradient-gr1);
+  --color-black-dark-600: var(--black-dark-600);
+  --color-black-dark-700: var(--black-dark-700);
   --color-chart-secondary-green-color: var(--chart-secondary-green-color);
   --color-medium-success-color: var(--medium-success-color);
   --color-primary-dark-blue-color: var(--primary-dark-blue-color);
@@ -592,6 +598,9 @@
 @utility red_filter {
   filter: brightness(0) saturate(100%) invert(48%) sepia(97%) saturate(1670%)
     hue-rotate(336deg) brightness(100%) contrast(103%);
+}
+@utility red_btn_utility {
+  @apply bg-dark-danger-color text-primary-color  rounded-lg;
 }
 
 @utility secondary_red_filter {
