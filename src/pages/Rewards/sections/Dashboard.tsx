@@ -176,7 +176,10 @@ const Dashboard = () => {
       <CongratulationModel
         isModelOpen={isModelOpen}
         point={points?.earn_point as unknown as any}
-        setIsModelOpen={setIsModelOpen}
+        setIsModelOpen={(value) => {
+          setIsModelOpen(value)
+          handleFetchEarnings()
+        }}
       />
 
       <CommonTableComponent

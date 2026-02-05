@@ -35,6 +35,9 @@ const CongratulationModel = (props: {
             <CommonButton
               className={`px-2! py-3!  text-primary-color medium-success-btn-type   w-full sm:max-w-56! `}
               singleLineContent={English.E470}
+              onClick={() => {
+                setIsModelOpen(false)
+              }}
             />
           </div>
         </ModalComponent>

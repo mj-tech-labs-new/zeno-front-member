@@ -65,7 +65,7 @@ const LeaderBoard = () => {
   )
 
   useEffect(() => {
-    GetLeaderBoards(1, 10, '', '', 'ASC', 'created_at')
+    GetLeaderBoards(1, 10, '', '', 'DESC', 'created_at')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
@@ -123,7 +123,7 @@ const LeaderBoard = () => {
         <BasicPagination
           total={paginationData?.totalPages}
           onSelectPage={(page) => {
-            GetLeaderBoards(page, 10, '', '', 'ASC', 'created_at')
+            GetLeaderBoards(page, 10, '', '', 'DESC', 'created_at')
           }}
         />
       )}
@@ -139,7 +139,7 @@ const LeaderBoard = () => {
             setSelectedLimit({
               title: value?.title,
             })
-            GetLeaderBoards(1, limit, '', '', 'ASC', 'created_at')
+            GetLeaderBoards(1, limit, '', '', 'DESC', 'created_at')
           }}
         />
         <span>{English.E484}</span>
