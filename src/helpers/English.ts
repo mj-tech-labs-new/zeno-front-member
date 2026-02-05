@@ -435,12 +435,26 @@ const English = {
   E475: 'Rewards',
   E476: 'Refresh',
   E477: 'Daily Bonus',
-  E478: "Activity",
-  E479: "Description",
-  E480: 'XP Earned',
+  E478: 'Activity',
+  E479: 'Description',
+  E480: 'Points',
   E481: 'Balance',
-  E482: 'My User'
-
+  E482: 'My User',
+  E483: 'Show',
+  E484: 'Entries',
+  E485: 'Rank',
+  E486: 'Name',
+  E487: 'Email',
+  E488: 'Tire',
+  E489: 'Country',
+  E490: 'Points',
+  E491: 'Total Earning',
+  E492: 'No Data Found',
+  E493: 'Export Data',
+  E494: '@gmail.com',
+  E495: 'Complete',
+  E496: 'Congratulation',
+  E497: 'You Have Earned ',
 }
 
 export default English

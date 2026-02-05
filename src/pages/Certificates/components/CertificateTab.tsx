@@ -1,23 +1,23 @@
 import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import React, {useEffect, useState} from 'react'
+import {toast} from 'react-toastify'
 
 import {
   BasicPagination,
   CommonTableComponent,
   DownloadButton,
 } from '@/components'
-import { Constants, English, Images, Utility } from '@/helpers'
-import { APICall, Endpoints } from '@/services'
+import {Constants, English, Images, Utility} from '@/helpers'
+import {APICall, Endpoints} from '@/services'
 import {
   CertificateTableProps,
   GetCertificateProps,
   GetCertificateWithPaginationProps,
 } from '@/types/ChallengeTypes'
-import { PaginationType } from '@/types/CommonTypes'
+import {PaginationType} from '@/types/CommonTypes'
 
 const CertificateTab = (props: CertificateTableProps) => {
-  const { activeIndex, setLoader } = props
+  const {activeIndex, setLoader} = props
   const [certificateData, setCertificateData] = useState<GetCertificateProps[]>(
     []
   )

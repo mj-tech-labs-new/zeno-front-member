@@ -63,6 +63,7 @@
   --feature-card-bg-color: #f3f3f3;
   --marquee-gradient-bg: #f7f6f5;
   --primary-black: #000000;
+  --light-gray-400: #3f3f3f;
   --landing-page-freedom-clarity-growth: #fffffa;
   --landing-page-freedom-clarity-growth-bg: #ffffff1c;
   --landing-page-features-lg-less-opacity-gray: #040301;
@@ -153,6 +154,8 @@
   --color-dark-success-color: var(--dark-success-color);
   --color-light-danger-color: var(--light-danger-color);
   --color-dark-danger-color: var(--dark-danger-color);
+  --color-light-gray-400: var(--light-gray-400);
+
   --color-primary-border-color: var(--primary-border-color);
   --color-secondary-border-color: var(--secondary-border-color);
   --color-info-bg-color: var(--info-bg-color);
@@ -565,6 +568,10 @@
 @utility secondary-btn-type {
   @apply bg-button-secondary-color hover:bg-button-secondary-color/65 text-primary-bg-color font-medium text-base/6 text-center;
 }
+@utility text_13_utility {
+  @apply text-[13px] leading-6 font-light font-switzer!;
+}
+
 @utility google-btn-type {
   @apply bg-tertiary-color text-primary-bg-color hover:bg-tertiary-color/65 text-base/6 font-semibold;
 }

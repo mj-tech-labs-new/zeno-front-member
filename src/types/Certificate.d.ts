@@ -1,4 +1,5 @@
 import {CreateChallengeProps, GetCertificateProps} from './ChallengeTypes'
+import {GeneralProps} from './CommonTypes'
 
 export interface CertificateData
   extends Pick<CreateChallengeProps, 'challenge_name'>,
@@ -6,8 +7,10 @@ export interface CertificateData
   user_name: string
   date: strig
 }
-export interface DashboardCardProps {
+export interface DashboardCardProps extends Pick<GeneralProps, 'onPressItem'> {
   title: string
   content: string
   infoContent?: string
+  showDisableValue?: number
+  id?: number
 }

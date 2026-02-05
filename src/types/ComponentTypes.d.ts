@@ -116,6 +116,12 @@ export interface DropDownProps
   isSearchType?: boolean
   titleClassname?: string
 }
+export interface PaginationDropDownProps
+  extends Pick<GeneralProps, 'className' | 'singleLineContent'>,
+    Pick<DropDownProps, 'selectedValue' | 'onSelectValue' | 'dropDownData'> {
+  placeHolderText: string
+  labelText?: string
+}
 
 export interface MaxOpenAndMarginProps {
   type: MaxOpenAndMarginType

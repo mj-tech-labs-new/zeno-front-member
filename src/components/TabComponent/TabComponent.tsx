@@ -26,7 +26,7 @@ const TabComponent = (props: CommonTabComponentProps) => {
           return (
             <div
               key={title}
-              className={`flex items-center gap-1 font-dmsans ${activeIndex === index ? 'cursor-auto' : 'cursor-pointer'}`}
+              className={`flex items-center gap-1 font-dmsans ${activeIndex === index ? 'cursor-auto' : 'cursor-pointer'} `}
               onClick={() => {
                 if (isCorruptedTabIndex === index) return
                 setActiveIndex(index)

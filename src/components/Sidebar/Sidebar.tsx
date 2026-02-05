@@ -58,9 +58,11 @@ const Sidebar = (
                     ? 'payout'
                     : currentPath?.toLowerCase().startsWith('/billing')
                       ? 'billing'
-                      : currentPath?.toLowerCase().startsWith('/profile')
-                        ? 'my profile'
-                        : ''
+                      : currentPath?.toLowerCase().startsWith('/rewards')
+                        ? 'Rewards'
+                        : currentPath?.toLowerCase().startsWith('/profile')
+                          ? 'my profile'
+                          : ''
             return (
               <Link
                 key={sidebaritems?.title}

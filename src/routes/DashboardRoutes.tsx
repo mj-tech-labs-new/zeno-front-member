@@ -17,6 +17,7 @@ import ChallengeDashboardProvider from '@/pages/ChallengeDashboard/context/Chall
 import PaymentPage from '@/pages/CreateChallenge/PaymentPage'
 import PayoutSuccessPage from '@/pages/CreateChallenge/PayoutSuccessPage'
 import DashboardProvider from '@/pages/Dashboard/context/DashboardProvider'
+import Rewards from '@/pages/Rewards/Rewards'
 import UserWrapper from '@/wrappers/UserWrapper'
 
 const DashboardRoutes = [
@@ -63,6 +64,18 @@ const DashboardRoutes = [
         <UserWrapper>
           <LazyLoader>
             <Certificate />
+          </LazyLoader>
+        </UserWrapper>
+      }
+    />
+    ,
+    <Route
+      key="reward"
+      path="rewards"
+      element={
+        <UserWrapper>
+          <LazyLoader>
+            <Rewards />
           </LazyLoader>
         </UserWrapper>
       }

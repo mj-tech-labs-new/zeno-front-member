@@ -1,4 +1,4 @@
-import { ColorType, CrosshairMode } from 'lightweight-charts'
+import {ColorType, CrosshairMode} from 'lightweight-charts'
 
 const ChartUtils = {
   chartOptions: {
@@ -105,9 +105,9 @@ const ChartUtils = {
           drawOnChartArea: false,
           drawTicks: true,
         },
-      }
       },
     },
-  }
+  },
+}
 
 export default ChartUtils

@@ -1,0 +1,215 @@
+import dayjs from 'dayjs'
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {utils, writeFileXLSX} from 'xlsx'
+
+import {
+  BasicPagination,
+  CommonButton,
+  CommonTableComponent,
+  DatePickerComponent,
+  Divider,
+  ExportButton,
+  HeadingComponent,
+  PaginationDropDown,
+} from '@/components'
+import {Constants, English, Images} from '@/helpers'
+import {DateObject} from '@/types/CommonTypes'
+import {AppLoaderRef} from '@/types/ComponentTypes'
+import {ApiPaginationProps, RewardHistoryTypes} from '@/types/Rewards'
+
+import RewardApi from '../api/RewardApi'
+
+const RewardHistory = () => {
+  const loaderRef = useRef<AppLoaderRef>(null)
+
+  const [rewardData, setRewardData] = useState<RewardHistoryTypes[] | null>([])
+  const [paginationData, setPaginationData] =
+    useState<ApiPaginationProps | null>(null)
+
+  const [selectedDate, setSelectedDate] = useState<DateObject>({
+    date1: null,
+    date2: null,
+  })
+  const [selectedLimit, setSelectedLimit] = useState({
+    title: paginationData?.limit?.toString() ?? '5',
+  })
+
+  const limitArray = useMemo(
+    () =>
+      Array.from({length: 10}).map(
+        (_, index) => ({title: ((index + 1) * 5).toString()}),
+        []
+      ),
+    []
+  )
+  const onPressExport = useCallback(() => {
+    if (rewardData?.length === 0 || !rewardData) return
+    const ws = utils.json_to_sheet(rewardData)
+    const wb = utils.book_new()
+    utils.book_append_sheet(wb, ws, 'Zeno Traders')
+    writeFileXLSX(wb, `My User.xlsx`)
+  }, [rewardData])
+
+  const GetRewardHistory = useCallback(
+    (
+      page: number,
+      limit: number,
+      fromDate: string,
+      toDate: string,
+      order_type: string,
+      order_value: string
+    ) => {
+      loaderRef.current?.showLoader(true)
+
+      RewardApi.GetRewardHistory({
+        page,
+        limit,
+        fromDate,
+        toDate,
+        order_type,
+        order_value,
+      })
+        .then((res) => {
+          if (res) {
+            setRewardData(res?.data ?? [])
+            setPaginationData(res?.pagination)
+          }
+        })
+        .finally(() => {
+          loaderRef.current?.showLoader(false)
+        })
+    },
+    []
+  )
+
+  useEffect(() => {
+    GetRewardHistory(1, 10, '', '', 'ASC', 'created_at')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
+        <div className=" flex justify-between">
+          <HeadingComponent
+            className="text-28!"
+            singleLineContent={English.E482}
+          />
+
+          <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6 !text-center">
+            {selectedDate?.date1 && selectedDate?.date2 && (
+              <CommonButton
+                className="!w-fit !text-13 [&>div]:size-3 !white_filter !text-primary-color !flex !flex-row-reverse "
+                imageUrl={Images.crossIcon}
+                singleLineContent="Clear"
+                onClick={() => {
+                  setSelectedDate({
+                    date1: null,
+                    date2: null,
+                  })
+                  GetRewardHistory(1, 10, '', '', 'ASC', 'created_at')
+                }}
+              />
+            )}
+            <DatePickerComponent
+              className="!max-w-fit flex items-center"
+              dateFormate="d MMM yyyy"
+              minDate={selectedDate.date1 as unknown as Date}
+              selectedDate1={selectedDate?.date1 as unknown as Date}
+              selectedDate2={selectedDate?.date2}
+              showIcon={false}
+              onSelectDate={(data) => {
+                setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
+                const fromDate = dayjs(data?.[0]).format('YYYY-MM-DD')
+                const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
+
+                if (data?.[0] && data?.[1]) {
+                  GetRewardHistory(1, 10, fromDate, toDate, 'ASC', 'created_at')
+                }
+              }}
+            />
+            <ExportButton disabled={!rewardData} onPressItem={onPressExport} />
+          </div>
+        </div>
+        <Divider className="!bg-info-bg-color" />
+      </div>
+
+      <CommonTableComponent tableHeading={Constants.rewardHeading}>
+        {!rewardData || rewardData?.length === 0 ? (
+          <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
+            <td className="py-8" colSpan={12}>
+              {English.E492}
+            </td>
+          </tr>
+        ) : (
+          rewardData?.map((item) => {
+            const {
+              balance,
+              created_at,
+              description,
+              earn_point,
+              id,
+              reward_type,
+            } = item
+            return (
+              <tr
+                key={`content-ad${id}`}
+                className="font-normal text-primary-color text-sm/6 *:transition-all *:duration-300 *:ease-in-out"
+              >
+                <th
+                  className="p-6 font-medium text-primary-color whitespace-nowrap "
+                  scope="row"
+                >
+                  {id}
+                </th>
+                <td className="p-6 text-primary-color capitalize">
+                  {dayjs(created_at)?.format('DD/MM/YYYY')}
+                </td>
+                <td className="p-6 text-primary-color capitalize ">
+                  {reward_type}
+                </td>
+                <td className="p-6 text-primary-color capitalize">
+                  {description}
+                </td>
+                <td className="p-6 text-primary-color capitalize">
+                  {earn_point}
+                </td>
+                <td className="p-6 text-primary-color capitalize">{balance}</td>
+              </tr>
+            )
+          })
+        )}
+      </CommonTableComponent>
+      <div className="grid grid-cols-1 sm:grid-cols-2 ">
+        <div className="order-2">
+          {paginationData?.totalPages !== 0 && paginationData?.totalPages && (
+            <BasicPagination
+              total={paginationData?.totalPages}
+              onSelectPage={(page) => {
+                GetRewardHistory(page, 10, '', '', 'ASC', 'created_at')
+              }}
+            />
+          )}
+        </div>
+        <div className="flex items-center  text_13_utility *:font-switzer! text-primary-color font-light gap-2">
+          <span>{English.E483}</span>
+          <PaginationDropDown
+            className="h-6! max-w-13.75! px-2.5! "
+            dropDownData={limitArray}
+            placeHolderText="Limit"
+            selectedValue={selectedLimit}
+            onSelectValue={(value) => {
+              const page = Number(value?.title)
+              setSelectedLimit({
+                title: value?.title,
+              })
+              GetRewardHistory(1, page, '', '', 'ASC', 'created_at')
+            }}
+          />
+          <span>{English.E484}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default RewardHistory

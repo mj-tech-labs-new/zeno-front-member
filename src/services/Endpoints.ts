@@ -50,6 +50,16 @@ const Endpoints = {
   updateWallet: '/users/payout/addPayoutWallet',
   payoutRequest: '/users/payout/payoutRequest',
   getTotalCurrentEarnings: '/users/payout/getCurrentEarning',
+  getRewardEarnings: '/users/rewards/dashboard/earnings',
+  getSocialMediaCheck: '/users/rewards/dashboard/getSocialdata',
+  getRewards: '/users/rewards/dashboard/getRewards',
+  getRewardHistory: (page: number, limit: number) =>
+    `/users/rewards/rewardHistory?page=${page}&limit=${limit}`,
+  getLeaderBoard: (page: number, limit: number) =>
+    `/users/rewards/leaderboard?page=${page}&limit=${limit}`,
+  rewardUpdate: 'users/rewards/dashboard/updateSocialdataRewards',
+  checkDailyReward: '/users/rewards/checkDailyRewards',
+  getDailyReward: '/users/rewards/getDailyRewards',
 }
 
 export default Endpoints

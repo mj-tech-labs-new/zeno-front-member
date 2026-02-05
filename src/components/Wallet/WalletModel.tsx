@@ -1,8 +1,8 @@
-import { memo, useCallback, useRef, useState } from 'react'
+import {memo, useCallback, useRef, useState} from 'react'
 
-import { English, Utility } from '@/helpers'
+import {English, Utility} from '@/helpers'
 import PayoutApi from '@/pages/PayoutPage/api/PayoutApi'
-import { AppLoaderRef, WalletModelProps } from '@/types/ComponentTypes'
+import {AppLoaderRef, WalletModelProps} from '@/types/ComponentTypes'
 
 import CommonButton from '../CommonButton/CommonButton'
 import Divider from '../Divider/Divider'
@@ -11,7 +11,7 @@ import Loader from '../Loader/Loader'
 import ChangeWalletBtn from './ChangeWalletBtn'
 
 const WalletModel = (props: WalletModelProps) => {
-  const { earningAmount, walletAddress, challenge_id } = props
+  const {earningAmount, walletAddress, challenge_id} = props
   const [address, setAddress] = useState(walletAddress)
   const [isDisabled, setIsDisabled] = useState(false)
   const [withDrawAmt, setWithDrawAmt] = useState('')

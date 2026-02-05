@@ -209,5 +209,4 @@ const TradesInfo = (props: {challengeId: string}) => {
   )
 }
 
-
 export default memo(TradesInfo)

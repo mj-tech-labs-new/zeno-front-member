@@ -1,24 +1,19 @@
-import React, { useRef, useState } from 'react'
+// import { useRef } from 'react'
 
-import { HeadingComponent, Loader, TabComponent } from '@/components'
-import { Constants, English } from '@/helpers'
-import { AppLoaderRef } from '@/types/ComponentTypes'
+import {DescriptionComponent, HeadingComponent} from '@/components'
+import {English} from '@/helpers'
+// import { AppLoaderRef } from '@/types/ComponentTypes'
 
-import DailyLoginBonus from './sections/DailyLoginBonus'
-import Dashboard from './sections/Dashboard'
-import HowToEarn from './sections/HowToEarn'
-import LeaderBoard from './sections/LeaderBoard'
-import RewardHistory from './sections/RewardHistory'
-// import RewardHistory from './sections/RewardHistory'
+// import CertificateTab from './components/CertificateTab'
 
-const Certificate = () => {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const loaderRef = useRef<AppLoaderRef>(null)
+const Certificate = () => (
+  // const [activeIndex, setActiveIndex] = useState(0)
+  // const loaderRef = useRef<AppLoaderRef>(null)
 
-  return (< div className="flex flex-col h-full gap-8 pt-8" >
-    <Loader ref={loaderRef} />
-    < HeadingComponent singleLineContent={English.E459} variant="medium" />
-    {/* <div className="flex flex-col gap-5 justify-center items-center h-full">
+  <div className="flex flex-col h-full gap-8 pt-8">
+    {/* <Loader ref={loaderRef} /> */}
+    <HeadingComponent singleLineContent={English.E22} variant="medium" />
+    <div className="flex flex-col gap-5 justify-center items-center h-full">
       <DescriptionComponent
         className="font-bold! text-3xl text-primary-color!"
         singleLineContent={English.E55}
@@ -27,36 +22,20 @@ const Certificate = () => {
         className="text-base!"
         singleLineContent={English.E273}
       />
-    </div> */}
-    {/* <CertificateTab
+    </div>
+    {/* <TabComponent
         activeIndex={activeIndex}
-        setLoader={(value) => {
-          loaderRef.current?.showLoader(value)
-        }}
-      /> */}
-    <TabComponent
-      activeIndex={activeIndex}
-      headingData={Constants.CertificateTabHeading}
-      setActiveIndex={setActiveIndex}
-    >
-
-
-      <React.Fragment>
-        {activeIndex === 0 ? (
-          <Dashboard />
-        ) :
-          activeIndex === 1 ?
-            (<DailyLoginBonus />) :
-            activeIndex === 2 ?
-              (<RewardHistory />) :
-              activeIndex === 3 ?
-                (<HowToEarn />) :
-                (<LeaderBoard />)
-        }
-      </React.Fragment>
-    </TabComponent>
-  </div >
-  )
-}
+        headingData={Constants.CertificateTabHeading}
+        setActiveIndex={setActiveIndex}
+      >
+        <CertificateTab
+          activeIndex={activeIndex}
+          setLoader={(value) => {
+            loaderRef.current?.showLoader(value)
+          }}
+        />
+      </TabComponent> */}
+  </div>
+)
 
 export default Certificate
