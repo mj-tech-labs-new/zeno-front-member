@@ -433,6 +433,13 @@ const English = {
   E473: 'Season 1 Earning',
   E474: 'Rewards Stats',
   E475: 'Rewards',
+  E476: 'Refresh',
+  E477: 'Daily Bonus',
+  E478: "Activity",
+  E479: "Description",
+  E480: 'XP Earned',
+  E481: 'Balance',
+  E482: 'My User'
 
 }
 

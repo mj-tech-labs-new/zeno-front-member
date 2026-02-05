@@ -9,6 +9,7 @@ import Dashboard from './sections/Dashboard'
 import HowToEarn from './sections/HowToEarn'
 import LeaderBoard from './sections/LeaderBoard'
 import RewardHistory from './sections/RewardHistory'
+// import RewardHistory from './sections/RewardHistory'
 
 const Certificate = () => {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -16,7 +17,7 @@ const Certificate = () => {
 
   return (< div className="flex flex-col h-full gap-8 pt-8" >
     <Loader ref={loaderRef} />
-    < HeadingComponent singleLineContent={English.E22} variant="medium" />
+    < HeadingComponent singleLineContent={English.E459} variant="medium" />
     {/* <div className="flex flex-col gap-5 justify-center items-center h-full">
       <DescriptionComponent
         className="font-bold! text-3xl text-primary-color!"

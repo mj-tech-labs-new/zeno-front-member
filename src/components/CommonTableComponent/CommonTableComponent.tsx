@@ -34,11 +34,11 @@ const CommonTableComponent = (props: CommonTableComponentProps) => {
           className={`text-xs bg-info-bg-color capitalize text-tertiary-color ${className}`}
         >
           <tr>
-            {tableHeading?.map((heading) => {
-              const { content } = heading
+            {tableHeading?.map((heading, index) => {
+              const { content, } = heading
               return (
                 <th
-                  key={content[0]} className={`px-6 py-4  `}
+                  key={`content_${index + 1}`} className={`px-6 py-4  `}
                   scope="col">
                   {content.includes('Close') ||
                     content.includes('Action') ||

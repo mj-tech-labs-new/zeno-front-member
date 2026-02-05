@@ -9,11 +9,11 @@ const CardSection = () => (
         <div
             className={`grid  'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 md:gap-4 `}
         >
-            {Constants.certificateCard?.map((item, ____) => (
+            {Constants.certificateCard?.map((item, index) => (
 
 
                 <DashboardCard
-                    key={item.heading}
+                    key={`card_${index+1}`}
                     content={item.title}
                     infoContent={item.heading}
                     title={item.heading}

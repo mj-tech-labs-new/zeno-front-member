@@ -1,4 +1,4 @@
-import {ColorType, CrosshairMode} from 'lightweight-charts'
+import { ColorType, CrosshairMode } from 'lightweight-charts'
 
 const ChartUtils = {
   chartOptions: {
@@ -56,6 +56,7 @@ const ChartUtils = {
           display: true,
           color: '#777E90',
         },
+
         ticks: {
           padding: 10,
           color: '#7D7D7D',
@@ -69,7 +70,7 @@ const ChartUtils = {
           offset: false,
         },
       },
-      y: {
+      leftY: {
         position: 'left',
         border: {
           display: true,
@@ -87,8 +88,26 @@ const ChartUtils = {
           drawTicks: true,
         },
       },
+      rightY: {
+        position: 'right',
+        border: {
+          display: true,
+          color: '#777E90',
+        },
+        ticks: {
+          stepSize: 2,
+          color: '#7D7D7D',
+        },
+        grid: {
+          display: true,
+          color: '#7D7D7D',
+          drawBorder: true,
+          drawOnChartArea: false,
+          drawTicks: true,
+        },
+      }
+      },
     },
-  },
-}
+  }
 
 export default ChartUtils

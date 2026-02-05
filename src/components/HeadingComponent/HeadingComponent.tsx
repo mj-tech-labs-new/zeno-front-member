@@ -13,7 +13,8 @@ const HeadingComponent = (props: HeadingComponentProps) => {
 
   return (
     <Tag
-      className={`text-primary-color font-[430] font-bureau leading-9.5 ${variant === 'x-small' ? 'text-sm/5' : variant === 'small' ? 'text-lg/6' : variant === 'xxx-medium' ? 'text-xl/6' : variant === 'xx-medium' ? 'text-[22px]/6' : variant === 'x-medium' ? 'text-2xl/6' : variant === 'medium' ? 'text-4xl' : ''} ${className}`}
+      className={`text-primary-color font-[430] font-bureau leading-9.5 ${variant === 'x-small' ? 'text-sm/5' : variant === 'small' ? 'text-lg/6' : variant === 'xxx-medium' ? 'text-xl/6' : variant === 'xx-medium' ? 'text-[22px]/6' : variant === 'x-medium' ? 
+        'text-2xl/6' : variant === 'medium' ? 'text-4xl' : ''} ${className}`}
     >
       {singleLineContent}
     </Tag>
