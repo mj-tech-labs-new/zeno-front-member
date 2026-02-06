@@ -165,6 +165,7 @@ export interface CommonTabComponentProps
   type?: TabComponentType
   isCorruptedTabIndex?: number
   isContentType?: boolean
+  layoutClassName2?: string
 }
 
 export interface AppLoaderRef {

@@ -414,11 +414,11 @@ const English = {
   E454: 'Copy Link',
   E455: 'Earn 2X per successful referral registration ( max. 200 referral per day ) ',
   E456: 'Sr. No.',
-  E457: 'Registeration Date',
-  E458: 'Task',
+  E457: 'Task',
+  E458: 'Status',
   E459: 'Rewards',
   E460: 'Registration Reward',
-  E461: 'Follow us on Twitter',
+  E461: 'Follow us on X',
   E462: 'Follow our official Instagram Page',
   E463: 'Join our Telegram group',
   E464: 'Join our Telegram community',
@@ -439,7 +439,7 @@ const English = {
   E479: 'Description',
   E480: 'Points',
   E481: 'Balance',
-  E482: 'My User',
+  E482: '',
   E483: 'Show',
   E484: 'Entries',
   E485: 'Rank',
@@ -455,6 +455,8 @@ const English = {
   E495: 'Complete',
   E496: 'Congratulation',
   E497: 'You Have Earned ',
+  E498: 'Claimed',
+  E499: 'Reward Status',
 }
 
 export default English

@@ -7,8 +7,8 @@ const ReferralLinkSection = () => (
   <div className="space-y-2">
     <p className="text_lg_utility text-primary-color">{English.E453}</p>
     <div className="flex flex-col lg:flex-row lg:items-center gap-2">
-      <div className="py-2 px-4 border border-solid rounded-lg bg-tertiary-bg-color border-secondary-border-color  flex-1">
-        <span className=" font-switzer! text-text-hint-color">
+      <div className="py-2 px-4 border border-solid rounded-lg  truncate  bg-tertiary-bg-color border-secondary-border-color  flex-1">
+        <span className=" font-switzer! text-text-hint-color ">
           https://zenotrade.com/referal?14/13923908/rushabh/4u1vjjasd
         </span>
       </div>
@@ -28,7 +28,9 @@ const ReferralLinkSection = () => (
         }}
       />
     </div>
-    <span className="text-text-hint-color text-xs">{English.E455}</span>
+    <span className="text-text-hint-color text-xs text-wrap">
+      {English.E455}
+    </span>
   </div>
 )
 

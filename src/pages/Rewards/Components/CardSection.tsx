@@ -8,15 +8,16 @@ const CardSection = (props: {earnings: RewardEarning}) => {
   const {earnings} = props
   const EarningCards = [
     {
-      heading: English.E491,
-      tooltip: '',
-      title: `${earnings?.total_earning ?? 0} ${English.E490}`,
-    },
-    {
       heading: English.E472,
       tooltip: '',
       title: `${earnings?.today_earning ?? 0} ${English.E490}`,
     },
+    {
+      heading: English.E491,
+      tooltip: '',
+      title: `${earnings?.total_earning ?? 0} ${English.E490}`,
+    },
+
     {
       heading: English.E473,
       tooltip: '',

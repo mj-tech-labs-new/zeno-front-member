@@ -16,7 +16,7 @@ const Rewards = () => {
   const loaderRef = useRef<AppLoaderRef>(null)
 
   return (
-    <div className="flex flex-col h-full gap-8 pt-8 space-y-10">
+    <div className="flex flex-col h-full gap-8 pt-8 space-x-10 ">
       <Loader ref={loaderRef} />
       <HeadingComponent singleLineContent={English.E459} variant="medium" />
       {/* <div className="flex flex-col gap-5 justify-center items-center h-full">
@@ -37,8 +37,10 @@ const Rewards = () => {
       /> */}
       <TabComponent
         activeIndex={activeIndex}
+        className="text-nowrap! [&>div]:overflow-x-auto no-scrollbar!"
         headingData={Constants.CertificateTabHeading}
         isCorruptedTabIndex={1}
+        layoutClassName2="no-scrollbar! pb-2"
         setActiveIndex={(value) => {
           setActiveIndex(value)
         }}

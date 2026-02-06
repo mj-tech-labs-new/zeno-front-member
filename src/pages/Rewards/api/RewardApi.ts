@@ -3,6 +3,7 @@ import {toast} from 'react-toastify'
 import {APICall, Endpoints} from '@/services'
 import {
   ApiPaginationProps,
+  ChartApiData,
   LeaderBoardApiDataTypes,
   RewardEarning,
   RewardHistoryApiProps,
@@ -72,7 +73,7 @@ const SocialDataCheck = async () =>
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve({
-            data: res?.data,
+            data: res?.data?.all_status,
           })
         } else {
           resolve(null)
@@ -101,7 +102,6 @@ const GetRewards = async (props: {type: number}) => {
           resolve(null)
           toast.error(res?.message)
         }
-        toast.success(res?.message)
       })
       .catch((error) => {
         toast.error(error?.data?.message)
@@ -121,7 +121,6 @@ const UpdateRewards = async (props: {type: number}) => {
           resolve({
             data: res?.data,
           })
-          toast.success(res?.message)
         } else {
           resolve(null)
           toast.error(res?.message)
@@ -133,6 +132,25 @@ const UpdateRewards = async (props: {type: number}) => {
       })
   })
 }
+
+const GetChartRewardStats = async (props: {year: number}) =>
+  new Promise<{data: ChartApiData[]} | null>((resolve) => {
+    APICall('post', Endpoints.rewardStatusBarChart, {year: props?.year})
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve({
+            data: res?.data?.chartData,
+          })
+        } else {
+          resolve(null)
+          toast.error(res?.message)
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message)
+        resolve(null)
+      })
+  })
 
 const GetRewardHistory = async (props: RewardHistoryApiProps) => {
   let apiPayload: Record<string, any> = {
@@ -207,7 +225,10 @@ const GetLeaderBoard = async (props: RewardHistoryApiProps) => {
             total: res?.data?.total,
             totalPages: res?.data?.totalPages,
           }
-          resolve({pagination: paginationData, data: res?.data?.history})
+          resolve({
+            pagination: paginationData,
+            data: res?.data?.history,
+          })
         } else {
           resolve(null)
           toast.error(res?.message)
@@ -229,5 +250,6 @@ const RewardApi = {
   UpdateRewards,
   GetDailyReward,
   CheckDailyReward,
+  GetChartRewardStats,
 }
 export default RewardApi

@@ -48,6 +48,9 @@ const ChartUtils = {
       legend: {
         display: false,
       },
+      datalabels: {
+        display: false,
+      },
     },
     scales: {
       x: {
@@ -56,7 +59,6 @@ const ChartUtils = {
           display: true,
           color: '#777E90',
         },
-
         ticks: {
           padding: 10,
           color: '#7D7D7D',
@@ -77,15 +79,8 @@ const ChartUtils = {
           color: '#777E90',
         },
         ticks: {
-          stepSize: 2,
+          stepSize: 100,
           color: '#7D7D7D',
-        },
-        grid: {
-          display: true,
-          color: '#7D7D7D',
-          drawBorder: true,
-          drawOnChartArea: false,
-          drawTicks: true,
         },
       },
       rightY: {
@@ -95,7 +90,7 @@ const ChartUtils = {
           color: '#777E90',
         },
         ticks: {
-          stepSize: 2,
+          stepSize: 40,
           color: '#7D7D7D',
         },
         grid: {
@@ -103,7 +98,7 @@ const ChartUtils = {
           color: '#7D7D7D',
           drawBorder: true,
           drawOnChartArea: false,
-          drawTicks: true,
+          drawTicks: false,
         },
       },
     },

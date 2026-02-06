@@ -1,10 +1,10 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 
 import {
-  BasicPagination,
+  // BasicPagination,
   CommonTableComponent,
   ImageComponent,
-  PaginationDropDown,
+  // PaginationDropDown,
 } from '@/components'
 import {Constants, English, Images} from '@/helpers'
 import {AppLoaderRef} from '@/types/ComponentTypes'
@@ -20,17 +20,17 @@ const LeaderBoard = () => {
   const [paginationData, setPaginationData] =
     useState<ApiPaginationProps | null>(null)
 
-  const [selectedLimit, setSelectedLimit] = useState({
-    title: paginationData?.limit?.toString() ?? '5',
-  })
-  const limitArray = useMemo(
-    () =>
-      Array.from({length: 10}).map(
-        (_, index) => ({title: ((index + 1) * 5).toString()}),
-        []
-      ),
-    []
-  )
+  // const [selectedLimit, setSelectedLimit] = useState({
+  //   title: paginationData?.limit?.toString() ?? '5',
+  // })
+  // const limitArray = useMemo(
+  //   () =>
+  //     Array.from({ length: 10 }).map(
+  //       (_, index) => ({ title: ((index + 1) * 5).toString() }),
+  //       []
+  //     ),
+  //   []
+  // )
 
   const GetLeaderBoards = useCallback(
     (
@@ -53,6 +53,10 @@ const LeaderBoard = () => {
       })
         .then((res) => {
           if (res) {
+            setLeaderBoardData([])
+          }
+
+          if (res) {
             setLeaderBoardData(res?.data)
             setPaginationData(res?.pagination)
           }
@@ -69,9 +73,12 @@ const LeaderBoard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 space-y-9">
       <div className="">
-        <ImageComponent className="h-38!" imageUrl={Images.leaderBoardImage} />
+        <ImageComponent
+          className="h-16 sm:h-38!"
+          imageUrl={Images.leaderBoardImage}
+        />
       </div>
 
       <CommonTableComponent tableHeading={Constants.leaderBoardHeading}>
@@ -82,18 +89,12 @@ const LeaderBoard = () => {
             </td>
           </tr>
         ) : (
-          leaderBoardData?.map((item) => {
-            const {
-              country,
-              email,
-              name,
-              owner_type,
-              total_earn_point,
-              total_rewards,
-            } = item
+          leaderBoardData?.map((item, index) => {
+            const {country, email, name, owner_type, total_earn_point} = item
             const Name = `${name?.slice(0, 2)}***${name?.slice(-2)}`
             const Email = `${email?.slice(0, 3)}*******${English.E494?.toLocaleLowerCase()}`
-
+            const currentPageNumber = paginationData?.page ?? 1
+            const multiplier = (currentPageNumber - 1) * 10
             return (
               <tr
                 key={`content-ad${owner_type}`}
@@ -103,23 +104,23 @@ const LeaderBoard = () => {
                   className="p-6 font-medium text-primary-color whitespace-nowrap "
                   scope="row"
                 >
-                  {owner_type}
+                  #{multiplier + index + 1}
                 </th>
                 <td className="p-6 text-primary-color capitalize">{Name}</td>
                 <td className="p-6 text-primary-color capitalize ">{Email}</td>
                 <td className="p-6 text-primary-color capitalize">
                   {total_earn_point}
                 </td>
+
                 <td className="p-6 text-primary-color capitalize">
-                  {total_rewards}
+                  {country === '' ? '--' : country}
                 </td>
-                <td className="p-6 text-primary-color capitalize">{country}</td>
               </tr>
             )
           })
         )}
       </CommonTableComponent>
-      {paginationData?.totalPages !== 0 && paginationData?.totalPages && (
+      {/* {paginationData?.totalPages !== 0 && paginationData?.totalPages && (
         <BasicPagination
           total={paginationData?.totalPages}
           onSelectPage={(page) => {
@@ -143,7 +144,7 @@ const LeaderBoard = () => {
           }}
         />
         <span>{English.E484}</span>
-      </div>
+      </div> */}
     </div>
   )
 }

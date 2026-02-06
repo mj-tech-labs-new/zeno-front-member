@@ -13,6 +13,7 @@ import {RewardEarning, SocialMediaStatus} from '@/types/Rewards'
 
 import RewardApi from '../api/RewardApi'
 import CardSection from '../Components/CardSection'
+import CertificateBarChart from '../Components/CertificateBarChart'
 import CongratulationModel from '../Components/CongratulationModel'
 import ReferralLinkSection from '../Components/ReferralLinkSection'
 
@@ -24,6 +25,7 @@ const Dashboard = () => {
     useState<SocialMediaStatus | null>()
   const [isModelOpen, setIsModelOpen] = useState(false)
   const [points, setPoints] = useState<{earn_point: number}>()
+
   const handleFetchEarnings = useCallback(() => {
     loaderRef.current?.showLoader(true)
     RewardApi.RewardEarning()
@@ -50,30 +52,20 @@ const Dashboard = () => {
       })
   }, [])
 
-  const handleSocialMediaTimer = useCallback(() => {
-    setTimeout(() => {
-      handleGetSocialMedia()
-    }, 60 * 1000)
-  }, [handleGetSocialMedia])
-
   const handCheckSocialMediaReward = useCallback(
     (id: number) => {
       loaderRef.current?.showLoader(true)
       RewardApi.GetRewards({type: id})
         .then((res) => {
           if (res) {
-            if (id === 1) {
-              handleGetSocialMedia()
-              return
-            }
-            handleSocialMediaTimer()
+            handleGetSocialMedia()
           }
         })
         .finally(() => {
           loaderRef.current?.showLoader(false)
         })
     },
-    [handleGetSocialMedia, handleSocialMediaTimer]
+    [handleGetSocialMedia]
   )
 
   const handUpdateCheckSocialMediaReward = useCallback(
@@ -101,64 +93,63 @@ const Dashboard = () => {
         title: English.E467,
         registerDate: English.E460,
         taskLink: '',
-        reward: '2 Points',
+        reward: '10 Points',
         status: socialMediaCheck?.registration_status,
         type: 1,
+        time: socialMediaCheck?.registration_date,
       },
       {
         image: Images.twitterIcon,
         registerDate: English.E461,
         title: English.E467,
-        taskLink: '',
+        taskLink: 'https://x.com/zeno_traders',
         reward: '2 Points',
-        status: socialMediaCheck?.followed_twitter_status,
+        status: socialMediaCheck?.followed_X_status,
         type: 3,
+        time: socialMediaCheck?.followed_X_date,
       },
       {
         image: Images.instagramIcon,
         title: English.E468,
         registerDate: English.E462,
-        taskLink: '',
+        taskLink: 'https://www.instagram.com/zeno_trader',
         reward: '2 Points',
         status: socialMediaCheck?.followed_instagram_status,
         type: 2,
+        time: socialMediaCheck?.followed_instagram_date,
       },
       {
         image: Images.telegramIcon,
         registerDate: English.E463,
         title: English.E468,
-        taskLink: '',
+        taskLink: 'https://t.me/ZenoTraderChannel',
         reward: '2 Points',
         status: socialMediaCheck?.join_telegram_group_status,
         type: 4,
+        time: socialMediaCheck?.join_telegram_group_date,
       },
       {
         image: Images.telegramIcon,
         registerDate: English.E464,
         title: English.E468,
-        taskLink: '',
+        taskLink: 'https://t.me/ZenoTraderCommunity',
         reward: '2 Points',
         status: socialMediaCheck?.join_telegram_community_status,
         type: 5,
+        time: socialMediaCheck?.join_telegram_community_date,
       },
       {
         image: Images.youtubeIcon,
         registerDate: English.E465,
         title: English.E469,
-        taskLink: '',
+        taskLink: 'https://www.youtube.com/@Zeno_Trader',
         reward: '2 Points',
         status: socialMediaCheck?.subscribe_youtube_status,
         type: 6,
+        time: socialMediaCheck?.subscribe_youtube_date,
       },
     ],
-    [
-      socialMediaCheck?.followed_instagram_status,
-      socialMediaCheck?.followed_twitter_status,
-      socialMediaCheck?.join_telegram_community_status,
-      socialMediaCheck?.join_telegram_group_status,
-      socialMediaCheck?.registration_status,
-      socialMediaCheck?.subscribe_youtube_status,
-    ]
+    [socialMediaCheck]
   )
 
   useEffect(() => {
@@ -188,23 +179,49 @@ const Dashboard = () => {
         tableHeading={Constants.certificateDashboardHeading}
       >
         {certificateTableData?.map((item, index) => {
-          const {image, registerDate, reward, status, type, title} = item
+          const {
+            image,
+            registerDate,
+            reward,
+            status,
+            type,
+            title,
+            taskLink,
+            time,
+          } = item
+
+          const d1 = new Date(socialMediaCheck?.server_time ?? '')
+          let isShowOpen = false
+          if (Number(time) === 0) {
+            isShowOpen = false
+          } else {
+            const d2 = new Date(`${time?.replace(' ', 'T')}`)
+            const diff = Number(d1?.getMinutes()) - Number(d2?.getMinutes())
+            if (diff >= 1) {
+              isShowOpen = true
+            }
+          }
+
+          const taken = status === 'taken'
+          const granted = status === 'not_granted'
+          const pending = status === 'pending'
+
           return (
             <tr
               key={`content-${index + 1}`}
               className="font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in-out"
             >
               <th
-                className="p-6 font-medium text-secondary-light-color whitespace-nowrap "
+                className="p-6 font-medium text-primary-color whitespace-nowrap "
                 scope="row"
               >
                 <ImageComponent className="w-6" imageUrl={image} />
               </th>
-              <td className="p-6 text-secondary-light-color capitalize">
+              <td className="p-6 text-primary-color capitalize">
                 {registerDate}
               </td>
-              <td className="p-6 text-secondary-light-color capitalize ">
-                {status !== 'not_granted' && (
+              <td className="p-6 text-primary-color capitalize ">
+                {(taken || pending) && isShowOpen && (
                   <span className="flex gap-3">
                     <ImageComponent
                       className="w-5"
@@ -213,11 +230,12 @@ const Dashboard = () => {
                     <span>{English.E495}</span>
                   </span>
                 )}
-                {status === 'not_granted' && (
+                {(pending || granted) && !isShowOpen && (
                   <Link
                     target="_blank"
-                    to="https://zenotrade.com/referals"
+                    to={taskLink}
                     onClick={() => {
+                      if (isShowOpen) return
                       handCheckSocialMediaReward(type)
                     }}
                   >
@@ -228,24 +246,26 @@ const Dashboard = () => {
                   </Link>
                 )}
               </td>
-              <td className="p-6 text-secondary-light-color capitalize">
-                {reward}
-              </td>
-              <td className="p-6 text-secondary-light-color capitalize">
+              <td className="p-6 text-primary-color capitalize">{reward}</td>
+              <td className="p-6 text-primary-color capitalize">
                 <CommonButton
-                  className={`px-2! py-3! ${status === 'pending' ? 'text-primary-color! medium-success-btn-type ' : 'text-text-hint-color! primary-btn-type'} w-full sm:max-w-56! `}
-                  disabled={status !== 'pending'}
-                  singleLineContent={English.E470}
+                  className={`px-2! py-3! ${pending ? 'text-primary-color! medium-success-btn-type ' : 'text-text-hint-color! primary-btn-type'} w-full sm:max-w-56! `}
+                  disabled={taken || !isShowOpen}
                   onClick={() => {
                     handUpdateCheckSocialMediaReward(type)
                   }}
+                  singleLineContent={
+                    status !== 'taken' || !isShowOpen
+                      ? English.E470
+                      : English.E498
+                  }
                 />
               </td>
             </tr>
           )
         })}
       </CommonTableComponent>
-      {/* <CertificateBarChart /> */}
+      <CertificateBarChart />
     </div>
   )
 }

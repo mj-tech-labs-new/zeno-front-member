@@ -8,11 +8,18 @@ export interface RewardEarning {
 
 export interface SocialMediaStatus {
   registration_status: string
+  registration_date: string
   followed_instagram_status: string
-  followed_twitter_status: string
+  followed_instagram_date: string
+  followed_X_status: string
+  followed_X_date: string
   join_telegram_group_status: string
+  join_telegram_group_date: string
   join_telegram_community_status: string
+  join_telegram_community_date: string
   subscribe_youtube_status: string
+  subscribe_youtube_date: string
+  server_time: string
 }
 
 export interface RewardHistoryTypes {
@@ -46,3 +53,15 @@ export type RewardHistoryApiProps = Pick<ApiPaginationProps, 'limit' | 'page'> &
     PositionHistoryApiProps,
     'fromDate' | 'order_type' | 'order_value' | 'toDate'
   >
+
+export interface ChartApiData {
+  month: number
+  daily_login_points: number
+  self_purchased_points: number
+  refferal_points: number
+  refferal_purchased_points: number
+  challenge_passed_points: number
+  registration_points: number
+  social_media_points: number
+  total_month_points: number
+}

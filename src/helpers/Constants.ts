@@ -65,7 +65,7 @@ const Constants = {
     },
 
     {
-      icon: Images.billingIcon,
+      icon: Images.rewardIcon,
       title: English.E475,
       linkTo: '/rewards',
     },
@@ -945,7 +945,7 @@ const Constants = {
     {content: [English.E446], showArrow: false},
   ],
   certificateDashboardHeading: [
-    {content: [English.E456], showArrow: false},
+    {content: [], showArrow: false},
     {content: [English.E457], showArrow: false},
     {content: [English.E458], showArrow: false},
     {content: [English.E459], showArrow: false},
@@ -964,7 +964,6 @@ const Constants = {
     {content: [English.E486], showArrow: false},
     {content: [English.E487], showArrow: false},
     {content: [English.E480], showArrow: false},
-    {content: [English.E488], showArrow: false},
     {content: [English.E489], showArrow: false},
   ],
 }

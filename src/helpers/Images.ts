@@ -179,6 +179,8 @@ const Images = {
   telegramIcon: new URL('../assets/svgs/telegram.svg', import.meta.url).href,
   youtubeIcon: new URL('../assets/svgs/youtube.svg', import.meta.url).href,
   greenDoneIcon: new URL('../assets/svgs/write.svg', import.meta.url).href,
+  rewardIcon: new URL('../assets/svgs/reward.svg', import.meta.url).href,
+
   arrowBottomIcon: new URL('../assets/svgs/arrowBottom.svg', import.meta.url)
     .href,
   leaderBoardImage: new URL(

@@ -89,16 +89,16 @@ const RewardHistory = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-4">
-        <div className=" flex justify-between">
+        <div className=" sm:flex space-y-4 block justify-between">
           <HeadingComponent
             className="text-28!"
             singleLineContent={English.E482}
           />
 
-          <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6 !text-center">
+          <div className="flex  flex-wrap items-end sm:items-center gap-4 !font-switzer !font-medium !text-13 !leading-6 !text-center">
             {selectedDate?.date1 && selectedDate?.date2 && (
               <CommonButton
-                className="!w-fit !text-13 [&>div]:size-3 !white_filter !text-primary-color !flex !flex-row-reverse "
+                className="w-full! sm:!w-fit !text-13 [&>div]:size-3 !white_filter !text-primary-color !flex !flex-row-reverse "
                 imageUrl={Images.crossIcon}
                 singleLineContent="Clear"
                 onClick={() => {
@@ -141,7 +141,7 @@ const RewardHistory = () => {
             </td>
           </tr>
         ) : (
-          rewardData?.map((item) => {
+          rewardData?.map((item, index) => {
             const {
               balance,
               created_at,
@@ -150,6 +150,8 @@ const RewardHistory = () => {
               id,
               reward_type,
             } = item
+            const currentPageNumber = paginationData?.page ?? 1
+            const multiplier = (currentPageNumber - 1) * 10
             return (
               <tr
                 key={`content-ad${id}`}
@@ -159,7 +161,7 @@ const RewardHistory = () => {
                   className="p-6 font-medium text-primary-color whitespace-nowrap "
                   scope="row"
                 >
-                  {id}
+                  {multiplier + index + 1}
                 </th>
                 <td className="p-6 text-primary-color capitalize">
                   {dayjs(created_at)?.format('DD/MM/YYYY')}
