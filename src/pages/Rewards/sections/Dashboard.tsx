@@ -192,6 +192,7 @@ const Dashboard = () => {
 
           const d1 = new Date(socialMediaCheck?.server_time ?? '')
           let isShowOpen = false
+
           if (Number(time) === 0) {
             isShowOpen = false
           } else {
@@ -201,7 +202,9 @@ const Dashboard = () => {
               isShowOpen = true
             }
           }
-
+          if (index === 0) {
+            isShowOpen = true
+          }
           const taken = status === 'taken'
           const granted = status === 'not_granted'
           const pending = status === 'pending'
