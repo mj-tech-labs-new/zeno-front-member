@@ -9,18 +9,21 @@ const CardSection = (props: {earnings: RewardEarning}) => {
   const EarningCards = [
     {
       heading: English.E472,
-      tooltip: '',
+      tooltip:
+        'Points earned from completed reward activities today (00:00–23:59 UTC)',
       title: `${earnings?.today_earning ?? 0} ${English.E490}`,
     },
     {
       heading: English.E491,
-      tooltip: '',
+      tooltip:
+        'Total reward points earned by you across all activities since joining Zeno Traders.',
       title: `${earnings?.total_earning ?? 0} ${English.E490}`,
     },
 
     {
       heading: English.E473,
-      tooltip: '',
+      tooltip:
+        'Points earned during Season 1 of the Zeno Rewards Program only.',
       title: `${earnings?.season1_earning ?? 0} ${English.E490}`,
     },
   ]
@@ -33,7 +36,7 @@ const CardSection = (props: {earnings: RewardEarning}) => {
           <DashboardCard
             key={`card_${index + 1}`}
             content={item.title}
-            infoContent={item.heading}
+            infoContent={item.tooltip}
             title={item.heading}
           />
         ))}

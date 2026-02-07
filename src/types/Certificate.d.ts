@@ -11,6 +11,7 @@ export interface DashboardCardProps extends Pick<GeneralProps, 'onPressItem'> {
   title: string
   content: string
   infoContent?: string
-  showDisableValue?: number
+  lastRewardDay?: number
+  nextRewardDay?: number
   id?: number
 }

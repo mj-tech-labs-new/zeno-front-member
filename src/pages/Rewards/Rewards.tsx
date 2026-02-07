@@ -39,7 +39,7 @@ const Rewards = () => {
         activeIndex={activeIndex}
         className="text-nowrap! [&>div]:overflow-x-auto no-scrollbar!"
         headingData={Constants.CertificateTabHeading}
-        isCorruptedTabIndex={1}
+        // isCorruptedTabIndex={1}
         layoutClassName2="no-scrollbar! pb-2"
         setActiveIndex={(value) => {
           setActiveIndex(value)

@@ -457,6 +457,15 @@ const English = {
   E497: 'You Have Earned ',
   E498: 'Claimed',
   E499: 'Reward Status',
+  E500: 'Daily login Points :',
+  E501: 'Self Pur Points :',
+  E502: 'Referral Points :',
+  E503: 'Referral Pur :',
+  E504: 'Challenge Complete :',
+  E505: 'Total :',
+  E506: 'Registration Points :',
+  E507: 'Reward Statistics',
+  E508: 'Points Earned',
 }
 
 export default English

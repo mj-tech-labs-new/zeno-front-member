@@ -93,20 +93,21 @@ const Dashboard = () => {
         title: English.E467,
         registerDate: English.E460,
         taskLink: '',
+        rewardStatus: socialMediaCheck?.registration_reward_status,
         reward: '10 Points',
         status: socialMediaCheck?.registration_status,
         type: 1,
-        time: socialMediaCheck?.registration_date,
       },
       {
         image: Images.twitterIcon,
         registerDate: English.E461,
         title: English.E467,
         taskLink: 'https://x.com/zeno_traders',
+        rewardStatus: socialMediaCheck?.followed_X_reward_status,
+
         reward: '2 Points',
         status: socialMediaCheck?.followed_X_status,
         type: 3,
-        time: socialMediaCheck?.followed_X_date,
       },
       {
         image: Images.instagramIcon,
@@ -114,9 +115,10 @@ const Dashboard = () => {
         registerDate: English.E462,
         taskLink: 'https://www.instagram.com/zeno_trader',
         reward: '2 Points',
+        rewardStatus: socialMediaCheck?.followed_instagram_reward_status,
+
         status: socialMediaCheck?.followed_instagram_status,
         type: 2,
-        time: socialMediaCheck?.followed_instagram_date,
       },
       {
         image: Images.telegramIcon,
@@ -125,8 +127,9 @@ const Dashboard = () => {
         taskLink: 'https://t.me/ZenoTraderChannel',
         reward: '2 Points',
         status: socialMediaCheck?.join_telegram_group_status,
+        rewardStatus: socialMediaCheck?.join_telegram_group_reward_status,
+
         type: 4,
-        time: socialMediaCheck?.join_telegram_group_date,
       },
       {
         image: Images.telegramIcon,
@@ -135,8 +138,9 @@ const Dashboard = () => {
         taskLink: 'https://t.me/ZenoTraderCommunity',
         reward: '2 Points',
         status: socialMediaCheck?.join_telegram_community_status,
+        rewardStatus: socialMediaCheck?.join_telegram_community_reward_status,
+
         type: 5,
-        time: socialMediaCheck?.join_telegram_community_date,
       },
       {
         image: Images.youtubeIcon,
@@ -145,8 +149,8 @@ const Dashboard = () => {
         taskLink: 'https://www.youtube.com/@Zeno_Trader',
         reward: '2 Points',
         status: socialMediaCheck?.subscribe_youtube_status,
+        rewardStatus: socialMediaCheck?.subscribe_youtube_reward_status,
         type: 6,
-        time: socialMediaCheck?.subscribe_youtube_date,
       },
     ],
     [socialMediaCheck]
@@ -187,24 +191,8 @@ const Dashboard = () => {
             type,
             title,
             taskLink,
-            time,
+            rewardStatus,
           } = item
-
-          const d1 = new Date(socialMediaCheck?.server_time ?? '')
-          let isShowOpen = false
-
-          if (Number(time) === 0) {
-            isShowOpen = false
-          } else {
-            const d2 = new Date(`${time?.replace(' ', 'T')}`)
-            const diff = Number(d1?.getMinutes()) - Number(d2?.getMinutes())
-            if (diff >= 1) {
-              isShowOpen = true
-            }
-          }
-          if (index === 0) {
-            isShowOpen = true
-          }
           const taken = status === 'taken'
           const granted = status === 'not_granted'
           const pending = status === 'pending'
@@ -224,7 +212,8 @@ const Dashboard = () => {
                 {registerDate}
               </td>
               <td className="p-6 text-primary-color capitalize ">
-                {(taken || pending) && isShowOpen && (
+                {/* green Complete  */}
+                {(taken || index === 0) && (
                   <span className="flex gap-3">
                     <ImageComponent
                       className="w-5"
@@ -233,12 +222,14 @@ const Dashboard = () => {
                     <span>{English.E495}</span>
                   </span>
                 )}
-                {(pending || granted) && !isShowOpen && (
+
+                {/* button red  */}
+                {(granted || pending) && !(index === 0) && (
                   <Link
                     target="_blank"
                     to={taskLink}
                     onClick={() => {
-                      if (isShowOpen) return
+                      if (rewardStatus) return
                       handCheckSocialMediaReward(type)
                     }}
                   >
@@ -253,14 +244,12 @@ const Dashboard = () => {
               <td className="p-6 text-primary-color capitalize">
                 <CommonButton
                   className={`px-2! py-3! ${pending ? 'text-primary-color! medium-success-btn-type ' : 'text-text-hint-color! primary-btn-type'} w-full sm:max-w-56! `}
-                  disabled={taken || !isShowOpen}
+                  disabled={taken || !(pending && rewardStatus)}
                   onClick={() => {
                     handUpdateCheckSocialMediaReward(type)
                   }}
                   singleLineContent={
-                    status !== 'taken' || !isShowOpen
-                      ? English.E470
-                      : English.E498
+                    status !== 'taken' ? English.E470 : English.E498
                   }
                 />
               </td>

@@ -90,6 +90,17 @@ const formatTo8Decimals = (value: number) => {
 const generateTrimmedWallet = (content: string, numberToTrim?: number) =>
   `${content.slice(0, numberToTrim ?? 5)}....${content.slice(-4)}`
 
+const getMonth = () => {
+  const date = new Date()
+  const currentMonth = date?.getMonth()
+  return currentMonth
+}
+
+const getMonthDays = () => {
+  const now = new Date()
+  const totalDays = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+  return totalDays
+}
 const Utility = {
   generateTrimmedWallet,
   formatTo8Decimals,
@@ -106,6 +117,8 @@ const Utility = {
   convertScientificToNormalNum,
   isPasswordValid,
   largeNumberNotationConversion,
+  getMonth,
+  getMonthDays,
 }
 
 export default Utility

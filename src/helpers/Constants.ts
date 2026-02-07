@@ -959,12 +959,148 @@ const Constants = {
     {content: [English.E480], showArrow: false},
     {content: [English.E481], showArrow: false},
   ],
+  howToLearnHeading: [
+    {content: [English.E478], showArrow: false},
+    {content: [English.E479], showArrow: false},
+    {content: [English.E508], showArrow: false},
+  ],
   leaderBoardHeading: [
     {content: [English.E485], showArrow: false},
     {content: [English.E486], showArrow: false},
     {content: [English.E487], showArrow: false},
     {content: [English.E480], showArrow: false},
     {content: [English.E489], showArrow: false},
+  ],
+  dateArray: [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Augst',
+    'Spt',
+    'Oct',
+    'Nov',
+    'Dec',
+  ],
+  howToEarnTableData: [
+    {
+      activity: 'Account Creation',
+      descrption: 'Create your Zeno account',
+      pointEarned: '10 Points',
+    },
+    {
+      activity: 'Follow on X',
+      descrption: 'Follow Zeno Traders on X',
+      pointEarned: '2 Points',
+    },
+    {
+      activity: 'Follow on Instagram',
+      descrption: 'Follow Zeno Traders on Instagram',
+      pointEarned: '2 Points',
+    },
+    {
+      activity: 'Join Telegram Community',
+      descrption: 'Join Zeno Traders Telegram community',
+      pointEarned: '2 Points',
+    },
+    {
+      activity: 'Join Telegram Channel',
+      descrption: 'Join official Telegram channel',
+      pointEarned: '2 Points',
+    },
+    {
+      activity: 'Subscribe YouTube',
+      descrption: 'Subscribe to Zeno Traders YouTube',
+      pointEarned: '2 Points',
+    },
+    {
+      activity: 'Registration Bonus (Total)',
+      descrption: 'Complete all onboarding steps',
+      pointEarned: '20 Points',
+    },
+    {
+      activity: 'Challenge Purchase',
+      descrption:
+        'On purchase of Initiater challenge Thats $5,000 Account size (For both 1-step and 2-step Challenge)',
+      pointEarned: 'Challenge Cost × 10 Points',
+    },
+    {
+      activity: 'Challenge Purchase',
+      descrption:
+        'On purchase of Challenger challenge Thats $10,000 Account size (For both 1-step and 2-step Challenge)',
+      pointEarned: 'Challenge Cost × 12 Points',
+    },
+    {
+      activity: 'Challenge Purchase',
+      descrption:
+        'On purchase of Challenger challenge Thats $25,000 Account size (For both 1-step and 2-step Challenge)',
+      pointEarned: 'Challenge Cost × 14 Points',
+    },
+
+    {
+      activity: 'Challenge Purchase',
+      descrption:
+        'On purchase of Challenger challenge Thats $50,000 Account size (For both 1-step and 2-step Challenge)',
+      pointEarned: 'Challenge Cost × 16 Points',
+    },
+    {
+      activity: 'Challenge Purchase',
+      descrption:
+        'On purchase of Challenger challenge Thats $100,000 Account size (For both 1-step and 2-step Challenge)',
+      pointEarned: 'Challenge Cost × 18 Points',
+    },
+
+    {
+      activity: 'Challenge Purchase',
+      descrption:
+        'On purchase of Challenger challenge Thats $200,000 Account size (For both 1-step and 2-step Challenge)',
+      pointEarned: 'Challenge Cost × 20 Points',
+    },
+
+    {
+      activity: 'Complete Challenge & Get Funded',
+      descrption: 'Successfully pass challenge and receive funded account',
+      pointEarned: 'Account Size × 0.1 Points',
+    },
+    {
+      activity: 'Daily Login Streak ',
+      descrption: 'Login to platform daily',
+      pointEarned: 'Previous day + 1 Point',
+    },
+    {
+      activity: '7-Day Login Streak',
+      descrption: 'Maintain 7 consecutive days login',
+      pointEarned: '+10 Points',
+    },
+    {
+      activity: '14-Day Login Streak',
+      descrption: 'Maintain 14 consecutive days login',
+      pointEarned: '+20 Points',
+    },
+    {
+      activity: '21-Day Login Streak',
+      descrption: 'Maintain 21 consecutive days login',
+      pointEarned: '+30 Points',
+    },
+    {
+      activity: '28-Day Login Streak',
+      descrption: 'Maintain 28 consecutive days login',
+      pointEarned: '+50 Points',
+    },
+    {
+      activity: 'Referral Registration',
+      descrption:
+        'Referred user completes registration (Only for first 200 referrals per day)',
+      pointEarned: '5 Points (Max 200/day)',
+    },
+    {
+      activity: 'Referral Challenge Purchase',
+      descrption: 'Referred user purchases a challenge',
+      pointEarned: 'Challenge Cost × 2 Points',
+    },
   ],
 }
 

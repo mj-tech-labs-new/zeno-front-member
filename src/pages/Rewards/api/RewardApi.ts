@@ -31,7 +31,12 @@ const RewardEarning = async () =>
   })
 
 const CheckDailyReward = async () =>
-  new Promise<{data: {lastRewardDay: number}} | null>((resolve) => {
+  new Promise<{
+    data: {
+      lastRewardDay: number
+      nextRewardDay: number
+    }
+  } | null>((resolve) => {
     APICall('get', Endpoints.checkDailyReward)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
@@ -67,6 +72,7 @@ const GetDailyReward = async (props: {id: number}) =>
         resolve(null)
       })
   })
+
 const SocialDataCheck = async () =>
   new Promise<{data: SocialMediaStatus} | null>((resolve) => {
     APICall('get', Endpoints.getSocialMediaCheck)
@@ -133,9 +139,12 @@ const UpdateRewards = async (props: {type: number}) => {
   })
 }
 
-const GetChartRewardStats = async (props: {year: number}) =>
+const GetChartRewardStats = async (props: {year: number; month: number}) =>
   new Promise<{data: ChartApiData[]} | null>((resolve) => {
-    APICall('post', Endpoints.rewardStatusBarChart, {year: props?.year})
+    APICall('post', Endpoints.rewardStatusBarChart, {
+      year: props?.year,
+      month: props?.month,
+    })
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve({
