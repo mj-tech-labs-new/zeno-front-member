@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import {useEffect} from 'react'
+import {useNavigate, useParams} from 'react-router-dom'
 
 import {
   ChallengeCompletionCard,
   ChallengeStatusCard,
   Loader,
 } from '@/components'
-import { English } from '@/helpers'
+import {English} from '@/helpers'
 import ChallengeDashboardLayout from '@/layouts/ChallengeDashboardLayout'
 
 import {
@@ -14,7 +14,7 @@ import {
   tradingStatisticsApi,
 } from './api/ChallengeDashboardApi'
 import Earnings from './components/Earnings'
-import { useChallengeProvider } from './context/ChallengeDashboardProvider'
+import {useChallengeProvider} from './context/ChallengeDashboardProvider'
 import ClosedPNL from './sections/ClosedPNL'
 import TradingDescriptionSection from './sections/TradingDescriptionSection'
 
@@ -36,11 +36,10 @@ const ChallengeDashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.challengeId])
 
-
   useEffect(() => {
     if (!challengeId) return
     setShowLoader(true)
-    getChallengeByIdApi({ challenge_id: challengeId })
+    getChallengeByIdApi({challenge_id: challengeId})
       .then((res) => {
         setGetChallengeByIdArray(res)
       })

@@ -38,6 +38,7 @@ const ChallengeCompletionCard = (props: ChallengeCompletionCardProps) => {
       </div>
 
       <CircularProgressBarComponent
+        GetChallengeByIdType={getChallengeByIdArray?.[0]}
         totalAmount={totalAmount ?? 6000}
         usedBalance={
           (totalAmount ?? 60000) -

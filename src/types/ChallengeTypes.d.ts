@@ -35,6 +35,7 @@ export interface ChallengeDashboardHeaderProps {
 
 export interface ChallengeCompletionCardProps {
   totalAmount: number | undefined
+  GetChallengeByIdType?: GetChallengeByIdType
 }
 
 export interface TradingDescriptionSectionProps

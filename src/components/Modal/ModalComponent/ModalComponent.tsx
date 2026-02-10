@@ -1,10 +1,10 @@
-import { useRef } from 'react'
+import {useRef} from 'react'
 
 import HeadingComponent from '@/components/HeadingComponent/HeadingComponent'
 import ImageComponent from '@/components/ImageComponent/ImageComponent'
-import { Images } from '@/helpers'
-import { useClickOutside } from '@/hooks'
-import { ModalComponentProps } from '@/types/ComponentTypes'
+import {Images} from '@/helpers'
+import {useClickOutside} from '@/hooks'
+import {ModalComponentProps} from '@/types/ComponentTypes'
 
 const ModalComponent = (props: ModalComponentProps) => {
   const {
@@ -13,7 +13,7 @@ const ModalComponent = (props: ModalComponentProps) => {
     showCross = true,
     onPressButton,
     singleLineContent = '',
-    layoutClassName = ''
+    layoutClassName = '',
   } = props
 
   const mainDivRef = useRef<HTMLDivElement | null>(null)

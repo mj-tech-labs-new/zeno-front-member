@@ -87,7 +87,7 @@ const TradesTabComponent = ({
   const syncSnapshot = useCallback(
     async (symbol: string) => {
       const res = await axios.get(
-        `https://api.binance.com/api/v3/depth?symbol=${symbol}USDT&limit=5000`
+        `https://api.binance.com/api/v3/depth?symbol=${symbol}USDT&limit=2000`
       )
       if (res) {
         setIsLoading(false)

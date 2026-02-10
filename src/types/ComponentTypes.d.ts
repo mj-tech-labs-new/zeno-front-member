@@ -78,7 +78,7 @@ export type AccordianPropsType = Required<
 export type CircularProgressBarType = {
   usedBalance: number | null
 } & Pick<GeneralProps, 'className'> &
-  Pick<ChallengeCompletionCardProps, 'totalAmount'>
+  Pick<ChallengeCompletionCardProps, 'totalAmount' | 'GetChallengeByIdType'>
 
 export interface StatsCardProps
   extends Pick<GeneralProps, 'className' | 'layoutClassName'> {
@@ -217,7 +217,7 @@ export type ListComponentProps = {
 
 export interface ModalComponentProps
   extends Required<Pick<GeneralProps, 'children'>>,
-    Pick<GeneralProps, 'className' | 'singleLineContent'  | 'layoutClassName'> {
+    Pick<GeneralProps, 'className' | 'singleLineContent' | 'layoutClassName'> {
   showCross?: boolean
   onPressButton?: (state: boolean) => void
 }
