@@ -1,14 +1,14 @@
-import {toNumber} from 'lodash'
-import {useEffect, useMemo} from 'react'
-import {useSelector} from 'react-redux'
+import { toNumber } from 'lodash'
+import { useEffect, useMemo } from 'react'
+import { useSelector } from 'react-redux'
 
-import {ImageComponent} from '@/components'
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {English, Images, SocketEmitter, Utility} from '@/helpers'
-import {CandleObjectType} from '@/types/ChartTypes'
-import {StorageProps} from '@/types/CommonTypes'
+import { ImageComponent } from '@/components'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { English, Images, SocketEmitter, Utility } from '@/helpers'
+import { CandleObjectType } from '@/types/ChartTypes'
+import { StorageProps } from '@/types/CommonTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
 const ChartHeaderStats = () => {
   const {
@@ -19,7 +19,7 @@ const ChartHeaderStats = () => {
     chartInfo,
     setTotalTokenData,
   } = useChartProvider()
-  const {socketRef} = useSocketProvider()
+  const { socketRef } = useSocketProvider()
   const chartDetails = useSelector((state: StorageProps) => state.chartData)
   const observedChange = useMemo(
     () => ({
@@ -104,7 +104,7 @@ const ChartHeaderStats = () => {
       const chartData: CandleObjectType =
         data?.data?.candles?.[findTokenName?.token_symbol]
       if (!chartData) return
-      const {change, changeAmount, open, high, low, volume, close} = chartData
+      const { change, changeAmount, open, high, low, volume, close } = chartData
       setChartSocketData(() => ({
         change,
         changeAmount,
@@ -124,36 +124,38 @@ const ChartHeaderStats = () => {
     tokenList,
   ])
   return (
-    <div className="flex justify-end  w-full  gap-6">
+    <div className="flex lg:justify-end overflow-x-auto lg:overflow-hidden floating__container  w-full   gap-6">
       {ConstantMapData?.map((item, index) => {
-        const {content, img, textContent} = item
+        const { content, img, textContent } = item
         return (
           <div
             key={content}
-            className="lg:pr-[21px] xl:pr-[42px]  flex flex-col gap-1 border-r border-r-solid border-neutral-secondary-color last:border-none"
+            className="lg:pr-[21px] xl:pr-[42px]   border-r border-r-solid border-neutral-secondary-color last:border-none"
           >
-            <div className="flex items-center gap-1 text-neutral-primary-color text-xs !leading-5 font-normal ">
-              <ImageComponent
-                className={`grey__filter shrink-0 ${index === 2 ? '[&>img]:rotate-180' : ''}`}
-                imageUrl={img}
-              />
-              <span className="whitespace-nowrap">{content}</span>
-            </div>
-            <p
-              className={`text-xs !leading-5 font-medium ${index === 0 ? (textContent?.priceDiff?.toString()?.startsWith('-') ? 'text-chart-red-color' : 'text-chart-green-color') : 'text-chart-text-primary-color'}`}
-            >
-              <span className="whitespace-nowrap">
-                {content.includes(English.E122) ||
-                content.includes(English.E373)
-                  ? `${textContent?.priceDiff !== '---' ? (Utility.largeNumberNotationConversion(toNumber(textContent?.priceDiff ?? 1)) ?? '0.00') : '---'}${textContent?.priceDiff ? '' : ''}  ${chartInfo?.symbol ?? ''}`
-                  : (textContent?.priceDiff ?? '0.00')}{' '}
-              </span>
-              {index !== 3 && (
+            <div className="flex flex-col gap-1 pr-2">
+              <div className="flex items-center gap-1 text-neutral-primary-color text-xs !leading-5 font-normal ">
+                <ImageComponent
+                  className={`grey__filter shrink-0 ${index === 2 ? '[&>img]:rotate-180' : ''}`}
+                  imageUrl={img}
+                />
+                <span className="whitespace-nowrap">{content}</span>
+              </div>
+              <p
+                className={`text-xs !leading-5 font-medium ${index === 0 ? (textContent?.priceDiff?.toString()?.startsWith('-') ? 'text-chart-red-color' : 'text-chart-green-color') : 'text-chart-text-primary-color'}`}
+              >
                 <span className="whitespace-nowrap">
-                  {(textContent as any)?.percentageDiff}
+                  {content.includes(English.E122) ||
+                    content.includes(English.E373)
+                    ? `${textContent?.priceDiff !== '---' ? (Utility.largeNumberNotationConversion(toNumber(textContent?.priceDiff ?? 1)) ?? '0.00') : '---'}${textContent?.priceDiff ? '' : ''}  ${chartInfo?.symbol ?? ''}`
+                    : (textContent?.priceDiff ?? '0.00')}{' '}
                 </span>
-              )}
-            </p>
+                {index !== 3 && (
+                  <span className="whitespace-nowrap">
+                    {(textContent as any)?.percentageDiff}
+                  </span>
+                )}
+              </p>
+            </div>
           </div>
         )
       })}

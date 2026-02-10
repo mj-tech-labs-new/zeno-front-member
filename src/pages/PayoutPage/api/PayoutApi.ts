@@ -102,7 +102,6 @@ const getPayoutWalletAddress = async () =>
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.wallet_address ?? '')
         } else {
-          toast.error(res?.message)
           resolve('')
         }
       })

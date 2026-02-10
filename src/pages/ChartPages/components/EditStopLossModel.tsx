@@ -1,22 +1,23 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
-import {ImageComponent} from '@/components'
+import { ImageComponent } from '@/components'
 import ModalComponent from '@/components/Modal/ModalComponent/ModalComponent'
-import {English, Images} from '@/helpers'
-import {EditStopLossModelProps} from '@/types/ChartTypes'
+import { English, Images } from '@/helpers'
+import { EditStopLossModelProps } from '@/types/ChartTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import EditStopLoss from '../section/EditStopLoss'
 
 const EditStopLossModel = (props: EditStopLossModelProps) => {
-  const {singleLineContent, item, apiMethod, symbol} = props
-  const {livePrice} = useChartProvider()
+  const { singleLineContent, item, apiMethod, symbol } = props
+  const { livePrice } = useChartProvider()
   const [isModelOpen, setIsModelOpen] = useState(false)
   return (
     <React.Fragment>
       {isModelOpen && (
         <ModalComponent
           className="w-[450px]  !rounded-lg !bg-text-info-dark-color [&div>h2]:!text-primary-dark-blue-color [&<div<div]:!bg-primary-black/10 !px-3.5 !py-5 !border !border-solid !border-tertiary-color"
+          layoutClassName="[&>img]:white_filter!"
           singleLineContent={singleLineContent}
           onPressButton={() => {
             setIsModelOpen(false)

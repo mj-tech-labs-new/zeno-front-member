@@ -17,7 +17,7 @@ const ChartHeader = () => {
   return (
     <div className="py-[3px] bg-chart-layout-bg rounded">
       <div className="space-y-5">
-        <div className="flex flex-row w-full justify-between  gap-10 overflow-x-auto floating__container">
+        <div className="flex flex-col  lg:flex-row w-full lg:justify-between  gap-5 lg:gap-10 lg:overflow-x-auto floating__container">
           <div className="flex flex-row items-center gap-4 lg:gap-8 whitespace-nowrap">
             <TokenDropdown />
             <div className="flex flex-col gap-0.5">

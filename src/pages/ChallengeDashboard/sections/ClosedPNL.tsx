@@ -1,28 +1,27 @@
 import dayjs from 'dayjs'
-import {memo, useCallback, useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom'
+import { memo, useCallback, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import {
   BasicPagination,
   CommonButton,
   CommonTableComponent,
   DatePickerComponent,
-  DescriptionComponent,
   HeadingComponent,
 } from '@/components'
-import {Constants, English, Images} from '@/helpers'
-import {ClosedPnlDataResponsePayload} from '@/types/ChallengeTypes'
-import {PaginationType} from '@/types/CommonTypes'
+import { Constants, English, Images } from '@/helpers'
+import { ClosedPnlDataResponsePayload } from '@/types/ChallengeTypes'
+import { PaginationType } from '@/types/CommonTypes'
 
-import {getClosedPnlDetails} from '../api/ChallengeDashboardApi'
+import { getClosedPnlDetails } from '../api/ChallengeDashboardApi'
 
 interface DateObject {
   date1: Date | null
   date2: Date | null
 }
 
-const ClosedPNL = (props: {showHeader: boolean}) => {
-  const {showHeader} = props
+const ClosedPNL = (props: { showHeader: boolean }) => {
+  const { showHeader } = props
   const params = useParams()
   const [selectedDate, setSelectedDate] = useState<DateObject>({
     date1: null,
@@ -78,19 +77,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
         className={`w-full flex items-center ${showHeader ? 'justify-between' : 'justify-end'} gap-5`}
       >
         {showHeader && (
-          <div>
-            <HeadingComponent singleLineContent={English.E81} />
-            <div className="flex gap-2">
-              <DescriptionComponent multilineContent={[English.E82]} />
-              <div className="flex gap-1">
-                <DescriptionComponent multilineContent={[English.E83]} />
-                <DescriptionComponent
-                  className="!text-primary-color !underline"
-                  multilineContent={[English.E84]}
-                />
-              </div>
-            </div>
-          </div>
+          <HeadingComponent singleLineContent={English.E81} />
         )}
 
         <div className="flex items-center gap-4 !font-switzer !font-medium !text-13 !leading-6 !text-center">
@@ -102,7 +89,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
             selectedDate2={selectedDate?.date2}
             showIcon={false}
             onSelectDate={(data) => {
-              setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
+              setSelectedDate({ date1: data?.[0] ?? null, date2: data?.[1] })
               const fromDate = dayjs(data?.[0]).format('YYYY-MM-DD')
               const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
 

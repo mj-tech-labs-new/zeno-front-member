@@ -217,7 +217,7 @@ export type ListComponentProps = {
 
 export interface ModalComponentProps
   extends Required<Pick<GeneralProps, 'children'>>,
-    Pick<GeneralProps, 'className' | 'singleLineContent'> {
+    Pick<GeneralProps, 'className' | 'singleLineContent'  | 'layoutClassName'> {
   showCross?: boolean
   onPressButton?: (state: boolean) => void
 }
