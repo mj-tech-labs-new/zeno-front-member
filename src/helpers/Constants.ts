@@ -449,12 +449,12 @@ const Constants = {
   ],
   BuySellInputArray: {
     Market: [
-      {
-        label: `${English.E140} (${English.E60})`,
-        name: 'price',
-        placeHolder: English.E131,
-        textContent: English.E60,
-      },
+      // {
+      //   label: `${English.E140} (${English.E60})`,
+      //   name: 'price',
+      //   placeHolder: English.E131,
+      //   textContent: English.E60,
+      // },
       {
         label: 'Amount',
         name: 'quantity',

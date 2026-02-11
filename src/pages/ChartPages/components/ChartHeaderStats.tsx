@@ -1,14 +1,14 @@
-import {toNumber} from 'lodash'
-import {useEffect, useMemo} from 'react'
-import {useSelector} from 'react-redux'
+import { toNumber } from 'lodash'
+import { useEffect, useMemo } from 'react'
+import { useSelector } from 'react-redux'
 
-import {ImageComponent} from '@/components'
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {English, Images, SocketEmitter, Utility} from '@/helpers'
-import {CandleObjectType} from '@/types/ChartTypes'
-import {StorageProps} from '@/types/CommonTypes'
+import { ImageComponent } from '@/components'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { English, Images, SocketEmitter, Utility } from '@/helpers'
+import { CandleObjectType } from '@/types/ChartTypes'
+import { StorageProps } from '@/types/CommonTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
 const ChartHeaderStats = () => {
   const {
@@ -19,7 +19,7 @@ const ChartHeaderStats = () => {
     chartInfo,
     setTotalTokenData,
   } = useChartProvider()
-  const {socketRef} = useSocketProvider()
+  const { socketRef } = useSocketProvider()
   const chartDetails = useSelector((state: StorageProps) => state.chartData)
   const observedChange = useMemo(
     () => ({
@@ -104,7 +104,7 @@ const ChartHeaderStats = () => {
       const chartData: CandleObjectType =
         data?.data?.candles?.[findTokenName?.token_symbol]
       if (!chartData) return
-      const {change, changeAmount, open, high, low, volume, close} = chartData
+      const { change, changeAmount, open, high, low, volume, close } = chartData
       setChartSocketData(() => ({
         change,
         changeAmount,
@@ -126,7 +126,7 @@ const ChartHeaderStats = () => {
   return (
     <div className="flex lg:justify-end overflow-x-auto lg:overflow-hidden floating__container  w-full   gap-6">
       {ConstantMapData?.map((item, index) => {
-        const {content, img, textContent} = item
+        const { content, img, textContent } = item
         return (
           <div
             key={content}
@@ -145,9 +145,9 @@ const ChartHeaderStats = () => {
               >
                 <span className="whitespace-nowrap">
                   {content.includes(English.E122) ||
-                  content.includes(English.E373)
+                    content.includes(English.E373)
                     ? `${textContent?.priceDiff !== '---' ? (Utility.largeNumberNotationConversion(toNumber(textContent?.priceDiff ?? 1)) ?? '0.00') : '---'}${textContent?.priceDiff ? '' : ''}  ${chartInfo?.symbol ?? ''}`
-                    : (Utility.numberConversion(toNumber(textContent?.priceDiff), Utility.getPricePrecision(toNumber(textContent?.priceDiff))) ?? '0.00')}{' '}
+                    : !Utility.isValidNumberString(textContent?.priceDiff?.toString()) ? '0' : (Utility.numberConversion(toNumber(textContent?.priceDiff), Utility.getPricePrecision(toNumber(textContent?.priceDiff))) ?? '0.00')}{' '}
                 </span>
                 {index !== 3 && (
                   <span className="whitespace-nowrap">

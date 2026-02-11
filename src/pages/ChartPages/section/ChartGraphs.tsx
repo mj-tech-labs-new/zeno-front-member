@@ -33,7 +33,7 @@ const ChartGraphs = () => {
   const { socketRef } = useSocketProvider()
 
   const pricePrecision = useMemo(() => {
-    if (!totalCandleData?.length) return 3
+    if (!totalCandleData?.length || !selectedToken) return 3
 
     const maxPrice = Math.max(
       ...totalCandleData.map((item) =>
@@ -42,7 +42,7 @@ const ChartGraphs = () => {
     )
 
     return Utility.getPricePrecision(maxPrice)
-  }, [totalCandleData])
+  }, [totalCandleData, selectedToken])
 
 
   const calculateDataAndUpdateChart = useCallback(
@@ -89,10 +89,13 @@ const ChartGraphs = () => {
     const chartArea = chartObj.addSeries(
       CandlestickSeries,
       {
-        ...ChartUtils.seriesOptions, priceFormat: {
+        ...ChartUtils.seriesOptions,
+        priceFormat: {
           type: 'price',
-          precision: 3
-        }
+          precision: pricePrecision,
+          minMove: 10 ** -pricePrecision
+        },
+
       }
     )
     chartObj.priceScale('right')
@@ -125,7 +128,7 @@ const ChartGraphs = () => {
     volumeSeriesRef.current.moveToPane(2)
     const volumePane = chartObjectRef.current.panes()?.[1]
     volumePane.setHeight(120)
-  }, [chartAreaRef, chartObjectRef, firstChartRef, volumeSeriesRef])
+  }, [chartAreaRef, chartObjectRef, firstChartRef, pricePrecision, volumeSeriesRef])
 
   useEffect(() => {
     if (isLoadingCandles) return
@@ -217,16 +220,6 @@ const ChartGraphs = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCallingCurrent, isLoadingCandles, totalCandleData])
 
-  useEffect(() => {
-    if (!chartAreaRef.current) return
-
-    chartAreaRef.current.applyOptions({
-      priceFormat: {
-        type: 'price',
-        precision: pricePrecision
-      },
-    })
-  }, [chartAreaRef, pricePrecision])
 
   return <div ref={firstChartRef} style={{ width: '100%', height: '100%' }} />
 }
