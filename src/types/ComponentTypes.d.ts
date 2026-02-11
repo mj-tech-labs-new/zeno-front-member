@@ -83,8 +83,8 @@ export type CircularProgressBarType = {
 export interface StatsCardProps
   extends Pick<GeneralProps, 'className' | 'layoutClassName'> {
   headingContent: string
-  initialContent: number
-  secondContent: number
+  initialContent: string | number
+  secondContent: string | number
   thirdContent?: number
   infoContent: string
   type: string

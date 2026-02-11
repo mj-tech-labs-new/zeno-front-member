@@ -18,6 +18,7 @@ const TokenDropdown = () => {
     isLastCandle,
     chartInfo,
     totalCandlesCount,
+    currnetLimit,
   } = useChartProvider()
   const TokenArray = useMemo(
     () => Object.entries(tokenList ?? [])?.map(([_, value]) => ({...value})),
@@ -148,6 +149,7 @@ const TokenDropdown = () => {
                             (token) => token.token_symbol === item?.token_symbol
                           )
                           totalCandlesCount.current = 0
+                          currnetLimit.current = 100
                           return matchCoin ?? null
                         }
                         return data

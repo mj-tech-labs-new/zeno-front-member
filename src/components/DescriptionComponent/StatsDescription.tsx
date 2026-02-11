@@ -23,7 +23,9 @@ const StatsDescription = (props: StatsCardProps) => {
     () =>
       (
         (toNumber(secondContent?.toString()?.replace('-', '')) /
-          Utility.converToPositiveValue(initialContent)) *
+          Utility.converToPositiveValue(
+            typeof initialContent !== 'string' ? initialContent : 0
+          )) *
         100
       ).toFixed(2),
     [initialContent, secondContent]
@@ -53,19 +55,26 @@ const StatsDescription = (props: StatsCardProps) => {
       {type === English.E65 && (
         <div>
           <span className="text-tertiary-color tex-lg/6 font-normal">
-            {headingContent === English.E72
-              ? (initialContent ?? 0)
-              : `${initialContent.toFixed(2) ?? 0.0} %`}
+            {typeof initialContent !== 'string'
+              ? headingContent !== English.E73
+                ? headingContent !== English.E72
+                  ? Utility.removeDecimal(initialContent ?? 0, 2)
+                  : (initialContent ?? 0)
+                : `${initialContent.toFixed(2) ?? 0.0} %`
+              : '---'}
           </span>
 
           <span>
             {!(
               headingContent === English.E72 || headingContent === English.E73
-            ) && (
-              <p className="text-text-hint-color text-13 !leading-6 font-normal">
-                {English.E80}: {secondContent.toFixed(2) ?? 0.0}%
-              </p>
-            )}
+            ) &&
+              (typeof secondContent !== 'string' ? (
+                <p className="text-text-hint-color text-13 !leading-6 font-normal">
+                  {English.E80}: {secondContent.toFixed(2) ?? 0.0}%
+                </p>
+              ) : (
+                '---'
+              ))}
           </span>
 
           {(headingContent === English.E72 ||
@@ -98,15 +107,24 @@ const StatsDescription = (props: StatsCardProps) => {
               }
             ${secondContent.toString().startsWith('-') ? 'text-light-danger-color' : 'text-light-success-color'}`}
             >
-              {headingContent !== English.E66
-                ? Utility.numberConversion(secondContent)
-                : secondContent}
+              {typeof secondContent !== 'string'
+                ? headingContent !== English.E66
+                  ? Utility.numberConversion(secondContent)
+                  : secondContent
+                : '---'}
             </span>{' '}
             /{' '}
-            {headingContent !== English.E66
+            {headingContent !== English.E66 &&
+            typeof initialContent !== 'string'
               ? Utility.numberConversion(initialContent ?? 0)
-              : initialContent}{' '}
-            {headingContent === English.E66 ? English.E67 : English.E60}
+              : typeof initialContent !== 'string'
+                ? initialContent
+                : '---'}{' '}
+            {typeof initialContent !== 'string'
+              ? headingContent === English.E66
+                ? English.E67
+                : English.E60
+              : null}
           </p>
 
           {type === English.E64 && (

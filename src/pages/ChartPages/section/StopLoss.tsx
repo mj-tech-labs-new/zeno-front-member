@@ -21,7 +21,7 @@ const StopLoss = (props: CommonStopLossProp) => {
         const payload = updated.map((item) => ({
           id: 1,
           price: Number(item.marketprice),
-          status: item.status,
+          status: item.status ?? 'unused',
         }))
 
         setStopLoss({take_profit: payload, stop_loss: payload})

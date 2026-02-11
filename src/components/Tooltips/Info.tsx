@@ -1,15 +1,15 @@
 import 'tippy.js/dist/tippy.css'
 
 import Tippy from '@tippyjs/react'
-import { memo, useRef } from 'react'
+import {memo, useRef} from 'react'
 
-import { Images } from '@/helpers'
-import { GeneralProps } from '@/types/CommonTypes'
+import {Images} from '@/helpers'
+import {GeneralProps} from '@/types/CommonTypes'
 
 import ImageComponent from '../ImageComponent/ImageComponent'
 
 const Info = (props: Pick<GeneralProps, 'singleLineContent' | 'className'>) => {
-  const { singleLineContent, className = '' } = props
+  const {singleLineContent, className = ''} = props
   const onScrollRef = useRef<any>(null)
   return singleLineContent === '' ? null : (
     <Tippy

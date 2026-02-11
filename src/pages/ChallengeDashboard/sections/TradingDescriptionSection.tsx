@@ -1,23 +1,23 @@
 /* eslint-disable consistent-return */
-import { memo, useEffect, useMemo, useState } from 'react'
+import {memo, useEffect, useMemo, useState} from 'react'
 
-import { BasicSkeleton, HeadingComponent, StatsDescription } from '@/components'
-import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
-import { English, SocketEmitter, ToolTipContent, Utility } from '@/helpers'
+import {BasicSkeleton, HeadingComponent, StatsDescription} from '@/components'
+import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
+import {English, SocketEmitter, ToolTipContent, Utility} from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
 import {
   ChallengeDataSocketType,
   TradingDescriptionSectionProps,
 } from '@/types/ChallengeTypes'
 
-import { useChallengeProvider } from '../context/ChallengeDashboardProvider'
+import {useChallengeProvider} from '../context/ChallengeDashboardProvider'
 
 const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
-  const { type, className = '', layoutClassName } = props
+  const {type, className = '', layoutClassName} = props
   const [socketData, setSocketData] = useState<ChallengeDataSocketType>()
-  const { getChallengeByIdArray, tradingStatistics, challengeId, showLoader } =
+  const {getChallengeByIdArray, tradingStatistics, challengeId, showLoader} =
     useChallengeProvider()
-  const { socketRef } = useSocketProvider()
+  const {socketRef} = useSocketProvider()
 
   const tradingObjectiveArray = useMemo(
     () => [
@@ -29,18 +29,28 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       },
       {
         title: English.E68,
-        secondValue: socketData?.total_available_profit
-          ? Utility.converToPositiveValue(socketData?.total_available_profit)
-          : getChallengeByIdArray?.[0]?.released_profit
-            ? Utility.converToPositiveValue(
-              getChallengeByIdArray?.[0]?.released_profit
-            )
-            : 0,
+        secondValue:
+          getChallengeByIdArray?.[0]?.status === 'Passed'
+            ? '---'
+            : socketData?.total_available_profit
+              ? Utility.converToPositiveValue(
+                  socketData?.total_available_profit
+                )
+              : getChallengeByIdArray?.[0]?.released_profit
+                ? Utility.converToPositiveValue(
+                    getChallengeByIdArray?.[0]?.released_profit
+                  )
+                : 0,
         firstValue:
-          socketData?.profit_target_amount ??
-          getChallengeByIdArray?.[0]?.profit_target_amount ??
-          0,
-        infoContent: ToolTipContent.T5,
+          getChallengeByIdArray?.[0]?.status === 'Passed'
+            ? '---'
+            : (socketData?.profit_target_amount ??
+              getChallengeByIdArray?.[0]?.profit_target_amount ??
+              0),
+        infoContent:
+          getChallengeByIdArray?.[0]?.status === 'Passed'
+            ? ToolTipContent.T8
+            : ToolTipContent.T5,
       },
       {
         title: English.E69,
@@ -172,29 +182,7 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
         <div className={`flex flex-col gap-4 ${className}`}>
           {type === English.E64
             ? tradingObjectiveArray?.map((tradingItem) => {
-              const { title, secondValue, firstValue, infoContent } =
-                tradingItem
-              return (
-                <ChallengeCardLayout key={title}>
-                  <StatsDescription
-                    className="opacity-50"
-                    headingContent={title}
-                    infoContent={infoContent}
-                    initialContent={firstValue ?? 0}
-                    secondContent={secondValue ?? 0}
-                    type={English.E64}
-                    layoutClassName={
-                      title === English.E69 || title === English.E70
-                        ? 'text-light-danger-color!'
-                        : ''
-                    }
-                  />
-                </ChallengeCardLayout>
-              )
-            })
-            : type === English.E257
-              ? percentageCardsArray?.map((tradingItem) => {
-                const { title, firstValue, secondValue, infoContent } =
+                const {title, secondValue, firstValue, infoContent} =
                   tradingItem
                 return (
                   <ChallengeCardLayout key={title}>
@@ -202,29 +190,51 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
                       className="opacity-50"
                       headingContent={title}
                       infoContent={infoContent}
-                      initialContent={Number(firstValue)}
-                      secondContent={Number(secondValue)}
-                      type={English.E257}
+                      initialContent={firstValue ?? 0}
+                      secondContent={secondValue ?? 0}
+                      type={English.E64}
+                      layoutClassName={
+                        title === English.E69 || title === English.E70
+                          ? 'text-light-danger-color!'
+                          : ''
+                      }
                     />
                   </ChallengeCardLayout>
                 )
               })
+            : type === English.E257
+              ? percentageCardsArray?.map((tradingItem) => {
+                  const {title, firstValue, secondValue, infoContent} =
+                    tradingItem
+                  return (
+                    <ChallengeCardLayout key={title}>
+                      <StatsDescription
+                        className="opacity-50"
+                        headingContent={title}
+                        infoContent={infoContent}
+                        initialContent={Number(firstValue)}
+                        secondContent={Number(secondValue)}
+                        type={English.E257}
+                      />
+                    </ChallengeCardLayout>
+                  )
+                })
               : tradingStatisticsArray?.map((tradingItem) => {
-                const { title, firstValue, secondValue, thirdValue } =
-                  tradingItem
-                return (
-                  <ChallengeCardLayout key={title}>
-                    <StatsDescription
-                      headingContent={title}
-                      infoContent="Hello this is info Demo"
-                      initialContent={Number(firstValue)}
-                      secondContent={Number(secondValue)}
-                      thirdContent={Number(thirdValue)}
-                      type={English.E65}
-                    />
-                  </ChallengeCardLayout>
-                )
-              })}
+                  const {title, firstValue, secondValue, thirdValue} =
+                    tradingItem
+                  return (
+                    <ChallengeCardLayout key={title}>
+                      <StatsDescription
+                        headingContent={title}
+                        infoContent="Hello this is info Demo"
+                        initialContent={Number(firstValue)}
+                        secondContent={Number(secondValue)}
+                        thirdContent={Number(thirdValue)}
+                        type={English.E65}
+                      />
+                    </ChallengeCardLayout>
+                  )
+                })}
         </div>
       )}
     </div>

@@ -6,6 +6,9 @@ const ToolTipContent = {
   T5: '❗The minimum profit required to pass this challenge.',
   T6: '❗The maximum loss allowed in a single trading day. Breaching this limit will fail the challenge.',
   T7: '❗The maximum total loss allowed on this challenge. Exceeding this limit will result in failure.',
+  T8: '❗Challenge is Funded no Profit Target is Required.',
+  T9: '❗Challenge is Funded no Max Loss is Required.',
+  T10: '❗Your Current Challenge Status (Ongoing, Passed, Failed)',
 }
 
 export default ToolTipContent

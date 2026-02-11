@@ -73,26 +73,15 @@ const ChallengeDetailCard = (props: {
 
   const profitAmount = useMemo(
     () =>
-      socketData?.total_available_profit
-        ? Utility.converToPositiveValue(socketData?.total_available_profit)
-        : item?.released_profit
-          ? Utility.converToPositiveValue(item?.released_profit)
-          : 0,
-    [item?.released_profit, socketData?.total_available_profit]
+      item?.released_profit
+        ? Utility.converToPositiveValue(item?.released_profit)
+        : 0,
+    [item?.released_profit]
   )
 
   const maxDailyLossAmount = useMemo(
-    () =>
-      socketData?.max_daily_loss_amount
-        ? Utility.converToPositiveValue(socketData?.max_daily_loss)
-        : item?.max_total_loss
-          ? Utility.converToPositiveValue(item?.max_total_loss)
-          : 0,
-    [
-      item?.max_total_loss,
-      socketData?.max_daily_loss,
-      socketData?.max_daily_loss_amount,
-    ]
+    () => (item?.max_total_loss ? item?.max_total_loss : 0),
+    [item?.max_total_loss]
   )
 
   useEffect(() => {
@@ -149,25 +138,41 @@ const ChallengeDetailCard = (props: {
             <StatsDescription
               className="grey__filter"
               headingContent={English.E68}
-              infoContent={ToolTipContent.T5}
-              secondContent={profitAmount}
+              secondContent={item?.status === 'Passed' ? '---' : profitAmount}
               type="lossProgressType"
+              infoContent={
+                item?.status === 'Passed'
+                  ? ToolTipContent.T8
+                  : ToolTipContent.T5
+              }
               initialContent={
-                socketData?.profit_target_amount ??
-                item?.profit_target_amount ??
-                0
+                item?.status === 'Passed'
+                  ? '---'
+                  : (socketData?.profit_target_amount ??
+                    item?.profit_target_amount ??
+                    0)
               }
             />
             <div className="w-[1px] min-h-full bg-landing-page-trading-rules-para-text" />
             <StatsDescription
               className="grey__filter"
               headingContent={English.E70}
-              infoContent={ToolTipContent.T7}
-              initialContent={maxDailyLossAmount}
               layoutClassName="text-light-danger-color!"
               type="lossProgressType"
+              infoContent={
+                item?.status === 'Passed'
+                  ? ToolTipContent.T9
+                  : ToolTipContent.T7
+              }
+              initialContent={
+                item?.status === 'Passed' ? '---' : maxDailyLossAmount
+              }
               secondContent={
-                socketData?.max_current_loss ?? item?.max_current_loss ?? 0
+                item?.status === 'Passed'
+                  ? '---'
+                  : (socketData?.max_current_loss ??
+                    item?.max_current_loss ??
+                    0)
               }
             />
           </div>

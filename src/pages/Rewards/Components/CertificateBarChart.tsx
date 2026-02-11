@@ -143,7 +143,7 @@ const CertificateBarChart = () => {
           const dateOnly = dateObj.getDate()
 
           return {
-            x: datesCurrentArray?.[dateOnly],
+            x: datesCurrentArray?.[dateOnly - 1],
             y: item?.total_month_points,
             rawData: item,
           }

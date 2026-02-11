@@ -54,7 +54,7 @@ const OpenPositionTable = (
           leverage,
           direction,
           open,
-          open_pnl,
+          realized_pnl,
           average_price,
           current_price,
           est_liq_price,
@@ -176,8 +176,8 @@ const OpenPositionTable = (
               className="pr-6 py-4 font-medium text-chart-text-primary-color !whitespace-nowrap "
               scope="row"
             >
-              <span className={Utility.colorGeneratorUtility(open_pnl)}>
-                {Utility.removeDecimal(open_pnl ?? 0)}(
+              <span className={Utility.colorGeneratorUtility(realized_pnl)}>
+                {Utility.removeDecimal(realized_pnl ?? 0, 1)}(
                 {Utility.removeDecimal(return_on_equity, 3)})
               </span>
             </th>

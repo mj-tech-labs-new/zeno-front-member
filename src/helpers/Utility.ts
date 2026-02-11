@@ -114,7 +114,28 @@ const getPricePrecision = (maxValue: number): number => {
 const isValidNumberString = (value: string) =>
   value !== '' && !isNaN(Number(value))
 
+const formatTime = (
+  seconds: number,
+  isHoursType?: boolean,
+  isDaysType?: boolean
+) => {
+  const days = Math.floor(seconds / (24 * 3600))
+  const hours = Math.floor((seconds % (24 * 3600)) / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const secs = seconds % 60
+
+  if (isDaysType) {
+    return `${days}d : ${hours}h : ${minutes}m : ${secs}s`
+  }
+  if (isHoursType) {
+    return `${hours}h : ${minutes}m : ${secs}s`
+  }
+
+  return `${minutes}m : ${secs}s`
+}
+
 const Utility = {
+  formatTime,
   isValidNumberString,
   getPricePrecision,
   generateTrimmedWallet,

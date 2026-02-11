@@ -16,12 +16,20 @@ const PercentageLabel = (
       <p
         className={`text-lg/6 font-normal ${initialContent.toString().startsWith('-') ? 'text-extra-dark-danger-color' : 'text-light-success-color'}`}
       >
-        <span>{initialContent !== 0 ? initialContent.toFixed(2) : '---'} </span>
+        <span>
+          {initialContent !== 0 && typeof initialContent !== 'string'
+            ? initialContent.toFixed(2)
+            : '---'}{' '}
+        </span>
         {headingContent !== English.E63 && (
           <span
             className={`px-1 pb-0.5 rounded-md text-primary-color ${secondContent.toString().startsWith('-') ? 'bg-light-danger-color' : 'bg-extra-dark-success-color'}`}
           >
-            ({secondContent.toFixed(2) ?? ''}%)
+            (
+            {typeof secondContent !== 'string'
+              ? (secondContent.toFixed(2) ?? '')
+              : ''}
+            %)
           </span>
         )}
       </p>

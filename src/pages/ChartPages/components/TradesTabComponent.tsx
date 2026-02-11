@@ -200,7 +200,10 @@ const TradesTabComponent = ({
                   <p
                     className={`${Utility.colorGeneratorUtility(Number(chartSocketData?.change ?? 0))} text-[22px] !leading-5 font-semibold my-5`}
                   >
-                    {Utility.numberConversion(livePrice, Utility.getPricePrecision(livePrice))}
+                    {Utility.numberConversion(
+                      livePrice,
+                      Utility.getPricePrecision(livePrice)
+                    )}
                   </p>
                 )}
 
@@ -221,10 +224,18 @@ const TradesTabComponent = ({
                         : 'text-chart-red-color'
                     }
                   >
-                    {Utility.numberConversion(t.price, Utility.getPricePrecision(t.price))}
+                    {Utility.numberConversion(
+                      t.price,
+                      Utility.getPricePrecision(t.price)
+                    )}
                   </span>
                   <span>{t.amount}</span>
-                  <span>{Utility.numberConversion(t.total, Utility.getPricePrecision(t.price))}</span>
+                  <span>
+                    {Utility.numberConversion(
+                      t.total,
+                      Utility.getPricePrecision(t.price)
+                    )}
+                  </span>
                 </div>
               </Fragment>
             )
