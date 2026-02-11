@@ -4,14 +4,14 @@ import {
   HistogramSeries,
   Time,
 } from 'lightweight-charts'
-import {memo, useCallback, useEffect} from 'react'
+import { memo, useCallback, useEffect, useMemo } from 'react'
 
-import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {SocketEmitter, Utility} from '@/helpers'
-import {CandleObjectType} from '@/types/ChartTypes'
-import {ChartUtils} from '@/utils'
+import { useSocketProvider } from '@/GlobalProvider/SocketProvider'
+import { SocketEmitter, Utility } from '@/helpers'
+import { CandleObjectType } from '@/types/ChartTypes'
+import { ChartUtils } from '@/utils'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
 const ChartGraphs = () => {
   const {
@@ -30,11 +30,25 @@ const ChartGraphs = () => {
     singleCandleData,
     setLiveCandle,
   } = useChartProvider()
-  const {socketRef} = useSocketProvider()
+  const { socketRef } = useSocketProvider()
+
+  const pricePrecision = useMemo(() => {
+    if (!totalCandleData?.length) return 3
+
+    const maxPrice = Math.max(
+      ...totalCandleData.map((item) =>
+        Math.max(Number(item.high), Number(item.close))
+      )
+    )
+
+    return Utility.getPricePrecision(maxPrice)
+  }, [totalCandleData])
+
+
   const calculateDataAndUpdateChart = useCallback(
     (items: CandleObjectType[]) => {
       const candlestickData = items?.map((item) => {
-        const {close, high, low, open, close_time_iso} = item
+        const { close, high, low, open, close_time_iso } = item
         return {
           close: Number(close),
           high: Number(high),
@@ -47,7 +61,7 @@ const ChartGraphs = () => {
       chartAreaRef.current?.setData(candlestickData)
 
       const volumeData = totalCandleData.map((item) => {
-        const {volume, close, open, close_time_iso} = item
+        const { volume, close, open, close_time_iso } = item
         const isUp = Number(close) > Number(open)
 
         return {
@@ -74,7 +88,12 @@ const ChartGraphs = () => {
     // Add candlestick series
     const chartArea = chartObj.addSeries(
       CandlestickSeries,
-      ChartUtils.seriesOptions
+      {
+        ...ChartUtils.seriesOptions, priceFormat: {
+          type: 'price',
+          precision: 3
+        }
+      }
     )
     chartObj.priceScale('right')
     chartAreaRef.current = chartArea
@@ -83,8 +102,9 @@ const ChartGraphs = () => {
         top: 0.25,
         bottom: 0.23,
       },
+
     })
-    chartObj.timeScale().applyOptions({barSpacing: 10})
+    chartObj.timeScale().applyOptions({ barSpacing: 10 })
     chartObj.timeScale().fitContent()
 
     // Add volume series (histogram)
@@ -117,7 +137,7 @@ const ChartGraphs = () => {
     if (isLoadingCandles || !socketRef?.current) return
     socketRef.current.on(
       SocketEmitter.Emitter[
-        selectedIndex as keyof typeof SocketEmitter.Emitter
+      selectedIndex as keyof typeof SocketEmitter.Emitter
       ],
       (data) => {
         const findTokenName = tokenList?.find(
@@ -137,7 +157,7 @@ const ChartGraphs = () => {
           !volumeSeriesRef.current
         )
           return
-        const {open, high, low, close, volume, close_time_iso} = chartSocketData
+        const { open, high, low, close, volume, close_time_iso } = chartSocketData
         singleCandleData.current = chartSocketData
         setLiveCandle(chartSocketData)
         const currentCandle = {
@@ -197,7 +217,18 @@ const ChartGraphs = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCallingCurrent, isLoadingCandles, totalCandleData])
 
-  return <div ref={firstChartRef} style={{width: '100%', height: '100%'}} />
+  useEffect(() => {
+    if (!chartAreaRef.current) return
+
+    chartAreaRef.current.applyOptions({
+      priceFormat: {
+        type: 'price',
+        precision: pricePrecision
+      },
+    })
+  }, [chartAreaRef, pricePrecision])
+
+  return <div ref={firstChartRef} style={{ width: '100%', height: '100%' }} />
 }
 
 export default memo(ChartGraphs)

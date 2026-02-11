@@ -147,7 +147,7 @@ const ChartHeaderStats = () => {
                   {content.includes(English.E122) ||
                   content.includes(English.E373)
                     ? `${textContent?.priceDiff !== '---' ? (Utility.largeNumberNotationConversion(toNumber(textContent?.priceDiff ?? 1)) ?? '0.00') : '---'}${textContent?.priceDiff ? '' : ''}  ${chartInfo?.symbol ?? ''}`
-                    : (textContent?.priceDiff ?? '0.00')}{' '}
+                    : (Utility.numberConversion(toNumber(textContent?.priceDiff), Utility.getPricePrecision(toNumber(textContent?.priceDiff))) ?? '0.00')}{' '}
                 </span>
                 {index !== 3 && (
                   <span className="whitespace-nowrap">

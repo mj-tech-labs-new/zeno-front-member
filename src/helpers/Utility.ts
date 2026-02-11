@@ -1,14 +1,14 @@
 import {isFinite, isNaN} from 'lodash'
 
-const numberConversion = (content: number) => {
+const numberConversion = (content: number, maxFraction?: number) => {
   const hasDecimal = content % 1 !== 0
 
   if (!hasDecimal) {
     return `${new Intl.NumberFormat('en-US').format(content)}.00`
   }
   return new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: maxFraction ?? 2,
+    maximumFractionDigits: maxFraction ?? 2,
   }).format(content)
 }
 
@@ -101,7 +101,22 @@ const getMonthDays = () => {
   const totalDays = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
   return totalDays
 }
+
+const getPricePrecision = (maxValue: number): number => {
+  if (maxValue < 10) return 6
+  if (maxValue < 100) return 5
+  if (maxValue < 1000) return 4
+  if (maxValue < 10000) return 3
+  if (maxValue < 100000) return 2
+  return 2
+}
+
+const isValidNumberString = (value: string) =>
+  value !== '' && !isNaN(Number(value))
+
 const Utility = {
+  isValidNumberString,
+  getPricePrecision,
   generateTrimmedWallet,
   formatTo8Decimals,
   converToPositiveValue,

@@ -24,7 +24,7 @@ const ChartHeader = () => {
               <span
                 className={`${Utility.colorGeneratorUtility(Number(chartSocketData?.change ?? 0))} text-lg !leading-5 font-semibold w-44`}
               >
-                {livePrice} {English.E60}
+                {Utility.numberConversion(livePrice, Utility.getPricePrecision(livePrice))} {English.E60}
               </span>
               {/* <span className="text-primary-color font-medium leading-tight">
                 $ {livePrice}
