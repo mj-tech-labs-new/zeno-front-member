@@ -1,21 +1,21 @@
-import {toNumber} from 'lodash'
-import {memo, useCallback, useEffect, useRef, useState} from 'react'
-import {useSelector} from 'react-redux'
+import { toNumber } from 'lodash'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 
-import {Divider, ImageComponent} from '@/components'
+import { Divider, ImageComponent } from '@/components'
 import CommonPriceSwitch from '@/components/CommonPriceSwitch/CommonPriceSwitch'
 import CheckBoxInputContainer from '@/components/InputContainer/CheckBoxInputContainer'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {BuyOrSelProps, CommonBuyAndSellProp} from '@/types/ChartTypes'
-import {StorageProps} from '@/types/CommonTypes'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { BuyOrSelProps, CommonBuyAndSellProp } from '@/types/ChartTypes'
+import { StorageProps } from '@/types/CommonTypes'
 
 import MaxOpenAndMargin from '../components/MaxOpenAndMargin'
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import ActionButton from './ActionButton'
 import StopLoss from './StopLoss'
 
 const Limit = (props: BuyOrSelProps) => {
-  const {activeIndex, margin_mode} = props
+  const { activeIndex, margin_mode } = props
   const {
     selectedToken,
     getChallengeByIdArray,
@@ -36,8 +36,8 @@ const Limit = (props: BuyOrSelProps) => {
 
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-      Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({stop_loss: [], take_profit: []})
+    Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({ stop_loss: [], take_profit: [] })
 
   const [stopLossValue, setStopLossValue] = useState(0)
 
@@ -50,9 +50,9 @@ const Limit = (props: BuyOrSelProps) => {
   )
 
   const resetValues = useCallback(() => {
-    setInputValues({entryprice: '', quantity: ''})
+    setInputValues({ entryprice: '', quantity: '' })
     setStopLossValue(0)
-    setStopLossData({stop_loss: [], take_profit: []})
+    setStopLossData({ stop_loss: [], take_profit: [] })
     totalStrFinal.current = ''
     tokenQtyRef.current = '0'
   }, [])
@@ -89,7 +89,7 @@ const Limit = (props: BuyOrSelProps) => {
           tokenQtyRef.current = qty.toString()
         }
 
-        return {...prev, quantity: tokenValue}
+        return { ...prev, quantity: tokenValue }
       })
     },
     [addAmountType]
@@ -167,7 +167,7 @@ const Limit = (props: BuyOrSelProps) => {
 
       {Constants.BuySellInputArray[activeIndex === 0 ? 'Limit' : 'Market']?.map(
         (item, index) => {
-          const {name, label, placeHolder} = item
+          const { name, label, placeHolder } = item
 
           const value =
             name === 'price'
@@ -183,7 +183,7 @@ const Limit = (props: BuyOrSelProps) => {
               name={name}
               onModelClose={resetValues}
               placeholder={placeHolder}
-              showModelType={index === 1 || index === 2}
+              showModelType={name === 'quantity'}
               singleLineContent={label}
               value={value || ''}
               onChange={(e) => {
@@ -211,7 +211,7 @@ const Limit = (props: BuyOrSelProps) => {
         onChange={() => {
           setIsTpSl((prev) => {
             if (prev) {
-              setStopLossData({stop_loss: [], take_profit: []})
+              setStopLossData({ stop_loss: [], take_profit: [] })
             }
             return !prev
           })
