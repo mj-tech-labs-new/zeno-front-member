@@ -21,13 +21,17 @@ export interface SocialMediaStatus {
   subscribe_youtube_date: string
   server_time: string
   followed_X_reward_status: boolean
+  followed_X_reward_remain_sec: number
   followed_instagram_reward_status: boolean
-  followed_X_reward_status: boolean
-
+  followed_instagram_reward_remain_sec: number
   join_telegram_community_reward_status: boolean
+  join_telegram_community_reward_remain_sec: boolean
   join_telegram_group_reward_status: boolean
+  join_telegram_group_reward_remain_sec: boolean
   registration_reward_status: boolean
+  registration_reward_remain_sec: boolean
   subscribe_youtube_reward_status: boolean
+  subscribe_youtube_reward_remain_sec: number
 }
 
 export interface RewardHistoryTypes {

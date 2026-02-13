@@ -39,6 +39,7 @@ import Sidebar from './Sidebar/Sidebar'
 import BasicSkeleton from './SkeletonComponents/BasicSkeleton'
 import SwiperComponent from './SwiperComponent/SwiperComponent'
 import TabComponent from './TabComponent/TabComponent'
+import Timer from './Timer/Timer'
 import Info from './Tooltips/Info'
 import TotalPayout from './TotalPayout/TotalPayout'
 import ChallengeWallet from './Wallet/ChallengeWallet'
@@ -90,6 +91,7 @@ export {
   StatsDescription,
   SwiperComponent,
   TabComponent,
+  Timer,
   TotalPayout,
   WalletModel,
 }

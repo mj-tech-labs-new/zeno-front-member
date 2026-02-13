@@ -1,3 +1,6 @@
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {Link} from 'react-router-dom'
 
@@ -6,6 +9,7 @@ import {
   CommonTableComponent,
   ImageComponent,
   Loader,
+  Timer,
 } from '@/components'
 import {Constants, English, Images} from '@/helpers'
 import {AppLoaderRef} from '@/types/ComponentTypes'
@@ -18,6 +22,8 @@ import CongratulationModel from '../Components/CongratulationModel'
 import ReferralLinkSection from '../Components/ReferralLinkSection'
 
 const Dashboard = () => {
+  dayjs.extend(utc)
+  dayjs.extend(timezone)
   // const [DashboardData, setDashboardData] = useState()
   const loaderRef = useRef<AppLoaderRef>(null)
   const [earningData, setEarningData] = useState<RewardEarning | null>()
@@ -97,6 +103,7 @@ const Dashboard = () => {
         reward: '10 Points',
         status: socialMediaCheck?.registration_status,
         type: 1,
+        second: socialMediaCheck?.registration_reward_remain_sec,
       },
       {
         image: Images.twitterIcon,
@@ -104,7 +111,7 @@ const Dashboard = () => {
         title: English.E467,
         taskLink: 'https://x.com/zeno_traders',
         rewardStatus: socialMediaCheck?.followed_X_reward_status,
-
+        second: socialMediaCheck?.followed_X_reward_remain_sec,
         reward: '2 Points',
         status: socialMediaCheck?.followed_X_status,
         type: 3,
@@ -116,7 +123,7 @@ const Dashboard = () => {
         taskLink: 'https://www.instagram.com/zeno_trader',
         reward: '2 Points',
         rewardStatus: socialMediaCheck?.followed_instagram_reward_status,
-
+        second: socialMediaCheck?.followed_instagram_reward_remain_sec,
         status: socialMediaCheck?.followed_instagram_status,
         type: 2,
       },
@@ -128,7 +135,7 @@ const Dashboard = () => {
         reward: '2 Points',
         status: socialMediaCheck?.join_telegram_group_status,
         rewardStatus: socialMediaCheck?.join_telegram_group_reward_status,
-
+        second: socialMediaCheck?.join_telegram_group_reward_remain_sec,
         type: 4,
       },
       {
@@ -139,7 +146,7 @@ const Dashboard = () => {
         reward: '2 Points',
         status: socialMediaCheck?.join_telegram_community_status,
         rewardStatus: socialMediaCheck?.join_telegram_community_reward_status,
-
+        second: socialMediaCheck?.join_telegram_community_reward_remain_sec,
         type: 5,
       },
       {
@@ -150,6 +157,7 @@ const Dashboard = () => {
         reward: '2 Points',
         status: socialMediaCheck?.subscribe_youtube_status,
         rewardStatus: socialMediaCheck?.subscribe_youtube_reward_status,
+        second: socialMediaCheck?.subscribe_youtube_reward_remain_sec,
         type: 6,
       },
     ],
@@ -192,6 +200,7 @@ const Dashboard = () => {
             title,
             taskLink,
             rewardStatus,
+            second,
           } = item
           const taken = status === 'taken'
           const granted = status === 'not_granted'
@@ -242,16 +251,26 @@ const Dashboard = () => {
               </td>
               <td className="p-6 text-primary-color capitalize">{reward}</td>
               <td className="p-6 text-primary-color capitalize">
-                <CommonButton
-                  className={`px-2! py-3! ${pending ? 'text-primary-color! medium-success-btn-type ' : 'text-text-hint-color! primary-btn-type'} w-full sm:max-w-56! `}
-                  disabled={taken || !(pending && rewardStatus)}
-                  onClick={() => {
-                    handUpdateCheckSocialMediaReward(type)
-                  }}
-                  singleLineContent={
-                    status !== 'taken' ? English.E470 : English.E498
-                  }
-                />
+                {status === 'pending' && rewardStatus === false ? (
+                  <Timer
+                    seconds={
+                      second && Number(second) < 60 && Number(second) > 0
+                        ? Number(second)
+                        : 60
+                    }
+                  />
+                ) : (
+                  <CommonButton
+                    className={`px-2! py-3! ${pending ? 'text-primary-color! medium-success-btn-type ' : 'text-text-hint-color! primary-btn-type'} w-full sm:max-w-56! `}
+                    disabled={taken || !(pending && rewardStatus)}
+                    onClick={() => {
+                      handUpdateCheckSocialMediaReward(type)
+                    }}
+                    singleLineContent={
+                      status !== 'taken' ? English.E470 : English.E498
+                    }
+                  />
+                )}
               </td>
             </tr>
           )

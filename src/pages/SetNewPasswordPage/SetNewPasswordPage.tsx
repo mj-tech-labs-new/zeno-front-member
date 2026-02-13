@@ -155,7 +155,7 @@ const SetNewPasswordPage = () => {
           className={`h-full sm:w-small-container mx-auto xl:w-md 2xl:w-2xl `}
         >
           <ImageComponent
-            className="h-8 sm:h-10 mx-auto aspect-square"
+            className="w-56 mx-auto aspect-square"
             imageUrl={Images.platformLogo}
           />
           <div className="flex flex-col gap-10 sm:gap-8 w-full">
