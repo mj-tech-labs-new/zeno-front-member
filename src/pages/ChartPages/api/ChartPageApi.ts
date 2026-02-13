@@ -69,7 +69,7 @@ const closeOrderApi = async (
 const OpenHistoryApi = async (props: OrderHistoryApiProps) => {
   let apiPayload: Record<string, any> = {
     challenge_id: props.challenge_id,
-    order_type: props.order_type,
+    order_type: 'DESC',
     order_value: props.order_value,
     tp_sl: props.tp_sl,
   }
@@ -107,7 +107,7 @@ const OpenHistoryApi = async (props: OrderHistoryApiProps) => {
 const PositionHistoryApi = async (props: PositionHistoryApiProps) => {
   let apiPayload: Record<string, any> = {
     challenge_id: props.challenge_id,
-    order_type: props.order_type,
+    order_type: 'DESC',
     order_value: props.order_value,
   }
   if (props.fromDate !== '' && props.toDate !== '') {
@@ -146,7 +146,7 @@ const TransactionDetailsHistoryApi = async (
 ) => {
   let apiPayload: Record<string, any> = {
     challenge_id: props.challenge_id,
-    order_type: props.order_type,
+    order_type: 'DESC',
     order_value: props.order_value,
   }
   if (props.fromDate !== '' && props.toDate !== '') {

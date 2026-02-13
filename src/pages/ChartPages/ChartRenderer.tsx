@@ -40,7 +40,7 @@ const ChartRenderer = () => {
   }, [])
 
   return (
-    <div className="h-full bg-chart-layout w-full  lg:w-[calc(100%-600px)] flex-1">
+    <div className="h-full bg-chart-layout w-full  lg:w-3/4 flex-1">
       <div className="flex flex-col lg:flex-row  w-full">
         <ChartShapes />
         <div ref={fullScreenContainer} className="w-full">
@@ -87,7 +87,7 @@ const ChartRenderer = () => {
             </div>
           </div>
           <div
-            className={`relative ${isFullscreen ? 'h-full' : 'flex h-[calc(100vh-195px)] lg:h-[calc(100vh-132px)] max-h-[562px] overflow-hidden'}  `}
+            className={`relative ${isFullscreen ? 'h-full' : 'flex h-[calc(100vh-195px)] lg:h-[calc(100vh-132px)] overflow-hidden'}  `}
           >
             <ChartGraphs />
             <Ma5Indicators />

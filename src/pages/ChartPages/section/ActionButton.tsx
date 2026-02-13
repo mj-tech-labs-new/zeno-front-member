@@ -80,7 +80,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
           leverage,
           stop_loss,
           take_profit,
-          margin_mode,
+          margin_mode: margin_mode?.toString() ?? 'isolated',
           role:
             order_type === 'limit'
               ? orderSide === 'buy'
