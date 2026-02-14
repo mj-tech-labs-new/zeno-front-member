@@ -53,7 +53,10 @@ const PlaceOrder = () => {
             headingClassName="!bg-transparent
         "
             onSelectValue={(data) =>
-              setMode(data?.title ?? Constants.orderMarginMode[0])
+              setMode(
+                data?.title?.toLowerCase() ??
+                  Constants.orderMarginMode[0]?.title?.toLowerCase()
+              )
             }
             selectedValue={{
               title: mode?.toString() ?? Constants?.orderMarginMode[0].title,

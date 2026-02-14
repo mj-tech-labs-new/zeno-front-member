@@ -88,7 +88,7 @@ const PendingOrderTable = (
             </td>
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
               <span className="block pb-0.5">
-                {dayjs(submitted_time).format('YYYY-MM-DD')}
+                {dayjs(submitted_time).format('DD/MM/YYYY')}
               </span>
               <span className="block">
                 {dayjs(submitted_time).format('HH:mm:ss')}

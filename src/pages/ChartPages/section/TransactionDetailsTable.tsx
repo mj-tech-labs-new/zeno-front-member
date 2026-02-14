@@ -95,8 +95,8 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
               selectedDate2={selectedDate?.date2}
               onSelectDate={(data) => {
                 setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
-                const fromDate = dayjs(data?.[0]).format('YYYY-MM-DD')
-                const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
+                const fromDate = dayjs(data?.[0]).format('DD/MM/YYYY')
+                const toDate = dayjs(data?.[1]).format('DD/MM/YYYY')
 
                 if (data?.[0] && data?.[1]) {
                   getTransactionHistoryData(
@@ -196,7 +196,7 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
                 </th>
                 <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <div className="flex flex-col">
-                    <span>{dayjs(created_at).format('YYYY-MM-DD')}</span>
+                    <span>{dayjs(created_at).format('DD/MM/YYYY')}</span>
                     <span>{dayjs(created_at).format('hh:mm:ss')}</span>
                   </div>
                 </td>
