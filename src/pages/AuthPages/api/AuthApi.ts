@@ -130,7 +130,7 @@ const forgotPasswordApi = async (props: forgotPasswordApiProps) => {
 }
 const setNewPasswordApi = async (props: SetNewPasswordApiProps) => {
   const payload = {otp: props?.otp, new_password: props?.new_password}
-  const header = {Authorization: `${props?.token}`}
+  const header = {Authorization: `Bearer ${props?.token}`}
   return new Promise<any>((resolve) => {
     APICall('post', Endpoints.setNewPassword, payload, {}, header)
       .then((res: any) => {
