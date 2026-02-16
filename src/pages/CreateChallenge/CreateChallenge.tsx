@@ -116,7 +116,7 @@ const CreateChallenge = () => {
             />
           </div>
         )}
-        <div className="flex gap-4 flex-col justify-center lg:flex-row w-full">
+        <div className="flex gap-4 flex-col lg:flex-row w-full">
           <Steps
             onSelectedItem={(data) => {
               setSelectedOption(data?.step)
