@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 
-import { DropDown, HeadingComponent, TabComponent } from '@/components'
-import { Constants, English } from '@/helpers'
+import {DropDown, HeadingComponent, TabComponent} from '@/components'
+import {Constants, English} from '@/helpers'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import Limit from './Limit'
 
 const PlaceOrder = () => {
@@ -25,11 +25,11 @@ const PlaceOrder = () => {
 
     if (!stages) return
 
-    const levArray = Array.from({ length: stages.leverage }).map((_, index) => ({
+    const levArray = Array.from({length: stages.leverage}).map((_, index) => ({
       title: `${(index + 1).toString()}X`,
     }))
     setLeverageValueArray(levArray)
-    setSelectedLeverage({ title: levArray[0]?.title?.replace('X', '') })
+    setSelectedLeverage({title: levArray[0]?.title?.replace('X', '')})
   }, [getChallengeByIdArray, setLeverageValueArray, setSelectedLeverage])
 
   return (
@@ -55,7 +55,7 @@ const PlaceOrder = () => {
             onSelectValue={(data) =>
               setMode(
                 data?.title?.toLowerCase() ??
-                Constants.orderMarginMode[0]?.title?.toLowerCase()
+                  Constants.orderMarginMode[0]?.title?.toLowerCase()
               )
             }
             selectedValue={{

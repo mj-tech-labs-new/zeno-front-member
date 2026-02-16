@@ -198,7 +198,7 @@ const English = {
   E198: 'Product',
   E199: 'About Us',
   E200: 'Resources',
-  E201: 'Start Your Journey with Zeno',
+  E201: 'Trading Rules',
   E202: 'Choose your challenge type and account size, complete the Zeno Trading Challenge, and prove your ability to trade consistently under professional conditions. Trade in a simulated environment with up to 200,000 USDT in virtual capital and unlock the path to a funded account.',
   E203: 'Trade. Get Funded. Earn.',
   E204: 'Unlock Capital. Scale up-to 200K.',
@@ -466,6 +466,7 @@ const English = {
   E506: 'Registration Points :',
   E507: 'Reward Statistics',
   E508: 'Points Earned',
+  E509: 'Steps',
 }
 
 export default English

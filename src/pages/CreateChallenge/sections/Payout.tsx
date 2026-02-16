@@ -1,14 +1,29 @@
 import {useMemo} from 'react'
 
-import {CommonButton, Divider, HeadingComponent} from '@/components'
-import {English} from '@/helpers'
+import {
+  CommonButton,
+  Divider,
+  HeadingComponent,
+  ImageComponent,
+} from '@/components'
+import {English, Images} from '@/helpers'
 import {ChallengePayoutObject} from '@/types/ChallengeTypes'
 import {GeneralProps} from '@/types/CommonTypes'
 
 const Payout = (
-  props: ChallengePayoutObject & Required<Pick<GeneralProps, 'onPressItem'>>
+  props: ChallengePayoutObject &
+    Required<Pick<GeneralProps, 'onPressItem'>> &
+    Pick<GeneralProps, 'className'>
 ) => {
-  const {amount, capital, name, type, onPressItem} = props
+  const {
+    amount,
+    capital,
+    name,
+    type,
+    onPressItem,
+    plan_icon_url,
+    className = '',
+  } = props
   const payoutDetails = useMemo(
     () => ({
       [English.E27]: type,
@@ -24,7 +39,17 @@ const Payout = (
   )
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className={`flex flex-col gap-4 ${className}`}>
+      <div className="md:min-h-56 rounded-[8px] overflow-hidden">
+        <ImageComponent
+          className="size-full md:size-56 md:mx-auto lg:size-full "
+          imageUrl={
+            !plan_icon_url || plan_icon_url?.toString()?.includes('localhost')
+              ? Images.character1
+              : `${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${plan_icon_url?.replace('/home/ubuntu/backend/', '')}`
+          }
+        />
+      </div>
       <div className="flex flex-col gap-4">
         <HeadingComponent
           className="text-base/6 font-medium text-secondary-dark-color"

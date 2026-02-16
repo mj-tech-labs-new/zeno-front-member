@@ -85,6 +85,11 @@ const PaymentPage = () => {
       1000 * 60 * 10
     )
 
+    // eslint-disable-next-line consistent-return
+    return () => {
+      clearInterval(intervalId)
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

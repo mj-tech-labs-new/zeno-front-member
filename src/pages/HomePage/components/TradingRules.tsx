@@ -1,7 +1,7 @@
 import {HeadingComponent, ListingComponent} from '@/components'
 import {English} from '@/helpers'
 
-import StepComponent from './StepComponent'
+// import StepComponent from './StepComponent'
 
 const TradingRules = () => (
   <div className="bg-marquee-gradient-bg lg:pt-[123px] lg:pb-[101px] pb-[50px] pt-16 space-y-[34px] px-4 lg:px-13 lg:space-y-[88px]">
@@ -30,7 +30,7 @@ const TradingRules = () => (
             />
           </div>
         </div>
-        <StepComponent />
+        {/* <StepComponent /> */}
       </div>
     </div>
   </div>

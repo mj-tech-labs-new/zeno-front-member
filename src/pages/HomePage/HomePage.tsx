@@ -14,7 +14,7 @@ import Questions from './components/Questions'
 import StartChallengeTwentyMins from './components/StartChallengeTwentyMins'
 import StartYourJourney from './components/StartYourJourney'
 import StopWastingTime from './components/StopWastingTime'
-import TradingRules from './components/TradingRules'
+// import TradingRules from './components/TradingRules'
 
 const HomePage = () => {
   const userData = useSelector((data: StorageProps) => data.userData?.user)
@@ -34,7 +34,7 @@ const HomePage = () => {
       <StopWastingTime />
       <StartChallengeTwentyMins />
       <StartYourJourney />
-      <TradingRules />
+      {/* <TradingRules /> */}
       <BrandingCarousel />
       <Questions />
       <Footer />

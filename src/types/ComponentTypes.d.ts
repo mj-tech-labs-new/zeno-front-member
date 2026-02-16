@@ -305,3 +305,9 @@ export interface WalletModelProps {
   walletAddress: string
   challenge_id: string
 }
+
+export interface SimpleTabProps extends Pick<GeneralProps, 'className'> {
+  tabArray: {content: string; labelText?: string}[]
+  selectedIndex: number
+  onPressIndex: (index: number) => void
+}

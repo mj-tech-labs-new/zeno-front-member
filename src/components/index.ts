@@ -21,10 +21,12 @@ import Divider from './Divider/Divider'
 import EmptyComponent from './EmptyComponent/EmptyComponent'
 import GoBackButton from './GoBackButton/GoBackButton'
 import GoBackComponent from './GoBackComponent/GoBackComponent'
+// import WordSplit from './GsapComponents/WordSplit'
 import HeadingComponent from './HeadingComponent/HeadingComponent'
 import ImageComponent from './ImageComponent/ImageComponent'
 import InputContainer from './InputContainer/InputContainer'
 import RadioInputContainer from './InputContainer/RadioInputContainer'
+import Labels from './Labels/Labels'
 import ListingComponent from './ListingComponent/ListingComponent'
 import Loader from './Loader/Loader'
 import LogoComponent from './LogoComponent/LogoComponent'
@@ -38,6 +40,7 @@ import SearchComponent from './SearchComponent/SearchComponent'
 import Sidebar from './Sidebar/Sidebar'
 import BasicSkeleton from './SkeletonComponents/BasicSkeleton'
 import SwiperComponent from './SwiperComponent/SwiperComponent'
+import SimpleTab from './TabComponent/SimpleTab'
 import TabComponent from './TabComponent/TabComponent'
 import Timer from './Timer/Timer'
 import Info from './Tooltips/Info'
@@ -76,6 +79,7 @@ export {
   ImageComponent,
   Info,
   InputContainer,
+  Labels,
   LinearProgressBar,
   ListingComponent,
   Loader,
@@ -87,6 +91,7 @@ export {
   RangeSelector,
   SearchComponent,
   Sidebar,
+  SimpleTab,
   SingleRangeSlider,
   StatsDescription,
   SwiperComponent,

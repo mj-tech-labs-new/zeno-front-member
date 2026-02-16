@@ -10,9 +10,8 @@ import {ChallengePayoutObject} from '@/types/ChallengeTypes'
 import {StorageProps} from '@/types/CommonTypes'
 
 import {getPaymentQrCode} from './api/CreateChallengeApis'
-import CreateChallengeContainer from './sections/CreateChallengeContainer'
 import Payout from './sections/Payout'
-import TradingCapitalContainer from './sections/TradingCapitalContainer'
+import Steps from './sections/Steps'
 
 const CreateChallenge = () => {
   const mountRef = useRef(false)
@@ -26,6 +25,7 @@ const CreateChallenge = () => {
     capital: '---',
     name: '---',
     type: '---',
+    plan_icon_url: '',
   })
   const [paymentDetails, setPaymentDetails] = useState<
     Record<string, string | number | boolean>
@@ -88,16 +88,6 @@ const CreateChallenge = () => {
   }, [payoutData])
 
   useEffect(() => {
-    if (!selectedOption) return
-    setPayoutDetails(() => ({
-      amount: '---',
-      capital: '---',
-      name: '---',
-      type: '---',
-    }))
-  }, [selectedOption])
-
-  useEffect(() => {
     mountRef.current = true
     return () => {
       if (payoutData && userData?.user?.token) {
@@ -111,35 +101,36 @@ const CreateChallenge = () => {
     <Layout2>
       <Loader ref={(ref) => ref?.showLoader(showLoader)} />
       <div className="w-full flex flex-col gap-12 lg:gap-14 lg:w-full shrink-0">
-        <div
-          className={`${location.pathname !== '/' ? 'max-w-md mx-auto' : ''} flex flex-col gap-4 text-center`}
-        >
-          <HeadingComponent
-            className={location.pathname === '/' ? 'text-left' : ''}
-            singleLineContent={English.E201}
-            variant="medium"
-          />
-          <DescriptionComponent
-            className={location.pathname === '/' ? 'text-left' : ''}
-            multilineContent={[English.E202]}
-          />
-        </div>
-        <div className="flex gap-4 flex-col justify-center lg:flex-row w-full">
+        {location.pathname === '/' && (
           <div
-            className={`w-full flex flex-col gap-4 lg:w-2/3 ${paymentDetails?.transactionId !== 0 ? '!pointer-events-none' : ''}`}
+            className={`${location.pathname !== '/' ? 'max-w-md mx-auto' : ''} flex flex-col gap-4 text-center`}
           >
-            <CreateChallengeContainer
-              onPressStage={setSelectedOption}
-              selectedOption={selectedOption}
+            <HeadingComponent
+              className={location.pathname === '/' ? 'text-left' : ''}
+              singleLineContent={English.E201}
+              variant="medium"
             />
-            <TradingCapitalContainer
-              selectedOption={selectedOption}
-              setSelectedTableRow={setSelectedTableRow}
-              onPressItem={(data) => {
-                setPayoutDetails(data)
-              }}
+            <DescriptionComponent
+              className={location.pathname === '/' ? 'text-left' : ''}
+              multilineContent={[English.E202]}
             />
           </div>
+        )}
+        <div className="flex gap-4 flex-col justify-center lg:flex-row w-full">
+          <Steps
+            onSelectedItem={(data) => {
+              setSelectedOption(data?.step)
+              setSelectedTableRow(data?.id)
+              setPayoutDetails({
+                amount: data?.capital_fund.toString(),
+                capital: data?.fee.toString(),
+                type: data?.step === 1 ? 'One Step' : 'Two Step',
+                name: data?.challenge_name,
+                status: data?.plan_status.toString(),
+                plan_icon_url: data?.plan_icon_url,
+              })
+            }}
+          />
           <div
             className={`w-full  lg:w-[385px] bg-white p-6 rounded-2xl ${location.pathname === '/' ? '' : 'sticky top-0'} h-fit`}
           >
@@ -147,7 +138,13 @@ const CreateChallenge = () => {
               amount={payoutDetails?.amount}
               capital={payoutDetails?.capital}
               name={payoutDetails?.name}
+              plan_icon_url={payoutDetails?.plan_icon_url}
               type={payoutDetails?.type}
+              className={
+                paymentDetails?.transactionId !== 0
+                  ? '!pointer-events-none'
+                  : ''
+              }
               onPressItem={() => {
                 if (!userData?.user?.token) {
                   CommonFunction.addSliceData('addPaymentDetails', {

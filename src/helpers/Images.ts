@@ -187,6 +187,30 @@ const Images = {
     '../assets/static_assets/leaderBoard.png',
     import.meta.url
   ).href,
+  character1: new URL(
+    '../assets/static_assets/character_1.jpg',
+    import.meta.url
+  ).href,
+  character2: new URL(
+    '../assets/static_assets/character_2.jpg',
+    import.meta.url
+  ).href,
+  character3: new URL(
+    '../assets/static_assets/character_3.jpg',
+    import.meta.url
+  ).href,
+  character4: new URL(
+    '../assets/static_assets/character_4.jpg',
+    import.meta.url
+  ).href,
+  character5: new URL(
+    '../assets/static_assets/character_5.jpg',
+    import.meta.url
+  ).href,
+  character6: new URL(
+    '../assets/static_assets/character_6.jpg',
+    import.meta.url
+  ).href,
 }
 
 export default Images
