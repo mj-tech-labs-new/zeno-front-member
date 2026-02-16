@@ -50,8 +50,8 @@ interface OtherLoaderType {
 const ChartContext = createContext<{
   leverageValueArray: DropDownObjectType[]
   setLeverageValueArray: Dispatch<SetStateAction<DropDownObjectType[]>>
-  selectedLeverage: DropDownObjectType | undefined
-  setSelectedLeverage: Dispatch<SetStateAction<DropDownObjectType | undefined>>
+  selectedLeverage: DropDownObjectType
+  setSelectedLeverage: Dispatch<SetStateAction<DropDownObjectType>>
   challengeId: string | null
   setChallengeId: Dispatch<SetStateAction<string | null>>
   handleCommonMouseDown: () => void
@@ -184,7 +184,9 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     string,
     CandleObjectType
   > | null>(null)
-  const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>()
+  const [selectedLeverage, setSelectedLeverage] = useState<DropDownObjectType>({
+    title: '1',
+  })
   const {socketRef} = useSocketProvider()
   const [challengeId, setChallengeId] = useState<null | string>(null)
   const isDrawing = useRef(false)

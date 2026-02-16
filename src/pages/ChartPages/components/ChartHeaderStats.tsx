@@ -33,9 +33,7 @@ const ChartHeaderStats = () => {
 
   const highestAmount = useMemo(
     () => ({
-      priceDiff: chartSocketData?.high
-        ? Utility.numberConversion(chartSocketData.high)
-        : '---',
+      priceDiff: chartSocketData?.high ? Number(chartSocketData?.high) : '---',
       percentageDiff:
         chartSocketData?.high && chartSocketData?.open
           ? `(${Utility.numberConversion(((chartSocketData.high - chartSocketData.open) / chartSocketData.open) * 100)}%)`
@@ -154,7 +152,7 @@ const ChartHeaderStats = () => {
                       : (Utility.numberConversion(
                           toNumber(textContent?.priceDiff),
                           Utility.getPricePrecision(
-                            toNumber(textContent?.priceDiff)
+                            toNumber(textContent?.priceDiff ?? 3)
                           )
                         ) ?? '0.00')}{' '}
                 </span>
