@@ -49,7 +49,6 @@ const PlaceOrder = () => {
             className="!max-h-32 mt-2 !overflow-auto !w-full"
             dropDownData={Constants.orderMarginMode}
             elementId={['place_order_container', 'chartRendering']}
-            layoutClassName="!h-fit"
             headingClassName="!bg-transparent
         "
             onSelectValue={(data) =>
