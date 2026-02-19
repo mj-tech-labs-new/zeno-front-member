@@ -16,6 +16,7 @@ const CopyClipBoard = forwardRef<HTMLDivElement, CopyClipBoardProps>(
       imageRelatedText = '',
       onPressItem,
       type,
+      singleLineContent = '',
     } = props
     const [imageContent, setImageContent] = useState('')
 
@@ -46,7 +47,7 @@ const CopyClipBoard = forwardRef<HTMLDivElement, CopyClipBoardProps>(
             onPressItem?.()
             if (imageUrl === Images.copy) {
               toast.info(English.E232)
-              window.navigator.clipboard.writeText(imageRelatedText)
+              window.navigator.clipboard.writeText(singleLineContent)
             }
           }}
         >

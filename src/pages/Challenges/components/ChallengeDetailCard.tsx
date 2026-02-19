@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import {useEffect, useMemo, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
 import {
   CommonButton,
@@ -115,8 +116,14 @@ const ChallengeDetailCard = (props: {
                 {English.E117}: <span>{item?.challenge_id}</span>{' '}
                 <ImageComponent
                   className="ml-1 !w-4 !h-4 !cursor-pointer"
-                  imageRelatedText={item?.challenge_id}
                   imageUrl={Images.copy}
+                  onPressItem={() => {
+                    navigator.clipboard
+                      .writeText(item?.challenge_id)
+                      .then(() => {
+                        toast.info(English.E232)
+                      })
+                  }}
                 />
               </div>
             </div>

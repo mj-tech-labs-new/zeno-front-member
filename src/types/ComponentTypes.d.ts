@@ -26,13 +26,11 @@ export type ImageComponentProps = Pick<
   GeneralProps,
   'className' | 'onPressItem'
 > &
-  Required<Pick<GeneralProps, 'imageUrl'>> & {imageType?: ImageType} & {
-    imageRelatedText?: string
-  }
+  Required<Pick<GeneralProps, 'imageUrl'>> & {imageType?: ImageType}
 
 export type CopyClipBoardProps = Pick<
   GeneralProps,
-  'className' | 'onPressItem'
+  'className' | 'onPressItem' | 'singleLineContent'
 > &
   Required<Pick<GeneralProps, 'imageUrl'>> & {imageType?: ImageType} & {
     imageRelatedText?: string

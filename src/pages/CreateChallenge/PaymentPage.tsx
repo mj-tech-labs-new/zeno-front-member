@@ -124,6 +124,7 @@ const PaymentPage = () => {
                         className="ml-1 !w-4 !h-4 !cursor-pointer green_filter"
                         imageRelatedText="Copy"
                         imageUrl={Images.copy}
+                        singleLineContent={value}
                         type="text"
                       />
                     </span>

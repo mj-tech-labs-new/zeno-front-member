@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react'
+import {toast} from 'react-toastify'
 
 import {English, Images} from '@/helpers'
 import {GeneralProps} from '@/types/CommonTypes'
@@ -31,7 +32,9 @@ const ReferralLinkSection = (
           onClick={(e) => {
             if (!referralCode) return
             e.stopPropagation()
-            navigator.clipboard?.writeText(referralCode)
+            navigator.clipboard?.writeText(referralCode).then(() => {
+              toast.info(English.E232)
+            })
           }}
         />
       </div>

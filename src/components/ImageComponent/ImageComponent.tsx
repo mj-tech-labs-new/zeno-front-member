@@ -1,7 +1,6 @@
 import {forwardRef, useEffect, useState} from 'react'
-import {toast} from 'react-toastify'
 
-import {English, Images} from '@/helpers'
+import {Images} from '@/helpers'
 import {ImageComponentProps} from '@/types/ComponentTypes'
 
 import BasicSkeleton from '../SkeletonComponents/BasicSkeleton'
@@ -13,7 +12,6 @@ const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
       className = '',
       imageUrl,
       imageType = 'normal_type',
-      imageRelatedText = '',
       onPressItem,
     } = props
     const [imageContent, setImageContent] = useState('')
@@ -44,10 +42,6 @@ const ImageComponent = forwardRef<HTMLDivElement, ImageComponentProps>(
             if (onPressItem) {
               e.stopPropagation()
               onPressItem()
-            }
-            if (imageUrl === Images.copy) {
-              toast.info(English.E232)
-              window.navigator.clipboard.writeText(imageRelatedText)
             }
           }}
         >
