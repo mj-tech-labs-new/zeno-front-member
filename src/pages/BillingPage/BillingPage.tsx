@@ -97,7 +97,7 @@ const BillingPage = () => {
                   {invoice_id}
                 </th>
                 <td className="p-6 text-secondary-light-color capitalize">
-                  {dayjs(created_at).format('YYYY-MM-DD')}
+                  {dayjs(created_at).format('DD/MM/YYYY')}
                 </td>
                 <td className="p-6 text-secondary-light-color capitalize">
                   {challenge_type}

@@ -112,7 +112,10 @@ const PendingOrderTable = (
             <td className="pr-6 py-4 flex items-center min-h-[74px]! gap-3 text-left text-chart-text-primary-color !whitespace-nowrap">
               <div>
                 {submitted_price
-                  ? Utility.removeDecimal(submitted_price)
+                  ? Utility.numberConversion(
+                      submitted_price,
+                      Utility.getPricePrecision(submitted_price)
+                    )
                   : '---'}
               </div>
               <div>
@@ -138,11 +141,21 @@ const PendingOrderTable = (
                 <div className="flex gap-3 items-center">
                   <div className="flex flex-col">
                     <span className="!text-primary-green">
-                      {tableBody?.take_profit?.[0]?.price ?? '--'}
+                      {Utility.numberConversion(
+                        tableBody?.take_profit?.[0]?.price ?? 0,
+                        Utility.getPricePrecision(
+                          tableBody?.take_profit?.[0]?.price ?? 3
+                        )
+                      ) ?? '--'}
                     </span>
 
                     <span className="!text-extra-dark-danger-color">
-                      {tableBody?.stop_loss?.[0]?.price ?? '--'}
+                      {Utility.numberConversion(
+                        tableBody?.stop_loss?.[0]?.price ?? 0,
+                        Utility.getPricePrecision(
+                          tableBody?.stop_loss?.[0]?.price ?? 3
+                        )
+                      ) ?? '--'}
                     </span>
                   </div>
                   <div className="">

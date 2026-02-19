@@ -212,12 +212,12 @@ const TransactionDetailsTable = (props: {showHeader: boolean}) => {
                   </span>
                 </td>
                 <td className="  pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  <span>{`${final_price} ${English.E60}`}</span>
+                  <span>{`${Utility.numberConversion(final_price, Utility.getPricePrecision(final_price))} ${English.E60}`}</span>
                 </td>
                 <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  {`${quantity} ${symbol.replace('USDT', '')}`}
+                  {`${Utility.numberConversion(quantity, Utility.getPricePrecision(quantity))} ${symbol.replace('USDT', '')}`}
                 </td>
-                <td className=" flex  flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
+                <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {role === null
                     ? '--'
                     : role?.charAt(0)?.toUpperCase() + role?.slice(1, 5)}

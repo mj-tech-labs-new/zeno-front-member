@@ -245,13 +245,16 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                 </td>
                 <td className=" flex flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span className="inline-block">
-                    {`${Utility.removeDecimal(average_trading_price, 3)} ${English.E60}`}
+                    {`${Utility.numberConversion(average_trading_price, Utility.getPricePrecision(average_trading_price))} ${English.E60}`}
                   </span>
                   <span>{`${Utility.removeDecimal(commission_price ?? 0, 3)}  ${English.E60}`}</span>
                 </td>
                 <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span>
-                    {quantity}
+                    {Utility.numberConversion(
+                      quantity,
+                      Utility.getPricePrecision(quantity)
+                    )}
                     {` ${symbol.replace('USDT', '')}`}
                   </span>
                 </td>
@@ -259,7 +262,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                   <span className="inline-block">
                     {Utility.removeDecimal(transaction_value, 3)}
                   </span>
-                  <span>{Utility.removeDecimal(order_value, 3)}</span>
+                  <span>{Utility.removeDecimal(order_value)}</span>
                 </td>
                 <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {`${Utility.removeDecimal(fee, 3)} ${English.E60}`}

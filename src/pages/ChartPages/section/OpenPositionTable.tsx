@@ -98,19 +98,32 @@ const OpenPositionTable = (
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
               <span>
                 {average_price
-                  ? Utility.removeDecimal(average_price ?? 0)
+                  ? Utility.numberConversion(
+                      average_price ?? 0,
+                      Utility.getPricePrecision(average_price ?? 3)
+                    )
                   : '--'}
               </span>
             </td>
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
               <span>
-                {current_price ? Utility.removeDecimal(current_price) : '--'}
+                {current_price
+                  ? Utility.numberConversion(
+                      current_price,
+                      Utility.getPricePrecision(current_price)
+                    )
+                  : '--'}
               </span>
             </td>
             <td
               className={`pr-6 py-4 text-left !whitespace-nowrap ${Utility.colorGeneratorUtility(est_liq_price)}`}
             >
-              {est_liq_price ? Utility.removeDecimal(est_liq_price) : '---'}
+              {est_liq_price
+                ? Utility.numberConversion(
+                    est_liq_price,
+                    Utility.getPricePrecision(est_liq_price ?? 3)
+                  )
+                : '---'}
             </td>
             <td
               className={`pr-6 py-4 text-left ${!margin_ratio?.toString()?.startsWith('-') ? 'text-chart-green-color' : 'text-chart-red-color'} !whitespace-nowrap`}
@@ -134,11 +147,21 @@ const OpenPositionTable = (
                 <div className="flex gap-3 items-center">
                   <div className="flex flex-col">
                     <span className="!text-primary-green">
-                      {tableBody?.take_profit?.[0]?.price ?? '--'}
+                      {Utility.numberConversion(
+                        tableBody?.take_profit?.[0]?.price ?? 0,
+                        Utility.getPricePrecision(
+                          tableBody?.take_profit?.[0]?.price ?? 3
+                        )
+                      ) ?? '--'}
                     </span>
 
                     <span className="!text-extra-dark-danger-color">
-                      {tableBody?.stop_loss?.[0]?.price ?? '--'}
+                      {Utility.numberConversion(
+                        tableBody?.stop_loss?.[0]?.price ?? 0,
+                        Utility.getPricePrecision(
+                          tableBody?.stop_loss?.[0]?.price ?? 3
+                        )
+                      ) ?? '--'}
                     </span>
                   </div>
                   <div>

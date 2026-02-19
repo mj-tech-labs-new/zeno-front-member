@@ -39,6 +39,7 @@ import {
   DrawingData,
   LivePriceSocketType,
   TokenDetails,
+  TokenObject,
 } from '@/types/ChartTypes'
 import {DropDownObjectType, GeneralProps} from '@/types/CommonTypes'
 import {ChartShapesType, ChartTimePeriodType} from '@/types/UnionTypes'
@@ -118,7 +119,11 @@ const ChartContext = createContext<{
   >
   setIsTpSl: Dispatch<SetStateAction<boolean>>
   isTpSl: boolean
+  livePriceData: Record<string, TokenObject> | null
+  setLivePriceData: Dispatch<SetStateAction<Record<string, TokenObject> | null>>
 }>({
+  livePriceData: null,
+  setLivePriceData: () => {},
   isTpSl: false,
   setIsTpSl: () => {},
   totalTokenData: null,
@@ -188,6 +193,10 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     title: '1',
   })
   const {socketRef} = useSocketProvider()
+  const [livePriceData, setLivePriceData] = useState<Record<
+    string,
+    TokenObject
+  > | null>(null)
   const [challengeId, setChallengeId] = useState<null | string>(null)
   const isDrawing = useRef(false)
   const [tempShape, setTempShape] = useState<DrawingData | null>(null)
@@ -312,6 +321,8 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
 
   const defaultValue = useMemo(
     () => ({
+      livePriceData,
+      setLivePriceData,
       totalTokenData,
       setTotalTokenData,
       chartSocketData,
@@ -369,6 +380,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       isTpSl,
     }),
     [
+      livePriceData,
       isTpSl,
       totalTokenData,
       chartSocketData,
@@ -448,6 +460,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     if (isLoadingCandles || !socket) return
     socket.on(SocketEmitter.Emitter.live_prices, (data) => {
       const tokenPrices = data?.data?.prices
+      setLivePriceData(tokenPrices)
       const findTokenName = tokenList?.find(
         (item) =>
           item?.token_symbol ===

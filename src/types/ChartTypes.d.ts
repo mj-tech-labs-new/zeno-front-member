@@ -275,3 +275,9 @@ export interface VolumeToolTipObject {
   color: string
   time: Time
 }
+
+export interface TokenObject {
+  price: number
+  sybmol: string
+  timestamp: string
+}

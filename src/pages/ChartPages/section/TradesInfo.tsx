@@ -4,7 +4,7 @@ import React, {memo, useCallback, useEffect, useMemo, useState} from 'react'
 
 import {TabComponent} from '@/components'
 import {useSocketProvider} from '@/GlobalProvider/SocketProvider'
-import {Constants, SocketEmitter, Utility} from '@/helpers'
+import {Constants, English, SocketEmitter, Utility} from '@/helpers'
 import {OpenPosition, PendingOrder} from '@/types/ChartTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
@@ -181,7 +181,7 @@ const TradesInfo = (props: {challengeId: string}) => {
         currentData.length === 0 &&
         !isLoadingCandles ? (
           <span className="font-medium text-chart-text-primary-color text-center !whitespace-nowrap">
-            No Orders
+            {English.E422}
           </span>
         ) : (
           <React.Fragment>

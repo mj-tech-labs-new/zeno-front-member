@@ -467,6 +467,7 @@ const English = {
   E507: 'Reward Statistics',
   E508: 'Points Earned',
   E509: 'Steps',
+  E510: 'Token',
 }
 
 export default English

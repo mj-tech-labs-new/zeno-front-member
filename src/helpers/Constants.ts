@@ -884,7 +884,7 @@ const Constants = {
     {content: [English.E334], showArrow: false},
     {content: [English.E270], showArrow: false},
     {content: [English.E335, English.E336], showArrow: false},
-    {content: [`${English.E105} | ${English.E105}`], showArrow: false},
+    {content: [`${English.E105} | ${English.E510}`], showArrow: false},
     {content: [English.E337, English.E338], showArrow: false},
     {content: [English.E339], showArrow: false},
     {content: [English.E340], showArrow: false},

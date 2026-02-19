@@ -14,6 +14,7 @@ const TokenDropdown = () => {
     tokenList,
     selectedToken,
     totalTokenData,
+    livePriceData,
     setSelectedToken,
     isLastCandle,
     chartInfo,
@@ -125,6 +126,7 @@ const TokenDropdown = () => {
               {tokenArray?.map((item) => {
                 const {id, token_image_url, token_symbol} = item
                 const tokenData = totalTokenData?.[token_symbol]
+                const tokenPrice = livePriceData?.[token_symbol]?.price
                 return (
                   <div
                     key={id}
@@ -167,7 +169,10 @@ const TokenDropdown = () => {
                     </div>
                     {tokenData?.high ? (
                       <p className="text-right">
-                        {Utility.numberConversion(Number(tokenData?.high ?? 0))}
+                        {Utility.numberConversion(
+                          Number(tokenPrice ?? 0),
+                          Utility.getPricePrecision(tokenPrice ?? 3)
+                        )}
                       </p>
                     ) : (
                       '----'
