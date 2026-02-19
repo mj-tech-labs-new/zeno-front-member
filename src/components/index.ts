@@ -36,6 +36,7 @@ import PercentageLabel from './PercentageLabel/PercentageLabel'
 import CircularProgressBarComponent from './ProgessBar/CircularProgressBar'
 import LinearProgressBar from './ProgessBar/LinearProgressBar'
 import SingleRangeSlider from './RangeSlider/SingleRangeSlider'
+import ReferralLinkSection from './ReferralCode/ReferralLinkSection'
 import SearchComponent from './SearchComponent/SearchComponent'
 import Sidebar from './Sidebar/Sidebar'
 import BasicSkeleton from './SkeletonComponents/BasicSkeleton'
@@ -89,6 +90,7 @@ export {
   PercentageLabel,
   RadioInputContainer,
   RangeSelector,
+  ReferralLinkSection,
   SearchComponent,
   Sidebar,
   SimpleTab,

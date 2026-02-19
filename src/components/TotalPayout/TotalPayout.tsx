@@ -28,7 +28,7 @@ const TotalPayout = () => {
         <span className="text-15 !leading-6 text-text-hint-color font-switzer!">
           {English.E100}
         </span>
-        <Info className="opacity-50" singleLineContent="Hello Content!!!" />
+        <Info className="opacity-50" singleLineContent={English.E100} />
       </div>
       <div className="mt-2">
         <span className="text-lg/6 font-normal text-primary-color font-switzer!">{`${Utility.numberConversion(totalPayout)} ${English.E60}`}</span>

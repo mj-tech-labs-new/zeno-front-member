@@ -9,9 +9,13 @@ import {
 } from 'react'
 import {useSelector} from 'react-redux'
 import {Link, useLocation, useNavigate} from 'react-router-dom'
-import {toast} from 'react-toastify'
 
-import {CommonButton, InputContainer, Loader} from '@/components'
+import {
+  CommonButton,
+  InputContainer,
+  Loader,
+  ReferralLinkSection,
+} from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
 import {
   LoginApiProps,
@@ -338,25 +342,7 @@ const FormContainer = (
             </div>
           )}
           {type === 'profileType' && isMarketer && (
-            <div className="flex gap-5 items-center w-full">
-              <span className="font-normal text-base/6 text-tertiary-color whitespace-nowrap">
-                Referral Link
-              </span>
-              <div className="h-[60px] bg-secondary-bg-color rounded-lg text-tertiary-color w-full flex items-center justify-between px-4">
-                <span className="inline-block w-56 truncate ...">
-                  {referral_code}
-                </span>
-                <CommonButton
-                  className="text-xs cursor-pointer bg-primary-green! w-fit! h-7"
-                  singleLineContent="Copy"
-                  onClick={() => {
-                    navigator.clipboard.writeText(referral_code).then(() => {
-                      toast.success('Link copied to clipboard')
-                    })
-                  }}
-                />
-              </div>
-            </div>
+            <ReferralLinkSection singleLineContent={referral_code} />
           )}
         </div>
 

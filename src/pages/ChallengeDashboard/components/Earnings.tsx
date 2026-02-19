@@ -65,7 +65,7 @@ const Earnings = () => {
               </div>
               <Info
                 className="opacity-50"
-                singleLineContent="Hello Content!!"
+                singleLineContent={`${English.E58} ${English.E448}`}
               />
             </div>
 

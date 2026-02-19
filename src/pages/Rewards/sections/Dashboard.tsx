@@ -12,14 +12,15 @@ import {
   Timer,
 } from '@/components'
 import {Constants, English, Images} from '@/helpers'
+import {getUserApi} from '@/pages/AuthPages/api/AuthApi'
 import {AppLoaderRef} from '@/types/ComponentTypes'
 import {RewardEarning, SocialMediaStatus} from '@/types/Rewards'
 
+import ReferralLinkSection from '../../../components/ReferralCode/ReferralLinkSection'
 import RewardApi from '../api/RewardApi'
 import CardSection from '../Components/CardSection'
 import CertificateBarChart from '../Components/CertificateBarChart'
 import CongratulationModel from '../Components/CongratulationModel'
-import ReferralLinkSection from '../Components/ReferralLinkSection'
 
 const Dashboard = () => {
   dayjs.extend(utc)
@@ -31,6 +32,7 @@ const Dashboard = () => {
     useState<SocialMediaStatus | null>()
   const [isModelOpen, setIsModelOpen] = useState(false)
   const [points, setPoints] = useState<{earn_point: number}>()
+  const [referral_code, setReferral_code] = useState<null | string>(null)
 
   const handleFetchEarnings = useCallback(() => {
     loaderRef.current?.showLoader(true)
@@ -164,9 +166,24 @@ const Dashboard = () => {
     [socialMediaCheck]
   )
 
+  const getReferral = useCallback(() => {
+    getUserApi()
+      .then((res) => {
+        if (!res?.referral_code) return
+        setReferral_code(
+          `${window.location.origin}/sign-up/?refCode=${res.referral_code ?? ''}`
+        )
+      })
+      .finally(() => {
+        loaderRef.current?.showLoader(false)
+      })
+  }, [])
+
   useEffect(() => {
     handleFetchEarnings()
     handleGetSocialMedia()
+    getReferral()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
@@ -175,7 +192,9 @@ const Dashboard = () => {
 
       <CardSection earnings={earningData as RewardEarning} />
 
-      <ReferralLinkSection />
+      {referral_code && referral_code !== '' && (
+        <ReferralLinkSection singleLineContent={referral_code} />
+      )}
       <CongratulationModel
         isModelOpen={isModelOpen}
         point={points?.earn_point as unknown as any}
