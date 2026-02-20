@@ -48,9 +48,10 @@
   --neutral-active-color: #353945;
   --primary-dark-blue-color: #3772ff;
   --blue-line-color: #2962ff;
-  --purpol-line-color: #965fc4;
+  --purple-line-color: #965fc4;
   --chart-green-color: #00c076;
   --chart-red-color: #ff6838;
+  --chart-orange-color: #f7931a;
   --chart-layout-bg: #17181b;
   --chart-secondary-bg-color: #22262e;
   --chart-text-primary-color: #fcfcfd;
@@ -118,6 +119,7 @@
   --color-chart-secondary-bg-color: var(--chart-secondary-bg-color);
   --color-chart-text-primary-color: var(--chart-text-primary-color);
   --color-text-primary-color: var(--text-primary-color);
+  --color-chart-orange-color: var(--chart-orange-color);
   --color-neutral-active-color: var(--neutral-active-color);
   --color-chart-layout-bg: var(--chart-layout-bg);
   --color-chart-dropdown-bg-color: var(--chart-dropdown-bg-color);
@@ -166,7 +168,7 @@
   --color-widget-primary-bg-color: var(--widget-primary-bg-color);
   --color-landing-page-gray-color: var(--landing-page-gray-color);
   --color-blue-line-color: var(--blue-line-color);
-  --color-purpol-line-color: var(--purpol-line-color);
+  --color-purple-line-color: var(--purple-line-color);
 
   --color-landing-page-secondary-gray-color: var(
     --landing-page-secondary-gray-color

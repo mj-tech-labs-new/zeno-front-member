@@ -15,9 +15,8 @@ const Ma5Indicators = () => {
     isLastCandle,
     singleCandleData,
     liveCandle,
+    ma5Ref,
   } = useChartProvider()
-
-  const ma5Ref = useRef<any>(null)
   const period = 5
 
   // Buffer to keep last N candles
@@ -92,7 +91,13 @@ const Ma5Indicators = () => {
         ma5Ref.current = null
       }
     }
-  }, [chartObjectRef, isCallingCurrent, isLoadingCandles, totalCandleData])
+  }, [
+    chartObjectRef,
+    isCallingCurrent,
+    isLoadingCandles,
+    ma5Ref,
+    totalCandleData,
+  ])
 
   useEffect(() => {
     if (!ma5Ref.current || isLoadingCandles) return
@@ -127,7 +132,7 @@ const Ma5Indicators = () => {
       time: (new Date(liveCandle.close_time_iso).getTime() / 1000) as Time,
       value: sum / period,
     })
-  }, [isLastCandle, liveCandle])
+  }, [isLastCandle, liveCandle, ma5Ref])
 
   useEffect(() => {
     if (
@@ -141,7 +146,7 @@ const Ma5Indicators = () => {
       singleCandleData?.current as unknown as any
     )
     ma5Ref.current.update(newMa5)
-  }, [isLastCandle, isLoadingCandles, singleCandleData])
+  }, [isLastCandle, isLoadingCandles, ma5Ref, singleCandleData])
 
   return null
 }

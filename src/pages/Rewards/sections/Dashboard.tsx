@@ -224,6 +224,8 @@ const Dashboard = () => {
           const taken = status === 'taken'
           const granted = status === 'not_granted'
           const pending = status === 'pending'
+          const secondsToCalculate =
+            60 - (typeof second === 'number' && second ? second : 0)
 
           return (
             <tr
@@ -273,8 +275,9 @@ const Dashboard = () => {
                 {status === 'pending' && rewardStatus === false ? (
                   <Timer
                     seconds={
-                      second && Number(second) < 60 && Number(second) > 0
-                        ? Number(second)
+                      Number(secondsToCalculate) < 60 &&
+                      Number(secondsToCalculate) > 0
+                        ? Number(secondsToCalculate)
                         : 60
                     }
                   />

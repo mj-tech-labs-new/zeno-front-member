@@ -119,7 +119,7 @@ const APICall = async (
             ...error,
             status: 500,
             data: {
-              message: 'Backend Team is Resolving the Issue, Stay Tuned....',
+              message: 'Something went wrong....',
             },
           }
           // eslint-disable-next-line no-void

@@ -15,9 +15,9 @@ const Ma10Indicators = () => {
     singleCandleData,
     isLastCandle,
     liveCandle,
+    ma10Ref,
   } = useChartProvider()
 
-  const ma10Ref = useRef<any>(null)
   const period = 10
 
   // Buffer for rolling MA
@@ -92,7 +92,13 @@ const Ma10Indicators = () => {
         ma10Ref.current = null
       }
     }
-  }, [chartObjectRef, isCallingCurrent, isLoadingCandles, totalCandleData])
+  }, [
+    chartObjectRef,
+    isCallingCurrent,
+    isLoadingCandles,
+    ma10Ref,
+    totalCandleData,
+  ])
 
   useEffect(() => {
     if (!ma10Ref.current || isLoadingCandles) return
@@ -127,7 +133,7 @@ const Ma10Indicators = () => {
       time: (new Date(liveCandle.close_time_iso).getTime() / 1000) as Time,
       value: sum / period,
     })
-  }, [liveCandle])
+  }, [liveCandle, ma10Ref])
 
   useEffect(() => {
     if (!ma10Ref.current || !singleCandleData.current || !isLastCandle.current)
@@ -136,7 +142,7 @@ const Ma10Indicators = () => {
       singleCandleData.current as unknown as any
     )
     ma10Ref.current.update(newMa5)
-  }, [isLastCandle, singleCandleData])
+  }, [isLastCandle, ma10Ref, singleCandleData])
 
   return null
 }

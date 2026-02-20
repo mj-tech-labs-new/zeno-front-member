@@ -4,7 +4,11 @@ import {toNumber} from 'lodash'
 import React, {useEffect, useMemo, useState} from 'react'
 
 import {English, Utility} from '@/helpers'
-import {ToolTipObjectType, VolumeToolTipObject} from '@/types/ChartTypes'
+import {
+  IndicatorToolTipObject,
+  ToolTipObjectType,
+  VolumeToolTipObject,
+} from '@/types/ChartTypes'
 
 import {useChartProvider} from '../context/ChartProvider'
 
@@ -12,6 +16,12 @@ const Tooltip = () => {
   const [candleStickData, setCandleStickData] =
     useState<ToolTipObjectType | null>(null)
   const [volumeData, setVolumeData] = useState<VolumeToolTipObject | null>(null)
+  const [ma5IndicatorData, setMa5IndicatorData] =
+    useState<IndicatorToolTipObject | null>(null)
+  const [ma10IndicatorData, setMa10IndicatorData] =
+    useState<IndicatorToolTipObject | null>(null)
+  const [ma30IndicatorData, setMa30IndicatorData] =
+    useState<IndicatorToolTipObject | null>(null)
   const {
     chartObjectRef,
     isLoadingCandles,
@@ -19,6 +29,9 @@ const Tooltip = () => {
     volumeSeriesRef,
     chartInfo,
     singleCandleData,
+    ma5Ref,
+    ma10Ref,
+    ma30Ref,
   } = useChartProvider()
 
   const toolTipData = useMemo(() => {
@@ -75,6 +88,22 @@ const Tooltip = () => {
           chartAreaRef.current as ISeriesApi<'Candlestick'>
         ) as ToolTipObjectType) ?? null
       )
+
+      const ma5 = tooltipData.seriesData.get(
+        ma5Ref.current as ISeriesApi<'Line'>
+      )
+      setMa5IndicatorData((ma5 as unknown as IndicatorToolTipObject) ?? null)
+
+      const ma10 = tooltipData.seriesData.get(
+        ma10Ref.current as ISeriesApi<'Line'>
+      )
+      setMa10IndicatorData((ma10 as unknown as IndicatorToolTipObject) ?? null)
+
+      const ma30 = tooltipData.seriesData.get(
+        ma30Ref.current as ISeriesApi<'Line'>
+      )
+      setMa30IndicatorData((ma30 as unknown as IndicatorToolTipObject) ?? null)
+
       setVolumeData(
         (tooltipData?.seriesData?.get(
           volumeSeriesRef.current as ISeriesApi<'Histogram'>
@@ -82,6 +111,9 @@ const Tooltip = () => {
       )
     })
   }, [
+    ma5Ref,
+    ma10Ref,
+    ma30Ref,
     chartAreaRef,
     chartObjectRef,
     isLoadingCandles,
@@ -90,28 +122,67 @@ const Tooltip = () => {
   ])
   return (
     <React.Fragment>
-      <div className="absolute font-poppins! flex flex-wrap gap-4 items-center  top-3 left-5 z-99">
-        {toolTipData?.Change &&
-          Object.entries(toolTipData)?.map(([key, value], index) => (
-            <div
-              key={key}
-              className="flex items-center *:text-[10px]/4! *:font-medium! gap-1 flex-wrap text-neutral-primary-color"
-            >
-              {index !== 0 && <span className="capitalize">{key}</span>}
-              <span
-                className={
-                  index === 0
-                    ? 'text-neutral-primary-color'
-                    : Utility.colorGeneratorUtility(
-                        toNumber(toolTipData.Change)
-                      )
-                }
+      <div className="absolute font-poppins! flex flex-col gap-2.5 top-3 left-5 z-99">
+        {toolTipData?.Change && (
+          <div className="flex flex-wrap gap-4 items-center">
+            {Object.entries(toolTipData)?.map(([key, value], index) => (
+              <div
+                key={key}
+                className="flex items-center *:text-[10px]/4! *:font-medium! gap-1 flex-wrap text-neutral-primary-color"
               >
-                {key === 'Change' || key === 'Amplitude' ? `${value}%` : value}
-              </span>
-            </div>
-          ))}
+                {index !== 0 && <span className="capitalize">{key}</span>}
+                <span
+                  className={
+                    index === 0
+                      ? 'text-neutral-primary-color'
+                      : Utility.colorGeneratorUtility(
+                          toNumber(toolTipData.Change)
+                        )
+                  }
+                >
+                  {key === 'Change' || key === 'Amplitude'
+                    ? `${value}%`
+                    : value}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+        {ma5IndicatorData && (
+          <div className="flex bg-info-bg-color py-1 px-2 items-center *:text-[10px]/4! *:font-medium! gap-2.5 flex-wrap w-fit rounded-full border border-solid text-blue-line-color border-blue-line-color">
+            <span>{English.E511}: </span>
+            <span>
+              {Utility.numberConversion(
+                ma5IndicatorData?.value,
+                Utility.getPricePrecision(ma5IndicatorData?.value)
+              )}
+            </span>
+          </div>
+        )}
+        {ma10IndicatorData && (
+          <div className="flex bg-info-bg-color py-1 px-2 items-center *:text-[10px]/4! *:font-medium! gap-2.5 flex-wrap w-fit rounded-full border border-solid text-chart-orange-color border-chart-orange-color">
+            <span>{English.E512}: </span>
+            <span>
+              {Utility.numberConversion(
+                ma10IndicatorData?.value,
+                Utility.getPricePrecision(ma10IndicatorData?.value)
+              )}
+            </span>
+          </div>
+        )}
+        {ma30IndicatorData && (
+          <div className="flex bg-info-bg-color py-1 px-2 items-center *:text-[10px]/4! *:font-medium! gap-2.5 flex-wrap w-fit rounded-full border border-solid text-purple-line-color border-purple-line-color">
+            <span>{English.E513}: </span>
+            <span>
+              {Utility.numberConversion(
+                ma30IndicatorData?.value,
+                Utility.getPricePrecision(ma30IndicatorData?.value)
+              )}
+            </span>
+          </div>
+        )}
       </div>
+
       <div className="absolute font-poppins! flex flex-wrap gap-4 items-center  bottom-[114px] left-5 z-99">
         {VolumeToolTip &&
           Object.entries(VolumeToolTip)?.map(([key, value]) => (

@@ -15,9 +15,9 @@ const Ma30Indicators = () => {
     singleCandleData,
     isLastCandle,
     liveCandle,
+    ma30Ref,
   } = useChartProvider()
 
-  const ma30Ref = useRef<any>(null)
   const bufferRef = useRef<CandleObjectType[]>([])
   const period = 30
 
@@ -90,7 +90,13 @@ const Ma30Indicators = () => {
         ma30Ref.current = null
       }
     }
-  }, [chartObjectRef, isCallingCurrent, isLoadingCandles, totalCandleData])
+  }, [
+    chartObjectRef,
+    isCallingCurrent,
+    isLoadingCandles,
+    ma30Ref,
+    totalCandleData,
+  ])
 
   useEffect(() => {
     if (!ma30Ref.current || isLoadingCandles) return
@@ -125,7 +131,7 @@ const Ma30Indicators = () => {
       time: (new Date(liveCandle?.close_time_iso).getTime() / 1000) as Time,
       value: sum / period,
     })
-  }, [liveCandle])
+  }, [liveCandle, ma30Ref])
 
   useEffect(() => {
     if (
@@ -138,7 +144,7 @@ const Ma30Indicators = () => {
       singleCandleData?.current as unknown as any
     )
     ma30Ref.current.update(newMa5)
-  }, [isLastCandle, singleCandleData])
+  }, [isLastCandle, ma30Ref, singleCandleData])
   return null
 }
 

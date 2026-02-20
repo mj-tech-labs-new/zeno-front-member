@@ -282,3 +282,8 @@ export interface TokenObject {
   sybmol: string
   timestamp: string
 }
+
+export interface IndicatorToolTipObject {
+  value: number
+  time: number
+}

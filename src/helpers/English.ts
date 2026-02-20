@@ -468,6 +468,9 @@ const English = {
   E508: 'Points Earned',
   E509: 'Steps',
   E510: 'Token',
+  E511: 'MA5',
+  E512: 'MA10',
+  E513: 'MA30',
 }
 
 export default English

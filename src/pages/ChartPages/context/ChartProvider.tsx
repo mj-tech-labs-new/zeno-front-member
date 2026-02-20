@@ -121,7 +121,13 @@ const ChartContext = createContext<{
   isTpSl: boolean
   livePriceData: Record<string, TokenObject> | null
   setLivePriceData: Dispatch<SetStateAction<Record<string, TokenObject> | null>>
+  ma5Ref: RefObject<any>
+  ma10Ref: RefObject<any>
+  ma30Ref: RefObject<any>
 }>({
+  ma30Ref: {current: null},
+  ma10Ref: {current: null},
+  ma5Ref: {current: null},
   livePriceData: null,
   setLivePriceData: () => {},
   isTpSl: false,
@@ -246,6 +252,9 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
     >(null)
   const volumeSeriesRef = useRef<ISeriesApi<'Histogram'> | null>(null)
   const isCallingCurrent = useRef(false)
+  const ma5Ref = useRef<any>(null)
+  const ma10Ref = useRef<any>(null)
+  const ma30Ref = useRef<any>(null)
 
   const getCandleHistory = useCallback(
     (tokenName: string, limit: number) => {
@@ -321,6 +330,9 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
 
   const defaultValue = useMemo(
     () => ({
+      ma30Ref,
+      ma5Ref,
+      ma10Ref,
       livePriceData,
       setLivePriceData,
       totalTokenData,
