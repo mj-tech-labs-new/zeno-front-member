@@ -284,13 +284,15 @@ const Limit = (props: BuyOrSelProps) => {
         leverage={Number(selectedLeverage?.title.replace('X', ''))}
         margin_mode={margin_mode}
         order_type={activeIndex === 0 ? 'limit' : 'market'}
-        price={activeIndex === 0 ? Number(inputValues.entryprice) : livePrice}
         quantity={Number(tokenQtyRef.current)}
         setChecked={setIsTpSl}
         setInputValues={resetValues}
         stop_loss={stopLossData.stop_loss}
         take_profit={stopLossData.take_profit}
         total={total}
+        price={
+          activeIndex === 0 ? inputValues.entryprice : livePrice?.toString()
+        }
       />
 
       <Divider className="!bg-chart-secondary-bg-color !mb-3" />

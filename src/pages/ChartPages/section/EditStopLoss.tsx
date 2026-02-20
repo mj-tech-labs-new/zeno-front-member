@@ -1,3 +1,4 @@
+import {toNumber} from 'lodash'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {toast} from 'react-toastify'
 
@@ -32,16 +33,24 @@ const EditStopLoss = (props: {
       const sl = stopLossData?.stop_loss?.[0]?.price
       const tp = stopLossData?.take_profit?.[0]?.price
 
-      if (type === 'stopLoss' && (sl === 0 || !sl) && method === 'put') {
+      if (
+        type === 'stopLoss' &&
+        (toNumber(sl) === 0 || !sl) &&
+        method === 'put'
+      ) {
         toast.error(English.E343)
         return
       }
-      if ((tp === 0 || !tp) && type === 'takeProfit' && method === 'put') {
+      if (
+        (toNumber(tp) === 0 || !tp) &&
+        type === 'takeProfit' &&
+        method === 'put'
+      ) {
         toast.error(English.E343)
         return
       }
 
-      if ((tp === 0 || sl === 0) && type === 'all') {
+      if ((toNumber(tp) === 0 || toNumber(sl) === 0) && type === 'all') {
         toast.error(English.E343)
         return
       }
@@ -217,8 +226,10 @@ const EditStopLoss = (props: {
                         : (stopLossData?.take_profit?.[0]?.id ?? 0),
                     price:
                       stopLoss === 1
-                        ? (stopLossData.stop_loss?.[0]?.price ?? 0)
-                        : (stopLossData?.take_profit?.[0]?.price ?? 0),
+                        ? (stopLossData.stop_loss?.[0]?.price?.toString() ??
+                          '0')
+                        : (stopLossData?.take_profit?.[0]?.price?.toString() ??
+                          '0'),
                     quantity: stopLoss === 1 ? item?.quantity : item?.quantity,
                     status:
                       stopLoss === 1

@@ -142,18 +142,18 @@ const PendingOrderTable = (
                   <div className="flex flex-col">
                     <span className="!text-primary-green">
                       {Utility.numberConversion(
-                        tableBody?.take_profit?.[0]?.price ?? 0,
+                        parseFloat(tableBody?.take_profit?.[0]?.price ?? '0'),
                         Utility.getPricePrecision(
-                          tableBody?.take_profit?.[0]?.price ?? 3
+                          parseFloat(tableBody?.take_profit?.[0]?.price ?? '3')
                         )
                       ) ?? '--'}
                     </span>
 
                     <span className="!text-extra-dark-danger-color">
                       {Utility.numberConversion(
-                        tableBody?.stop_loss?.[0]?.price ?? 0,
+                        parseFloat(tableBody?.stop_loss?.[0]?.price ?? '0'),
                         Utility.getPricePrecision(
-                          tableBody?.stop_loss?.[0]?.price ?? 3
+                          parseFloat(tableBody?.stop_loss?.[0]?.price ?? '3')
                         )
                       ) ?? '--'}
                     </span>

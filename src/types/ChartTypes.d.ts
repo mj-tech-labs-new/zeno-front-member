@@ -127,7 +127,7 @@ export interface PendingOrder
   distance: number
 }
 export interface StopLossProps {
-  marketprice: number
+  marketprice: string
   id: number
   status?: string
   quantity?: number
@@ -135,7 +135,6 @@ export interface StopLossProps {
 
 export interface CommonBuyAndSellProp
   extends Pick<GeneralProps, 'className'>,
-    Pick<LivePriceSocketType, 'price'>,
     Pick<PendingOrder, 'order_type'> {
   checked?: boolean
   setChecked?: Dispatch<SetStateAction<boolean>>
@@ -144,12 +143,15 @@ export interface CommonBuyAndSellProp
   quantity: number
   usdt_price?: number
   leverage?: number
+  price: string
   setInputValues?: () => void
   margin_mode?: string
-  stop_loss?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
-    Pick<LivePriceSocketType, 'price'>)[]
-  take_profit?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> &
-    Pick<LivePriceSocketType, 'price'>)[]
+  stop_loss?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> & {
+    price: string
+  })[]
+  take_profit?: (Pick<StopLossProps, 'id' | 'quantity' | 'status'> & {
+    price: string
+  })[]
 }
 
 export interface BuyOrSelProps
@@ -168,8 +170,7 @@ export interface CommonStopLossProp {
   ) => void
   resetValue?: number
   total?: number
-  stopLoss?: Omit<StopLossProps, 'marketprice'> &
-    Pick<LivePriceSocketType, 'price'>
+  stopLoss?: Omit<StopLossProps, 'marketprice'> & {price: string}
 }
 
 export interface OrderBookObjectType {

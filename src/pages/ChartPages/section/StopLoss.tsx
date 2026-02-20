@@ -1,7 +1,7 @@
 import {memo, useCallback, useEffect, useRef, useState} from 'react'
 
 import {InputContainer} from '@/components'
-import {English} from '@/helpers'
+import {English, Utility} from '@/helpers'
 import {CommonStopLossProp, StopLossProps} from '@/types/ChartTypes'
 
 const StopLoss = (props: CommonStopLossProp) => {
@@ -20,7 +20,7 @@ const StopLoss = (props: CommonStopLossProp) => {
 
         const payload = updated.map((item) => ({
           id: 1,
-          price: Number(item.marketprice),
+          price: Utility.validPointValue(item.marketprice),
           status: item.status ?? 'unused',
         }))
 
@@ -38,7 +38,7 @@ const StopLoss = (props: CommonStopLossProp) => {
       ...prev,
       {
         id: 1,
-        marketprice: 0,
+        marketprice: '0',
         status: 'unused',
       },
     ])
@@ -49,7 +49,7 @@ const StopLoss = (props: CommonStopLossProp) => {
       setInputValues([
         {
           id: 0,
-          marketprice: 0,
+          marketprice: '0',
         },
       ])
       return
@@ -57,7 +57,7 @@ const StopLoss = (props: CommonStopLossProp) => {
     setInputValues(() => [
       {
         id: stopLoss?.id,
-        marketprice: stopLoss?.price,
+        marketprice: stopLoss?.price?.toString(),
         quantity,
         status: 'unused',
       },
