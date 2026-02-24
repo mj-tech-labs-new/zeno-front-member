@@ -7,7 +7,7 @@ import {
   Title,
   Tooltip,
 } from 'chart.js'
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {Bar} from 'react-chartjs-2'
 
 import {BasicSkeleton, ImageComponent, Loader} from '@/components'
@@ -18,28 +18,40 @@ import {ChartApiData} from '@/types/Rewards'
 import RewardApi from '../api/RewardApi'
 import DashboardSectionLayout from '../sections/DashboardSectionLayout'
 
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+
+const chartAreaBgPlugin = {
+  id: 'chartAreaBgPlugin',
+  beforeDraw: (chart: any) => {
+    const {ctx, chartArea} = chart
+    if (!chartArea) return
+
+    ctx.save()
+    ctx.fillStyle = '#1C1C1C'
+    ctx.fillRect(
+      chartArea.left,
+      chartArea.top,
+      chartArea.right - chartArea.left,
+      chartArea.bottom - chartArea.top
+    )
+    ctx.restore()
+  },
+}
+
 const CertificateBarChart = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [chartData, setChartData] = useState<ChartApiData[] | null>([])
   const loaderRef = useRef<AppLoaderRef>(null)
 
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-  )
-
   const ChartBarGraphOptions = {
     maintainAspectRatio: false,
     responsive: true,
+    interaction: {
+      mode: 'nearest',
+      intersect: true,
+    },
     plugins: {
       legend: {
-        display: false,
-      },
-      datalabels: {
         display: false,
       },
       tooltip: {
@@ -54,7 +66,9 @@ const CertificateBarChart = () => {
         displayColors: false,
         callbacks: {
           label: (context: any) => {
-            const raw: ChartApiData = context.raw.rawData
+            const raw = context.dataset.rawDataArray?.[context.dataIndex]
+
+            if (!raw) return `Total: ${context.raw}`
 
             return [
               `${English.E500} ${raw.daily_login_points}`,
@@ -93,12 +107,18 @@ const CertificateBarChart = () => {
       },
       leftY: {
         position: 'left',
+        title: {
+          display: true,
+          text: English.E475,
+          color: '#7D7D7D',
+          padding: {bottom: 10},
+        },
         border: {
           display: true,
           color: '#777E90',
         },
         ticks: {
-          stepSize: 100,
+          stepSize: 1,
           color: '#7D7D7D',
         },
       },
@@ -122,48 +142,55 @@ const CertificateBarChart = () => {
       },
     },
   }
-  const datesCurrentArray = Array.from({length: Utility.getMonthDays()})?.map(
-    (__, index) => {
-      const month = Utility.getMonth()
-      const day = Constants.dateArray?.[month]
-      const finalDay = `${day} ${index + 1}` as unknown as any
-      return finalDay as unknown as any
-    }
-  )
+
+  const datesCurrentArray = Array.from({
+    length: Utility.getMonthDays(),
+  }).map((_, index) => {
+    const month = Utility.getMonth()
+    const day = Constants.dateArray?.[month]
+    return `${day} ${index + 1}`
+  })
 
   const data = useMemo(() => {
-    const datasets: any = [
-      {
-        label: 'Rewared Stats',
-        backgroundColor: '#12B76A',
-        yAxisID: 'leftY',
-        borderColor: '#181818',
-        data: chartData?.map((item) => {
-          const dateObj = new Date(`${item?.day}T00:00:00`)
-          const dateOnly = dateObj.getDate()
+    const daysInMonth = Utility.getMonthDays()
+    const monthlyValues = Array(daysInMonth).fill(0)
+    const monthlyRawData: (ChartApiData | null)[] =
+      Array(daysInMonth).fill(null)
 
-          return {
-            x: datesCurrentArray?.[dateOnly - 1],
-            y: item?.total_month_points,
-            rawData: item,
-          }
-        }),
-      },
-    ]
+    chartData?.forEach((item) => {
+      const dateObj = new Date(`${item.day}T00:00:00`)
+      const dayIndex = dateObj.getDate() - 1
+
+      monthlyValues[dayIndex] = item.total_month_points
+      monthlyRawData[dayIndex] = item
+    })
 
     return {
       labels: datesCurrentArray,
-      datasets,
+      datasets: [
+        {
+          label: 'Reward Stats',
+          backgroundColor: '#12B76A',
+          yAxisID: 'leftY',
+          barPercentage: 0.9,
+          categoryPercentage: 0.9,
+          data: monthlyValues,
+          rawDataArray: monthlyRawData,
+        },
+      ],
     }
   }, [chartData, datesCurrentArray])
 
   const handleGetRewardStatChart = useCallback(() => {
     loaderRef.current?.showLoader(true)
-    loaderRef.current?.showLoader(true)
     setIsLoading(true)
+
     const month = Utility.getMonth()
 
-    RewardApi.GetChartRewardStats({month: month + 1, year: 2026})
+    RewardApi.GetChartRewardStats({
+      month: month + 1,
+      year: 2026,
+    })
       .then((res) => {
         if (res) {
           setChartData(res?.data)
@@ -177,19 +204,18 @@ const CertificateBarChart = () => {
 
   useEffect(() => {
     handleGetRewardStatChart()
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <div className={`w-full h-full `}>
+    <div className="w-full h-full">
       <Loader ref={loaderRef} />
 
       <DashboardSectionLayout singleLineContent="">
         {isLoading ? (
           <BasicSkeleton className="h-150! w-full!" />
         ) : (
-          <div className="flex flex-col gap-1.5 ">
+          <div className="flex flex-col gap-1.5">
             <div className="flex justify-between">
               <div className="text_lg_utility text-primary-color">
                 {English.E507}
@@ -199,21 +225,20 @@ const CertificateBarChart = () => {
                 className="flex gap-2 cursor-pointer"
                 onClick={handleGetRewardStatChart}
               >
-                <span className=" secondary_red_filter">{English.E476}</span>
+                <span className="secondary_red_filter">{English.E476}</span>
                 <ImageComponent
                   className="w-6 [&>img]:secondary_red_filter!"
                   imageUrl={Images.reloadIcon}
                 />
               </div>
             </div>
-            <div className="flex  gap-1.5 h-full items-center  relative ">
-              <span className="text-text-hint-color text_base_utility leading-4! w-8! rotate-270 font-normal">
-                {English.E475}
-              </span>
+
+            <div className="relative h-full">
               <Bar
-                className=" lg:min-h-82 lg:max-h-112.5 w-full! bg-tertiary-bg-color! rounded-lg overflow-hidden custom_backdrop"
+                className="lg:min-h-82 lg:max-h-112.5 w-full! rounded-lg"
                 data={data as any}
                 options={ChartBarGraphOptions as any}
+                plugins={[chartAreaBgPlugin]}
               />
             </div>
           </div>
@@ -222,4 +247,5 @@ const CertificateBarChart = () => {
     </div>
   )
 }
-export default CertificateBarChart
+
+export default memo(CertificateBarChart)
