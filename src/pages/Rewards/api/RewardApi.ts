@@ -163,7 +163,7 @@ const GetChartRewardStats = async (props: {year: number; month: number}) =>
 
 const GetRewardHistory = async (props: RewardHistoryApiProps) => {
   let apiPayload: Record<string, any> = {
-    order_type: 'DESC',
+    order_type: 'ASC',
     order_value: props.order_value,
   }
   if (props.fromDate !== '' && props.toDate !== '') {

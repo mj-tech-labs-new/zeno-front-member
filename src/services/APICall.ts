@@ -119,7 +119,7 @@ const APICall = async (
             ...error,
             status: 500,
             data: {
-              message: 'Something went wrong....',
+              message: (error?.code === 'ERR_INTERNET_DISCONNECTED' || error?.code === 'ERR_NETWORK') ? 'No Internet Found' : 'Something went wrong....',
             },
           }
           // eslint-disable-next-line no-void

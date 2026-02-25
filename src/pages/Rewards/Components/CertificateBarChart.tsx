@@ -7,13 +7,13 @@ import {
   Title,
   Tooltip,
 } from 'chart.js'
-import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react'
-import {Bar} from 'react-chartjs-2'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Bar } from 'react-chartjs-2'
 
-import {BasicSkeleton, ImageComponent, Loader} from '@/components'
-import {Constants, English, Images, Utility} from '@/helpers'
-import {AppLoaderRef} from '@/types/ComponentTypes'
-import {ChartApiData} from '@/types/Rewards'
+import { BasicSkeleton, ImageComponent, Loader } from '@/components'
+import { Constants, English, Images, Utility } from '@/helpers'
+import { AppLoaderRef } from '@/types/ComponentTypes'
+import { ChartApiData } from '@/types/Rewards'
 
 import RewardApi from '../api/RewardApi'
 import DashboardSectionLayout from '../sections/DashboardSectionLayout'
@@ -23,7 +23,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const chartAreaBgPlugin = {
   id: 'chartAreaBgPlugin',
   beforeDraw: (chart: any) => {
-    const {ctx, chartArea} = chart
+    const { ctx, chartArea } = chart
     if (!chartArea) return
 
     ctx.save()
@@ -111,14 +111,14 @@ const CertificateBarChart = () => {
           display: true,
           text: English.E475,
           color: '#7D7D7D',
-          padding: {bottom: 10},
+          padding: { bottom: 10 },
         },
         border: {
           display: true,
           color: '#777E90',
         },
         ticks: {
-          stepSize: 1,
+          stepSize: 5,
           color: '#7D7D7D',
         },
       },
