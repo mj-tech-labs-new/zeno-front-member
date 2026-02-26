@@ -133,8 +133,8 @@ const RewardHistory = () => {
               showIcon={false}
               onSelectDate={(data) => {
                 setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
-                const fromDate = dayjs(data?.[0]).format('YYYY-MM-DD')
-                const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
+                const fromDate = `${dayjs(data?.[0]).format('YYYY-MM-DD')} 00:00:00`
+                const toDate = `${dayjs(data?.[1]).format('YYYY-MM-DD')} 23:59:59`
 
                 if (data?.[0] && data?.[1]) {
                   GetRewardHistory(1, 10, fromDate, toDate, 'ASC', 'created_at')

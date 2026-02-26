@@ -42,6 +42,11 @@ const CertificateBarChart = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [chartData, setChartData] = useState<ChartApiData[] | null>([])
   const loaderRef = useRef<AppLoaderRef>(null)
+  const maxValue = useMemo(() => {
+    const newArray = chartData?.map((item) => item.daily_login_points)
+    // console.log(newArray)
+    return Math.max(...(newArray ?? [0]))
+  }, [chartData])
 
   const ChartBarGraphOptions = {
     maintainAspectRatio: false,
@@ -118,7 +123,7 @@ const CertificateBarChart = () => {
           color: '#777E90',
         },
         ticks: {
-          stepSize: 5,
+          stepSize: Math.ceil((5 * maxValue) / 100),
           color: '#7D7D7D',
         },
       },
