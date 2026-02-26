@@ -201,7 +201,7 @@ const HowToEarn = () => (
           <h3 className="text-xl font-semibold">Affiliate & Referral Points</h3>
           <p className="text-sm">Earn by your network</p>
 
-          <p className="text-sm">Referred User Registers → 5 Points</p>
+          <p className="text-sm">Referred User Registers → 2 Points</p>
           <p className="text-xs text-gray-400">
             (Max 200 registrations per day)
           </p>

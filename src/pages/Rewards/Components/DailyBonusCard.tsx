@@ -31,7 +31,12 @@ const DailyBonusCard = (props: DashboardCardProps) => {
             {content}
           </span>
           {(lastRewardDay ?? 1) >= (id ?? 1) && (
-            <span className="flex justify-center gap-1.5">
+            <span
+              className="flex justify-center gap-1.5"
+              onClick={() => {
+                onPressItem?.()
+              }}
+            >
               <ImageComponent className="w-3" imageUrl={Images.greenDoneIcon} />
               <span className="text-primary-color font-switzer text-xs">
                 {English.E495}

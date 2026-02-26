@@ -14,6 +14,7 @@ const PaginationDropDown = (props: PaginationDropDownProps) => {
     className = '',
     placeHolderText,
     labelText = '',
+    isTopType,
   } = props
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
   const mainDivRef = useRef<HTMLDivElement | null>(null)
@@ -39,9 +40,9 @@ const PaginationDropDown = (props: PaginationDropDownProps) => {
       mainDivRef.current.getBoundingClientRect()
     const styleDiv = dropDownRef.current.style
     styleDiv.left = `${left}px`
-    styleDiv.top = `${top + height}px`
+    styleDiv.top = `${isTopType ? top - (108 + height) : top + height}px`
     styleDiv.width = `${width}px`
-  }, [dropDownData.length, isDropDownOpen])
+  }, [dropDownData?.length, isDropDownOpen, isTopType])
 
   return (
     <React.Fragment>

@@ -119,6 +119,7 @@ export interface PaginationDropDownProps
     Pick<DropDownProps, 'selectedValue' | 'onSelectValue' | 'dropDownData'> {
   placeHolderText: string
   labelText?: string
+  isTopType?: boolean
 }
 
 export interface MaxOpenAndMarginProps {

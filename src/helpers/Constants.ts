@@ -1094,7 +1094,7 @@ const Constants = {
       activity: 'Referral Registration',
       descrption:
         'Referred user completes registration (Only for first 200 referrals per day)',
-      pointEarned: '5 Points (Max 200/day)',
+      pointEarned: '2= Points (Max 200/day)',
     },
     {
       activity: 'Referral Challenge Purchase',

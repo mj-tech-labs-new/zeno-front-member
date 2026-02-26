@@ -11,6 +11,7 @@ import {
   Loader,
   Timer,
 } from '@/components'
+import {useModalContext} from '@/components/Modal/context/ModalContextProvider'
 import {Constants, English, Images} from '@/helpers'
 import {getUserApi} from '@/pages/AuthPages/api/AuthApi'
 import {AppLoaderRef} from '@/types/ComponentTypes'
@@ -30,9 +31,8 @@ const Dashboard = () => {
   const [earningData, setEarningData] = useState<RewardEarning | null>()
   const [socialMediaCheck, setSocialMediaCheck] =
     useState<SocialMediaStatus | null>()
-  const [isModelOpen, setIsModelOpen] = useState(false)
-  const [points, setPoints] = useState<{earn_point: number}>()
   const [referral_code, setReferral_code] = useState<null | string>(null)
+  const {setChildContent, setModalProps} = useModalContext()
 
   const handleFetchEarnings = useCallback(() => {
     loaderRef.current?.showLoader(true)
@@ -76,14 +76,39 @@ const Dashboard = () => {
     [handleGetSocialMedia]
   )
 
+  const handleModalRendering = useCallback(
+    (pts: number) => {
+      setModalProps({
+        className:
+          'w-[300px]  !rounded-2xl !bg-primary-color [&div>h2]:!text-primary-color [&<div<div]:!bg-primary-color  !py-5 !border !border-solid !border-tertiary-color',
+        showCross: true,
+        onPressButton() {
+          setChildContent(null)
+          setModalProps(null)
+          handleFetchEarnings()
+        },
+      })
+      setChildContent(
+        <CongratulationModel
+          point={pts ?? 0}
+          onPressClose={() => {
+            setModalProps(null)
+            setChildContent(null)
+            handleFetchEarnings()
+          }}
+        />
+      )
+    },
+    [handleFetchEarnings, setChildContent, setModalProps]
+  )
+
   const handUpdateCheckSocialMediaReward = useCallback(
     (id: number) => {
       loaderRef.current?.showLoader(true)
       RewardApi.UpdateRewards({type: id})
         .then((res) => {
           if (res) {
-            setPoints(res?.data)
-            setIsModelOpen(true)
+            handleModalRendering(res?.data?.earn_point)
             handleGetSocialMedia()
           }
         })
@@ -91,7 +116,7 @@ const Dashboard = () => {
           loaderRef.current?.showLoader(false)
         })
     },
-    [handleGetSocialMedia]
+    [handleGetSocialMedia, handleModalRendering]
   )
 
   const certificateTableData = useMemo(
@@ -195,14 +220,6 @@ const Dashboard = () => {
       {referral_code && referral_code !== '' && (
         <ReferralLinkSection singleLineContent={referral_code} />
       )}
-      <CongratulationModel
-        isModelOpen={isModelOpen}
-        point={points?.earn_point as unknown as any}
-        setIsModelOpen={(value) => {
-          setIsModelOpen(value)
-          handleFetchEarnings()
-        }}
-      />
 
       <CommonTableComponent
         className="h-full! "

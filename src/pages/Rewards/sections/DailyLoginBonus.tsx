@@ -1,9 +1,11 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
 
+import {useModalContext} from '@/components/Modal/context/ModalContextProvider'
 import {English} from '@/helpers'
 import {AppLoaderRef} from '@/types/ComponentTypes'
 
 import RewardApi from '../api/RewardApi'
+import CongratulationModel from '../Components/CongratulationModel'
 import DailyBonusCard from '../Components/DailyBonusCard'
 import DashboardSectionLayout from './DashboardSectionLayout'
 
@@ -14,6 +16,7 @@ const DailyLoginBonus = () => {
   } | null>()
 
   const loaderRef = useRef<AppLoaderRef>(null)
+  const {setModalProps, setChildContent} = useModalContext()
 
   const handleCheckDailyReward = useCallback(() => {
     loaderRef.current?.showLoader(true)
@@ -29,21 +32,46 @@ const DailyLoginBonus = () => {
       })
   }, [])
 
+  const handleModalRendering = useCallback(
+    (pts: number) => {
+      setModalProps({
+        className:
+          'w-[300px]  !rounded-2xl !bg-primary-color [&div>h2]:!text-primary-color [&<div<div]:!bg-primary-color  !py-5 !border !border-solid !border-tertiary-color',
+        showCross: true,
+        onPressButton() {
+          setChildContent(null)
+          setModalProps(null)
+        },
+      })
+      setChildContent(
+        <CongratulationModel
+          point={pts ?? 0}
+          onPressClose={() => {
+            setModalProps(null)
+            setChildContent(null)
+          }}
+        />
+      )
+    },
+    [setChildContent, setModalProps]
+  )
+
   const handleGetDailyReward = useCallback(
-    (id: number) => {
+    (id: number, points: string) => {
       loaderRef.current?.showLoader(true)
 
       RewardApi.GetDailyReward({id})
         .then((res) => {
           if (res) {
             handleCheckDailyReward()
+            handleModalRendering(Number(points))
           }
         })
         .finally(() => {
           loaderRef.current?.showLoader(false)
         })
     },
-    [handleCheckDailyReward]
+    [handleCheckDailyReward, handleModalRendering]
   )
 
   useEffect(() => {
@@ -124,7 +152,7 @@ const DailyLoginBonus = () => {
               nextRewardDay={dailyReward?.nextRewardDay as number}
               title={`Day ${index + 1}`}
               onPressItem={() => {
-                handleGetDailyReward(index + 1)
+                handleGetDailyReward(index + 1, content?.replace(' Points', ''))
               }}
             />
           )

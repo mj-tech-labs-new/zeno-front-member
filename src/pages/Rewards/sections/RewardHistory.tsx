@@ -44,7 +44,21 @@ const RewardHistory = () => {
   )
   const onPressExport = useCallback(() => {
     if (rewardData?.length === 0 || !rewardData) return
-    const ws = utils.json_to_sheet(rewardData)
+
+    const excelData = rewardData?.map((item, index) => {
+      const {created_at, balance, description, earn_point} = item
+      return {
+        [English.E456]: index + 1,
+        [English.E104]: dayjs(created_at).format('DD/MM/YYYY'),
+        [English.E83]: item.reward_type,
+        [English.E479]: description,
+        [English.E508]: earn_point,
+
+        [English.E481]: balance,
+      }
+    })
+
+    const ws = utils.json_to_sheet(excelData)
     const wb = utils.book_new()
     utils.book_append_sheet(wb, ws, 'Zeno Traders')
     writeFileXLSX(wb, `My User.xlsx`)
@@ -87,7 +101,7 @@ const RewardHistory = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 pb-8">
       <div className="flex flex-col gap-4">
         <div className=" sm:flex space-y-4 block justify-between">
           <HeadingComponent
@@ -195,6 +209,7 @@ const RewardHistory = () => {
         <div className="flex items-center  text_13_utility *:font-switzer! text-primary-color font-light gap-2">
           <span>{English.E483}</span>
           <PaginationDropDown
+            isTopType
             className="h-6! max-w-13.75! px-2.5! "
             dropDownData={limitArray}
             placeHolderText="Limit"
