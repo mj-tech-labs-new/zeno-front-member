@@ -31,13 +31,13 @@ const RewardHistory = () => {
     date2: null,
   })
   const [selectedLimit, setSelectedLimit] = useState({
-    title: paginationData?.limit?.toString() ?? '5',
+    title: '10',
   })
 
   const limitArray = useMemo(
     () =>
       Array.from({length: 10}).map(
-        (_, index) => ({title: ((index + 1) * 5).toString()}),
+        (_, index) => ({title: ((index + 1) * 2).toString()}),
         []
       ),
     []
@@ -120,7 +120,14 @@ const RewardHistory = () => {
                     date1: null,
                     date2: null,
                   })
-                  GetRewardHistory(1, 10, '', '', 'ASC', 'created_at')
+                  GetRewardHistory(
+                    1,
+                    Number(selectedLimit?.title),
+                    '',
+                    '',
+                    'ASC',
+                    'created_at'
+                  )
                 }}
               />
             )}
@@ -137,7 +144,14 @@ const RewardHistory = () => {
                 const toDate = `${dayjs(data?.[1]).format('YYYY-MM-DD')} 23:59:59`
 
                 if (data?.[0] && data?.[1]) {
-                  GetRewardHistory(1, 10, fromDate, toDate, 'ASC', 'created_at')
+                  GetRewardHistory(
+                    1,
+                    Number(10),
+                    fromDate,
+                    toDate,
+                    'ASC',
+                    'created_at'
+                  )
                 }
               }}
             />
@@ -201,7 +215,14 @@ const RewardHistory = () => {
             <BasicPagination
               total={paginationData?.totalPages}
               onSelectPage={(page) => {
-                GetRewardHistory(page, 10, '', '', 'ASC', 'created_at')
+                GetRewardHistory(
+                  page,
+                  Number(selectedLimit?.title),
+                  '',
+                  '',
+                  'ASC',
+                  'created_at'
+                )
               }}
             />
           )}
