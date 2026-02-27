@@ -61,6 +61,7 @@ const Endpoints = {
   checkDailyReward: '/users/rewards/checkDailyRewards',
   getDailyReward: '/users/rewards/getDailyRewards',
   rewardStatusBarChart: '/users/rewards/dashboard/rewardStatusChart',
+  getAllRewardExport: 'users/rewards/rewardHistoryExport',
 }
 
 export default Endpoints

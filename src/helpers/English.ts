@@ -410,7 +410,7 @@ const English = {
   E450: 'Reward History',
   E451: 'How To earn',
   E452: 'Leader Board',
-  E453: 'Refferal Link',
+  E453: 'Referral Link',
   E454: 'Copy Link',
   E455: 'Earn 2X per successful referral registration ( max. 200 referral per day ) ',
   E456: 'Sr. No.',

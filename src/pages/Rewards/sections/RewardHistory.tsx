@@ -25,7 +25,7 @@ const RewardHistory = () => {
   const [rewardData, setRewardData] = useState<RewardHistoryTypes[] | null>([])
   const [paginationData, setPaginationData] =
     useState<ApiPaginationProps | null>(null)
-
+  const [currentPage, setCurrentPage] = useState(1)
   const [selectedDate, setSelectedDate] = useState<DateObject>({
     date1: null,
     date2: null,
@@ -33,36 +33,46 @@ const RewardHistory = () => {
   const [selectedLimit, setSelectedLimit] = useState({
     title: '10',
   })
+  const [isNoDataType, setIsNoDataType] = useState(true)
+  const isFirstType = useRef(true)
 
   const limitArray = useMemo(
     () =>
       Array.from({length: 10}).map(
-        (_, index) => ({title: ((index + 1) * 2).toString()}),
+        (_, index) => ({title: ((index + 1) * 5).toString()}),
         []
       ),
     []
   )
   const onPressExport = useCallback(() => {
-    if (rewardData?.length === 0 || !rewardData) return
+    if (isNoDataType) return
+    loaderRef.current?.showLoader(true)
+    RewardApi.getTotalRewardHistory()
+      .then((res) => {
+        if (res) {
+          const excelData = res?.map((item, index) => {
+            const {created_at, balance, description, earn_point} = item
+            return {
+              [English.E456]: index + 1,
+              [English.E104]: dayjs(created_at).format('DD/MM/YYYY'),
+              [English.E83]: item.reward_type,
+              [English.E479]: description,
+              [English.E508]: earn_point,
 
-    const excelData = rewardData?.map((item, index) => {
-      const {created_at, balance, description, earn_point} = item
-      return {
-        [English.E456]: index + 1,
-        [English.E104]: dayjs(created_at).format('DD/MM/YYYY'),
-        [English.E83]: item.reward_type,
-        [English.E479]: description,
-        [English.E508]: earn_point,
+              [English.E481]: balance,
+            }
+          })
 
-        [English.E481]: balance,
-      }
-    })
-
-    const ws = utils.json_to_sheet(excelData)
-    const wb = utils.book_new()
-    utils.book_append_sheet(wb, ws, 'Zeno Traders')
-    writeFileXLSX(wb, `My User.xlsx`)
-  }, [rewardData])
+          const ws = utils.json_to_sheet(excelData)
+          const wb = utils.book_new()
+          utils.book_append_sheet(wb, ws, 'Zeno Traders')
+          writeFileXLSX(wb, `My User.xlsx`)
+        }
+      })
+      .finally(() => {
+        loaderRef.current?.showLoader(false)
+      })
+  }, [isNoDataType])
 
   const GetRewardHistory = useCallback(
     (
@@ -85,6 +95,10 @@ const RewardHistory = () => {
       })
         .then((res) => {
           if (res) {
+            if (isFirstType.current) {
+              setIsNoDataType(res?.data?.length === 0)
+              isFirstType.current = false
+            }
             setRewardData(res?.data ?? [])
             setPaginationData(res?.pagination)
           }
@@ -155,7 +169,7 @@ const RewardHistory = () => {
                 }
               }}
             />
-            <ExportButton disabled={!rewardData} onPressItem={onPressExport} />
+            <ExportButton disabled={isNoDataType} onPressItem={onPressExport} />
           </div>
         </div>
         <Divider className="!bg-info-bg-color" />
@@ -178,8 +192,6 @@ const RewardHistory = () => {
               id,
               reward_type,
             } = item
-            const currentPageNumber = paginationData?.page ?? 1
-            const multiplier = (currentPageNumber - 1) * 10
             return (
               <tr
                 key={`content-ad${id}`}
@@ -189,7 +201,7 @@ const RewardHistory = () => {
                   className="p-6 font-medium text-primary-color whitespace-nowrap "
                   scope="row"
                 >
-                  {multiplier + index + 1}
+                  {(currentPage - 1) * Number(selectedLimit?.title) + index + 1}
                 </th>
                 <td className="p-6 text-primary-color capitalize">
                   {dayjs(created_at)?.format('DD/MM/YYYY')}
@@ -215,6 +227,7 @@ const RewardHistory = () => {
             <BasicPagination
               total={paginationData?.totalPages}
               onSelectPage={(page) => {
+                setCurrentPage(page)
                 GetRewardHistory(
                   page,
                   Number(selectedLimit?.title),

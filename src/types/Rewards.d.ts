@@ -70,8 +70,8 @@ export interface ChartApiData {
   month: number
   daily_login_points: number
   self_purchased_points: number
-  refferal_points: number
-  refferal_purchased_points: number
+  referral_points: number
+  referral_purchased_points: number
   challenge_passed_points: number
   registration_points: number
   social_media_points: number

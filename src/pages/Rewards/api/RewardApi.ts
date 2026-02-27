@@ -204,6 +204,28 @@ const GetRewardHistory = async (props: RewardHistoryApiProps) => {
   })
 }
 
+const getTotalRewardHistory = async () => {
+  const payload = {
+    order_value: 'created_at',
+    order_type: 'ASC',
+  }
+  return new Promise<RewardHistoryTypes[]>((resolve) => {
+    APICall('post', Endpoints.getAllRewardExport, payload)
+      .then((res: any) => {
+        if (res?.status === 200 && res?.statusCode === 200) {
+          resolve(res?.data?.history)
+        } else {
+          toast.error(res?.message)
+          resolve([])
+        }
+      })
+      .catch((e) => {
+        toast.error(e?.data?.message)
+        resolve([])
+      })
+  })
+}
+
 const GetLeaderBoard = async (props: RewardHistoryApiProps) => {
   let apiPayload: Record<string, any> = {
     order_type: props.order_type,
@@ -260,5 +282,6 @@ const RewardApi = {
   GetDailyReward,
   CheckDailyReward,
   GetChartRewardStats,
+  getTotalRewardHistory,
 }
 export default RewardApi

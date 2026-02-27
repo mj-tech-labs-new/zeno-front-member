@@ -71,15 +71,16 @@ const CertificateBarChart = () => {
         displayColors: false,
         callbacks: {
           label: (context: any) => {
-            const raw = context.dataset.rawDataArray?.[context.dataIndex]
+            const raw: ChartApiData =
+              context.dataset.rawDataArray?.[context.dataIndex]
 
             if (!raw) return `Total: ${context.raw}`
 
             return [
               `${English.E500} ${raw.daily_login_points}`,
               `${English.E501} ${raw.self_purchased_points}`,
-              `${English.E502} ${raw.refferal_points}`,
-              `${English.E503} ${raw.refferal_purchased_points}`,
+              `${English.E502} ${raw.referral_points}`,
+              `${English.E503} ${raw.referral_purchased_points}`,
               `${English.E504} ${raw.challenge_passed_points}`,
               `${English.E506} ${raw.registration_points}`,
               `${English.E507} ${raw.social_media_points}`,
