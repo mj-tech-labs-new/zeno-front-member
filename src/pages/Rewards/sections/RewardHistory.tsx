@@ -10,6 +10,7 @@ import {
   Divider,
   ExportButton,
   HeadingComponent,
+  Loader,
   PaginationDropDown,
 } from '@/components'
 import {Constants, English, Images} from '@/helpers'
@@ -104,7 +105,9 @@ const RewardHistory = () => {
           }
         })
         .finally(() => {
-          loaderRef.current?.showLoader(false)
+          setTimeout(() => {
+            loaderRef.current?.showLoader(false)
+          }, 1000)
         })
     },
     []
@@ -174,7 +177,7 @@ const RewardHistory = () => {
         </div>
         <Divider className="!bg-info-bg-color" />
       </div>
-
+      <Loader ref={loaderRef} />
       <CommonTableComponent tableHeading={Constants.rewardHeading}>
         {!rewardData || rewardData?.length === 0 ? (
           <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">

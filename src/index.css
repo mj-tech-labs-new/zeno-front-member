@@ -342,8 +342,8 @@
       transparent 12px
     );
 
-    mask-image: url(./assets/static_assets/logo.png);
-    -webkit-mask-image: url(./assets/static_assets/logo.png);
+    mask-image: url(./assets/svgs/logo.svg);
+    -webkit-mask-image: url(./assets/svgs/logo.svg);
 
     mask-repeat: no-repeat;
     -webkit-mask-repeat: no-repeat;
