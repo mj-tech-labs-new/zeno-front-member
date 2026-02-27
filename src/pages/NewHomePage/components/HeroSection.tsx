@@ -42,8 +42,8 @@ const HeroSection = () => {
           <WordSplit
             className="text-2xl! sm:text-4xl! leading-10! lg:text-[56px]! lg:leading-[67px]! text-primary-color! text-center font-geist!"
             multilineContent={[
-              'A Crypto Prop Firm Built for',
-              'Disciplined Traders',
+              'AI-Powered Crypto Prop Firm',
+              'Built for Disciplined Trade',
             ]}
           />
           <WordSplit
