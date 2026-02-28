@@ -248,6 +248,7 @@ export interface GetCertificateWithPaginationProps {
 export interface CertificateTableProps
   extends Pick<CommonBuyAndSellProp, 'activeIndex'> {
   setLoader: (value: boolean) => void
+  setIsEmpty: (value: boolean) => void
 }
 
 export interface GetBillingProps

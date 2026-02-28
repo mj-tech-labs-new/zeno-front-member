@@ -120,8 +120,8 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
               selectedDate2={selectedDate?.date2}
               onSelectDate={(data) => {
                 setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
-                const fromDate = dayjs(data?.[0]).format('DD/MM/YYYY')
-                const toDate = dayjs(data?.[1]).format('YYYY-MM-DD')
+                const fromDate = `${dayjs(data?.[0]).format('YYYY-MM-DD')}T00:00:00Z`
+                const toDate = `${dayjs(data?.[1]).format('YYYY-MM-DD')}T23:59:59Z`
 
                 if (data?.[0] && data?.[1]) {
                   getOpenHistoryData(

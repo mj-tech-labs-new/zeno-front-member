@@ -471,6 +471,8 @@ const English = {
   E511: 'MA5',
   E512: 'MA10',
   E513: 'MA30',
+  E514: 'Unlimited Days',
+  E515: 'Challenge Passed',
 }
 
 export default English

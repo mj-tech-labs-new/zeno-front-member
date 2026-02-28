@@ -81,7 +81,7 @@ const ChallengeDashboard = () => {
           layoutClassName="[&>h2]:!tracking-[0px]"
           type={English.E65}
         />
-        {getChallengeByIdArray?.[0]?.status !== 'Failed' && <Earnings />}
+        {getChallengeByIdArray?.[0]?.status === 'Passed' && <Earnings />}
         <ClosedPNL showHeader />
       </div>
     </ChallengeDashboardLayout>

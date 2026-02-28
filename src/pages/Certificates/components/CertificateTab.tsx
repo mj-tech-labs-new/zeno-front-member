@@ -5,9 +5,10 @@ import {toast} from 'react-toastify'
 import {
   BasicPagination,
   CommonTableComponent,
-  DownloadButton,
+  DescriptionComponent,
+  // DownloadButton,
 } from '@/components'
-import {Constants, English, Images, Utility} from '@/helpers'
+import {Constants, English, Utility} from '@/helpers'
 import {APICall, Endpoints} from '@/services'
 import {
   CertificateTableProps,
@@ -17,7 +18,7 @@ import {
 import {PaginationType} from '@/types/CommonTypes'
 
 const CertificateTab = (props: CertificateTableProps) => {
-  const {activeIndex, setLoader} = props
+  const {activeIndex, setLoader, setIsEmpty} = props
   const [certificateData, setCertificateData] = useState<GetCertificateProps[]>(
     []
   )
@@ -39,6 +40,7 @@ const CertificateTab = (props: CertificateTableProps) => {
             }
 
             setCertificateData(res?.data?.allChallenge?.data)
+            setIsEmpty(res?.data?.allChallenge?.data === 0)
             setPaginationData(paginationObject)
           } else {
             resolve(null)
@@ -64,17 +66,29 @@ const CertificateTab = (props: CertificateTableProps) => {
   }, [activeIndex])
 
   return (
-    <div>
-      <CommonTableComponent
-        tableHeading={Constants.Certificate.CertificatesHeadingData}
-      >
-        {certificateData?.length === 0 ? (
-          <tr className="font-medium text-chart-text-primary-color text-lg text-center !whitespace-nowrap">
-            <td className="py-8" colSpan={6}>
-              No Certificates
-            </td>
-          </tr>
-        ) : (
+    <div
+      className={
+        certificateData?.length === 0
+          ? `h-full flex justify-center items-center 
+         `
+          : ''
+      }
+    >
+      {certificateData?.length === 0 ? (
+        <div className="flex flex-col gap-5 justify-center items-center h-full">
+          <DescriptionComponent
+            className="font-bold! text-3xl text-primary-color!"
+            singleLineContent={English.E55}
+          />
+          <DescriptionComponent
+            className="text-base!"
+            singleLineContent={English.E273}
+          />
+        </div>
+      ) : (
+        <CommonTableComponent
+          tableHeading={Constants.Certificate.CertificatesHeadingData}
+        >
           <React.Fragment>
             {certificateData?.map((tableBody: GetCertificateProps) => {
               const {
@@ -84,7 +98,7 @@ const CertificateTab = (props: CertificateTableProps) => {
                 status,
                 certificate_id,
                 created_at,
-                challenge_id,
+                // challenge_id,
               } = tableBody
               return (
                 <tr
@@ -112,21 +126,24 @@ const CertificateTab = (props: CertificateTableProps) => {
                     {dayjs(created_at).format('YYYY-MM-DD')}
                   </td>
                   <td className="p-6  text-secondary-light-color cursor-pointer ">
-                    {status === 'Passed' ? (
+                    {/* {status === 'Passed' ? (
                       <DownloadButton
                         challenge_id={challenge_id ?? ''}
+                        className="pointer-events-none"
                         imageUrl={Images.pdfIcon}
                       />
                     ) : (
                       '---'
-                    )}
+                    )} */}
+                    ---
                   </td>
                 </tr>
               )
             })}
           </React.Fragment>
-        )}
-      </CommonTableComponent>
+        </CommonTableComponent>
+      )}
+
       {paginationData && (
         <BasicPagination
           total={paginationData?.totalPages}

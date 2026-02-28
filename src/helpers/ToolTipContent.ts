@@ -9,6 +9,7 @@ const ToolTipContent = {
   T8: '❗Challenge is Funded no Profit Target is Required.',
   T9: '❗Challenge is Funded no Max Loss is Required.',
   T10: '❗Your Current Challenge Status (Ongoing, Passed, Failed)',
+  T11: '❗Challenge is Funded no Minimum Days Required.',
 }
 
 export default ToolTipContent

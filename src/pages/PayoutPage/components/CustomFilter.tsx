@@ -47,7 +47,7 @@ const CustomFilter = (props: CustomFilterType) => {
             setSearchValue={setSearchValue}
           />
 
-          <div className="flex gap-2 items-center">
+          <div className="flex flex-wrap gap-2 items-center">
             <span className="text-13 leading-6! font-switzer! whitespace-nowrap font-light text-primary-color">
               {English.E437}
             </span>
@@ -85,9 +85,9 @@ const CustomFilter = (props: CustomFilterType) => {
             />
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 justify-end ">
           <CommonButton
-            className="light-danger-btn-type w-fit!"
+            className="light-danger-btn-type py-1.5! w-fit!"
             singleLineContent={English.E439}
             onClick={(e) => {
               e.stopPropagation()
@@ -102,7 +102,7 @@ const CustomFilter = (props: CustomFilterType) => {
             }}
           />
           <CommonButton
-            className="secondary-btn-type w-fit!"
+            className="secondary-btn-type py-1.5! w-fit!"
             singleLineContent={English.E383}
             onClick={(e) => {
               e.stopPropagation()

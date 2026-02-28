@@ -64,8 +64,8 @@ const getPayoutHistory = async (props: PayoutHistoryPayload) => {
   if (toDate !== '' && toDate && fromDate !== '' && fromDate) {
     bodyParams = {
       ...bodyParams,
-      toDate: dayjs(toDate).format('YYYY-MM-DD'),
-      fromDate: dayjs(fromDate).format('YYYY-MM-DD'),
+      toDate: `${dayjs(toDate ?? '').format('YYYY-MM-DD')} 23:59:59`,
+      fromDate: `${dayjs(fromDate ?? '').format('YYYY-MM-DD')}  00:00:00`,
     }
   }
 

@@ -19,26 +19,11 @@ const Rewards = () => {
     <div className="flex flex-col h-full gap-8 pt-8 space-x-10 ">
       <Loader ref={loaderRef} />
       <HeadingComponent singleLineContent={English.E459} variant="medium" />
-      {/* <div className="flex flex-col gap-5 justify-center items-center h-full">
-      <DescriptionComponent
-        className="font-bold! text-3xl text-primary-color!"
-        singleLineContent={English.E55}
-      />
-      <DescriptionComponent
-        className="text-base!"
-        singleLineContent={English.E273}
-      />
-    </div> */}
-      {/* <CertificateTab
-        activeIndex={activeIndex}
-        setLoader={(value) => {
-          loaderRef.current?.showLoader(value)
-        }}
-      /> */}
+
       <TabComponent
         activeIndex={activeIndex}
         className="text-nowrap! [&>div]:overflow-x-auto no-scrollbar!"
-        headingData={Constants.CertificateTabHeading}
+        headingData={Constants.RewardTabHeading}
         // isCorruptedTabIndex={1}
         layoutClassName2="no-scrollbar! pb-2"
         setActiveIndex={(value) => {

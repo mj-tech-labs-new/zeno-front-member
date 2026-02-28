@@ -164,22 +164,12 @@ const ChallengeDetailCard = (props: {
             <StatsDescription
               className="grey__filter"
               headingContent={English.E70}
+              infoContent={ToolTipContent.T7}
+              initialContent={maxDailyLossAmount}
               layoutClassName="text-light-danger-color!"
               type="lossProgressType"
-              infoContent={
-                item?.status === 'Passed'
-                  ? ToolTipContent.T9
-                  : ToolTipContent.T7
-              }
-              initialContent={
-                item?.status === 'Passed' ? '---' : maxDailyLossAmount
-              }
               secondContent={
-                item?.status === 'Passed'
-                  ? '---'
-                  : (socketData?.max_current_loss ??
-                    item?.max_current_loss ??
-                    0)
+                socketData?.max_current_loss ?? item?.max_current_loss ?? 0
               }
             />
           </div>

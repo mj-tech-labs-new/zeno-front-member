@@ -35,7 +35,11 @@ const ChallengeStatusCard = () => {
               >
                 <div className="flex items-center gap-4">
                   <p
-                    className={`${getChallengeByIdArray?.[0]?.current_stage === stage ? 'text-tertiary-color' : 'text-secondary-light-color'} text-base/6 font-normal`}
+                    className={`${
+                      getChallengeByIdArray?.[0]?.current_stage === stage
+                        ? 'text-tertiary-color'
+                        : 'text-secondary-light-color'
+                    } text-base/6 font-normal`}
                   >
                     {English.E255} {stage}
                   </p>
@@ -49,15 +53,18 @@ const ChallengeStatusCard = () => {
                   isDirectType
                   className={`!gap-0.5 [&>div]:!mt-0 ${getChallengeByIdArray?.[0]?.current_stage !== stage && '[&>div>p]:!opacity-50 [&>p]:!opacity-50'}`}
                   multilineContent={
-                    getChallengeByIdArray?.[0]?.current_stage === stage
-                      ? [English.E332]
-                      : stage === 1 &&
-                          getChallengeByIdArray?.[0]?.current_stage === 1
-                        ? [English.E252]
-                        : stage === 2 &&
-                            getChallengeByIdArray?.[0]?.current_stage === 2
+                    getChallengeByIdArray?.[0]?.current_stage === stage &&
+                    getChallengeByIdArray?.[0]?.status === 'Passed'
+                      ? [English.E515]
+                      : getChallengeByIdArray?.[0]?.current_stage === stage
+                        ? [English.E332]
+                        : stage === 1 &&
+                            getChallengeByIdArray?.[0]?.current_stage === 1
                           ? [English.E252]
-                          : [English.E254]
+                          : stage === 2 &&
+                              getChallengeByIdArray?.[0]?.current_stage === 2
+                            ? [English.E252]
+                            : [English.E254]
                   }
                 />
               </div>

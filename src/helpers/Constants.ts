@@ -317,12 +317,17 @@ const Constants = {
       filledType: 'Market Order',
     },
   ],
-  CertificateTabHeading: [
+  RewardTabHeading: [
     {title: English.E57, img: ''},
     {title: English.E449, img: ''},
     {title: English.E450, img: ''},
     {title: English.E451, img: ''},
     {title: English.E452, img: ''},
+  ],
+  CertificateTabHeading: [
+    {title: English.E91, img: ''},
+    {title: English.E92, img: ''},
+    {title: English.E93, img: ''},
   ],
   Certificate: {
     CertificatesBodyData: [

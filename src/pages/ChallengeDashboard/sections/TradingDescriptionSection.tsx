@@ -23,9 +23,15 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
     () => [
       {
         title: English.E66,
-        firstValue: getChallengeByIdArray?.[0]?.min_trading_day,
+        firstValue:
+          getChallengeByIdArray?.[0]?.status === 'Passed'
+            ? English.E514
+            : getChallengeByIdArray?.[0]?.min_trading_day,
         secondValue: getChallengeByIdArray?.[0]?.trading_day,
-        infoContent: ToolTipContent.T4,
+        infoContent:
+          getChallengeByIdArray?.[0]?.status === 'Passed'
+            ? ToolTipContent.T11
+            : ToolTipContent.T4,
       },
       {
         title: English.E68,
