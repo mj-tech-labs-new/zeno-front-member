@@ -9,7 +9,7 @@ import CertificateTab from './components/CertificateTab'
 const Certificate = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const loaderRef = useRef<AppLoaderRef>(null)
-  const [isEmpty, setIsEmpty] = useState(true)
+  const [isEmpty, setIsEmpty] = useState(false)
 
   return (
     <div className="flex flex-col h-full gap-8 pt-8">
