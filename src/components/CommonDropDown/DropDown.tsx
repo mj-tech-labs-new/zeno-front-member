@@ -1,9 +1,9 @@
 import {forwardRef, memo, useCallback, useEffect, useRef, useState} from 'react'
 
 import {English, Images} from '@/helpers'
-import {useClickOutside} from '@/hooks'
 import {DropDownProps} from '@/types/ComponentTypes'
 
+import useClickOutside from '../../hooks/useClickOutside'
 import ImageComponent from '../ImageComponent/ImageComponent'
 import SearchComponent from '../SearchComponent/SearchComponent'
 

@@ -1,7 +1,8 @@
 import {memo, useRef, useState} from 'react'
 
-import {useClickOutside} from '@/hooks'
 import {AccordianPropsType} from '@/types/ComponentTypes'
+
+import useClickOutside from '../../hooks/useClickOutside'
 
 const Accordian = (props: AccordianPropsType) => {
   const {

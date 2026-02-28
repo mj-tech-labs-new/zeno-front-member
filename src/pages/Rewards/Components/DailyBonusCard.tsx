@@ -47,8 +47,9 @@ const DailyBonusCard = (props: DashboardCardProps) => {
             lastRewardDay === (id ?? 1) - 1) ||
             (lastRewardDay ?? 1) < (id ?? 1)) && (
             <CommonButton
-              className={`px-1.5! py-1.5! text-xs  mt-2!  ${(nextRewardDay ?? 1) === id ? 'text-primary-color! medium-success-btn-type ' : 'text-text-hint-color! primary-btn-type '} `}
               singleLineContent={English.E470}
+              className={`px-1.5! py-1.5! text-xs  mt-2! 
+                 ${(nextRewardDay ?? 1) === id ? 'text-primary-color! medium-success-btn-type ' : 'text-text-hint-color! primary-btn-type '} `}
               disabled={
                 !((nextRewardDay ?? 1) === id) ||
                 nextRewardDay === lastRewardDay

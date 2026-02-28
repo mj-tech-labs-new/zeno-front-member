@@ -3,8 +3,9 @@ import {useRef} from 'react'
 import HeadingComponent from '@/components/HeadingComponent/HeadingComponent'
 import ImageComponent from '@/components/ImageComponent/ImageComponent'
 import {Images} from '@/helpers'
-import {useClickOutside} from '@/hooks'
 import {ModalComponentProps} from '@/types/ComponentTypes'
+
+import useClickOutside from '../../../hooks/useClickOutside'
 
 const ModalComponent = (props: ModalComponentProps) => {
   const {

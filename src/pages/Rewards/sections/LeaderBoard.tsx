@@ -1,13 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
 
-import {
-  // BasicPagination,
-  // BasicPagination,
-  CommonTableComponent,
-  ImageComponent,
-  // PaginationDropDown,
-  // PaginationDropDown,
-} from '@/components'
+import {CommonTableComponent, ImageComponent} from '@/components'
 import {Constants, English, Images} from '@/helpers'
 import {AppLoaderRef} from '@/types/ComponentTypes'
 import {ApiPaginationProps, LeaderBoardApiDataTypes} from '@/types/Rewards'
@@ -21,18 +14,6 @@ const LeaderBoard = () => {
   >([])
   const [paginationData, setPaginationData] =
     useState<ApiPaginationProps | null>(null)
-
-  // const [selectedLimit, setSelectedLimit] = useState({
-  //   title: paginationData?.limit?.toString() ?? '5',
-  // })
-  // const limitArray = useMemo(
-  //   () =>
-  //     Array.from({ length: 10 }).map(
-  //       (_, index) => ({ title: ((index + 1) * 5).toString() }),
-  //       []
-  //     ),
-  //   []
-  // )
 
   const GetLeaderBoards = useCallback(
     (
@@ -122,31 +103,6 @@ const LeaderBoard = () => {
           })
         )}
       </CommonTableComponent>
-      {/* {paginationData?.totalPages !== 0 && paginationData?.totalPages && (
-        <BasicPagination
-          total={paginationData?.totalPages}
-          onSelectPage={(page) => {
-            GetLeaderBoards(page, 10, '', '', 'DESC', 'created_at')
-          }}
-        />
-      )}
-      <div className="flex items-center  text_13_utility *:font-switzer! text-primary-color font-light gap-2">
-        <span>{English.E483}</span>
-        <PaginationDropDown
-          className="h-6! max-w-13.75! px-2.5!"
-          dropDownData={limitArray}
-          placeHolderText="Limit"
-          selectedValue={selectedLimit}
-          onSelectValue={(value) => {
-            const limit = Number(value?.title)
-            setSelectedLimit({
-              title: value?.title,
-            })
-            GetLeaderBoards(1, limit, '', '', 'DESC', 'created_at')
-          }}
-        />
-        <span>{English.E484}</span>
-      </div> */}
     </div>
   )
 }

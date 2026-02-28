@@ -1,9 +1,9 @@
 import React, {memo, useEffect, useRef, useState} from 'react'
 
 import {Images} from '@/helpers'
-import {useClickOutside} from '@/hooks'
 import {PaginationDropDownProps} from '@/types/ComponentTypes'
 
+import useClickOutside from '../../hooks/useClickOutside'
 import ImageComponent from '../ImageComponent/ImageComponent'
 
 const PaginationDropDown = (props: PaginationDropDownProps) => {
