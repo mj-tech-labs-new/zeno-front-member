@@ -204,7 +204,7 @@ const RewardHistory = () => {
                   className="p-6 font-medium text-primary-color whitespace-nowrap "
                   scope="row"
                 >
-                  {(currentPage - 1) * Number(selectedLimit?.title) + index + 1}
+                  {(currentPage - 1) * Number(rewardData?.length < Number(selectedLimit?.title) ? rewardData?.length : Number(selectedLimit?.title)) + index + 1}
                 </th>
                 <td className="p-6 text-primary-color capitalize">
                   {dayjs(created_at)?.format('DD/MM/YYYY')}
