@@ -64,11 +64,7 @@ const ChallengeDashboard = () => {
       <div className="space-y-12 mb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-4">
           <ChallengeStatusCard />
-          <ChallengeCompletionCard
-            totalAmount={
-              getChallengeByIdArray?.[0]?.ChallengePlan[0].capital_fund ?? 0
-            }
-          />
+          <ChallengeCompletionCard/>
           <TradingDescriptionSection type={English.E257} />
         </div>
         <TradingDescriptionSection

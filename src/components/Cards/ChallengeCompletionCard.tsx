@@ -1,22 +1,20 @@
-import {memo, useMemo} from 'react'
+import { memo, useMemo } from 'react'
 
-import {English, ToolTipContent, Utility} from '@/helpers'
+import { English, ToolTipContent, Utility } from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
-import {useChallengeProvider} from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
-// import { useChallengeProvider } from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
-import {ChallengeCompletionCardProps} from '@/types/ChallengeTypes'
+import { useChallengeProvider } from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
 
 import CircularProgressBarComponent from '../ProgessBar/CircularProgressBar'
 import Info from '../Tooltips/Info'
 
-const ChallengeCompletionCard = (props: ChallengeCompletionCardProps) => {
-  const {totalAmount} = props
-  const {getChallengeByIdArray} = useChallengeProvider()
+const ChallengeCompletionCard = () => {
+  const { getChallengeByIdArray } = useChallengeProvider()
+  const totalAmount = useMemo(() => parseFloat(getChallengeByIdArray?.[0]?.current_usdt.toString() ?? 0), [getChallengeByIdArray])
 
   const cardAmount = useMemo(() => {
-    const totalAmountUSDTFormat = Utility.numberConversion(Number(totalAmount))
+    const totalAmountUSDTFormat = Utility.numberConversion(totalAmount)
     const splittedItems = totalAmountUSDTFormat?.toString()?.split('.')
-    return {first: splittedItems?.[0], second: splittedItems?.[1] ?? '00'}
+    return { first: splittedItems?.[0], second: splittedItems?.[1] ?? '00' }
   }, [totalAmount])
 
   return (
@@ -24,7 +22,7 @@ const ChallengeCompletionCard = (props: ChallengeCompletionCardProps) => {
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-5">
           <span className="text-text-hint-color text-15 !leading-6 font-normal">
-            {English.E59}
+            {`${English.E58} ${English.E440} ${English.E481}`}
           </span>
           <Info singleLineContent={ToolTipContent.T1} />
         </div>
@@ -37,14 +35,7 @@ const ChallengeCompletionCard = (props: ChallengeCompletionCardProps) => {
         </p>
       </div>
 
-      <CircularProgressBarComponent
-        GetChallengeByIdType={getChallengeByIdArray?.[0]}
-        totalAmount={totalAmount ?? 6000}
-        usedBalance={
-          (totalAmount ?? 60000) -
-          (getChallengeByIdArray?.[0]?.current_usdt ?? 5340.31)
-        }
-      />
+      <CircularProgressBarComponent GetChallengeByIdType={getChallengeByIdArray?.[0]} />
     </ChallengeCardLayout>
   )
 }

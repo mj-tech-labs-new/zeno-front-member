@@ -73,10 +73,8 @@ export type AccordianPropsType = Required<
     isDirectType?: boolean
   }
 
-export type CircularProgressBarType = {
-  usedBalance: number | null
-} & Pick<GeneralProps, 'className'> &
-  Pick<ChallengeCompletionCardProps, 'totalAmount' | 'GetChallengeByIdType'>
+export type CircularProgressBarType = Pick<GeneralProps, 'className'> &
+  Pick<ChallengeCompletionCardProps, 'GetChallengeByIdType'>
 
 export interface StatsCardProps
   extends Pick<GeneralProps, 'className' | 'layoutClassName'> {
@@ -86,6 +84,7 @@ export interface StatsCardProps
   thirdContent?: number
   infoContent: string
   type: string
+  percentageLabelClass?: string
 }
 
 export interface SearchComponentProps

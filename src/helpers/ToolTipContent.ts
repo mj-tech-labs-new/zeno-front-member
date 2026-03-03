@@ -1,6 +1,6 @@
 const ToolTipContent = {
-  T1: '❗The starting balance provided for this challenge. This amount does not change during the evaluation.',
-  T2: '❗Profit from completed trades only. Open trades are not included.',
+  T1: '❗Profit from completed trades only. Open trades are not included.',
+  T2: '❗The starting balance provided for this challenge. This amount does not change during the evaluation.',
   T3: '❗Your current account value including open and closed profits or losses.',
   T4: '❗Minimum number of trading days required to complete this challenge.',
   T5: '❗The minimum profit required to pass this challenge.',
