@@ -34,7 +34,6 @@ export interface ChallengeDashboardHeaderProps {
   updatedTime: string
 }
 
-
 export interface TradingDescriptionSectionProps
   extends Pick<GeneralProps, 'className' | 'layoutClassName'> {
   type: string

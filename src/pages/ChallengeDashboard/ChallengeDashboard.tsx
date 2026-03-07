@@ -64,7 +64,7 @@ const ChallengeDashboard = () => {
       <div className="space-y-12 mb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-4">
           <ChallengeStatusCard />
-          <ChallengeCompletionCard/>
+          <ChallengeCompletionCard />
           <TradingDescriptionSection type={English.E257} />
         </div>
         <TradingDescriptionSection

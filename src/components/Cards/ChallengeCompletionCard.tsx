@@ -1,20 +1,23 @@
-import { memo, useMemo } from 'react'
+import {memo, useMemo} from 'react'
 
-import { English, ToolTipContent, Utility } from '@/helpers'
+import {English, ToolTipContent, Utility} from '@/helpers'
 import ChallengeCardLayout from '@/layouts/ChallengeDashboardCardLayout'
-import { useChallengeProvider } from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
+import {useChallengeProvider} from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
 
 import CircularProgressBarComponent from '../ProgessBar/CircularProgressBar'
 import Info from '../Tooltips/Info'
 
 const ChallengeCompletionCard = () => {
-  const { getChallengeByIdArray } = useChallengeProvider()
-  const totalAmount = useMemo(() => parseFloat(getChallengeByIdArray?.[0]?.current_usdt.toString() ?? 0), [getChallengeByIdArray])
+  const {getChallengeByIdArray} = useChallengeProvider()
+  const totalAmount = useMemo(
+    () => parseFloat(getChallengeByIdArray?.[0]?.current_usdt.toString() ?? 0),
+    [getChallengeByIdArray]
+  )
 
   const cardAmount = useMemo(() => {
     const totalAmountUSDTFormat = Utility.numberConversion(totalAmount)
     const splittedItems = totalAmountUSDTFormat?.toString()?.split('.')
-    return { first: splittedItems?.[0], second: splittedItems?.[1] ?? '00' }
+    return {first: splittedItems?.[0], second: splittedItems?.[1] ?? '00'}
   }, [totalAmount])
 
   return (
@@ -35,7 +38,9 @@ const ChallengeCompletionCard = () => {
         </p>
       </div>
 
-      <CircularProgressBarComponent GetChallengeByIdType={getChallengeByIdArray?.[0]} />
+      <CircularProgressBarComponent
+        GetChallengeByIdType={getChallengeByIdArray?.[0]}
+      />
     </ChallengeCardLayout>
   )
 }

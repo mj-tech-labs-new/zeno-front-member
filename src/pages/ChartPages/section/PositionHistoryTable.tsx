@@ -231,7 +231,7 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
                   </span>
                 </td>
                 <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
-                  <div className="flex flex-col">{`${quantity} ${symbol.replace('USDT', '')}`}</div>
+                  <div className="flex flex-col">{`${quantity.toFixed(4)} ${symbol.replace('USDT', '')}`}</div>
                 </td>
                 <td className=" flex  flex-col pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   {`${Utility.removeDecimal(total_charge_amount, 3)} ${English.E60}`}

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { utils, writeFileXLSX } from 'xlsx'
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {utils, writeFileXLSX} from 'xlsx'
 
 import {
   BasicPagination,
@@ -13,10 +13,10 @@ import {
   Loader,
   PaginationDropDown,
 } from '@/components'
-import { Constants, English, Images } from '@/helpers'
-import { DateObject } from '@/types/CommonTypes'
-import { AppLoaderRef } from '@/types/ComponentTypes'
-import { ApiPaginationProps, RewardHistoryTypes } from '@/types/Rewards'
+import {Constants, English, Images} from '@/helpers'
+import {DateObject} from '@/types/CommonTypes'
+import {AppLoaderRef} from '@/types/ComponentTypes'
+import {ApiPaginationProps, RewardHistoryTypes} from '@/types/Rewards'
 
 import RewardApi from '../api/RewardApi'
 
@@ -39,8 +39,8 @@ const RewardHistory = () => {
 
   const limitArray = useMemo(
     () =>
-      Array.from({ length: 10 }).map(
-        (_, index) => ({ title: ((index + 1) * 5).toString() }),
+      Array.from({length: 10}).map(
+        (_, index) => ({title: ((index + 1) * 5).toString()}),
         []
       ),
     []
@@ -52,7 +52,7 @@ const RewardHistory = () => {
       .then((res) => {
         if (res) {
           const excelData = res?.map((item, index) => {
-            const { created_at, balance, description, earn_point } = item
+            const {created_at, balance, description, earn_point} = item
             return {
               [English.E456]: index + 1,
               [English.E104]: dayjs(created_at).format('DD/MM/YYYY'),
@@ -156,7 +156,7 @@ const RewardHistory = () => {
               selectedDate2={selectedDate?.date2}
               showIcon={false}
               onSelectDate={(data) => {
-                setSelectedDate({ date1: data?.[0] ?? null, date2: data?.[1] })
+                setSelectedDate({date1: data?.[0] ?? null, date2: data?.[1]})
                 const fromDate = `${dayjs(data?.[0]).format('YYYY-MM-DD')} 00:00:00`
                 const toDate = `${dayjs(data?.[1]).format('YYYY-MM-DD')} 23:59:59`
 
@@ -204,7 +204,14 @@ const RewardHistory = () => {
                   className="p-6 font-medium text-primary-color whitespace-nowrap "
                   scope="row"
                 >
-                  {(currentPage - 1) * Number(rewardData?.length < Number(selectedLimit?.title) ? rewardData?.length : Number(selectedLimit?.title)) + index + 1}
+                  {(currentPage - 1) *
+                    Number(
+                      rewardData?.length < Number(selectedLimit?.title)
+                        ? rewardData?.length
+                        : Number(selectedLimit?.title)
+                    ) +
+                    index +
+                    1}
                 </th>
                 <td className="p-6 text-primary-color capitalize">
                   {dayjs(created_at)?.format('DD/MM/YYYY')}
@@ -213,7 +220,9 @@ const RewardHistory = () => {
                   {reward_type}
                 </td>
                 <td className="p-6 text-primary-color capitalize">
-                  {reward_type.toLowerCase() === 'refferal' ? 'Register With Your Link' : description}
+                  {reward_type.toLowerCase() === 'refferal'
+                    ? 'Register With Your Link'
+                    : description}
                 </td>
                 <td className="p-6 text-primary-color capitalize">
                   {earn_point}

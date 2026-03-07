@@ -104,7 +104,7 @@ const PendingOrderTable = (
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
               <span>
                 {quantity
-                  ? `${Utility.removeDecimal(quantity)} ${symbol.replace('USDT', '')}`
+                  ? ` ${quantity ? leverage * quantity : 0} ${symbol.replace('USDT', '')}`
                   : '--'}
               </span>
             </td>

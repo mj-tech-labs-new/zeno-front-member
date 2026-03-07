@@ -1,16 +1,22 @@
-import { memo } from 'react'
+import {memo} from 'react'
 
-import { English } from '@/helpers'
-import { GeneralProps } from '@/types/CommonTypes'
-import { StatsCardProps } from '@/types/ComponentTypes'
+import {English} from '@/helpers'
+import {GeneralProps} from '@/types/CommonTypes'
+import {StatsCardProps} from '@/types/ComponentTypes'
 
 const PercentageLabel = (
   props: Pick<
     StatsCardProps,
     'initialContent' | 'secondContent' | 'headingContent'
-  > & Pick<GeneralProps, 'layoutClassName'>
+  > &
+    Pick<GeneralProps, 'layoutClassName'>
 ) => {
-  const { headingContent, initialContent = 0, secondContent = 0, layoutClassName = '' } = props
+  const {
+    headingContent,
+    initialContent = 0,
+    secondContent = 0,
+    layoutClassName = '',
+  } = props
 
   return (
     <div className="flex gap-2">

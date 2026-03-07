@@ -92,7 +92,7 @@ const OpenPositionTable = (
               {Utility.removeDecimal(open ?? 0)}
             </td>
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">
-              {quantity ?? 0}
+              {(quantity ?? 0) * leverage}
             </td>
 
             <td className="pr-6 py-4 text-left text-chart-text-primary-color !whitespace-nowrap">

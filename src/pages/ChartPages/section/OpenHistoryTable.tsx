@@ -247,7 +247,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                   <span className="inline-block">
                     {`${Utility.numberConversion(average_trading_price, Utility.getPricePrecision(average_trading_price))} ${English.E60}`}
                   </span>
-                  <span>{`${Utility.removeDecimal(commission_price ?? 0, 3)}  ${English.E60}`}</span>
+                  <span>{`${commission_price}`}</span>
                 </td>
                 <td className=" pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <span>
