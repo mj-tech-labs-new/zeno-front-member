@@ -11,7 +11,7 @@ import {
 } from './ChallengeTypes'
 // eslint-disable-next-line import-x/no-cycle
 import {CommonProps, GeneralProps, PaginationType} from './CommonTypes'
-import {ChartShapesType, Methodtype, TradingSortingType} from './UnionTypes'
+import {ChartShapesType, TradingSortingType} from './UnionTypes'
 
 export declare const Bar: TypedChartComponent<'bar'>
 interface CandleObjectType {
@@ -182,7 +182,6 @@ export interface EditStopLossModelProps
   extends Pick<GeneralProps, 'singleLineContent'>,
     Pick<OpenPosition, 'symbol'> {
   item: (OpenPosition | PendingOrder) | null
-  apiMethod?: Methodtype
 }
 
 export interface OrderHistoryApiProps extends GetClosedPnlDetailsPayloadProps {

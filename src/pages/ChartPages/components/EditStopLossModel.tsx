@@ -1,16 +1,17 @@
-import React, {useState} from 'react'
+import React, { useMemo, useState } from 'react'
 
-import {ImageComponent} from '@/components'
+import { ImageComponent } from '@/components'
 import ModalComponent from '@/components/Modal/ModalComponent/ModalComponent'
-import {English, Images} from '@/helpers'
-import {EditStopLossModelProps} from '@/types/ChartTypes'
+import { English, Images } from '@/helpers'
+import { EditStopLossModelProps } from '@/types/ChartTypes'
 
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 import EditStopLoss from '../section/EditStopLoss'
 
 const EditStopLossModel = (props: EditStopLossModelProps) => {
-  const {singleLineContent, item, apiMethod, symbol} = props
-  const {livePrice} = useChartProvider()
+  const { singleLineContent, item, symbol } = props
+  const { livePriceData } = useChartProvider()
+  const dataToFind = useMemo(() => livePriceData?.[symbol?.replace('USDT', '')], [livePriceData, symbol])
   const [isModelOpen, setIsModelOpen] = useState(false)
   return (
     <React.Fragment>
@@ -29,12 +30,11 @@ const EditStopLossModel = (props: EditStopLossModelProps) => {
             </div>
 
             <div className="font-switzer text-primary-dark-blue-color font-medium text-[14px]">
-              {livePrice}
+              {dataToFind?.price}
               {` ${symbol?.replace('USDT', '')}`}
             </div>
           </div>
           <EditStopLoss
-            apiMethod={apiMethod ?? 'put'}
             item={item}
             closeModel={() => {
               setIsModelOpen(false)

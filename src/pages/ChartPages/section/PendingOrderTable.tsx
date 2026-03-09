@@ -162,12 +162,6 @@ const PendingOrderTable = (
                     <EditStopLossModel
                       item={{...tableBody, average_price: livePrice}}
                       symbol={symbol}
-                      apiMethod={
-                        tableBody?.take_profit?.[0]?.price &&
-                        tableBody?.stop_loss?.[0]?.price
-                          ? 'put'
-                          : 'post'
-                      }
                       singleLineContent={
                         tableBody?.take_profit?.[0]?.price &&
                         tableBody?.stop_loss?.[0]?.price
@@ -181,7 +175,6 @@ const PendingOrderTable = (
                 <div className=" flex gap-2 ">
                   --{' '}
                   <EditStopLossModel
-                    apiMethod="post"
                     item={{...tableBody, average_price: livePrice}}
                     singleLineContent={English.E341}
                     symbol={symbol}

@@ -1,15 +1,15 @@
-import {useCallback} from 'react'
-import {useParams} from 'react-router-dom'
+import { useCallback } from 'react'
+import { useParams } from 'react-router-dom'
 
-import {CommonCloseActionButton, CommonTableComponent} from '@/components'
-import {Constants, English, Utility} from '@/helpers'
-import {getChallengeByIdApi} from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
-import {CreateChallengeProps} from '@/types/ChallengeTypes'
-import {OpenPosition} from '@/types/ChartTypes'
+import { CommonCloseActionButton, CommonTableComponent } from '@/components'
+import { Constants, English, Utility } from '@/helpers'
+import { getChallengeByIdApi } from '@/pages/ChallengeDashboard/api/ChallengeDashboardApi'
+import { CreateChallengeProps } from '@/types/ChallengeTypes'
+import { OpenPosition } from '@/types/ChartTypes'
 
 import EditStopLossModel from '../components/EditStopLossModel'
 // import ReverseOrder from '../components/ReverseOrder'
-import {useChartProvider} from '../context/ChartProvider'
+import { useChartProvider } from '../context/ChartProvider'
 
 const OpenPositionTable = (
   props: Pick<CreateChallengeProps, 'challenge_id'> & {
@@ -17,15 +17,15 @@ const OpenPositionTable = (
     setPosition: (data: OpenPosition[]) => void
   }
 ) => {
-  const {challenge_id, openPosition, setPosition} = props
-  const {setGetChallengeByIdArray} = useChartProvider()
+  const { challenge_id, openPosition, setPosition } = props
+  const { setGetChallengeByIdArray } = useChartProvider()
   const params = useParams()
 
   const handleGetChallengeById = useCallback(() => {
     if (!params?.challengeId) {
       return
     }
-    getChallengeByIdApi({challenge_id: params?.challengeId}).then((res) => {
+    getChallengeByIdApi({ challenge_id: params?.challengeId }).then((res) => {
       setGetChallengeByIdArray(res)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,7 +35,7 @@ const OpenPositionTable = (
     <CommonTableComponent
       apiMethod="put"
       className="!bg-transparent !text-neutral-primary-color [&>tr>th]:!pl-0 [&>tr>th]:pr-1!"
-      extraProp={{challenge_id}}
+      extraProp={{ challenge_id }}
       headingClassName="justify-start !whitespace-nowrap"
       layoutClassName="!border-none !h-[500px] !overflow-y-auto no-scrollbar"
       showArrows={false}
@@ -67,7 +67,6 @@ const OpenPositionTable = (
         const directionCaseInsensitive = direction.toLowerCase()
         const contractFullName = `${symbol} ${English.E132}`
         const directionText = `${directionCaseInsensitive === 'buy' ? English.E74 : English.E75}-${leverage}x-${margin_mode}`
-
         return (
           <tr
             key={`content-${tx_hash}`}
@@ -99,9 +98,9 @@ const OpenPositionTable = (
               <span>
                 {average_price
                   ? Utility.numberConversion(
-                      average_price ?? 0,
-                      Utility.getPricePrecision(average_price ?? 3)
-                    )
+                    average_price ?? 0,
+                    Utility.getPricePrecision(average_price ?? 3)
+                  )
                   : '--'}
               </span>
             </td>
@@ -109,9 +108,9 @@ const OpenPositionTable = (
               <span>
                 {current_price
                   ? Utility.numberConversion(
-                      current_price,
-                      Utility.getPricePrecision(current_price)
-                    )
+                    current_price,
+                    Utility.getPricePrecision(current_price)
+                  )
                   : '--'}
               </span>
             </td>
@@ -120,9 +119,9 @@ const OpenPositionTable = (
             >
               {est_liq_price
                 ? Utility.numberConversion(
-                    est_liq_price,
-                    Utility.getPricePrecision(est_liq_price ?? 3)
-                  )
+                  est_liq_price,
+                  Utility.getPricePrecision(est_liq_price ?? 3)
+                )
                 : '---'}
             </td>
             <td
@@ -143,7 +142,7 @@ const OpenPositionTable = (
             </td>
             <td className="flex flex-col  pr-6 py-4 !text-left text-chart-text-primary-color !whitespace-nowrap">
               {tableBody?.take_profit?.[0]?.price ||
-              tableBody?.stop_loss?.[0]?.price ? (
+                tableBody?.stop_loss?.[0]?.price ? (
                 <div className="flex gap-3 items-center">
                   <div className="flex flex-col">
                     <span className="!text-primary-green">
@@ -168,15 +167,9 @@ const OpenPositionTable = (
                     <EditStopLossModel
                       item={tableBody}
                       symbol={symbol}
-                      apiMethod={
-                        tableBody?.take_profit?.[0]?.price &&
-                        tableBody?.stop_loss?.[0]?.price
-                          ? 'put'
-                          : 'post'
-                      }
                       singleLineContent={
-                        tableBody?.take_profit?.[0]?.price &&
-                        tableBody?.stop_loss?.[0]?.price
+                        tableBody?.take_profit?.length !== 0 &&
+                          tableBody?.stop_loss?.length !== 0
                           ? English.E333
                           : English.E341
                       }
@@ -187,7 +180,6 @@ const OpenPositionTable = (
                 <div className=" flex gap-2 ">
                   --{' '}
                   <EditStopLossModel
-                    apiMethod="post"
                     item={tableBody}
                     singleLineContent={English.E341}
                     symbol={symbol}
