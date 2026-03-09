@@ -329,7 +329,7 @@ const English = {
   E314: 'Set Your New Zeno Trader Password',
   E315: 'Enter Otp You Recieved in Your Email And Set Your New Password',
   E316: 'Enter a valid 6-digit OTP using numbers only',
-  E328: 'Password must include 1 uppercase, 1 number, 1 special, and it must be 8 characters.',
+  E328: 'Password must include 1 uppercase, 1 number, 1 special, and it must be 6 characters.',
   E329: 'Cross',
   E330: 'Verify OTP',
   E331: 'Certificate Download',
@@ -473,6 +473,7 @@ const English = {
   E513: 'MA30',
   E514: 'Unlimited Days',
   E515: 'Challenge Passed',
+  E516: 'Fields cannot be empty',
 }
 
 export default English

@@ -23,7 +23,7 @@ const SetNewPasswordPage = () => {
     new_password: '',
     confirm_new_password: '',
   })
-  const [timer, setTimer] = useState(600)
+  const [timer, setTimer] = useState(300)
   const [errors, setErrors] = useState<Record<string, string>>({
     otp: '',
     new_password: '',
@@ -84,7 +84,7 @@ const SetNewPasswordPage = () => {
   }
 
   const startTimer = useCallback(() => {
-    setTimer(600)
+    setTimer(300)
     const interval = setInterval(() => {
       setTimer((prev) => {
         if (prev <= 1) {

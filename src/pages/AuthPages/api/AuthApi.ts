@@ -73,6 +73,7 @@ const updateUserDataApi = async (props: UpdateApiProps) => {
     APICall('put', Endpoints.updateUser, payload)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
+          toast.success(res?.message)
           resolve(true)
           const newPayload = {
             token: Store.getState()?.userData?.user?.token,

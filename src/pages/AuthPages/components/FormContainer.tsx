@@ -44,14 +44,16 @@ const FormContainer = (
   const userData = useSelector((state: StorageProps) => state.userData)
   const navigate = useNavigate()
   const loaderRef = useRef<AppLoaderRef>(null)
-  const [isShowPassword, setIsShowPassword] = useState(true)
+  const [isShowPassword, setIsShowPassword] = useState({
+    password: true,
+    cpassword: true,
+  })
   const location = useLocation()
   const [referralCode, setReferralCode] = useState(
     location.search?.split('=')?.[1] ?? ''
   )
   const [referral_code, setReferral_code] = useState('')
   const [isMarketer, setIsMarketer] = useState(false)
-
   const actionButtons = useMemo(
     () => [
       {
@@ -93,10 +95,11 @@ const FormContainer = (
         const newValues = {...prevValues, [name]: value}
 
         if (value === '') {
-          setErrors((prev) => ({...prev, [name]: ''}))
+          setErrors((prev) => ({...prev, [name]: English.E516}))
         }
 
         if (value !== '') {
+          setErrors((prev) => ({...prev, [name]: ''}))
           if (name === 'email') {
             if (!Utility.isValidEmail(value)) {
               setErrors((data) => ({...data, [name]: English.E86}))
@@ -295,36 +298,53 @@ const FormContainer = (
       <Loader ref={loaderRef} />
       <form className={`flex flex-col gap-4 ${className} `}>
         <div className="flex flex-col gap-4">
-          {formData?.map((inputItems) => (
-            <InputContainer
-              key={inputItems.name}
-              error={errors?.[inputItems.name] ?? ''}
-              name={inputItems?.name}
-              placeholder={inputItems?.placeHolderText}
-              singleLineContent={inputItems.labelText}
-              value={inputValues?.[inputItems.name] ?? ''}
-              imageUrl={
-                inputItems?.type === 'password'
-                  ? isShowPassword
-                    ? Images.eyeClose
-                    : Images.eyeOpen
-                  : ''
-              }
-              onChange={(e) =>
-                handleInputChange(inputItems?.name, e.target.value)
-              }
-              onPressIcon={() => {
-                setIsShowPassword((prev) => !prev)
-              }}
-              type={
-                inputItems
-                  ? isShowPassword && inputItems?.type === 'password'
-                    ? 'password'
-                    : 'text'
-                  : 'text'
-              }
-            />
-          ))}
+          {formData?.map((inputItems) => {
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            const {name, placeHolderText, labelText, type} = inputItems
+            return (
+              <InputContainer
+                key={name}
+                error={errors?.[name] ?? ''}
+                name={name}
+                placeholder={placeHolderText}
+                singleLineContent={labelText}
+                value={inputValues?.[name] ?? ''}
+                imageUrl={
+                  type !== 'password'
+                    ? ''
+                    : name === 'password'
+                      ? isShowPassword.password
+                        ? Images.eyeOpen
+                        : Images.eyeClose
+                      : isShowPassword.cpassword
+                        ? Images.eyeOpen
+                        : Images.eyeClose
+                }
+                onChange={(e) =>
+                  handleInputChange(inputItems?.name, e.target.value)
+                }
+                onPressIcon={() => {
+                  setIsShowPassword((prev) => {
+                    if (inputItems?.name === 'password') {
+                      return {...prev, password: !prev.password}
+                    }
+                    return {...prev, cpassword: !prev.cpassword}
+                  })
+                }}
+                type={
+                  type !== 'password'
+                    ? type
+                    : name === 'password'
+                      ? isShowPassword.password
+                        ? 'text'
+                        : 'password'
+                      : isShowPassword.cpassword
+                        ? 'text'
+                        : 'password'
+                }
+              />
+            )
+          })}
           {type === 'signUpType' && (
             <div className="flex gap-2 flex-col  w-full">
               <span className="font-normal text-base/6 text-tertiary-color whitespace-nowrap">

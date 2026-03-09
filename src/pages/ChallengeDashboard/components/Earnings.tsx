@@ -63,7 +63,7 @@ const Earnings = () => {
                 <span className="text-15 leading-6! font-light font-switzer! text-text-hint-color">{`${English.E58} ${English.E448}`}</span>
                 <span className="text-lg/6 font-switzer! font-light text-tertiary-color">{`${Utility.numberConversion(toNumber(totalEarningAmt))} ${English.E60}`}</span>
               </div>
-              <Info 
+              <Info
                 className="opacity-50"
                 singleLineContent={`${English.E58} ${English.E448}`}
               />

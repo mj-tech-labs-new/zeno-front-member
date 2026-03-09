@@ -66,7 +66,7 @@ const colorGeneratorUtility = (value: number) => {
   return colorValue
 }
 const isPasswordValid = (value: string) => {
-  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/
+  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{6,}$/
   return regex.test(value)
 }
 
