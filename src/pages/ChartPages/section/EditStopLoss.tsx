@@ -1,28 +1,28 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { toast } from 'react-toastify'
+import {useCallback, useEffect, useRef, useState} from 'react'
+import {toast} from 'react-toastify'
 
-import { CommonButton, ImageComponent } from '@/components'
-import { English, Images } from '@/helpers'
-import { APICall, Endpoints } from '@/services'
+import {CommonButton, ImageComponent} from '@/components'
+import {English, Images} from '@/helpers'
+import {APICall, Endpoints} from '@/services'
 import {
   CommonBuyAndSellProp,
   OpenPosition,
   PendingOrder,
 } from '@/types/ChartTypes'
 
-import { useChartProvider } from '../context/ChartProvider'
+import {useChartProvider} from '../context/ChartProvider'
 import StopLoss from './StopLoss'
 
 const EditStopLoss = (props: {
   item: (OpenPosition | PendingOrder) | null
   closeModel: () => void
 }) => {
-  const { item, closeModel } = props
+  const {item, closeModel} = props
   const [stopLossData, setStopLossData] = useState<
     Pick<CommonBuyAndSellProp, 'stop_loss'> &
-    Pick<CommonBuyAndSellProp, 'take_profit'>
-  >({ stop_loss: [], take_profit: [] })
-  const { livePrice } = useChartProvider()
+      Pick<CommonBuyAndSellProp, 'take_profit'>
+  >({stop_loss: [], take_profit: []})
+  const {livePrice} = useChartProvider()
   const isItems = useRef(false)
   const initialItemRef = useRef<(OpenPosition | PendingOrder) | null>(null)
   const [isDisabled, setIsDisabled] = useState(false)
@@ -81,15 +81,10 @@ const EditStopLoss = (props: {
       tx_hash: item?.tx_hash ?? '',
       symbol: item?.symbol ?? '',
       stop_loss: stopLossData.stop_loss ?? [],
-      take_profit: stopLossData.take_profit ?? []
+      take_profit: stopLossData.take_profit ?? [],
     }
 
-
-    APICall(
-      'post',
-      Endpoints.addStopLoss,
-      payload
-    )
+    APICall('post', Endpoints.addStopLoss, payload)
       .then((res: any) => {
         if (res) {
           toast.success(res?.message)
@@ -112,19 +107,19 @@ const EditStopLoss = (props: {
 
       if (type === 'all') {
         if (item?.stop_loss?.length === 1) {
-          payload = { ...payload, stop_loss_id: 1 }
+          payload = {...payload, stop_loss_id: 1}
         }
 
         if (item?.take_profit?.length === 1) {
-          payload = { ...payload, take_profit_id: 1 }
+          payload = {...payload, take_profit_id: 1}
         }
       }
       if (type === 'stopLoss' && item?.stop_loss?.length === 1) {
-        payload = { ...payload, stop_loss_id: 1 }
+        payload = {...payload, stop_loss_id: 1}
       }
 
       if (type === 'takeProfit' && item?.take_profit?.length === 1) {
-        payload = { ...payload, take_profit_id: 1 }
+        payload = {...payload, take_profit_id: 1}
       }
 
       APICall('delete', Endpoints.deleteStopLoss, payload)
@@ -156,23 +151,27 @@ const EditStopLoss = (props: {
       setIsDisabled(false)
     }
     initialItemRef.current = item
-    setStopLossData({ stop_loss: item.stop_loss, take_profit: item.take_profit })
+    setStopLossData({stop_loss: item.stop_loss, take_profit: item.take_profit})
   }, [item])
 
   useEffect(() => {
-    if (initialItemRef.current?.stop_loss?.[0]?.price === stopLossData?.stop_loss?.[0]?.price && initialItemRef.current?.take_profit?.[0]?.price === stopLossData?.take_profit?.[0]?.price) {
+    if (
+      initialItemRef.current?.stop_loss?.[0]?.price ===
+        stopLossData?.stop_loss?.[0]?.price &&
+      initialItemRef.current?.take_profit?.[0]?.price ===
+        stopLossData?.take_profit?.[0]?.price
+    ) {
       setIsDisabled(true)
       return
     }
     setIsDisabled(false)
   }, [stopLossData?.stop_loss, stopLossData?.take_profit])
 
-
   return (
     <div>
       <div className="flex flex-col gap-6 py-6 ">
         <div>
-          {Array.from({ length: 2 }).map((__, index) => {
+          {Array.from({length: 2}).map((__, index) => {
             const stopLoss = index + 1
             return (
               <div
@@ -233,8 +232,8 @@ const EditStopLoss = (props: {
                   {(stopLoss === 1
                     ? item?.stop_loss?.length === 1
                     : item?.take_profit?.length === 1) && (
-                      <div>
-                        {/* <ImageComponent
+                    <div>
+                      {/* <ImageComponent
                         className="h-6 w-4 cursor-pointer"
                         imageUrl={Images.editIcon}
                         onPressItem={async () =>
@@ -250,33 +249,31 @@ const EditStopLoss = (props: {
                           )
                         }
                       /> */}
-                        <ImageComponent
-                          className="h-6 w-5 mb-2 cursor-pointer "
-                          imageUrl={Images.deleteIcon}
-                          onPressItem={() =>
-                            handleDeleteOrder(
-                              stopLoss === 1 ? 'stopLoss' : 'takeProfit'
-                            )
-                          }
-                        />
-                      </div>
-                    )}
+                      <ImageComponent
+                        className="h-6 w-5 mb-2 cursor-pointer "
+                        imageUrl={Images.deleteIcon}
+                        onPressItem={() =>
+                          handleDeleteOrder(
+                            stopLoss === 1 ? 'stopLoss' : 'takeProfit'
+                          )
+                        }
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             )
           })}
         </div>
         <div className="flex justify-center gap-4 ">
-          {Array.from({ length: 2 }).map((__, index) => (
+          {Array.from({length: 2}).map((__, index) => (
             <CommonButton
               key={`index_${index + 1}`}
               className={`font-semibold text-sm ${index + 1 === 1 ? 'bg-chart-green-color' : 'bg-chart-red-color'} text-primary-color !w-fit !py-2 !rounded-full !font-bold `}
               disabled={!!(index === 0 && isDisabled)}
               singleLineContent={index + 1 === 1 ? English.E341 : English.E342}
               onClick={async () =>
-                index + 1 === 1
-                  ? handleUpdateOrder()
-                  : handleDeleteOrder('all')
+                index + 1 === 1 ? handleUpdateOrder() : handleDeleteOrder('all')
               }
             />
           ))}
