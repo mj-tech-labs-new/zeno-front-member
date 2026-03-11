@@ -204,14 +204,7 @@ const RewardHistory = () => {
                   className="p-6 font-medium text-primary-color whitespace-nowrap "
                   scope="row"
                 >
-                  {(currentPage - 1) *
-                    Number(
-                      rewardData?.length < Number(selectedLimit?.title)
-                        ? rewardData?.length
-                        : Number(selectedLimit?.title)
-                    ) +
-                    index +
-                    1}
+                  {(currentPage - 1) * Number(selectedLimit?.title) + index + 1}
                 </th>
                 <td className="p-6 text-primary-color capitalize">
                   {dayjs(created_at)?.format('DD/MM/YYYY')}
@@ -261,11 +254,19 @@ const RewardHistory = () => {
             placeHolderText="Limit"
             selectedValue={selectedLimit}
             onSelectValue={(value) => {
-              const page = Number(value?.title)
+              const newLimit = Number(value?.title)
+              const oldLimit = Number(selectedLimit?.title)
+
+              const startIndex = (currentPage - 1) * oldLimit
+              const newPage = Math.floor(startIndex / newLimit) + 1
+
               setSelectedLimit({
                 title: value?.title,
               })
-              GetRewardHistory(1, page, '', '', 'ASC', 'created_at')
+
+              setCurrentPage(newPage)
+
+              GetRewardHistory(newPage, newLimit, '', '', 'ASC', 'created_at')
             }}
           />
           <span>{English.E484}</span>
