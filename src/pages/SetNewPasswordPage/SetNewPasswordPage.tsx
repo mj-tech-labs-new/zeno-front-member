@@ -30,6 +30,10 @@ const SetNewPasswordPage = () => {
     confirm_new_password: '',
   })
   const [token, setToken] = useState<string>('')
+  const [isShowPassword, setIsShowPassword] = useState({
+    password: true,
+    cpassword: true,
+  })
   const navigate = useNavigate()
   const location = useLocation()
   const isEmail = useMemo(() => location.state, [location.state])
@@ -40,34 +44,42 @@ const SetNewPasswordPage = () => {
       setInputValues((prevValues) => {
         const newValues = {...prevValues, [name]: value}
 
-        if (name === 'otp') {
-          return {
-            ...prevValues,
-            otp: Utility.isValidNumber(value),
-          }
-        }
+        setErrors((prev) => {
+          const newErrors = {...prev}
 
-        if (name === 'new_password' || name === 'confirm_new_password') {
-          if (
-            'confirm_new_password' in newValues &&
-            newValues.new_password !== newValues.confirm_new_password
-          ) {
-            setErrors((prev) => ({
-              ...prev,
-              new_password: English.E87,
-              confirm_new_password: English.E87,
-            }))
-          } else {
-            setErrors((data) => ({
-              ...data,
-              new_password: '',
-              confirm_new_password: '',
-            }))
+          if (value === '') {
+            newErrors[name] = ''
+            return newErrors
           }
-        }
-        if (value === '') {
-          setErrors((data) => ({...data, [name]: ''}))
-        }
+
+          newErrors[name] = ''
+
+          if (name === 'otp') {
+            const validOtp = Utility.isValidNumber(value)
+            newValues.otp = validOtp
+          }
+
+          if (name === 'new_password' || name === 'confirm_new_password') {
+            const {new_password, confirm_new_password} = newValues
+
+            if (new_password && !Utility.isPasswordValid(new_password)) {
+              newErrors.new_password = English.E328
+            } else {
+              newErrors.new_password = ''
+            }
+
+            if (new_password && confirm_new_password) {
+              if (new_password !== confirm_new_password) {
+                newErrors.new_password = English.E87
+                newErrors.confirm_new_password = English.E87
+              } else {
+                newErrors.confirm_new_password = ''
+              }
+            }
+          }
+
+          return newErrors
+        })
 
         return newValues
       })
@@ -175,21 +187,53 @@ const SetNewPasswordPage = () => {
               </div>
               <div />
               <div className="flex flex-col gap-4">
-                {Constants.NewPasswordInoutArray.map((inputItems) => (
-                  <InputContainer
-                    key={inputItems.name}
-                    {...(inputItems.name === 'otp' && {maxLength: 6})}
-                    error={errors?.[inputItems.name] ?? ''}
-                    name={inputItems?.name}
-                    placeholder={inputItems?.placeHolderText}
-                    singleLineContent={inputItems.labelText}
-                    type={inputItems?.type}
-                    value={inputValues?.[inputItems.name] ?? ''}
-                    onChange={(e) =>
-                      handleInputChange(inputItems?.name, e.target.value)
-                    }
-                  />
-                ))}
+                {Constants.NewPasswordInoutArray.map((inputItems) => {
+                  const {labelText, name, placeHolderText, type} = inputItems
+                  return (
+                    <InputContainer
+                      key={name}
+                      {...(name === 'otp' && {maxLength: 6})}
+                      error={errors?.[name] ?? ''}
+                      name={name}
+                      placeholder={placeHolderText}
+                      singleLineContent={labelText}
+                      value={inputValues?.[name] ?? ''}
+                      imageUrl={
+                        type !== 'password'
+                          ? ''
+                          : name === 'new_password'
+                            ? isShowPassword.password
+                              ? Images.eyeOpen
+                              : Images.eyeClose
+                            : isShowPassword.cpassword
+                              ? Images.eyeOpen
+                              : Images.eyeClose
+                      }
+                      onChange={(e) =>
+                        handleInputChange(inputItems?.name, e.target.value)
+                      }
+                      onPressIcon={() => {
+                        setIsShowPassword((prev) => {
+                          if (inputItems?.name === 'new_password') {
+                            return {...prev, password: !prev.password}
+                          }
+                          return {...prev, cpassword: !prev.cpassword}
+                        })
+                      }}
+                      type={
+                        type !== 'password'
+                          ? type
+                          : name === 'new_password'
+                            ? isShowPassword.password
+                              ? 'text'
+                              : 'password'
+                            : isShowPassword.cpassword
+                              ? 'text'
+                              : 'password'
+                      }
+                    />
+                  )
+                })}
                 <div className="flex flex-col justify-start gap-4 text text-primary-color">
                   <div className="flex ">
                     <Link
