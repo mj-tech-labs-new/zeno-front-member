@@ -94,54 +94,41 @@ const FormContainer = (
       setInputValues((prevValues) => {
         const newValues = {...prevValues, [name]: value}
 
-        if (value === '') {
-          setErrors((prev) => ({...prev, [name]: English.E516}))
-        }
+        setErrors((prev) => {
+          const newErrors = {...prev}
 
-        if (value !== '') {
-          setErrors((prev) => ({...prev, [name]: ''}))
+          if (value === '') {
+            newErrors[name] = English.E516
+            return newErrors
+          }
+
+          newErrors[name] = ''
+
           if (name === 'email') {
-            if (!Utility.isValidEmail(value)) {
-              setErrors((data) => ({...data, [name]: English.E86}))
-            } else {
-              setErrors((data) => ({...data, [name]: ''}))
-            }
+            newErrors.email = Utility.isValidEmail(value) ? '' : English.E86
           }
-          if (type !== 'loginType' && name === 'password') {
-            if (Utility.isPasswordValid(value)) {
-              setErrors((prev) => ({
-                ...prev,
-                password: '',
-                re_password: '',
-              }))
+
+          if (type !== 'loginType') {
+            const {password, re_password} = newValues
+
+            if (password && !Utility.isPasswordValid(password)) {
+              newErrors.password = English.E328
             } else {
-              setErrors((prev) => ({
-                ...prev,
-                password: English.E328,
-                re_password: '',
-              }))
+              newErrors.password = ''
+            }
+
+            if (password && re_password) {
+              if (password !== re_password) {
+                newErrors.password = English.E87
+                newErrors.re_password = English.E87
+              } else {
+                newErrors.re_password = ''
+              }
             }
           }
 
-          if (name === 're_password') {
-            if (
-              're_password' in newValues &&
-              newValues.password !== newValues.re_password
-            ) {
-              setErrors((prev) => ({
-                ...prev,
-                password: English.E87,
-                re_password: English.E87,
-              }))
-            } else {
-              setErrors((data) => ({
-                ...data,
-                password: '',
-                re_password: '',
-              }))
-            }
-          }
-        }
+          return newErrors
+        })
 
         return newValues
       })
@@ -356,7 +343,7 @@ const FormContainer = (
                 placeholder="Enter Referral Code (Optional)"
                 value={referralCode}
                 onChange={(e) => {
-                  setReferralCode(e.target.value)
+                  setReferralCode(e.target.value.trim())
                 }}
               />
             </div>

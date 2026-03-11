@@ -63,14 +63,19 @@ const VerifyOtp = (props: VerifyOtpProps) => {
       user_signup_type: payloadData?.user_signup_type,
       token,
     }
+    setShowLoader(true)
     registerApi(payload as unknown as RegisterApiProps)
       .then((response: any) => {
         if (response) {
+          setShowLoader(false)
           startTimer()
           if (setToken) setToken(response)
         }
       })
       .catch(() => {})
+      .finally(() => {
+        setShowLoader(false)
+      })
   }, [payloadData, setToken, startTimer, token])
 
   const handleVerifyOtp = useCallback(() => {
@@ -118,9 +123,9 @@ const VerifyOtp = (props: VerifyOtpProps) => {
             className={`text-primary-dark-blue-color/75 text-base/6 ${timer === 0 ? 'cursor-pointer text-primary-dark-blue-color/75' : 'pointer-events-none'}`}
             onClick={handleResendOtp}
           >
-            Resend Otp in :{' '}
+            Resend Otp {timer > 0 && <span>in : </span>}
           </span>
-          {formatTime(timer)}
+          {timer > 0 && formatTime(timer)}
         </span>
         <CommonButton
           className={`primary-btn-type ${inputValue.otp.length === 0 ? 'bg-button-primary-color opacity-50 pointer-events-none' : ''}`}
