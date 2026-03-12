@@ -112,14 +112,14 @@ const getUserApi = async () =>
   })
 const forgotPasswordApi = async (props: forgotPasswordApiProps) => {
   const payload = {...props}
-  return new Promise<forgotPasswordApiProps | null>((resolve) => {
+  return new Promise<forgotPasswordApiProps | null | string>((resolve) => {
     APICall('post', Endpoints.forgotPassword, payload)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data)
           toast.success(res?.message)
         } else {
-          resolve(null)
+          resolve(res?.message)
           toast.error(res?.message)
         }
       })

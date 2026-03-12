@@ -115,6 +115,12 @@ const SetNewPasswordPage = () => {
 
     forgotPasswordApi(isEmail as forgotPasswordApiProps)
       .then((response) => {
+        if (typeof response === 'string') {
+          navigate('/login')
+          setShowLoader(false)
+          return
+        }
+
         if (response) {
           startTimer()
           setToken(response?.token ?? '')
@@ -126,7 +132,7 @@ const SetNewPasswordPage = () => {
       .finally(() => {
         setShowLoader(false)
       })
-  }, [isEmail, startTimer])
+  }, [isEmail, navigate, startTimer])
 
   const handleSetNewPassword = useCallback(() => {
     setShowLoader(true)
