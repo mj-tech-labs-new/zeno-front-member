@@ -44,7 +44,6 @@ const Limit = (props: BuyOrSelProps) => {
   const totalStrFinal = useRef<string>('')
 
   const tokenQtyRef = useRef('0')
-  const [totalCost, setTotalCost] = useState(0)
 
   const addAmountType = useSelector(
     (state: StorageProps) => state?.chartData?.amountType
@@ -129,37 +128,41 @@ const Limit = (props: BuyOrSelProps) => {
   useEffect(() => {
     if (!inputValues.quantity) {
       setTotal(0)
-      setTotalCost(0)
       return
     }
 
     if (getChallengeByIdArray?.[0]) {
       const price = Number(inputValues.entryprice || 1)
-      const quantityPrice = parseFloat(inputValues.quantity)
+      const quantityPrice = parseFloat(inputValues?.quantity ?? 0)
       const qty = Number(tokenQtyRef.current || 0)
 
       const fee =
-        (qty * price * getChallengeByIdArray[0].order_fee_percent) / 100
-
+        (qty *
+          price *
+          getChallengeByIdArray[0].order_fee_percent *
+          parseFloat(selectedLeverage.title?.replace('X', ''))) /
+        100
       const usdtFee =
-        parseFloat(selectedLeverage.title?.replace('X', '')) *
-        quantityPrice *
-        0.06
+        (quantityPrice *
+          getChallengeByIdArray[0].order_fee_percent *
+          parseFloat(selectedLeverage?.title?.replace('X', ''))) /
+        100
 
-      const finalAmount = Utility.removeDecimal(fee + qty * price)
-      const usdtTotalCount = usdtFee + quantityPrice
-      setTotal(Number(finalAmount))
-      setTotalCost(
-        addAmountType === 'USDT' ? usdtTotalCount : parseFloat(finalAmount)
+      const finalCost = addAmountType === 'USDT' ? quantityPrice : qty * price
+
+      const finalAmount = Utility.removeDecimal(
+        (addAmountType === 'USDT' ? usdtFee : fee) + finalCost
       )
+      setTotal(Number(finalAmount))
     }
   }, [
     addAmountType,
+    selectedLeverage,
     getChallengeByIdArray,
     inputValues.entryprice,
     inputValues.quantity,
     livePrice,
-    selectedLeverage.title,
+    inputValues,
   ])
 
   useEffect(() => {
@@ -288,8 +291,8 @@ const Limit = (props: BuyOrSelProps) => {
       <Divider className="!bg-chart-secondary-bg-color !my-3" />
 
       <MaxOpenAndMargin
-        totalNum={totalCost}
-        totalStr={totalCost.toString()}
+        totalNum={total}
+        totalStr={total.toString()}
         type="max_open"
       />
 
