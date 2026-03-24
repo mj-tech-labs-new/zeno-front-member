@@ -12,12 +12,15 @@ import {
   Dashboard,
   PayoutPage,
   ProfilePage,
+  ZenoAIChat,
+  ZenoAIOnboarding,
 } from '@/pages'
 import ChallengeDashboardProvider from '@/pages/ChallengeDashboard/context/ChallengeDashboardProvider'
 import PaymentPage from '@/pages/CreateChallenge/PaymentPage'
 import PayoutSuccessPage from '@/pages/CreateChallenge/PayoutSuccessPage'
 import DashboardProvider from '@/pages/Dashboard/context/DashboardProvider'
 import Rewards from '@/pages/Rewards/Rewards'
+import {ZenoAIProvider} from '@/pages/ZenoAI/context/ZenoAIProvider'
 import UserWrapper from '@/wrappers/UserWrapper'
 
 const DashboardRoutes = [
@@ -117,6 +120,18 @@ const DashboardRoutes = [
       }
     />
     ,
+    <Route
+      key="zeno-ai-chat-inner"
+      path="zeno-ai/chat"
+      element={
+        <UserWrapper>
+          <LazyLoader>
+            <ZenoAIChat />
+          </LazyLoader>
+        </UserWrapper>
+      }
+    />
+    ,
   </Route>,
   <Route
     key="create-challenge"
@@ -158,6 +173,19 @@ const DashboardRoutes = [
           <SocketProvider>
             <Chart />
           </SocketProvider>
+        </LazyLoader>
+      </UserWrapper>
+    }
+  />,
+  <Route
+    key="zeno-ai"
+    path="/zeno-ai"
+    element={
+      <UserWrapper>
+        <LazyLoader>
+          <ZenoAIProvider>
+            <ZenoAIOnboarding />
+          </ZenoAIProvider>
         </LazyLoader>
       </UserWrapper>
     }

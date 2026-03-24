@@ -21,6 +21,8 @@ const SetNewPasswordPage = lazy(
 const ForgotPasswordPage = lazy(
   async () => import('./ForgotPasswordPage/ForgotPasswordPage')
 )
+const ZenoAIOnboarding = lazy(async () => import('./ZenoAI/ZenoAIOnboarding'))
+const ZenoAIChat = lazy(async () => import('./ZenoAI/ZenoAIChat'))
 export {
   BillingPage,
   Certificate,
@@ -35,4 +37,6 @@ export {
   ProfilePage,
   SetNewPasswordPage,
   SignUp,
+  ZenoAIChat,
+  ZenoAIOnboarding,
 }
