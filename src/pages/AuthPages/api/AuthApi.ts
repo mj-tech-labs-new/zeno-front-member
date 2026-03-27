@@ -3,13 +3,16 @@ import {toast} from 'react-toastify'
 import {APICall, CommonFunction, Endpoints} from '@/services'
 import {Store} from '@/store'
 import {
-  forgotPasswordApiProps,
+  ForgotPasswordApiProps,
   GetUserApiProps,
   LoginApiProps,
+  LoginApiResponseProp,
   RegisterApiProps,
+  RegistrationApiResponse,
   SetNewPasswordApiProps,
   UpdateApiProps,
   VerifyOtpProps,
+  VerifyOtpResponseProps,
 } from '@/types/apiTypes/AuthApiPayloadType'
 
 const registerApi = async (props: RegisterApiProps) => {
@@ -22,10 +25,16 @@ const registerApi = async (props: RegisterApiProps) => {
   if (props?.referral_code !== '' && props?.referral_code) {
     payload = {...payload, referral_code: props?.referral_code}
   }
-  const header = {Authorization: `${props?.token}`}
+  const header = {Authorization: props?.token}
   return new Promise<string | null>((resolve) => {
-    APICall('post', Endpoints.registerUser, payload, {}, header)
-      .then((res: any) => {
+    APICall<RegistrationApiResponse>(
+      'post',
+      Endpoints.registerUser,
+      payload,
+      {},
+      header
+    )
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 201) {
           resolve(res?.data?.token)
           toast.success(res?.message)
@@ -44,8 +53,8 @@ const registerApi = async (props: RegisterApiProps) => {
 const loginApi = async (props: LoginApiProps) => {
   const payload = {...props}
   return new Promise<string>((resolve) => {
-    APICall('post', Endpoints.loginUser, payload)
-      .then((res: any) => {
+    APICall<LoginApiResponseProp>('post', Endpoints.loginUser, payload)
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.token)
           const newPayload = {
@@ -110,33 +119,39 @@ const getUserApi = async () =>
         resolve(null)
       })
   })
-const forgotPasswordApi = async (props: forgotPasswordApiProps) => {
+const forgotPasswordApi = async (props: ForgotPasswordApiProps) => {
   const payload = {...props}
-  return new Promise<forgotPasswordApiProps | null | string>((resolve) => {
-    APICall('post', Endpoints.forgotPassword, payload)
-      .then((res: any) => {
-        if (res?.status === 200 && res?.statusCode === 200) {
-          resolve(res?.data)
-          toast.success(res?.message)
-        } else {
-          resolve(res?.message)
-          toast.error(res?.message)
-        }
-      })
-      .catch((error) => {
-        toast.error(error?.data?.message)
-        resolve(null)
-      })
-  })
+  return new Promise<Required<Pick<ForgotPasswordApiProps, 'token'>> | null>(
+    (resolve) => {
+      APICall<Required<Pick<ForgotPasswordApiProps, 'token'>>>(
+        'post',
+        Endpoints.forgotPassword,
+        payload
+      )
+        .then((res) => {
+          if (res?.status === 200 && res?.statusCode === 200) {
+            resolve(res?.data)
+            toast.success(res?.message)
+          } else {
+            resolve(null)
+            toast.error(res?.message)
+          }
+        })
+        .catch((error) => {
+          toast.error(error?.data?.message)
+          resolve(null)
+        })
+    }
+  )
 }
 const setNewPasswordApi = async (props: SetNewPasswordApiProps) => {
   const payload = {otp: props?.otp, new_password: props?.new_password}
   const header = {Authorization: `Bearer ${props?.token}`}
-  return new Promise<any>((resolve) => {
+  return new Promise<number | null>((resolve) => {
     APICall('post', Endpoints.setNewPassword, payload, {}, header)
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
-          resolve(res)
+          resolve(res?.status)
           toast.success(res?.message)
         } else {
           resolve(null)
@@ -154,8 +169,14 @@ const verifyOtpApi = async (props: VerifyOtpProps) => {
   const payload = {otp: props?.otp}
   const header = {Authorization: `Bearer ${props?.token}`}
   return new Promise<any>((resolve) => {
-    APICall('post', Endpoints.verifyOtp, payload, {}, header)
-      .then((res: any) => {
+    APICall<VerifyOtpResponseProps>(
+      'post',
+      Endpoints.verifyOtp,
+      payload,
+      {},
+      header
+    )
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 201) {
           const newPayload = {
             token: res?.data?.token,

@@ -1,6 +1,7 @@
 import axios, {AxiosRequestConfig} from 'axios'
 
 import {Store} from '@/store'
+import {BasicApiSuccessType} from '@/types/CommonTypes'
 import {Methodtype} from '@/types/UnionTypes'
 
 import CommonFunction from './CommonFunction'
@@ -49,13 +50,13 @@ axiosInstance.interceptors.response.use(
   async (error) => Promise.reject(error)
 )
 
-const APICall = async (
+const APICall = async <T = any>(
   method: Methodtype,
   url: string,
   body?: any,
   params?: Record<string, any>,
   headers?: Record<string, any>
-) => {
+): Promise<BasicApiSuccessType<T>> => {
   const config: AxiosRequestConfig = {}
 
   if (method) {

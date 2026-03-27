@@ -10,10 +10,7 @@ import {
   Loader,
 } from '@/components'
 import {Constants, English, Images, Utility} from '@/helpers'
-import {
-  forgotPasswordApiProps,
-  SetNewPasswordApiProps,
-} from '@/types/apiTypes/AuthApiPayloadType'
+import {SetNewPasswordApiProps} from '@/types/apiTypes/AuthApiPayloadType'
 
 import {forgotPasswordApi, setNewPasswordApi} from '../AuthPages/api/AuthApi'
 
@@ -113,7 +110,7 @@ const SetNewPasswordPage = () => {
   const handleForgotPassword = useCallback(() => {
     setShowLoader(true)
 
-    forgotPasswordApi(isEmail as forgotPasswordApiProps)
+    forgotPasswordApi({email: isEmail.email})
       .then((response) => {
         if (typeof response === 'string') {
           navigate('/login')
@@ -124,15 +121,18 @@ const SetNewPasswordPage = () => {
         if (response) {
           startTimer()
           setToken(response?.token ?? '')
+        } else {
+          navigate('/forgot-password')
         }
       })
       .catch((error) => {
+        navigate('/forgot-password')
         toast.error(error)
       })
       .finally(() => {
         setShowLoader(false)
       })
-  }, [isEmail, navigate, startTimer])
+  }, [isEmail.email, navigate, startTimer])
 
   const handleSetNewPassword = useCallback(() => {
     setShowLoader(true)
@@ -143,7 +143,7 @@ const SetNewPasswordPage = () => {
     }
     setNewPasswordApi(props)
       .then((response) => {
-        if (response?.status === 200) {
+        if (response === 200) {
           navigate('/login')
         }
       })

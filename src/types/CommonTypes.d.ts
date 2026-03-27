@@ -77,3 +77,10 @@ export interface DateObject {
   date1: Date | null
   date2: Date | null
 }
+
+export interface BasicApiSuccessType<T = any> {
+  data: T
+  status: number
+  message: string
+  statusCode: number
+}

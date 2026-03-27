@@ -1,4 +1,9 @@
-export interface RegisterApiProps extends Pick<VerifyOtpProps, 'token'> {
+export interface RegistrationApiResponse {
+  token: string
+}
+
+export interface RegisterApiProps
+  extends Pick<RegistrationApiResponse, 'token'> {
   user_signup_type: 1 | 2
   name: string
   email: string
@@ -22,19 +27,26 @@ export type GetUserApiProps = Omit<RegisterApiProps, 'user_signup_type'> & {
   referral_code: null | string
 }
 
-export interface forgotPasswordApiProps
-  extends Pick<RegisterApiProps, 'email'> {
-  token?: string
+export type LoginApiResponseProp = Pick<RegistrationApiResponse, 'token'> & {
+  user: Pick<GetUserApiProps, 'email' | 'isMarketer' | 'name' | 'profilePic'>
 }
+
+export interface ForgotPasswordApiProps
+  extends Pick<RegisterApiProps, 'email'>,
+    Partial<Pick<RegistrationApiResponse, 'token'>> {}
 export interface SetNewPasswordApiProps
-  extends Pick<forgotPasswordApiProps, 'token'> {
+  extends Pick<ForgotPasswordApiProps, 'token'> {
   otp: number
   new_password: string
 }
 
-export interface VerifyOtpProps {
-  token?: string
+export interface VerifyOtpProps
+  extends Partial<Pick<RegistrationApiResponse, 'token'>> {
   payloadData?: RegisterApiProps
   otp?: string
   setToken?: (value: string) => void
+}
+export interface VerifyOtpResponseProps
+  extends Pick<RegistrationApiResponse, 'token'> {
+  user: Pick<GetUserApiProps, 'email' | 'name' | 'profilePic'>
 }
