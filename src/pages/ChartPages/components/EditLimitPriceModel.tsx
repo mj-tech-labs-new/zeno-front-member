@@ -31,7 +31,7 @@ const EditLimitPriceModel = (props: EditPriceProps) => {
     }
 
     APICall('put', Endpoints.updateOrder, payload)
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           setIsModelOpen(false)
           toast.success(res?.message)

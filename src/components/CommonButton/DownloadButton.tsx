@@ -5,7 +5,10 @@ import {toast} from 'react-toastify'
 
 import {Images} from '@/helpers'
 import {APICall, CommonFunction, Endpoints} from '@/services'
-import {DownLoadButtonProps} from '@/types/ComponentTypes'
+import {
+  DownloadApiResponseType,
+  DownLoadButtonProps,
+} from '@/types/ComponentTypes'
 
 import ImageComponent from '../ImageComponent/ImageComponent'
 
@@ -30,9 +33,13 @@ const DownloadButton = (props: DownLoadButtonProps) => {
   const downloadCertificateApi = useCallback(async () => {
     const payload = {challenge_id}
 
-    return new Promise<any>((resolve) => {
-      APICall('post', Endpoints.downloadCertificate, payload)
-        .then((res: any) => {
+    return new Promise<DownloadApiResponseType | null>((resolve) => {
+      APICall<DownloadApiResponseType>(
+        'post',
+        Endpoints.downloadCertificate,
+        payload
+      )
+        .then((res) => {
           if (res?.status === 200 && res?.statusCode === 200) {
             resolve(res.data)
             const div = document.createElement('div')
@@ -252,11 +259,14 @@ box-sizing:border-box;
     <button
       className={`text-secondary-light-color cursor-pointer  ${className}`}
       type="button"
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation()
+
         if (!isApiType) {
           downloadBill()
           return
         }
+
         downloadCertificateApi()
       }}
     >

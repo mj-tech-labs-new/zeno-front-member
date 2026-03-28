@@ -5,6 +5,7 @@ import {APICall, Endpoints} from '@/services'
 import {
   FundedChallengeType,
   PayoutHistoryApi,
+  PayoutHistoryData,
   PayoutHistoryPayload,
 } from '@/types/apiTypes/PayoutApiType'
 import {PaginationType} from '@/types/CommonTypes'
@@ -70,8 +71,13 @@ const getPayoutHistory = async (props: PayoutHistoryPayload) => {
   }
 
   return new Promise<PayoutHistoryApi | null>((resolve) => {
-    APICall('post', Endpoints.getPayoutHistory, bodyParams, queryParmas)
-      .then((res: any) => {
+    APICall<{payout_history: PayoutHistoryApi['data']} & PaginationType>(
+      'post',
+      Endpoints.getPayoutHistory,
+      bodyParams,
+      queryParmas
+    )
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           const paginationObject: PaginationType = {
             limit: res?.data?.limit,
@@ -97,8 +103,11 @@ const getPayoutHistory = async (props: PayoutHistoryPayload) => {
 
 const getPayoutWalletAddress = async () =>
   new Promise<string>((resolve) => {
-    APICall('get', Endpoints.getPayoutWallet)
-      .then((res: any) => {
+    APICall<Pick<PayoutHistoryData, 'wallet_address'>>(
+      'get',
+      Endpoints.getPayoutWallet
+    )
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.wallet_address ?? '')
         } else {
@@ -117,7 +126,7 @@ const getFundedChallengesData = async () =>
       'get',
       Endpoints.getFundedChallenges
     )
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.challenges)
         } else {
@@ -135,7 +144,7 @@ const updatePayoutWallet = async (content: string) =>
   new Promise<boolean>((resolve) => {
     const payload = {wallet_address: content}
     APICall('post', Endpoints.updateWallet, payload)
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(true)
         } else {
@@ -152,7 +161,7 @@ const payoutRequest = async (challenge_id: string, amount: number) =>
   new Promise<boolean>((resolve) => {
     const payload = {challenge_id, withdraw_amount: amount}
     APICall('post', Endpoints.payoutRequest, payload)
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(true)
         } else {

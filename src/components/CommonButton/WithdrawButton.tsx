@@ -1,17 +1,20 @@
 import {memo, useCallback, useEffect, useState} from 'react'
 
 import {English} from '@/helpers'
+import {GeneralProps} from '@/types/CommonTypes'
 import {WalletModelProps} from '@/types/ComponentTypes'
 
 import {useModalContext} from '../Modal/context/ModalContextProvider'
 import WalletModel from '../Wallet/WalletModel'
 
-const WithdrawButton = (props: {
-  availableAmount: number
-  walletAddress: string
-  challenge_id: string
-}) => {
-  const {availableAmount, walletAddress, challenge_id} = props
+const WithdrawButton = (
+  props: {
+    availableAmount: number
+    walletAddress: string
+    challenge_id: string
+  } & Pick<GeneralProps, 'className'>
+) => {
+  const {availableAmount, walletAddress, challenge_id, className = ''} = props
   const [avlbAmtToWithdraw, setAvlbAmtToWithdraw] = useState(availableAmount)
   const {setChildContent, setModalProps} = useModalContext()
 
@@ -42,7 +45,7 @@ const WithdrawButton = (props: {
 
   return (
     <button
-      className="medium-success-btn-type p-0! w-[233px] cursor-pointer h-10 rounded-lg font-normal font-switzer! text-primary-color text-xs/6"
+      className={`medium-success-btn-type p-0! w-[233px] cursor-pointer h-10 rounded-lg font-normal font-switzer! text-primary-color text-xs/6 ${className}`}
       type="button"
       onClick={(e) => {
         e.stopPropagation()

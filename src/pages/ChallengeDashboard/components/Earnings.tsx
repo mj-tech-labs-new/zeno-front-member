@@ -74,6 +74,11 @@ const Earnings = () => {
                 availableAmount={toNumber(totalEarningAmt)}
                 challenge_id={challengeId}
                 walletAddress={wallet}
+                className={
+                  parseFloat(totalEarningAmt) <= 0
+                    ? 'opacity-50 pointer-events-none'
+                    : ''
+                }
               />
             )}
           </ChallengeCardLayout>

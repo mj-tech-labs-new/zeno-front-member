@@ -7,6 +7,7 @@ import {
   ChallengeInfoDashboardWithPaginationProps,
   ClosedPnlDataResponse,
   ClosedPnlResponse,
+  CreateChallengeProps,
   GetChallengeByIdType,
   GetClosedPnlDetailsPayloadProps,
   TradingStatisticsType,
@@ -60,7 +61,7 @@ const getChallengeByIdApi = async (props: ChallengeIdProp) =>
       Endpoints.getChallengeById,
       props
     )
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.allChallenge)
         } else {
@@ -76,8 +77,8 @@ const getChallengeByIdApi = async (props: ChallengeIdProp) =>
 
 const tradingStatisticsApi = async (props: ChallengeIdProp) =>
   new Promise<TradingStatisticsType | null>((resolve) => {
-    APICall('post', Endpoints.tradingStatistics, props)
-      .then((res: any) => {
+    APICall<TradingStatisticsType>('post', Endpoints.tradingStatistics, props)
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data)
         } else {
@@ -138,10 +139,14 @@ const getClosedPnlDetails = async (props: GetClosedPnlDetailsPayloadProps) => {
 const getTotalEaringsData = async (challengeId: string) => {
   const payload = {challenge_id: challengeId}
   return new Promise<string>((resolve) => {
-    APICall('post', Endpoints.getTotalCurrentEarnings, payload)
-      .then((res: any) => {
+    APICall<{payout: Pick<CreateChallengeProps, 'released_profit'>}>(
+      'post',
+      Endpoints.getTotalCurrentEarnings,
+      payload
+    )
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
-          resolve(res?.data?.payout?.[0]?.released_profit ?? '')
+          resolve(res?.data?.payout?.released_profit?.toString() ?? '')
         } else {
           resolve('')
           toast.error(res?.message)

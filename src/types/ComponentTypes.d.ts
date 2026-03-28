@@ -309,3 +309,10 @@ export interface SimpleTabProps extends Pick<GeneralProps, 'className'> {
   selectedIndex: number
   onPressIndex: (index: number) => void
 }
+
+export interface DownloadApiResponseType {
+  user_name: string
+  challenge_name: string
+  certificate_id: string
+  date: string
+}

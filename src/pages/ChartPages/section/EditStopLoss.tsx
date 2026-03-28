@@ -85,7 +85,7 @@ const EditStopLoss = (props: {
     }
 
     APICall('post', Endpoints.addStopLoss, payload)
-      .then((res: any) => {
+      .then((res) => {
         if (res) {
           toast.success(res?.message)
         }
@@ -123,7 +123,7 @@ const EditStopLoss = (props: {
       }
 
       APICall('delete', Endpoints.deleteStopLoss, payload)
-        .then((res: any) => {
+        .then((res) => {
           if (res) {
             toast.success(res?.message)
           }

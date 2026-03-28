@@ -19,7 +19,7 @@ import {PaginationType} from '@/types/CommonTypes'
 const buyOrSellApi = async (props: BuyOrSellApiProps) =>
   new Promise<boolean>((resolve) => {
     APICall('post', Endpoints.buyOrSell, props)
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(true)
         } else {
@@ -53,7 +53,7 @@ const closeOrderApi = async (
       {},
       payload
     )
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(true)
           toast.success(res?.data?.message)
@@ -91,7 +91,7 @@ const OpenHistoryApi = async (props: OrderHistoryApiProps) => {
       apiPayload,
       {}
     )
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           const paginationObject: PaginationType = {
             limit: res?.data?.limit,
@@ -133,7 +133,7 @@ const PositionHistoryApi = async (props: PositionHistoryApiProps) => {
       apiPayload,
       {}
     )
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           const paginationObject: PaginationType = {
             limit: res?.data?.limit,
@@ -177,7 +177,7 @@ const TransactionDetailsHistoryApi = async (
       apiPayload,
       {}
     )
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           const paginationObject: PaginationType = {
             limit: res?.data?.limit,
@@ -204,16 +204,20 @@ const ReverceOrderApi = async (props: ReverceOrderApiProps) => {
     tx_hash: props?.tx_hash,
     challenge_id: props?.challenge_id,
   }
-  return new Promise<any>((resolve) => {
+  return new Promise<boolean>((resolve) => {
     APICall('post', Endpoints.reverseOrder, {}, queryPayload)
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
+          resolve(true)
           toast.success(res?.message)
+        } else {
+          resolve(false)
+          toast.error(res?.message)
         }
       })
       .catch((error) => {
         toast.error(error?.data?.message)
-        resolve(null)
+        resolve(false)
       })
   })
 }

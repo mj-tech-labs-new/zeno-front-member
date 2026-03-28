@@ -39,16 +39,6 @@ export interface TradingDescriptionSectionProps
   type: string
 }
 
-export interface GetChallengeTypeProps {
-  step: number
-  total_stage: number
-}
-
-export interface ExtendedGetChallengeTypeProps extends GetChallengeTypeProps {
-  title: string
-  content: string
-}
-
 export interface GetTradingCapitalProps extends CommonProps {
   challenge_name: string
   plan_status: boolean
@@ -231,7 +221,13 @@ interface ChallengeDataSocketType
 export interface GetCertificateProps
   extends Pick<
     CreateChallengeProps,
-    'challenge_name' | 'status' | 'user_id' | 'createdAt' | '_id' | 'updatedAt'
+    | 'challenge_name'
+    | 'status'
+    | 'user_id'
+    | 'createdAt'
+    | '_id'
+    | 'updatedAt'
+    | 'challenge_id'
   > {
   trading_capital: string
   certificate_id: string
