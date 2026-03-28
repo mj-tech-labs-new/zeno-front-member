@@ -13,6 +13,7 @@ import {
 import {Constants, English, Images} from '@/helpers'
 import {APICall, Endpoints} from '@/services'
 import {
+  GetBillingApiResponse,
   GetBillingProps,
   GetBillingWithPaginationProps,
 } from '@/types/ChallengeTypes'
@@ -29,8 +30,8 @@ const BillingPage = () => {
   const getBillingApi = async (page: number) =>
     new Promise<GetBillingWithPaginationProps | null>((resolve) => {
       loaderRef.current?.showLoader(true)
-      APICall('get', Endpoints.getBilling(page, 10))
-        .then((res: any) => {
+      APICall<GetBillingApiResponse>('get', Endpoints.getBilling(page, 10))
+        .then((res) => {
           if (res?.status === 200 && res?.statusCode === 200) {
             const paginationObject: PaginationType = {
               limit: res?.data?.limit,
@@ -77,7 +78,7 @@ const BillingPage = () => {
           billingData?.map((tableBody) => {
             const {
               invoice_id,
-              created_at,
+              createdAt,
               challenge_id,
               challenge_plan,
               challenge_fee,
@@ -97,7 +98,7 @@ const BillingPage = () => {
                   {invoice_id}
                 </th>
                 <td className="p-6 text-secondary-light-color capitalize">
-                  {dayjs(created_at).format('DD/MM/YYYY')}
+                  {dayjs(createdAt).format('DD/MM/YYYY')}
                 </td>
                 <td className="p-6 text-secondary-light-color capitalize">
                   {challenge_type}

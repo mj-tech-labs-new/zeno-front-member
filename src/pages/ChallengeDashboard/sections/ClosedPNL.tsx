@@ -171,7 +171,7 @@ const ClosedPNL = (props: {showHeader: boolean}) => {
 
             return (
               <tr
-                key={`content-${tableBody?.id}`}
+                key={`content-${tableBody?.challenge_id}`}
                 className="font-normal bg-info-bg-color border-b border-landing-page-trading-rules-para-text  text-sm/6 *:transition-all *:duration-300 *:ease-in-out whitespace-nowrap *:p-6 *:text-secondary-light-color"
               >
                 <td className="px-7 py-4 text-left !text-primary-color !whitespace-nowrap !font-inter">

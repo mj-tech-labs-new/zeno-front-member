@@ -4,21 +4,24 @@ import {APICall, Endpoints} from '@/services'
 import {
   ApiPaginationProps,
   ChartApiData,
+  DailyBonusResponse,
+  GetDailyRewardResponse,
   LeaderBoardApiDataTypes,
+  LeaderBoardApiResponse,
   RewardEarning,
   RewardHistoryApiProps,
+  RewardHistoryApiResponse,
   RewardHistoryTypes,
   SocialMediaStatus,
+  UpdateSocialMediaDataType,
 } from '@/types/Rewards'
 
 const RewardEarning = async () =>
   new Promise<{data: RewardEarning} | null>((resolve) => {
-    APICall('get', Endpoints.getRewardEarnings)
-      .then((res: any) => {
+    APICall<{data: RewardEarning}>('get', Endpoints.getRewardEarnings)
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
-          resolve({
-            data: res?.data,
-          })
+          resolve(res?.data)
         } else {
           resolve(null)
           toast.error(res?.message)
@@ -32,13 +35,10 @@ const RewardEarning = async () =>
 
 const CheckDailyReward = async () =>
   new Promise<{
-    data: {
-      lastRewardDay: number
-      nextRewardDay: number
-    }
+    data: DailyBonusResponse
   } | null>((resolve) => {
-    APICall('get', Endpoints.checkDailyReward)
-      .then((res: any) => {
+    APICall<DailyBonusResponse>('get', Endpoints.checkDailyReward)
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve({
             data: res?.data,
@@ -55,13 +55,13 @@ const CheckDailyReward = async () =>
   })
 
 const GetDailyReward = async (props: {id: number}) =>
-  new Promise<{data: any} | null>((resolve) => {
-    APICall('post', Endpoints.getDailyReward, {day: props?.id})
-      .then((res: any) => {
+  new Promise<GetDailyRewardResponse | null>((resolve) => {
+    APICall<GetDailyRewardResponse>('post', Endpoints.getDailyReward, {
+      day: props?.id,
+    })
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
-          resolve({
-            data: res?.data,
-          })
+          resolve(res?.data)
         } else {
           resolve(null)
           toast.error(res?.message)
@@ -76,7 +76,7 @@ const GetDailyReward = async (props: {id: number}) =>
 const SocialDataCheck = async () =>
   new Promise<{data: SocialMediaStatus} | null>((resolve) => {
     APICall('get', Endpoints.getSocialMediaCheck)
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve({
             data: res?.data?.all_status,
@@ -97,9 +97,9 @@ const GetRewards = async (props: {type: number}) => {
     type: props?.type,
   }
 
-  return new Promise<any>((resolve) => {
-    APICall('post', Endpoints.getRewards, payload)
-      .then((res: any) => {
+  return new Promise<{data: UpdateSocialMediaDataType} | null>((resolve) => {
+    APICall<UpdateSocialMediaDataType>('post', Endpoints.getRewards, payload)
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve({
             data: res?.data,
@@ -120,9 +120,9 @@ const UpdateRewards = async (props: {type: number}) => {
     type: props?.type,
   }
 
-  return new Promise<{data: {earn_point: number}} | null>((resolve) => {
-    APICall('post', Endpoints.rewardUpdate, payload)
-      .then((res: any) => {
+  return new Promise<{data: UpdateSocialMediaDataType} | null>((resolve) => {
+    APICall<UpdateSocialMediaDataType>('post', Endpoints.rewardUpdate, payload)
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve({
             data: res?.data,
@@ -141,11 +141,15 @@ const UpdateRewards = async (props: {type: number}) => {
 
 const GetChartRewardStats = async (props: {year: number; month: number}) =>
   new Promise<{data: ChartApiData[]} | null>((resolve) => {
-    APICall('post', Endpoints.rewardStatusBarChart, {
-      year: props?.year,
-      month: props?.month,
-    })
-      .then((res: any) => {
+    APICall<{chartData: ChartApiData[]}>(
+      'post',
+      Endpoints.rewardStatusBarChart,
+      {
+        year: props?.year,
+        month: props?.month,
+      }
+    )
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve({
             data: res?.data?.chartData,
@@ -177,13 +181,13 @@ const GetRewardHistory = async (props: RewardHistoryApiProps) => {
     pagination: ApiPaginationProps
     data: RewardHistoryTypes[]
   } | null>((resolve) => {
-    APICall(
+    APICall<RewardHistoryApiResponse>(
       'post',
       Endpoints.getRewardHistory(props?.page, props?.limit),
       apiPayload,
       {}
     )
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           const paginationData: ApiPaginationProps = {
             limit: res?.data?.limit,
@@ -210,8 +214,12 @@ const getTotalRewardHistory = async () => {
     order_type: 'ASC',
   }
   return new Promise<RewardHistoryTypes[]>((resolve) => {
-    APICall('post', Endpoints.getAllRewardExport, payload)
-      .then((res: any) => {
+    APICall<RewardHistoryApiResponse>(
+      'post',
+      Endpoints.getAllRewardExport,
+      payload
+    )
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.history)
         } else {
@@ -242,13 +250,13 @@ const GetLeaderBoard = async (props: RewardHistoryApiProps) => {
     pagination: ApiPaginationProps
     data: LeaderBoardApiDataTypes[]
   } | null>((resolve) => {
-    APICall(
+    APICall<LeaderBoardApiResponse>(
       'post',
       Endpoints.getLeaderBoard(props?.page, props?.limit),
       apiPayload,
       {}
     )
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           const paginationData: ApiPaginationProps = {
             limit: res?.data?.limit,

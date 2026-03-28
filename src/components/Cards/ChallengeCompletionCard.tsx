@@ -10,7 +10,7 @@ import Info from '../Tooltips/Info'
 const ChallengeCompletionCard = () => {
   const {getChallengeByIdArray} = useChallengeProvider()
   const totalAmount = useMemo(
-    () => parseFloat(getChallengeByIdArray?.[0]?.current_usdt.toString() ?? 0),
+    () => parseFloat(getChallengeByIdArray?.current_usdt.toString() ?? '0'),
     [getChallengeByIdArray]
   )
 
@@ -39,7 +39,7 @@ const ChallengeCompletionCard = () => {
       </div>
 
       <CircularProgressBarComponent
-        GetChallengeByIdType={getChallengeByIdArray?.[0]}
+        GetChallengeByIdType={getChallengeByIdArray}
       />
     </ChallengeCardLayout>
   )

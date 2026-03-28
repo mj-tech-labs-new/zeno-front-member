@@ -11,10 +11,10 @@ import {PaginationType} from '@/types/CommonTypes'
 
 const getPayoutAmount = async () =>
   new Promise<number>((resolve) => {
-    APICall('get', Endpoints.getPayouts)
-      .then((res: any) => {
+    APICall<{payout: number}>('get', Endpoints.getPayouts)
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
-          resolve(res?.data?.payout?.[0]?.total_payout)
+          resolve(res?.data?.payout)
         } else {
           toast.error(res?.message)
           resolve(0)
@@ -113,7 +113,10 @@ const getPayoutWalletAddress = async () =>
 
 const getFundedChallengesData = async () =>
   new Promise<FundedChallengeType[]>((resolve) => {
-    APICall('get', Endpoints.getFundedChallenges)
+    APICall<{challenges: FundedChallengeType[]}>(
+      'get',
+      Endpoints.getFundedChallenges
+    )
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.challenges)

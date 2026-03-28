@@ -3,12 +3,15 @@ import {toast} from 'react-toastify'
 import {APICall, Endpoints} from '@/services'
 import {BuyOrSellApiProps, CloseOrderButtonProps} from '@/types/ChallengeTypes'
 import {
+  OpenHistoryApiResponse,
   OrderHistoryApiProps,
   OrderHistoryApiResponse,
   PositionHistoryApiProps,
   PositionHistoryApiResponse,
+  PositionHistoryResponse,
   ReverceOrderApiProps,
   TransactionDetailsApiProps,
+  TransactionDetailsHistoryApiResponse,
   TransactionDetailsHistoryResponse,
 } from '@/types/ChartTypes'
 import {PaginationType} from '@/types/CommonTypes'
@@ -82,7 +85,12 @@ const OpenHistoryApi = async (props: OrderHistoryApiProps) => {
   }
 
   return new Promise<OrderHistoryApiResponse | null>((resolve) => {
-    APICall('post', Endpoints.openHistory(props.page, 10), apiPayload, {})
+    APICall<OpenHistoryApiResponse>(
+      'post',
+      Endpoints.openHistory(props.page, 10),
+      apiPayload,
+      {}
+    )
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           const paginationObject: PaginationType = {
@@ -119,7 +127,12 @@ const PositionHistoryApi = async (props: PositionHistoryApiProps) => {
   }
 
   return new Promise<PositionHistoryApiResponse | null>((resolve) => {
-    APICall('post', Endpoints.pendingHistory(props.page, 10), apiPayload, {})
+    APICall<PositionHistoryResponse>(
+      'post',
+      Endpoints.pendingHistory(props.page, 10),
+      apiPayload,
+      {}
+    )
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           const paginationObject: PaginationType = {
@@ -158,7 +171,7 @@ const TransactionDetailsHistoryApi = async (
   }
 
   return new Promise<TransactionDetailsHistoryResponse | null>((resolve) => {
-    APICall(
+    APICall<TransactionDetailsHistoryApiResponse>(
       'post',
       Endpoints.transactionDetailHistory(props.page, 10),
       apiPayload,

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {useCallback, useEffect, useState} from 'react'
 
 import {
@@ -48,7 +49,7 @@ const Dashboard = () => {
   useEffect(() => {
     getChallenges(
       activeIndex === 0
-        ? English.E114.toLowerCase()
+        ? English.E114
         : activeIndex === 1
           ? English.E115
           : activeIndex === 2
@@ -63,21 +64,21 @@ const Dashboard = () => {
 
   return (
     <div
-      className={`bg-primary-bg-color h-full ${paginationData?.totalCount === 0 ? 'flex flex-col' : ''}`}
+      className={`bg-primary-bg-color h-full ${paginationData?.total_all_count === 0 ? 'flex flex-col' : ''}`}
     >
       <div
-        className={`flex gap-4 ${paginationData?.totalCount === 0 ? 'flex-col' : 'flex-col sm:flex-row justify-between items-center'} items-start bg-primary-bg-color z-40 py-8`}
+        className={`flex gap-4 ${paginationData?.total_all_count === 0 ? 'flex-col' : 'flex-col sm:flex-row justify-between items-center'} items-start bg-primary-bg-color z-40 py-8`}
       >
         <HeadingComponent singleLineContent={English.E21} variant="medium" />
         <ChallengeActionButton
-          className={`!m-0 !gap-2 [&>div>img]:!h-3 [&>div>img]:!w-3 [&>div]:!flex [&>div]:!justify-center [&>div]:!items-center ${paginationData?.totalCount === 0 ? 'hidden' : 'block'}`}
+          className={`!m-0 !gap-2 [&>div>img]:!h-3 [&>div>img]:!w-3 [&>div]:!flex [&>div]:!justify-center [&>div]:!items-center ${paginationData?.total_all_count === 0 ? 'hidden' : 'block'}`}
         />
-        {paginationData?.totalCount === 0 && (
+        {paginationData?.total_all_count === 0 && (
           <DescriptionComponent multilineContent={[English.E26]} />
         )}
       </div>
 
-      {paginationData?.totalCount === 0 ? (
+      {paginationData?.total_all_count === 0 ? (
         <EmptyChallengeLayout />
       ) : (
         <div className="space-y-8 h-[calc(100%-160px)] sm:h-[calc(100%-104px)] overflow-y-auto">
@@ -100,12 +101,12 @@ const Dashboard = () => {
                 {challengeInfoArray?.map((item) =>
                   showLoader ? (
                     <BasicSkeleton
-                      key={item.id}
+                      key={item._id}
                       className="!w-full !h-[604px] !rounded-2xl"
                     />
                   ) : (
                     <ChallengeDetailCard
-                      key={item.id}
+                      key={item._id}
                       item={item}
                       showLoader={showLoader}
                     />
@@ -125,15 +126,15 @@ const Dashboard = () => {
               onSelectPage={(page) => {
                 getChallenges(
                   activeIndex === 0
-                    ? English.E91.toLowerCase()
+                    ? English.E114
                     : activeIndex === 1
-                      ? English.E114
+                      ? English.E115
                       : activeIndex === 2
-                        ? English.E115
+                        ? English.E116
                         : '',
                   page,
                   10,
-                  Number(paginationData?.totalCount)
+                  Number(paginationData?.total_all_count)
                 )
               }}
             />

@@ -96,7 +96,8 @@ const ChartHeaderStats = () => {
     if (!socketRef.current || isLoadingCandles) return
     socketRef.current.on(SocketEmitter.Emitter['1d'], (data) => {
       const findTokenName = tokenList?.find(
-        (item) => item?.token_symbol === chartDetails?.selectedToken?.name
+        (item) =>
+          item?.token_symbol === chartDetails?.selectedToken?.token_symbol
       )
       if (!findTokenName) return
       const chartData: CandleObjectType =
@@ -115,12 +116,7 @@ const ChartHeaderStats = () => {
       setTotalTokenData(data?.data?.candles)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    chartDetails?.selectedToken?.name,
-    isLoadingCandles,
-    socketRef,
-    tokenList,
-  ])
+  }, [chartDetails?.selectedToken, isLoadingCandles, socketRef, tokenList])
   return (
     <div className="flex lg:justify-end overflow-x-auto lg:overflow-hidden floating__container  w-full   gap-6">
       {ConstantMapData?.map((item, index) => {

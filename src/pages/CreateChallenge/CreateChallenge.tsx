@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {useLocation, useNavigate} from 'react-router-dom'
@@ -122,14 +123,14 @@ const CreateChallenge = () => {
           <Steps
             onSelectedItem={(data) => {
               setSelectedOption(data?.step)
-              setSelectedTableRow(data?.id)
+              setSelectedTableRow(data?._id)
               setPayoutDetails({
                 amount: data?.capital_fund.toString(),
                 capital: data?.fee.toString(),
                 type: data?.step === 1 ? 'One Step' : 'Two Step',
                 name: data?.challenge_name,
                 status: data?.plan_status.toString(),
-                plan_icon_url: data?.plan_icon_url,
+                plan_icon_url: data?.plan_icon_url ?? '',
               })
             }}
           />

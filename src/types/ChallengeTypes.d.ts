@@ -51,12 +51,12 @@ export interface ExtendedGetChallengeTypeProps extends GetChallengeTypeProps {
 
 export interface GetTradingCapitalProps extends CommonProps {
   challenge_name: string
-  plan_status: number
+  plan_status: boolean
   fee: number
   capital_fund: number
   step: number
   checked?: boolean
-  plan_icon_url: string
+  plan_icon_url: string | null
 }
 
 export interface CreateChallengeProps extends CommonProps {
@@ -69,41 +69,41 @@ export interface CreateChallengeProps extends CommonProps {
   equity: number | null
   released_profit: number | null
   unreleased_profit: number | null
-  payment_status: string
+  payment_status: boolean
   challenge_type: string
-  current_stage: null
+  current_stage: null | number
   total_stage: number
   trading_day: number
-  challenge_name: string
+  challenge_name: string | null
   qrDataURL: string
   wallet_address: string
   status_message: string
-  challenge_fee: number
   transaction_id: number
-  max_daily_loss_amount: number
-  daily_drawdown: number
   profit_target_amount: number
-  max_current_loss: number
+  max_current_loss: number | null
   max_total_loss: number
+  ChallengePlan: GetTradingCapitalProps[]
 }
 
-export type ChallengeInfoDashboardProps = CreateChallengeProps &
-  Pick<
-    ChallengeDataSocketType,
-    | 'max_total_loss'
-    | 'max_current_loss'
-    | 'profit_target_amount'
-    | 'released_profit'
-  > & {
-    wallet_amount: number
-    current_usdt: number
-    min_trading_day: number | null
-    order_fee_percent: number
-  }
+export type ChallengeInfoDashboardProps = CreateChallengeProps & {
+  wallet_amount: number
+  current_usdt: number
+  min_trading_day: number | null
+  Failed_reason: null | string
+  max_daily_loss_amount: null | number
+  daily_drawdown: null | number
+  order_fee_percent: number
+}
 
 export interface ChallengeInfoDashboardWithPaginationProps {
   data: ChallengeInfoDashboardProps[]
   pagination: PaginationType
+}
+
+export interface ChallengeInfoDashboardResponseType {
+  allChallenge: {
+    data: ChallengeInfoDashboardProps[]
+  } & PaginationType
 }
 
 export type ChallengePaymentPayload = Pick<
@@ -121,7 +121,6 @@ export type ChallengeStageType = CommonProps &
     profit_target: number
     max_daily_loss: number
     max_total_loss: number
-    order_fee_percent: number
   }
 
 export type GetChallengeByIdType = ChallengeInfoDashboardProps & {
@@ -187,8 +186,7 @@ export interface GetClosedPnlDetailsPayloadProps
 }
 
 export interface ClosedPnlDataResponsePayload
-  extends Pick<CommonProps, 'id'>,
-    Pick<CreateChallengeProps, 'challenge_id'>,
+  extends Pick<CreateChallengeProps, 'challenge_id'>,
     Pick<OpenPosition, 'open_time' | 'symbol' | 'duration' | 'quantity'>,
     Pick<CandleObjectType, 'close_time'> {
   close_price: number
@@ -197,14 +195,19 @@ export interface ClosedPnlDataResponsePayload
   roe: string
   realized_pnl: number
   order_type: string
-  totalPages: number
   last_close_type: string
+  total_charge_amount: number
 }
 
 export interface ClosedPnlDataResponse {
   data: ClosedPnlDataResponsePayload[]
   page: PaginationType
 }
+
+export interface ClosedPnlResponse extends PaginationType {
+  data: ClosedPnlDataResponsePayload[]
+}
+
 export interface CloseOrderButtonProps
   extends Pick<GeneralProps, 'className'>,
     Partial<Pick<OpenPosition, 'tx_hash'>>,
@@ -227,17 +230,20 @@ interface ChallengeDataSocketType
 
 export interface GetCertificateProps
   extends Pick<
-      CreateChallengeProps,
-      'challenge_name' | 'status' | 'challenge_id' | 'user_id' | 'created_at'
-    >,
-    Pick<CommonProps, 'id'> {
-  trading_capital?: string
-  certificate_id?: string
+    CreateChallengeProps,
+    'challenge_name' | 'status' | 'user_id' | 'createdAt' | '_id' | 'updatedAt'
+  > {
+  trading_capital: string
+  certificate_id: string
 }
 
 export interface GetCertificateWithPaginationProps {
   data: GetCertificateProps[]
   pagination: PaginationType
+}
+
+export interface GetCertificateResponseType extends PaginationType {
+  data: GetCertificateProps[]
 }
 
 export interface CertificateTableProps
@@ -249,14 +255,9 @@ export interface CertificateTableProps
 export interface GetBillingProps
   extends Pick<
       CreateChallengeProps,
-      | 'user_id'
-      | 'challenge_id'
-      | 'challenge_type'
-      | 'created_at'
-      | 'payment_status'
-      | 'status'
+      'user_id' | 'challenge_id' | 'challenge_type' | 'status'
     >,
-    Pick<CommonProps, 'id'> {
+    Pick<CommonProps, '_id' | 'createdAt'> {
   user_email: string
   user_name: string
   invoice_id: string
@@ -264,9 +265,14 @@ export interface GetBillingProps
   challenge_fee: string
   transaction_id?: string
   txHash: string
+  payment_status: string | null
 }
 
 export interface GetBillingWithPaginationProps {
   data: GetBillingProps[]
   pagination: PaginationType
+}
+
+export interface GetBillingApiResponse extends PaginationType {
+  billes: GetBillingProps[]
 }

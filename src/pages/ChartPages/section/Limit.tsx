@@ -131,7 +131,7 @@ const Limit = (props: BuyOrSelProps) => {
       return
     }
 
-    if (getChallengeByIdArray?.[0]) {
+    if (getChallengeByIdArray) {
       const price = Number(inputValues.entryprice || 1)
       const quantityPrice = parseFloat(inputValues?.quantity ?? 0)
       const qty = Number(tokenQtyRef.current || 0)
@@ -139,12 +139,12 @@ const Limit = (props: BuyOrSelProps) => {
       const fee =
         (qty *
           price *
-          getChallengeByIdArray[0].order_fee_percent *
+          getChallengeByIdArray.order_fee_percent *
           parseFloat(selectedLeverage.title?.replace('X', ''))) /
         100
       const usdtFee =
         (quantityPrice *
-          getChallengeByIdArray[0].order_fee_percent *
+          getChallengeByIdArray.order_fee_percent *
           parseFloat(selectedLeverage?.title?.replace('X', ''))) /
         100
 
@@ -166,17 +166,15 @@ const Limit = (props: BuyOrSelProps) => {
   ])
 
   useEffect(() => {
-    setAmountPriceType(chartData?.selectedToken?.name ?? 'BTC')
-  }, [chartData?.selectedToken?.name])
+    setAmountPriceType(chartData?.selectedToken?.token_symbol ?? 'BTC')
+  }, [chartData?.selectedToken?.token_symbol])
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <span className="text-base font-semibold">{English.E130}</span>
         <span className="flex items-center gap-1">
-          {Utility.numberConversion(
-            getChallengeByIdArray?.[0]?.current_usdt ?? 0
-          )}{' '}
+          {Utility.numberConversion(getChallengeByIdArray?.current_usdt ?? 0)}{' '}
           {English.E60}
           <ImageComponent className="!w-4" imageUrl={Images.walletImg} />
         </span>
@@ -215,7 +213,7 @@ const Limit = (props: BuyOrSelProps) => {
         }
       )}
 
-      {total > getChallengeByIdArray?.[0]?.current_usdt && (
+      {total > (getChallengeByIdArray?.current_usdt ?? 0) && (
         <span className="text-light-danger-color text-xs">{English.E279}</span>
       )}
 

@@ -18,10 +18,10 @@ const PlaceOrder = () => {
   } = useChartProvider()
 
   useEffect(() => {
-    const currentStage = getChallengeByIdArray?.[0]?.current_stage ?? 0
-    if (!getChallengeByIdArray?.[0]) return
+    const currentStage = getChallengeByIdArray?.current_stage ?? 0
+    if (!getChallengeByIdArray) return
 
-    const stages = getChallengeByIdArray[0].ChallengeStage[currentStage - 1]
+    const stages = getChallengeByIdArray.ChallengeStage[currentStage - 1]
 
     if (!stages) return
 

@@ -13,6 +13,7 @@ import {APICall, Endpoints} from '@/services'
 import {
   CertificateTableProps,
   GetCertificateProps,
+  GetCertificateResponseType,
   GetCertificateWithPaginationProps,
 } from '@/types/ChallengeTypes'
 import {PaginationType} from '@/types/CommonTypes'
@@ -28,19 +29,22 @@ const CertificateTab = (props: CertificateTableProps) => {
   const getCertificatesApi = async (type: string, page: number) =>
     new Promise<GetCertificateWithPaginationProps | null>((resolve) => {
       setLoader(true)
-      APICall('get', Endpoints.getCertificate(type, page, 10))
-        .then((res: any) => {
+      APICall<{allChallenge: GetCertificateResponseType}>(
+        'get',
+        Endpoints.getCertificate(type, page, 10)
+      )
+        .then((res) => {
           if (res?.status === 200 && res?.statusCode === 200) {
             const paginationObject: PaginationType = {
               limit: res?.data?.allChallenge?.limit,
               page: res?.data?.allChallenge?.page,
               total: res?.data?.allChallenge?.total,
               totalPages: res?.data?.allChallenge?.totalPages,
-              totalCount: res?.data?.allChallenge?.total_all_count,
+              total_all_count: res?.data?.allChallenge?.total_all_count,
             }
 
-            setCertificateData(res?.data?.allChallenge?.data)
-            setIsEmpty(res?.data?.allChallenge?.data === 0)
+            setCertificateData(res?.data?.allChallenge?.data ?? [])
+            setIsEmpty(res?.data?.allChallenge?.data?.length === 0)
             setPaginationData(paginationObject)
           } else {
             resolve(null)
@@ -92,17 +96,17 @@ const CertificateTab = (props: CertificateTableProps) => {
           <React.Fragment>
             {certificateData?.map((tableBody: GetCertificateProps) => {
               const {
-                id,
+                _id,
                 challenge_name,
                 trading_capital,
                 status,
                 certificate_id,
-                created_at,
+                createdAt,
                 // challenge_id,
               } = tableBody
               return (
                 <tr
-                  key={`content-${id}`}
+                  key={`content-${_id}`}
                   className="font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in-out"
                 >
                   <th
@@ -123,7 +127,7 @@ const CertificateTab = (props: CertificateTableProps) => {
                     {status === 'Profit Target' ? status : status}
                   </td>
                   <td className="p-6 text-secondary-light-color">
-                    {dayjs(created_at).format('YYYY-MM-DD')}
+                    {dayjs(createdAt).format('YYYY-MM-DD')}
                   </td>
                   <td className="p-6  text-secondary-light-color cursor-pointer ">
                     {/* {status === 'Passed' ? (

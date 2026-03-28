@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import dayjs from 'dayjs'
 import {useEffect, useMemo, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
@@ -137,7 +138,7 @@ const ChallengeDetailCard = (props: {
               </p>
               <p className="text-text-hint-color text-13 !leading-6">
                 Started On:{' '}
-                {dayjs(item?.created_at).format('D MMMM YYYY').toString()}
+                {dayjs(item?.createdAt).format('D MMMM YYYY').toString()}
               </p>
             </div>
           </div>
@@ -208,10 +209,10 @@ const ChallengeDetailCard = (props: {
               singleLineContent={button}
               onClick={() => {
                 if (index === 0) {
-                  navigate(`/chart/${item?.challenge_id}`)
+                  navigate(`/chart/${item?._id}`)
                 }
                 if (index === 1) {
-                  navigate(`/challenge-dashboard/${item?.challenge_id}`)
+                  navigate(`/challenge-dashboard/${item?._id}`)
                 }
               }}
             />

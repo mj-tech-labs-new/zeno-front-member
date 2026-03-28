@@ -1,4 +1,5 @@
 import {PositionHistoryApiProps} from './ChartTypes'
+import {CommonProps, PaginationType} from './CommonTypes'
 
 export interface RewardEarning {
   today_earning: string
@@ -34,14 +35,17 @@ export interface SocialMediaStatus {
   subscribe_youtube_reward_remain_sec: number
 }
 
-export interface RewardHistoryTypes {
-  id: number
+export interface RewardHistoryTypes
+  extends Pick<CommonProps, '_id' | 'createdAt'> {
   user_id: number
-  created_at: string
   reward_type: string
   description: string
   earn_point: number
   balance: number
+}
+
+export interface RewardHistoryApiResponse extends PaginationType {
+  history: RewardHistoryTypes[]
 }
 
 export interface ApiPaginationProps {
@@ -59,6 +63,9 @@ export interface LeaderBoardApiDataTypes {
   total_earn_point: number
   total_rewards: number
 }
+export interface LeaderBoardApiResponse extends PaginationType {
+  history: LeaderBoardApiDataTypes[]
+}
 
 export type RewardHistoryApiProps = Pick<ApiPaginationProps, 'limit' | 'page'> &
   Pick<
@@ -67,7 +74,6 @@ export type RewardHistoryApiProps = Pick<ApiPaginationProps, 'limit' | 'page'> &
   >
 
 export interface ChartApiData {
-  month: number
   daily_login_points: number
   self_purchased_points: number
   referral_points: number
@@ -77,4 +83,17 @@ export interface ChartApiData {
   social_media_points: number
   total_month_points: number
   day: string
+}
+
+export interface DailyBonusResponse {
+  lastRewardDay: number
+  nextRewardDay: number
+}
+
+export interface GetDailyRewardResponse {
+  point: number
+}
+
+export interface UpdateSocialMediaDataType {
+  earn_point: number
 }

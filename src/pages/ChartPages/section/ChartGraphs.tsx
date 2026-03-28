@@ -206,9 +206,7 @@ const ChartGraphs = () => {
         currnetLimit.current += 100
 
         getCandleHistory(
-          typeof selectedToken === 'string'
-            ? selectedToken
-            : (selectedToken?.token_symbol ?? 'BTC'),
+          selectedToken?.token_symbol ?? 'BTC',
           currnetLimit.current
         )
       }

@@ -22,6 +22,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
   useEffect(() => {
     const currentSocket = socketRef.current
     if (isLoadingCandles || !currentSocket) return
+
     currentSocket.on(SocketEmitter.margin_asset + challengeId, (data) => {
       setMarginAssetData(data?.data)
     })
@@ -60,18 +61,18 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                   ? index === 0
                     ? Utility.removeDecimal(
                         marginAssetData?.available_margin ??
-                          getChallengeByIdArray[0]?.current_usdt ??
+                          getChallengeByIdArray?.current_usdt ??
                           0,
                         2
                       )
                     : Utility.removeDecimal(
                         marginAssetData?.total_balance ??
-                          getChallengeByIdArray[0]?.current_usdt ??
+                          getChallengeByIdArray?.current_usdt ??
                           0,
                         2
                       )
                   : Utility.numberConversion(
-                      getChallengeByIdArray[0]?.current_usdt ?? 0
+                      getChallengeByIdArray?.current_usdt ?? 0
                     )}{' '}
                 {English.E60}
               </span>
@@ -94,7 +95,7 @@ const MaxOpenAndMargin = (props: MaxOpenAndMarginProps) => {
                       )
                     : Utility.removeDecimal(
                         marginAssetData?.account_balance ??
-                          getChallengeByIdArray[0]?.current_usdt ??
+                          getChallengeByIdArray?.current_usdt ??
                           0,
                         2
                       )

@@ -59,7 +59,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
         })
         .then((data) => {
           if (!data) return
-          const sortedData = _.orderBy(data.data, (item) => item.created_at, [
+          const sortedData = _.orderBy(data.data, (item) => item.createdAt, [
             'desc',
           ])
           setOpenHistory(sortedData)
@@ -189,7 +189,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
           {openHistory?.map((tableBody) => {
             const {
               average_trading_price,
-              created_at,
+              createdAt,
               fee,
               lighten_up_only,
               margin_mode,
@@ -206,7 +206,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
             const directionText = `${leverage}x-${margin_mode}`
             return (
               <tr
-                key={`content-${tableBody?.created_at}`}
+                key={`content-${tableBody?.createdAt}`}
                 className=" text-xs/5 *:transition-all *:duration-300 *:ease-in *:!font-poppins *:!leading-5"
               >
                 <th
@@ -228,8 +228,8 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                 </th>
                 <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">
                   <div className="flex flex-col">
-                    <span>{dayjs(created_at).format('DD/MM/YYYY')}</span>
-                    <span>{dayjs(created_at).format('hh:mm:ss')}</span>
+                    <span>{dayjs(createdAt).format('DD/MM/YYYY')}</span>
+                    <span>{dayjs(createdAt).format('hh:mm:ss')}</span>
                   </div>
                 </td>
                 <td className="pr-6 py-3 text-left text-chart-text-primary-color !whitespace-nowrap">

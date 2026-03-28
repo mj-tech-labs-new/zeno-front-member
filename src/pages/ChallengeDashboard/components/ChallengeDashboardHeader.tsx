@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {useNavigate} from 'react-router-dom'
 
 import {
@@ -47,9 +48,9 @@ const ChallengeDashboardHeader = (props: ChallengeDashboardHeaderProps) => {
             imageUrl={Images.stats}
             singleLineContent={English.E56}
             className={`light-danger-btn-type md:!w-fit [&>div]:!h-4 [&>div]:!w-4 !gap-2
-               ${getChallengeByIdArray?.[0]?.status === 'Failed' ? '!pointer-events-none !bg-light-danger-btn-type !opacity-50' : ''}`}
+               ${getChallengeByIdArray?.status === 'Failed' ? '!pointer-events-none !bg-light-danger-btn-type !opacity-50' : ''}`}
             onClick={() => {
-              navigate(`/chart/${getChallengeByIdArray?.[0]?.challenge_id}`)
+              navigate(`/chart/${getChallengeByIdArray?._id}`)
             }}
           />
         </div>

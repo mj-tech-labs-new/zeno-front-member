@@ -3,6 +3,7 @@ import {useCallback, useEffect, useRef, useState} from 'react'
 import {useModalContext} from '@/components/Modal/context/ModalContextProvider'
 import {English} from '@/helpers'
 import {AppLoaderRef} from '@/types/ComponentTypes'
+import {DailyBonusResponse} from '@/types/Rewards'
 
 import RewardApi from '../api/RewardApi'
 import CongratulationModel from '../Components/CongratulationModel'
@@ -10,10 +11,7 @@ import DailyBonusCard from '../Components/DailyBonusCard'
 import DashboardSectionLayout from './DashboardSectionLayout'
 
 const DailyLoginBonus = () => {
-  const [dailyReward, setDailyReward] = useState<{
-    lastRewardDay: number
-    nextRewardDay: number
-  } | null>()
+  const [dailyReward, setDailyReward] = useState<DailyBonusResponse | null>()
 
   const loaderRef = useRef<AppLoaderRef>(null)
   const {setModalProps, setChildContent} = useModalContext()

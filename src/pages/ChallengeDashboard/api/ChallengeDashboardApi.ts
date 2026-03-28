@@ -3,8 +3,10 @@ import {toast} from 'react-toastify'
 import {APICall, Endpoints} from '@/services'
 import {
   ChallengeIdProp,
+  ChallengeInfoDashboardResponseType,
   ChallengeInfoDashboardWithPaginationProps,
   ClosedPnlDataResponse,
+  ClosedPnlResponse,
   GetChallengeByIdType,
   GetClosedPnlDetailsPayloadProps,
   TradingStatisticsType,
@@ -18,7 +20,7 @@ const challengeInfoDashboardApi = async (
   totalCount: number
 ) =>
   new Promise<ChallengeInfoDashboardWithPaginationProps | null>((resolve) => {
-    APICall(
+    APICall<ChallengeInfoDashboardResponseType>(
       'get',
       Endpoints.getChallengeInfoDashboard(
         challengeType,
@@ -27,14 +29,14 @@ const challengeInfoDashboardApi = async (
         totalCount
       )
     )
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           const paginationObject: PaginationType = {
             limit: res?.data?.allChallenge?.limit,
             page: res?.data?.allChallenge?.page,
             total: res?.data?.allChallenge?.total,
             totalPages: res?.data?.allChallenge?.totalPages,
-            totalCount: res?.data?.allChallenge?.total_all_count,
+            total_all_count: res?.data?.allChallenge?.total_all_count,
           }
           resolve({
             data: res?.data?.allChallenge?.data,
@@ -52,19 +54,23 @@ const challengeInfoDashboardApi = async (
   })
 
 const getChallengeByIdApi = async (props: ChallengeIdProp) =>
-  new Promise<GetChallengeByIdType[]>((resolve) => {
-    APICall('post', Endpoints.getChallengeById, props)
+  new Promise<GetChallengeByIdType | null>((resolve) => {
+    APICall<{allChallenge: GetChallengeByIdType}>(
+      'post',
+      Endpoints.getChallengeById,
+      props
+    )
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.allChallenge)
         } else {
-          resolve([])
+          resolve(null)
           toast.error(res?.message)
         }
       })
       .catch((error) => {
         toast.error(error?.data?.message)
-        resolve([])
+        resolve(null)
       })
   })
 
@@ -102,8 +108,13 @@ const getClosedPnlDetails = async (props: GetClosedPnlDetailsPayloadProps) => {
   }
 
   return new Promise<ClosedPnlDataResponse | null>((resolve) => {
-    APICall('post', Endpoints.getClosedPnlDetails, apiPayload, {})
-      .then((res: any) => {
+    APICall<ClosedPnlResponse>(
+      'post',
+      Endpoints.getClosedPnlDetails,
+      apiPayload,
+      {}
+    )
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           const paginationObject: PaginationType = {
             limit: res?.data?.limit,

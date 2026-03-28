@@ -1,4 +1,4 @@
-import {PaginationType} from '../CommonTypes'
+import {CommonProps, PaginationType} from '../CommonTypes'
 
 export interface PayoutHistoryPayload {
   order_value: string
@@ -13,7 +13,7 @@ export interface PayoutHistoryPayload {
   search_type: string
 }
 
-export interface FundedChallengeType {
+export interface FundedChallengeType extends Pick<CommonProps, '_id'> {
   challenge_id: string
   challenge_name: string
   released_profit: number | null

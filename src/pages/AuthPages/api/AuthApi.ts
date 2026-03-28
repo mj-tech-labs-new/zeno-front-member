@@ -80,7 +80,7 @@ const updateUserDataApi = async (props: UpdateApiProps) => {
   const payload = {...props}
   return new Promise<boolean>((resolve) => {
     APICall('put', Endpoints.updateUser, payload)
-      .then((res: any) => {
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           toast.success(res?.message)
           resolve(true)
@@ -105,8 +105,8 @@ const updateUserDataApi = async (props: UpdateApiProps) => {
 
 const getUserApi = async () =>
   new Promise<GetUserApiProps | null>((resolve) => {
-    APICall('get', Endpoints.getUser)
-      .then((res: any) => {
+    APICall<{user: GetUserApiProps}>('get', Endpoints.getUser)
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.user)
         } else {

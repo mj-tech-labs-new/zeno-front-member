@@ -71,7 +71,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
       setIsLoading(true)
       chartPageApi
         .buyOrSellApi({
-          symbol: `${Store?.getState()?.chartData?.selectedToken?.name}USDT`,
+          symbol: `${Store?.getState()?.chartData?.selectedToken?.token_symbol}USDT`,
           usdt_price: parseFloat(price),
           quantity,
           order_type,
@@ -126,7 +126,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
   )
 
   useEffect(() => {
-    amountRef.current = getChallengeByIdArray?.[0]?.current_usdt ?? 0
+    amountRef.current = getChallengeByIdArray?.current_usdt ?? 0
   }, [getChallengeByIdArray])
 
   return (
@@ -141,7 +141,7 @@ const ActionButton = (props: CommonBuyAndSellProp) => {
             singleLineContent={text}
             className={`flex-1 ${name === 'buy' ? 'bg-chart-green-color ' : 'bg-chart-red-color !px-3'} !py-2 !rounded-full !font-bold !text-chart-text-primary-color 
             ${price !== '0' && quantity !== 0 ? '!pointer-events-auto' : '!pointer-events-none !opacity-50'}
-            ${Number(total?.toFixed(2)) < getChallengeByIdArray?.[0]?.current_usdt ? '!pointer-events-auto' : '!pointer-events-none !opacity-50'}`}
+            ${Number(total?.toFixed(2)) < (getChallengeByIdArray?.current_usdt ?? 0) ? '!pointer-events-auto' : '!pointer-events-none !opacity-50'}`}
           />
         )
       })}

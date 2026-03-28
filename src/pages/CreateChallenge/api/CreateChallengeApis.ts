@@ -27,8 +27,11 @@ const getChallengeTypeApi = async () =>
 
 const getTradingCapitalApi = async (selectedOption: number) =>
   new Promise<GetTradingCapitalProps[]>((resolve) => {
-    APICall('get', Endpoints.getTradingCapital(selectedOption))
-      .then((res: any) => {
+    APICall<{allChallengePlan: GetTradingCapitalProps[]}>(
+      'get',
+      Endpoints.getTradingCapital(selectedOption)
+    )
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.allChallengePlan)
         } else {
@@ -43,7 +46,10 @@ const getTradingCapitalApi = async (selectedOption: number) =>
   })
 
 const getPaymentQrCode = async (props: ChallengePaymentPayload) =>
-  new Promise<CreateChallengeProps | null>((resolve) => {
+  new Promise<Pick<
+    CreateChallengeProps,
+    'qrDataURL' | 'transaction_id' | 'wallet_address'
+  > | null>((resolve) => {
     APICall('post', Endpoints.getPaymentQrCode, props)
       .then((res: any) => {
         if (res?.status === 200 && res?.statusCode === 200) {
@@ -58,6 +64,7 @@ const getPaymentQrCode = async (props: ChallengePaymentPayload) =>
         resolve(null)
       })
   })
+
 const getCheckPaymentApi = async (
   props: Pick<CreateChallengeProps, 'transaction_id'>
 ) => {

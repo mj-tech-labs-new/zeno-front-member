@@ -34,6 +34,7 @@ const TokenDropdown = () => {
   const floatingDiv = useRef<HTMLDivElement | null>(null)
   const searchRef = useRef<HTMLDivElement | null>(null)
   const ChartData = useSelector((state: StorageProps) => state.chartData)
+
   const tokenToShow = useMemo(
     () => ChartData?.selectedToken ?? null,
     [ChartData?.selectedToken]
@@ -86,15 +87,15 @@ const TokenDropdown = () => {
           setIsDivOpen((data) => !data)
         }}
       >
-        {tokenToShow?.imgUrl && (
+        {tokenToShow?.token_image_url && (
           <ImageComponent
             className="w-6 h-6 "
-            imageUrl={`${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${tokenToShow?.imgUrl?.replace('/home/ubuntu/backend/', '')}`}
+            imageUrl={`${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${tokenToShow?.token_image_url?.replace('/home/ubuntu/backend/', '')}`}
           />
         )}
         {tokenList && selectedToken && tokenToShow && (
           <span className="text-primary-color text-lg !leading-5 font-semibold uppercase tracking-wider">
-            {tokenToShow.name + English.E60}
+            {tokenToShow.token_symbol + English.E60}
           </span>
         )}
         <ImageComponent
@@ -123,25 +124,19 @@ const TokenDropdown = () => {
             <p className="text-right">{English.E119}</p>
           </div>
           {tokenArray?.map((item) => {
-            const {id, token_image_url, token_symbol} = item
+            const {_id, token_image_url, token_symbol} = item
             const tokenData = totalTokenData?.[token_symbol]
             const tokenPrice = livePriceData?.[token_symbol]?.price
             return (
               <div
-                key={id}
+                key={_id}
                 className="grid grid-cols-3 min-w-[400px]  gap-2.5 text-primary-color font-medium tracking-wider hover:bg-neutral-secondary-color px-2.5 py-4 rounded-md cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation()
                   setSelectedToken((data) => {
                     if (data?.token_symbol !== item?.token_symbol) {
                       CommonFunction.addSliceData('removeCoinToken', '')
-                      const tokenToSend = {
-                        name: item?.token_symbol?.replace('USDT', ''),
-                        imgUrl: item?.token_image_url,
-                      }
-                      CommonFunction.addSliceData('addCoinToken', {
-                        token: tokenToSend,
-                      })
+                      CommonFunction.addSliceData('addCoinToken', {...item})
                       CommonFunction.addSliceData('addAmountType', {
                         amount: chartInfo?.symbol,
                       })

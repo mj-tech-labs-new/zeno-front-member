@@ -14,8 +14,10 @@ import {
 import {GeneralProps} from '@/types/CommonTypes'
 
 const ChallengeDashboardContext = createContext<{
-  getChallengeByIdArray: GetChallengeByIdType[]
-  setGetChallengeByIdArray: Dispatch<SetStateAction<GetChallengeByIdType[]>>
+  getChallengeByIdArray: GetChallengeByIdType | null
+  setGetChallengeByIdArray: Dispatch<
+    SetStateAction<GetChallengeByIdType | null>
+  >
   tradingStatistics: TradingStatisticsType | null
   setTradingStatistics: Dispatch<SetStateAction<TradingStatisticsType | null>>
   showLoader: boolean
@@ -23,7 +25,7 @@ const ChallengeDashboardContext = createContext<{
   challengeId: string | null
   setChallengeId: Dispatch<SetStateAction<string | null>>
 }>({
-  getChallengeByIdArray: [],
+  getChallengeByIdArray: null,
   setGetChallengeByIdArray: () => {},
   tradingStatistics: null,
   setTradingStatistics: () => {},
@@ -38,9 +40,8 @@ const ChallengeDashboardProvider = (
 ) => {
   const {children} = props
   const [showLoader, setShowLoader] = useState(false)
-  const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
-    GetChallengeByIdType[]
-  >([])
+  const [getChallengeByIdArray, setGetChallengeByIdArray] =
+    useState<GetChallengeByIdType | null>(null)
   const [tradingStatistics, setTradingStatistics] =
     useState<TradingStatisticsType | null>(null)
   const [challengeId, setChallengeId] = useState<null | string>(null)

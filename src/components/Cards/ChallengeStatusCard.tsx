@@ -20,30 +20,30 @@ const ChallengeStatusCard = () => {
         <Info singleLineContent={ToolTipContent.T10} />
       </div>
       <div className="flex flex-col gap-6 h-[calc(100%-48px)] overflow-y-auto no-scrollbar">
-        {getChallengeByIdArray?.[0]?.ChallengeStage?.map((contentItem) => {
+        {getChallengeByIdArray?.ChallengeStage?.map((contentItem) => {
           const {stage} = contentItem
           return (
             <div
               key={stage}
-              className={`flex ${getChallengeByIdArray?.[0]?.current_stage === stage ? 'gap-1 sm:gap-2 lg:gap-4' : ''}`}
+              className={`flex ${getChallengeByIdArray?.current_stage === stage ? 'gap-1 sm:gap-2 lg:gap-4' : ''}`}
             >
-              {getChallengeByIdArray?.[0]?.current_stage === stage ? (
+              {getChallengeByIdArray?.current_stage === stage ? (
                 <div className="w-1 rounded-full h-full bg-linear-to-b from-secondary-light-color to-primary-color border" />
               ) : null}
               <div
-                className={`flex flex-col ${getChallengeByIdArray?.[0]?.current_stage === stage ? 'gap-3' : 'gap-2'} h-full`}
+                className={`flex flex-col ${getChallengeByIdArray?.current_stage === stage ? 'gap-3' : 'gap-2'} h-full`}
               >
                 <div className="flex items-center gap-4">
                   <p
                     className={`${
-                      getChallengeByIdArray?.[0]?.current_stage === stage
+                      getChallengeByIdArray?.current_stage === stage
                         ? 'text-tertiary-color'
                         : 'text-secondary-light-color'
                     } text-base/6 font-normal`}
                   >
                     {English.E255} {stage}
                   </p>
-                  {getChallengeByIdArray?.[0]?.current_stage === stage ? (
+                  {getChallengeByIdArray?.current_stage === stage ? (
                     <span className="text-primary-color uppercase px-1 rounded-sm bg-dark-success-color">
                       {English.E58}
                     </span>
@@ -51,18 +51,18 @@ const ChallengeStatusCard = () => {
                 </div>
                 <Accordian
                   isDirectType
-                  className={`!gap-0.5 [&>div]:!mt-0 ${getChallengeByIdArray?.[0]?.current_stage !== stage && '[&>div>p]:!opacity-50 [&>p]:!opacity-50'}`}
+                  className={`!gap-0.5 [&>div]:!mt-0 ${getChallengeByIdArray?.current_stage !== stage && '[&>div>p]:!opacity-50 [&>p]:!opacity-50'}`}
                   multilineContent={
-                    getChallengeByIdArray?.[0]?.current_stage === stage &&
-                    getChallengeByIdArray?.[0]?.status === 'Passed'
+                    getChallengeByIdArray?.current_stage === stage &&
+                    getChallengeByIdArray?.status === 'Passed'
                       ? [English.E515]
-                      : getChallengeByIdArray?.[0]?.current_stage === stage
+                      : getChallengeByIdArray?.current_stage === stage
                         ? [English.E332]
                         : stage === 1 &&
-                            getChallengeByIdArray?.[0]?.current_stage === 1
+                            getChallengeByIdArray?.current_stage === 1
                           ? [English.E252]
                           : stage === 2 &&
-                              getChallengeByIdArray?.[0]?.current_stage === 2
+                              getChallengeByIdArray?.current_stage === 2
                             ? [English.E252]
                             : [English.E254]
                   }

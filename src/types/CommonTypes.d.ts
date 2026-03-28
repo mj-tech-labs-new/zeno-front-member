@@ -60,9 +60,9 @@ export interface FeatureOptionsLgProps {
 }
 
 export interface CommonProps {
-  id: number
-  created_at: string
-  updated_at: string
+  _id: number
+  createdAt: string
+  updatedAt: string
 }
 
 export interface PaginationType {
@@ -70,7 +70,7 @@ export interface PaginationType {
   page: number
   total: number
   totalPages: number
-  totalCount?: number
+  total_all_count?: number
 }
 
 export interface DateObject {

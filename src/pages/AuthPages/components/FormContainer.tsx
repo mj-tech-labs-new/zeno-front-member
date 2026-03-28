@@ -54,6 +54,7 @@ const FormContainer = (
   )
   const [referral_code, setReferral_code] = useState('')
   const [isMarketer, setIsMarketer] = useState(false)
+  const [showReferral, setShowReferral] = useState(false)
   const actionButtons = useMemo(
     () => [
       {
@@ -274,6 +275,7 @@ const FormContainer = (
         re_password: res.password,
       })
       setIsMarketer(res.isMarketer !== 0)
+      setShowReferral(res?.referral_code !== null)
       setReferral_code(
         `${window.location.origin}/sign-up/?refCode=${res.referral_code ?? ''}`
       )
@@ -348,7 +350,7 @@ const FormContainer = (
               />
             </div>
           )}
-          {type === 'profileType' && isMarketer && (
+          {type === 'profileType' && isMarketer && showReferral && (
             <ReferralLinkSection singleLineContent={referral_code} />
           )}
         </div>

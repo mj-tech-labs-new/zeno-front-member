@@ -24,37 +24,37 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
       {
         title: English.E66,
         firstValue:
-          getChallengeByIdArray?.[0]?.status === 'Passed'
+          getChallengeByIdArray?.status === 'Passed'
             ? English.E514
-            : getChallengeByIdArray?.[0]?.min_trading_day,
-        secondValue: getChallengeByIdArray?.[0]?.trading_day,
+            : getChallengeByIdArray?.min_trading_day,
+        secondValue: getChallengeByIdArray?.trading_day,
         infoContent:
-          getChallengeByIdArray?.[0]?.status === 'Passed'
+          getChallengeByIdArray?.status === 'Passed'
             ? ToolTipContent.T11
             : ToolTipContent.T4,
       },
       {
         title: English.E68,
         secondValue:
-          getChallengeByIdArray?.[0]?.status === 'Passed'
+          getChallengeByIdArray?.status === 'Passed'
             ? '---'
             : socketData?.total_available_profit
               ? Utility.converToPositiveValue(
                   socketData?.total_available_profit
                 )
-              : getChallengeByIdArray?.[0]?.released_profit
+              : getChallengeByIdArray?.released_profit
                 ? Utility.converToPositiveValue(
-                    getChallengeByIdArray?.[0]?.released_profit
+                    getChallengeByIdArray?.released_profit
                   )
                 : 0,
         firstValue:
-          getChallengeByIdArray?.[0]?.status === 'Passed'
+          getChallengeByIdArray?.status === 'Passed'
             ? '---'
             : (socketData?.profit_target_amount ??
-              getChallengeByIdArray?.[0]?.profit_target_amount ??
+              getChallengeByIdArray?.profit_target_amount ??
               0),
         infoContent:
-          getChallengeByIdArray?.[0]?.status === 'Passed'
+          getChallengeByIdArray?.status === 'Passed'
             ? ToolTipContent.T8
             : ToolTipContent.T5,
       },
@@ -62,12 +62,10 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
         title: English.E69,
         secondValue: socketData
           ? socketData?.daily_drawdown
-          : getChallengeByIdArray?.[0]?.daily_drawdown
-            ? getChallengeByIdArray?.[0]?.daily_drawdown
-            : 0,
+          : (getChallengeByIdArray?.daily_drawdown ?? 0),
         firstValue:
           socketData?.max_daily_loss_amount ??
-          getChallengeByIdArray?.[0]?.max_daily_loss_amount ??
+          getChallengeByIdArray?.max_daily_loss_amount ??
           0,
         infoContent: ToolTipContent.T6,
       },
@@ -75,10 +73,10 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
         title: English.E70,
         secondValue: socketData
           ? socketData?.max_current_loss
-          : getChallengeByIdArray?.[0]?.max_current_loss,
+          : getChallengeByIdArray?.max_current_loss,
         firstValue:
           socketData?.max_total_loss ??
-          getChallengeByIdArray?.[0]?.max_total_loss ??
+          getChallengeByIdArray?.max_total_loss ??
           0,
         infoContent: ToolTipContent.T7,
       },
@@ -87,7 +85,7 @@ const TradingDescriptionSection = (props: TradingDescriptionSectionProps) => {
   )
 
   const percentageCardsArray = useMemo(() => {
-    const releasAmount = getChallengeByIdArray?.[0]?.initial_capital
+    const releasAmount = getChallengeByIdArray?.initial_capital
     return [
       {
         title: English.E59,

@@ -14,21 +14,21 @@ const ChallengeDashboardLayout = (
   return (
     <div className="min-h-full w-full">
       <ChallengeDashboardHeader
-        createdDate={dayjs(getChallengeByIdArray?.[0]?.created_at)
+        createdDate={dayjs(getChallengeByIdArray?.createdAt)
           .format('D MMMM YYYY')
           .toString()}
-        createdTime={dayjs(getChallengeByIdArray?.[0]?.created_at)
+        createdTime={dayjs(getChallengeByIdArray?.createdAt)
           .format('h:mm A')
           .toString()}
         step={
-          getChallengeByIdArray?.[0]?.ChallengePlan[0].step === 1
+          getChallengeByIdArray?.ChallengePlan[0].step === 1
             ? English.E32
             : English.E34
         }
-        updatedDate={dayjs(getChallengeByIdArray?.[0]?.updated_at)
+        updatedDate={dayjs(getChallengeByIdArray?.updatedAt)
           .format('D MMMM YYYY')
           .toString()}
-        updatedTime={dayjs(getChallengeByIdArray?.[0]?.updated_at)
+        updatedTime={dayjs(getChallengeByIdArray?.updatedAt)
           .format('h:mm A')
           .toString()}
       />

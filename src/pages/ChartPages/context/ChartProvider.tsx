@@ -37,6 +37,7 @@ import {
   ChartObjectProps,
   ChartSocketHeaderProps,
   DrawingData,
+  HistoryApiResponse,
   LivePriceSocketType,
   TokenDetails,
   TokenObject,
@@ -62,8 +63,10 @@ const ChartContext = createContext<{
   livePrice: number
 
   setLivePrice: Dispatch<SetStateAction<number>>
-  getChallengeByIdArray: GetChallengeByIdType[]
-  setGetChallengeByIdArray: Dispatch<SetStateAction<GetChallengeByIdType[]>>
+  getChallengeByIdArray: GetChallengeByIdType | null
+  setGetChallengeByIdArray: Dispatch<
+    SetStateAction<GetChallengeByIdType | null>
+  >
   currentStageArray: ChallengeStageType[]
   setCurrentStageArray: Dispatch<SetStateAction<ChallengeStageType[]>>
   isLoadingCandles: boolean
@@ -155,7 +158,7 @@ const ChartContext = createContext<{
   disableChartActions: () => {},
   livePrice: 0,
   setLivePrice: () => {},
-  getChallengeByIdArray: [],
+  getChallengeByIdArray: null,
   setGetChallengeByIdArray: () => {},
   currentStageArray: [],
   setCurrentStageArray: () => {},
@@ -208,9 +211,9 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   const [tempShape, setTempShape] = useState<DrawingData | null>(null)
   const {children} = props
   const [livePrice, setLivePrice] = useState(0)
-  const [getChallengeByIdArray, setGetChallengeByIdArray] = useState<
-    GetChallengeByIdType[]
-  >([])
+
+  const [getChallengeByIdArray, setGetChallengeByIdArray] =
+    useState<GetChallengeByIdType | null>(null)
   const [isTpSl, setIsTpSl] = useState(false)
   const [currentStageArray, setCurrentStageArray] = useState<
     ChallengeStageType[]
@@ -268,8 +271,13 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
         limit,
       }
 
-      APICall('get', Endpoints.candleHistory(tokenName), {}, paramsPayload)
-        .then((res: any) => {
+      APICall<HistoryApiResponse>(
+        'get',
+        Endpoints.candleHistory(tokenName),
+        {},
+        paramsPayload
+      )
+        .then((res) => {
           isCallingCurrent.current = false
           if (res?.status === 200 && res?.statusCode === 200) {
             if (totalCandlesCount.current === res?.data?.count) {
@@ -287,7 +295,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
 
             setTotalCandleData(res?.data?.data)
           } else {
-            toast.error(res?.data?.message)
+            toast.error(res?.message)
           }
         })
         .catch((e) => {
@@ -422,15 +430,15 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   )
   const getTokenList = useCallback(() => {
     setOtherLoading({isDropdownLoading: true})
-    APICall('get', Endpoints.suppportedToken)
-      .then((res: any) => {
+    APICall<{allTokens: TokenDetails[]}>('get', Endpoints.suppportedToken)
+      .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
           setTokenList(res?.data?.allTokens)
           const btc = res?.data?.allTokens?.find(
             (item: TokenDetails) => item?.token_symbol === 'BTC'
           )
           setSelectedToken(
-            Store?.getState()?.chartData?.selectedToken?.name ?? btc ?? null
+            Store?.getState()?.chartData?.selectedToken ?? btc ?? null
           )
         } else {
           toast.error(res?.message)
@@ -447,11 +455,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
   useEffect(() => {
     if (selectedIndex) {
       const tokenToUse = tokenList?.find(
-        (item) =>
-          item?.token_symbol ===
-          (typeof selectedToken === 'string'
-            ? selectedToken
-            : selectedToken?.token_symbol)
+        (item) => item?.token_symbol === selectedToken?.token_symbol
       )
       setIsLoadingCandles(true)
       if (!tokenToUse) return
@@ -476,7 +480,7 @@ const ChartProvider = (props: Required<Pick<GeneralProps, 'children'>>) => {
       const findTokenName = tokenList?.find(
         (item) =>
           item?.token_symbol ===
-          Store.getState()?.chartData?.selectedToken?.name
+          Store.getState()?.chartData?.selectedToken?.token_symbol
       )
 
       if (!findTokenName) return

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 // eslint-disable-next-line import-x/no-cycle
-import {DrawingData} from '@/types/ChartTypes'
+import {DrawingData, TokenDetails} from '@/types/ChartTypes'
 import {ChartTimePeriodType} from '@/types/UnionTypes'
 
 interface ShapeMap {
@@ -12,7 +12,7 @@ export interface ChartInitialPropsType {
   totalShapes: Record<string, Partial<ShapeMap>>
   frame: ChartTimePeriodType | null
   amountType: string
-  selectedToken: {name: string; imgUrl: string} | null
+  selectedToken: TokenDetails | null
 }
 
 const initialState: ChartInitialPropsType = {
@@ -20,9 +20,13 @@ const initialState: ChartInitialPropsType = {
   frame: '1m',
   amountType: 'USDT',
   selectedToken: {
-    imgUrl:
+    token_image_url:
       '/home/ubuntu/backend/public/uploads/token_icon/1766562609437-BTC.png',
-    name: 'BTC',
+    token_name: 'Bitcoin',
+    binance_socket_url: '',
+    _id: 0,
+    isActive: true,
+    token_symbol: 'BTC',
   },
 }
 
@@ -55,8 +59,7 @@ const ChartSlice = createSlice({
       state.amountType = ''
     },
     addCoinToken: (state, action) => {
-      const {token} = action.payload
-      state.selectedToken = token
+      state.selectedToken = action.payload
     },
     removeCoinToken: (state) => {
       state.selectedToken = null

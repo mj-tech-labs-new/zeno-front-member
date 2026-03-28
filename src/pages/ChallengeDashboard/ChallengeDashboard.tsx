@@ -48,7 +48,7 @@ const ChallengeDashboard = () => {
   }, [challengeId])
 
   useEffect(() => {
-    if (getChallengeByIdArray?.length === 0 || !challengeId) return
+    if (!getChallengeByIdArray || !challengeId) return
     tradingStatisticsApi({
       challenge_id: challengeId,
     }).then((res) => {
@@ -77,7 +77,7 @@ const ChallengeDashboard = () => {
           layoutClassName="[&>h2]:!tracking-[0px]"
           type={English.E65}
         />
-        {getChallengeByIdArray?.[0]?.status === 'Passed' && <Earnings />}
+        {getChallengeByIdArray?.status === 'Passed' && <Earnings />}
         <ClosedPNL showHeader />
       </div>
     </ChallengeDashboardLayout>

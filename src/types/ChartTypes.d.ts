@@ -14,7 +14,7 @@ import {CommonProps, GeneralProps, PaginationType} from './CommonTypes'
 import {ChartShapesType, TradingSortingType} from './UnionTypes'
 
 export declare const Bar: TypedChartComponent<'bar'>
-interface CandleObjectType {
+interface CandleObjectType extends Pick<CommonProps, '_id'> {
   symbol: string
   open_time: string
   open_time_iso: string
@@ -78,11 +78,12 @@ export interface LivePriceSocketType extends Pick<CandleObjectType, 'symbol'> {
 }
 
 export interface OpenPosition
-  extends Pick<
-      CommonBuyAndSellProp,
-      'margin_mode' | 'stop_loss' | 'take_profit'
+  extends Required<
+      Pick<CommonBuyAndSellProp, 'margin_mode' | 'stop_loss' | 'take_profit'>
     >,
     Pick<CreateChallengeProps, 'challenge_id'> {
+  todayRealizedPnl: number
+  adminProfitPercent: number
   status: string
   user_id: number
   tx_hash: string
@@ -106,7 +107,9 @@ export interface OpenPosition
 export interface PendingOrder
   extends Pick<
     OpenPosition,
+    | 'adminProfitPercent'
     | 'symbol'
+    | 'current_price'
     | 'tx_hash'
     | 'quantity'
     | 'realized_pnl'
@@ -125,6 +128,7 @@ export interface PendingOrder
   submitted_price: number
   position_margin: number
   distance: number
+  distancePercent: number
 }
 export interface StopLossProps {
   marketprice: string
@@ -195,11 +199,11 @@ export type TransactionDetailsApiProps = Pick<
 
 export interface OrderHistory
   extends Pick<OpenPosition, 'symbol' | 'status' | 'margin_mode' | 'quantity'>,
-    Pick<CommonProps, 'created_at'>,
+    Pick<CommonProps, 'createdAt'>,
     Pick<GetTradingCapitalProps, 'fee'>,
     Pick<CommonBuyAndSellProp, 'leverage'> {
   average_trading_price: number
-  lighten_up_only: sring
+  lighten_up_only: string
   margin_mode: number
   side: string
   transaction_value: number
@@ -207,34 +211,47 @@ export interface OrderHistory
   order_price_1: string
   order_price_2: string
   commission_price?: number
+  triger_tp_sl: string
+  order_price_1: string
+  order_price_2: string
 }
 export interface OrderHistoryApiResponse {
   data: OrderHistory[]
   page: PaginationType
 }
+export interface OpenHistoryApiResponse extends PaginationType {
+  data: OrderHistory[]
+}
 
 export interface PositionHistory
   extends Pick<OrderHistory, 'symbol' | 'margin_mode' | 'side' | 'fee'>,
     Pick<CandleObjectType, 'open_time' | 'close_time'>,
-    Pick<OpenPosition, 'quantity' | 'realized_pnl' | 'leverage'>,
+    Required<
+      Pick<OpenPosition, 'quantity' | 'realized_pnl' | 'leverage' | 'duration'>
+    >,
     Pick<OrderHistoryApiProps, 'order_type'>,
     Pick<ClosedPnlDataResponsePayload, 'order_side'>,
+    Pick<CreateChallengeProps, 'challenge_id'>,
     Pick<CommonBuyAndSellProp, 'stop_loss' | 'take_profit'> {
   open_price: number
   close_price: number
   total_charge_amount: number
   roe?: string
+  last_close_type: string
 }
 
 export interface PositionHistoryApiResponse {
   data: PositionHistory[]
   page: PaginationType
 }
+export interface PositionHistoryResponse extends PaginationType {
+  data: PositionHistory[]
+}
 
 export interface TransactionDetailHistory
   extends Pick<
       OrderHistory,
-      'fee' | 'created_at' | 'side' | 'symbol' | 'margin_mode'
+      'fee' | 'createdAt' | 'side' | 'symbol' | 'margin_mode'
     >,
     Pick<OpenPosition, 'quantity' | 'leverage'>,
     Pick<BuyOrSellApiProps, 'role'> {
@@ -246,6 +263,10 @@ export interface TransactionDetailsHistoryResponse {
   page: PaginationType
 }
 
+export interface TransactionDetailsHistoryApiResponse
+  extends PaginationType,
+    Pick<TransactionDetailsHistoryResponse, 'data'> {}
+
 export interface ReverceOrderApiProps
   extends Pick<OpenPosition, 'tx_hash' | 'challenge_id'> {
   method?: string
@@ -256,11 +277,12 @@ export type EditPriceProps = Pick<
   'challenge_id' | 'submitted_price' | 'symbol' | 'direction' | 'tx_hash'
 >
 
-export interface TokenDetails extends Pick<DrawingData, 'id'> {
+export interface TokenDetails extends Pick<CommonProps, '_id'> {
   token_name: string
-  token_image_url: string
+  token_image_url: string | null
   token_symbol: string
   binance_socket_url: string
+  isActive: boolean
 }
 
 export type ToolTipObjectType = Pick<
@@ -285,4 +307,11 @@ export interface TokenObject {
 export interface IndicatorToolTipObject {
   value: number
   time: number
+}
+
+export interface HistoryApiResponse {
+  symbol: string
+  timeframe: string
+  count: number
+  data: CandleObjectType[]
 }
