@@ -55,6 +55,7 @@ const loginApi = async (props: LoginApiProps) => {
   return new Promise<string>((resolve) => {
     APICall<LoginApiResponseProp>('post', Endpoints.loginUser, payload)
       .then((res) => {
+
         if (res?.status === 200 && res?.statusCode === 200) {
           resolve(res?.data?.token)
           const newPayload = {

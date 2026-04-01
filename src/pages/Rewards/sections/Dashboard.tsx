@@ -44,7 +44,7 @@ const Dashboard = () => {
 
       <CardSection earnings={earningData as RewardEarning} />
 
-      {referral_code && referral_code !== '' && (
+      {referral_code && referral_code !== '' && referral_code !== 'null' && (
         <ReferralLinkSection singleLineContent={referral_code} />
       )}
       <EarningRewardTable setEarningData={setEarningData} />

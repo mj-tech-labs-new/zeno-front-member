@@ -16,7 +16,7 @@ const ReferralLinkSection = (
     setReferralCode(singleLineContent)
   }, [singleLineContent])
 
-  return (
+  return  (
     <div className="space-y-2">
       <p className="text_lg_utility text-primary-color">{English.E453}</p>
       <div className="flex flex-col lg:flex-row lg:items-center gap-2">

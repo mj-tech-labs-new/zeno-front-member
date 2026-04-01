@@ -25,7 +25,7 @@ export interface UserObjectType {
   email: string
   profilePic: null | string
   reg_date: string
-  isMarketer: number
+  isMarketer: boolean
 }
 
 export interface StorageProps {

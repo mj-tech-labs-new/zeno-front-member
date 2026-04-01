@@ -1,9 +1,9 @@
-import {memo, useCallback, useRef} from 'react'
+import { memo, useCallback, useRef } from 'react'
 
-import {English, Images} from '@/helpers'
-import {getUserApi} from '@/pages/AuthPages/api/AuthApi'
-import {Store} from '@/store'
-import {AppLoaderRef} from '@/types/ComponentTypes'
+import { English, Images } from '@/helpers'
+import { getUserApi } from '@/pages/AuthPages/api/AuthApi'
+import { Store } from '@/store'
+import { AppLoaderRef } from '@/types/ComponentTypes'
 
 import ImageComponent from '../ImageComponent/ImageComponent'
 
@@ -15,7 +15,7 @@ const AffiliateButton = () => {
     getUserApi()
       .then((res) => {
         if (res?.isMarketer !== 0 && res) {
-          const {referral_code} = res
+          const { referral_code } = res
           window.open(
             `${import.meta.env.VITE_APPLICATION_REDIRECT_URL}/?user_id=${Store?.getState()?.userData?.user?.token}&ref_code=${referral_code}`,
             '_blank'

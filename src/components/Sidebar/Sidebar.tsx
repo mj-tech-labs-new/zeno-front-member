@@ -83,7 +83,7 @@ const Sidebar = (
 
         <div className="flex flex-col gap-6">
           <div>
-            {userData?.user?.userData?.isMarketer === 1 && <AffiliateButton />}
+            {userData?.user?.userData?.isMarketer === true && <AffiliateButton />}
             <Link
               className="flex gap-3.5 items-center px-4 py-2 hover:bg-button-primary-color rounded-xl transition-all duration-500 ease-in-out"
               onClick={() => {
