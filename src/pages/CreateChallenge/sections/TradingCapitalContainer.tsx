@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {useCallback, useEffect, useState} from 'react'
 import {useSelector} from 'react-redux'
 
@@ -20,7 +21,7 @@ import CreateChallengeCardLayout from '../layout/CreateChallengeCardLayout'
 const TradingCapitalContainer = (props: {
   selectedOption: number
   onPressItem: (data: ChallengePayoutObject) => void
-  setSelectedTableRow: (id: number) => void
+  setSelectedTableRow: (id: string) => void
 }) => {
   const [tradingCapitalData, setTradingCapitalData] = useState<
     GetTradingCapitalProps[]
@@ -36,7 +37,7 @@ const TradingCapitalContainer = (props: {
       const newData = prev.map((previousData) => {
         if (previousData?.challenge_name === tableBody?.challenge_name) {
           if (previousData?.checked) return previousData
-          setSelectedTableRow(previousData.id)
+          setSelectedTableRow(previousData._id)
           onPressItem({
             amount: Utility.numberConversion(previousData.capital_fund),
             capital: Utility.numberConversion(previousData.fee),
@@ -70,7 +71,7 @@ const TradingCapitalContainer = (props: {
           )
           const prevSelectedData = {...selectedItems, checked: true}
           const changeResponse = response.map((item) =>
-            item.id === selectedItems?.id ? {...item, checked: true} : item
+            item._id === selectedItems?._id ? {...item, checked: true} : item
           )
           onPressItem({
             amount: Utility.numberConversion(
@@ -81,7 +82,7 @@ const TradingCapitalContainer = (props: {
             type: prevSelectedData?.step === 1 ? English.E32 : English.E34,
           })
           if (selectedItems) handleSelectRow(selectedItems)
-          setSelectedTableRow(selectedItems?.id ?? 0)
+          setSelectedTableRow(selectedItems?._id ?? '0')
           setTradingCapitalData(changeResponse)
           return
         }
@@ -110,7 +111,7 @@ const TradingCapitalContainer = (props: {
         >
           {tradingCapitalData?.map((tableBody) => (
             <tr
-              key={`content-${tableBody?.id}`}
+              key={`content-${tableBody?._id}`}
               className={`cursor-pointer font-normal text-sm/6 *:transition-all *:duration-300 *:ease-in-out ${tableBody?.checked ? 'bg-info-bg-color' : ''}`}
               onClick={() => {
                 handleSelectRow(tableBody)

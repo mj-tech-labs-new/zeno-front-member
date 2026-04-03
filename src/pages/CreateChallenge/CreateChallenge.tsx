@@ -36,13 +36,14 @@ const CreateChallenge = () => {
   })
   const [showLoader, setShowLoader] = useState(false)
   const [selectedOption, setSelectedOption] = useState(1)
-  const [selectedTableRow, setSelectedTableRow] = useState(1)
+  const [selectedTableRow, setSelectedTableRow] = useState('')
   const navigate = useNavigate()
 
   const handleGetPaymentQR = useCallback(() => {
     setShowLoader(true)
     getPaymentQrCode({
-      challenge_plan_id: payoutData?.challenge_plan_id ?? selectedTableRow,
+      challenge_plan_id:
+        payoutData?.challenge_plan_id.toString() ?? selectedTableRow,
       step: payoutData?.step ?? selectedOption,
       total_stage: payoutData?.total_stage ?? (selectedOption === 1 ? 2 : 3),
     })

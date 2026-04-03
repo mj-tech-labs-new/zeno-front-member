@@ -53,7 +53,10 @@ export interface ExtendedGetChallengeTypeProps extends GetChallengeTypeProps {
   content: string
 }
 
-export interface GetTradingCapitalProps extends CommonProps {
+export interface GetTradingCapitalProps {
+  _id: string
+  createdAt: string
+  updatedAt: string
   challenge_name: string
   plan_status: number
   fee: number
@@ -112,8 +115,9 @@ export interface ChallengeInfoDashboardWithPaginationProps {
 
 export type ChallengePaymentPayload = Pick<
   CreateChallengeProps,
-  'challenge_plan_id' | 'total_stage'
+  'total_stage'
 > & {
+  challenge_plan_id: string
   step: number
 }
 
