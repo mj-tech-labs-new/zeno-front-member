@@ -36,7 +36,7 @@ const Payout = (props: ChallengePayoutObject) => {
           imageUrl={
             plan_icon_url === null
               ? Images.character1
-              : `${import.meta.env.VITE_API_BASE_URL_PRODUCTION}${plan_icon_url?.replace('/home/ubuntu/backend/', '')}`
+              : `${import.meta.env.VITE_API_BASE_URL_PRODUCTION}${plan_icon_url?.replace('/home/ubuntu/backend-dev/', '')}`
           }
         />
       </div>
