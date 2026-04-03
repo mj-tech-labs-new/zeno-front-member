@@ -20,7 +20,7 @@ const useRewardCalculation = () => {
     RewardApi.RewardEarning()
       .then((res) => {
         if (res) {
-          setEarningData(res?.data)
+          setEarningData(res)
         }
       })
       .finally(() => {

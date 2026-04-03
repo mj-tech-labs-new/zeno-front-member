@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 import {
   CommonButton,
@@ -8,26 +8,18 @@ import {
   Loader,
   Timer,
 } from '@/components'
-import {Constants, English, Images} from '@/helpers'
-import {useRewardCalculation} from '@/hooks'
-import {RewardEarning} from '@/types/Rewards'
+import { Constants, English, Images } from '@/helpers'
+import { useRewardCalculation } from '@/hooks'
 
-const EarningRewardTable = (props: {
-  setEarningData: (value: RewardEarning) => void
-}) => {
-  const {setEarningData} = props
+const EarningRewardTable = () => {
+
   const {
     certificateTableData,
-    earningData,
     handCheckSocialMediaReward,
     handUpdateCheckSocialMediaReward,
     loaderRef,
   } = useRewardCalculation()
 
-  useEffect(() => {
-    if (!earningData) return
-    setEarningData(earningData)
-  }, [earningData, setEarningData])
 
   return (
     <React.Fragment>
@@ -102,7 +94,7 @@ const EarningRewardTable = (props: {
                   <Timer
                     seconds={
                       Number(secondsToCalculate) < 60 &&
-                      Number(secondsToCalculate) > 0
+                        Number(secondsToCalculate) > 0
                         ? Number(secondsToCalculate)
                         : 60
                     }
@@ -110,11 +102,10 @@ const EarningRewardTable = (props: {
                 ) : (
                   <CommonButton
                     disabled={taken || !(pending && rewardStatus)}
-                    className={`px-2! py-3! ${
-                      pending
+                    className={`px-2! py-3! ${pending
                         ? 'text-primary-color! medium-success-btn-type '
                         : 'text-text-hint-color! primary-btn-type'
-                    } w-full sm:max-w-56! `}
+                      } w-full sm:max-w-56! `}
                     onClick={() => {
                       handUpdateCheckSocialMediaReward(type)
                     }}

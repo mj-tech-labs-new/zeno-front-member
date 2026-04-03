@@ -114,7 +114,7 @@ const RewardHistory = () => {
   )
 
   useEffect(() => {
-    GetRewardHistory(1, 10, '', '', 'ASC', 'created_at')
+    GetRewardHistory(1, 10, '', '', 'ASC', 'updatedAt')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
@@ -143,7 +143,7 @@ const RewardHistory = () => {
                     '',
                     '',
                     'ASC',
-                    'created_at'
+                    'updatedAt'
                   )
                 }}
               />
@@ -167,7 +167,7 @@ const RewardHistory = () => {
                     fromDate,
                     toDate,
                     'ASC',
-                    'created_at'
+                    'updatedAt'
                   )
                 }
               }}
@@ -239,7 +239,7 @@ const RewardHistory = () => {
                   '',
                   '',
                   'ASC',
-                  'created_at'
+                  'updatedAt'
                 )
               }}
             />
@@ -266,7 +266,7 @@ const RewardHistory = () => {
 
               setCurrentPage(newPage)
 
-              GetRewardHistory(newPage, newLimit, '', '', 'ASC', 'created_at')
+              GetRewardHistory(newPage, newLimit, '', '', 'ASC', 'updatedAt')
             }}
           />
           <span>{English.E484}</span>

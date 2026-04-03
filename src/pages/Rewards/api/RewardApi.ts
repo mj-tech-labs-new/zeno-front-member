@@ -17,11 +17,11 @@ import {
 } from '@/types/Rewards'
 
 const RewardEarning = async () =>
-  new Promise<{data: RewardEarning} | null>((resolve) => {
-    APICall<{data: RewardEarning}>('get', Endpoints.getRewardEarnings)
+  new Promise<RewardEarning | null>((resolve) => {
+    APICall<RewardEarning>('get', Endpoints.getRewardEarnings)
       .then((res) => {
         if (res?.status === 200 && res?.statusCode === 200) {
-          resolve(res?.data)
+          resolve(res.data)
         } else {
           resolve(null)
           toast.error(res?.message)
@@ -210,8 +210,8 @@ const GetRewardHistory = async (props: RewardHistoryApiProps) => {
 
 const getTotalRewardHistory = async () => {
   const payload = {
-    order_value: 'created_at',
-    order_type: 'ASC',
+    order_value: 'updatedAt',
+    order_type: 'DESC',
   }
   return new Promise<RewardHistoryTypes[]>((resolve) => {
     APICall<RewardHistoryApiResponse>(

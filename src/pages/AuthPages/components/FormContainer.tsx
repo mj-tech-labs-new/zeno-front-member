@@ -45,8 +45,8 @@ const FormContainer = (
   const navigate = useNavigate()
   const loaderRef = useRef<AppLoaderRef>(null)
   const [isShowPassword, setIsShowPassword] = useState({
-    password: true,
-    cpassword: true,
+    password: false,
+    cpassword: false,
   })
   const location = useLocation()
   const [referralCode, setReferralCode] = useState(

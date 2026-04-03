@@ -52,7 +52,7 @@ const LeaderBoard = () => {
   )
 
   useEffect(() => {
-    GetLeaderBoards(1, 10, '', '', 'DESC', 'created_at')
+    GetLeaderBoards(1, 10, '', '', 'DESC', 'createdAt')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
