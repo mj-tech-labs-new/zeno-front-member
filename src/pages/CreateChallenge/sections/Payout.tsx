@@ -20,10 +20,6 @@ const Payout = (props: ChallengePayoutObject) => {
     [amount, name, type]
   )
 
-  // const challengesArray = useMemo(
-  //   () => [English.E43, English.E44, English.E45, English.E46],
-  //   []
-  // )
 
   return (
     <div
