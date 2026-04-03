@@ -1,13 +1,13 @@
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 
-import { Loader } from '@/components'
-import { useRewardCalculation } from '@/hooks'
-import { getUserApi } from '@/pages/AuthPages/api/AuthApi'
-import { AppLoaderRef } from '@/types/ComponentTypes'
-import { RewardEarning } from '@/types/Rewards'
+import {Loader} from '@/components'
+import {useRewardCalculation} from '@/hooks'
+import {getUserApi} from '@/pages/AuthPages/api/AuthApi'
+import {AppLoaderRef} from '@/types/ComponentTypes'
+import {RewardEarning} from '@/types/Rewards'
 
 import ReferralLinkSection from '../../../components/ReferralCode/ReferralLinkSection'
 import CardSection from '../Components/CardSection'
@@ -19,7 +19,7 @@ const Dashboard = () => {
   dayjs.extend(timezone)
   const loaderRef = useRef<AppLoaderRef>(null)
 
-  const { earningData } = useRewardCalculation()
+  const {earningData} = useRewardCalculation()
   const [referral_code, setReferral_code] = useState<null | string>(null)
 
   const getReferral = useCallback(() => {

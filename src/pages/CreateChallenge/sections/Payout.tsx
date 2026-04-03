@@ -46,7 +46,7 @@ const Payout = (
           imageUrl={
             !plan_icon_url || plan_icon_url?.toString()?.includes('localhost')
               ? Images.character1
-              : `${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${plan_icon_url?.replace('/home/ubuntu/backend/', '')}`
+              : `${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${plan_icon_url?.replace('/home/ubuntu/backend-dev/', '')}`
           }
         />
       </div>

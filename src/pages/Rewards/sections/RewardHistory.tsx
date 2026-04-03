@@ -52,10 +52,10 @@ const RewardHistory = () => {
       .then((res) => {
         if (res) {
           const excelData = res?.map((item, index) => {
-            const {createdAt, balance, description, earn_point} = item
+            const {updatedAt, balance, description, earn_point} = item
             return {
               [English.E456]: index + 1,
-              [English.E104]: dayjs(createdAt).format('DD/MM/YYYY'),
+              [English.E104]: dayjs(updatedAt).format('DD/MM/YYYY'),
               [English.E83]: item.reward_type,
               [English.E479]: description,
               [English.E508]: earn_point,
@@ -189,7 +189,7 @@ const RewardHistory = () => {
           rewardData?.map((item, index) => {
             const {
               balance,
-              createdAt,
+              updatedAt,
               description,
               earn_point,
               _id,
@@ -207,7 +207,7 @@ const RewardHistory = () => {
                   {(currentPage - 1) * Number(selectedLimit?.title) + index + 1}
                 </th>
                 <td className="p-6 text-primary-color capitalize">
-                  {dayjs(createdAt)?.format('DD/MM/YYYY')}
+                  {dayjs(updatedAt)?.format('DD/MM/YYYY')}
                 </td>
                 <td className="p-6 text-primary-color capitalize ">
                   {reward_type}

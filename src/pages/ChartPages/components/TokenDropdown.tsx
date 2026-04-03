@@ -90,7 +90,7 @@ const TokenDropdown = () => {
         {tokenToShow?.token_image_url && (
           <ImageComponent
             className="w-6 h-6 "
-            imageUrl={`${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${tokenToShow?.token_image_url?.replace('/home/ubuntu/backend/', '')}`}
+            imageUrl={`${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${tokenToShow?.token_image_url?.replace('/home/ubuntu/backend-dev/', '')}`}
           />
         )}
         {tokenList && selectedToken && tokenToShow && (
@@ -157,7 +157,7 @@ const TokenDropdown = () => {
                 <div className="gap-2 flex items-center">
                   <ImageComponent
                     className="w-6 h-6 shrink-0"
-                    imageUrl={`${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${token_image_url?.replace('/home/ubuntu/backend/', '')}`}
+                    imageUrl={`${import.meta.env.VITE_API_BASE_URL_PROJECT_URL}${token_image_url?.replace('/home/ubuntu/backend-dev/', '')}`}
                   />
                   <p className="text-left">{token_symbol + English.E60}</p>
                 </div>

@@ -35,8 +35,7 @@ export interface SocialMediaStatus {
   subscribe_youtube_reward_remain_sec: number
 }
 
-export interface RewardHistoryTypes
-  extends Pick<CommonProps, '_id' | 'createdAt'> {
+export interface RewardHistoryTypes extends CommonProps {
   user_id: number
   reward_type: string
   description: string

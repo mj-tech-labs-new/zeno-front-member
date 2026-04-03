@@ -21,7 +21,7 @@ const initialState: ChartInitialPropsType = {
   amountType: 'USDT',
   selectedToken: {
     token_image_url:
-      '/home/ubuntu/backend/public/uploads/token_icon/1766562609437-BTC.png',
+      '/home/ubuntu/backend-dev/public/uploads/token_icon/1766562609437-BTC.png',
     token_name: 'Bitcoin',
     binance_socket_url: '',
     _id: 0,

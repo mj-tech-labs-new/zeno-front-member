@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 import {
   CommonButton,
@@ -8,18 +8,16 @@ import {
   Loader,
   Timer,
 } from '@/components'
-import { Constants, English, Images } from '@/helpers'
-import { useRewardCalculation } from '@/hooks'
+import {Constants, English, Images} from '@/helpers'
+import {useRewardCalculation} from '@/hooks'
 
 const EarningRewardTable = () => {
-
   const {
     certificateTableData,
     handCheckSocialMediaReward,
     handUpdateCheckSocialMediaReward,
     loaderRef,
   } = useRewardCalculation()
-
 
   return (
     <React.Fragment>
@@ -94,7 +92,7 @@ const EarningRewardTable = () => {
                   <Timer
                     seconds={
                       Number(secondsToCalculate) < 60 &&
-                        Number(secondsToCalculate) > 0
+                      Number(secondsToCalculate) > 0
                         ? Number(secondsToCalculate)
                         : 60
                     }
@@ -102,10 +100,11 @@ const EarningRewardTable = () => {
                 ) : (
                   <CommonButton
                     disabled={taken || !(pending && rewardStatus)}
-                    className={`px-2! py-3! ${pending
+                    className={`px-2! py-3! ${
+                      pending
                         ? 'text-primary-color! medium-success-btn-type '
                         : 'text-text-hint-color! primary-btn-type'
-                      } w-full sm:max-w-56! `}
+                    } w-full sm:max-w-56! `}
                     onClick={() => {
                       handUpdateCheckSocialMediaReward(type)
                     }}
