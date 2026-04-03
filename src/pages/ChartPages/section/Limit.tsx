@@ -187,7 +187,7 @@ const Limit = (props: BuyOrSelProps) => {
           const value =
             name === 'price'
               ? livePrice
-              : inputValues[name as keyof typeof inputValues]
+              : inputValues?.[name as keyof typeof inputValues]
 
           return (
             <CommonPriceSwitch
