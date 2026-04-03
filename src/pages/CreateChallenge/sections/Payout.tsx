@@ -20,7 +20,6 @@ const Payout = (props: ChallengePayoutObject) => {
     [amount, name, type]
   )
 
-
   return (
     <div
       className="flex flex-col gap-4 shrink-0  bg-primary-color p-6  rounded-[16px] sticky h-fit max-w-full  lg:w-full lg:max-w-[385px]"

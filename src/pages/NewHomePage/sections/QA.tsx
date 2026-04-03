@@ -11,13 +11,13 @@ const QA = () => {
   useGSAP(() => {
     const contentBox = gsap.utils.toArray('.content_box')
     contentBox?.forEach((box) => {
-      gsap.to(box, {
+      gsap.to(box as HTMLDivElement, {
         opacity: 1,
         x: 0,
         y: 0,
         ease: 'power3.out',
         scrollTrigger: {
-          trigger: box,
+          trigger: box as HTMLDivElement,
           start: 'bottom 95%',
           end: '+=20',
           scrub: 3,
