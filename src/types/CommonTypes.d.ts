@@ -60,7 +60,7 @@ export interface FeatureOptionsLgProps {
 }
 
 export interface CommonProps {
-  _id: number
+  _id: string
   createdAt: string
   updatedAt: string
 }

@@ -53,7 +53,7 @@ export interface CreateChallengeProps extends CommonProps {
   user_id: number
   status: string
   challenge_id: string
-  challenge_plan_id: number
+  challenge_plan_id: string
   initial_capital: number
   used_usdt_capital: number | null
   equity: number | null

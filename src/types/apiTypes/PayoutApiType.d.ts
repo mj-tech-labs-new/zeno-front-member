@@ -19,12 +19,12 @@ export interface FundedChallengeType extends Pick<CommonProps, '_id'> {
   released_profit: number | null
 }
 
-export interface PayoutHistoryData {
+export interface PayoutHistoryData extends Pick<CommonProps, '_id'> {
   payout_id: string
   challenge_id: string
   date: string
   amount: number
-  payment_status: number
+  payment_status: boolean
   payment_method: string
   wallet_address: string
   tx_hash: null | string

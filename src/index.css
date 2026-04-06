@@ -215,10 +215,12 @@
 }
 
 @layer base {
-  body {
+  * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+  }
+  body {
     font-family: var(--font-switzer);
     background-color: var(--text-info-dark-color);
     overflow-x: hidden;

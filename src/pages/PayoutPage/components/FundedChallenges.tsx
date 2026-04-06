@@ -37,7 +37,7 @@ const FundedChallenges = (props: {address: string}) => {
           <EmptyComponent isTableType />
         ) : (
           totalFundedChallenges?.map((item, index) => {
-            const {challenge_id, challenge_name, released_profit} = item
+            const {challenge_id, challenge_name, released_profit, _id} = item
             return (
               <tr
                 key={`funded_challenge__${index.toString()}`}
@@ -56,7 +56,7 @@ const FundedChallenges = (props: {address: string}) => {
                   {released_profit !== 0 && released_profit ? (
                     <WithdrawButton
                       availableAmount={released_profit ?? 0}
-                      challenge_id={challenge_id}
+                      challenge_id={_id.toString()}
                       walletAddress={address}
                     />
                   ) : (

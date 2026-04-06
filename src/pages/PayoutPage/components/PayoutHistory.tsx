@@ -143,7 +143,7 @@ const PayoutHistory = () => {
                     <td>{`${Utility.numberConversion(amount)} ${English.E60}`}</td>
                     <td>{Utility.generateTrimmedWallet(wallet_address)}</td>
                     <td className="flex items-center gap-2">
-                      {payment_status === 0 ? (
+                      {!payment_status ? (
                         <span>{English.E101}</span>
                       ) : (
                         <React.Fragment>

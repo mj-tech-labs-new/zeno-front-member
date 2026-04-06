@@ -25,35 +25,31 @@ const DashboardRoutes = [
     key="layout"
     path="/"
     element={
-      <SocketProvider>
+      <UserWrapper>
         <Layout />
-      </SocketProvider>
+      </UserWrapper>
     }
   >
     <Route
       key="dashboard"
       path="dashboard"
       element={
-        <UserWrapper>
-          <DashboardProvider>
-            <LazyLoader>
-              <Dashboard />
-            </LazyLoader>
-          </DashboardProvider>
-        </UserWrapper>
+        <DashboardProvider>
+          <LazyLoader>
+            <Dashboard />
+          </LazyLoader>
+        </DashboardProvider>
       }
     />
     <Route
       key="challenge-dashboard"
       path="challenge-dashboard/:challengeId"
       element={
-        <UserWrapper>
-          <ChallengeDashboardProvider>
-            <LazyLoader>
-              <ChallengeDashboard />
-            </LazyLoader>
-          </ChallengeDashboardProvider>
-        </UserWrapper>
+        <ChallengeDashboardProvider>
+          <LazyLoader>
+            <ChallengeDashboard />
+          </LazyLoader>
+        </ChallengeDashboardProvider>
       }
     />
     ,
@@ -61,11 +57,9 @@ const DashboardRoutes = [
       key="certificates"
       path="certificates"
       element={
-        <UserWrapper>
-          <LazyLoader>
-            <Certificate />
-          </LazyLoader>
-        </UserWrapper>
+        <LazyLoader>
+          <Certificate />
+        </LazyLoader>
       }
     />
     ,
@@ -73,11 +67,9 @@ const DashboardRoutes = [
       key="reward"
       path="rewards"
       element={
-        <UserWrapper>
-          <LazyLoader>
-            <Rewards />
-          </LazyLoader>
-        </UserWrapper>
+        <LazyLoader>
+          <Rewards />
+        </LazyLoader>
       }
     />
     ,
@@ -85,11 +77,9 @@ const DashboardRoutes = [
       key="payout"
       path="payout"
       element={
-        <UserWrapper>
-          <LazyLoader>
-            <PayoutPage />
-          </LazyLoader>
-        </UserWrapper>
+        <LazyLoader>
+          <PayoutPage />
+        </LazyLoader>
       }
     />
     ,
@@ -97,11 +87,9 @@ const DashboardRoutes = [
       key="billing"
       path="billing"
       element={
-        <UserWrapper>
-          <LazyLoader>
-            <BillingPage />
-          </LazyLoader>
-        </UserWrapper>
+        <LazyLoader>
+          <BillingPage />
+        </LazyLoader>
       }
     />
     ,
@@ -109,11 +97,9 @@ const DashboardRoutes = [
       key="profile"
       path="profile"
       element={
-        <UserWrapper>
-          <LazyLoader>
-            <ProfilePage />
-          </LazyLoader>
-        </UserWrapper>
+        <LazyLoader>
+          <ProfilePage />
+        </LazyLoader>
       }
     />
     ,
@@ -122,23 +108,17 @@ const DashboardRoutes = [
     key="create-challenge"
     path="/create-challenge"
     element={
-      <UserWrapper>
-        <LazyLoader>
-          <SocketProvider>
-            <CreateChallenge />
-          </SocketProvider>
-        </LazyLoader>
-      </UserWrapper>
+      <LazyLoader>
+        <SocketProvider>
+          <CreateChallenge />
+        </SocketProvider>
+      </LazyLoader>
     }
   />,
   <Route
     key="payment-details"
+    element={<PaymentPage />}
     path="/payment-screen"
-    element={
-      <UserWrapper>
-        <PaymentPage />
-      </UserWrapper>
-    }
   />,
   <Route
     key="payout-success"
