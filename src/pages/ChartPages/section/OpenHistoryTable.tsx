@@ -80,7 +80,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
       '',
       '',
       'ASC',
-      'created_at',
+      'createdAt',
       showTpSl
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,7 +104,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                     '',
                     '',
                     'ASC',
-                    'created_at',
+                    'createdAt',
                     !prev
                   )
                   return !prev
@@ -130,7 +130,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                     fromDate,
                     toDate,
                     orderType,
-                    'created_at',
+                    'createdAt',
                     false
                   )
                 }
@@ -152,7 +152,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
                     '',
                     '',
                     orderType,
-                    'created_at',
+                    'createdAt',
                     showTpSl
                   )
                 }}
@@ -179,7 +179,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
               '',
               '',
               orderType === 'ASC' ? 'DESC' : 'ASC',
-              ' created_at',
+              ' createdAt',
               showTpSl
             )
 
@@ -288,7 +288,7 @@ const OpenHistoryTable = (props: {showHeader: boolean}) => {
               '',
               '',
               orderType,
-              ' created_at',
+              ' createdAt',
               showTpSl
             )
           }}

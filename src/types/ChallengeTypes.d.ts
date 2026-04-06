@@ -144,28 +144,6 @@ export type BuyOrSellApiProps = Pick<CreateChallengeProps, 'challenge_id'> &
     role?: string
   }
 
-export type BuyOrSellApiType = Pick<CreateChallengeProps, 'id' | 'created_at'> &
-  BuyOrSellApiProps & {
-    userid: string
-    total_usdt: number
-    usdt_balance_before: number
-    usdt_balance_after: number
-    wallet_balance_before: number | null
-    wallet_balance_after: number | null
-    stop_loss: string
-    take_profit: string
-    leverage: number
-    status: string
-    tx_hash: string
-    duration: number | null
-    close_price: number | null
-    current_price: number | null
-    realized_pnl: number | null
-    open_pnl: number | null
-    close_time: number | null
-    open_time: number | null
-    last_close_type: number | null
-  }
 export interface GetClosedPnlDetailsPayloadProps
   extends Pick<CreateChallengeProps, 'challenge_id'> {
   page: number

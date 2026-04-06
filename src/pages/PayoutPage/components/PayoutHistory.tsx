@@ -102,7 +102,7 @@ const PayoutHistory = () => {
             fromDate: sDate ?? '',
             limit: 10,
             order_type: 'DESC',
-            order_value: 'created_at',
+            order_value: 'createdAt',
             page,
             payment_status: dropDownValue2 ?? '',
             search_type: 'payout_id',

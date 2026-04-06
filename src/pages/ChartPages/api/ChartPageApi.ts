@@ -116,7 +116,7 @@ const PositionHistoryApi = async (props: PositionHistoryApiProps) => {
   let apiPayload: Record<string, any> = {
     challenge_id: props.challenge_id,
     order_type: 'DESC',
-    order_value: props.order_value,
+    order_value: 'close_time',
   }
   if (props.fromDate !== '' && props.toDate !== '') {
     apiPayload = {

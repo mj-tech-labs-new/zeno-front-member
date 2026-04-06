@@ -40,7 +40,7 @@ const getPayoutHistory = async (props: PayoutHistoryPayload) => {
   } = props
 
   let bodyParams: Record<string, number | string> = {
-    order_value: 'created_at',
+    order_value: 'createdAt',
     order_type: 'DESC',
   }
   let queryParmas: Record<string, string | number> = {limit, page}

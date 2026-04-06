@@ -70,7 +70,7 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
 
   useEffect(() => {
     if (!params?.challengeId) return
-    getPositionHistoryData(params.challengeId, 1, '', '', 'ASC', 'created_at')
+    getPositionHistoryData(params.challengeId, 1, '', '', 'ASC', 'createdAt')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -100,7 +100,7 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
                     fromDate,
                     toDate,
                     orderType,
-                    'created_at'
+                    'createdAt'
                   )
                 }
               }}
@@ -121,7 +121,7 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
                     '',
                     '',
                     orderType,
-                    'created_at'
+                    'createdAt'
                   )
                 }}
               />
@@ -148,7 +148,7 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
               '',
               '',
               orderType === 'ASC' ? 'DESC' : 'ASC',
-              ' created_at'
+              ' createdAt'
             )
 
             setOrderType((data) => (data === 'ASC' ? 'DESC' : 'ASC'))
@@ -257,7 +257,7 @@ const PositionHistoryTable = (props: {showHeader: boolean}) => {
               '',
               '',
               orderType,
-              ' created_at'
+              ' createdAt'
             )
           }}
         />
